@@ -15,8 +15,22 @@
  */
 
 import { MdConstruction } from 'react-icons/md'
+import { useLocation } from 'react-router-dom'
 
-const ComingSoon = ({ pageName = 'This Page' }) => {
+const formatPageName = (pathSegment) => {
+  if (!pathSegment) return 'This Page'
+  return pathSegment
+    .replace(/-/g, ' ')
+    .split(' ')
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(' ')
+}
+
+const ComingSoon = () => {
+  const { pathname } = useLocation()
+  const lastSegment = pathname.split('/').filter(Boolean).pop() || ''
+  const pageName = formatPageName(lastSegment)
+
   return (
     <div className="flex items-center justify-center min-h-[70vh]">
       <div className="text-center max-w-md">
@@ -26,28 +40,19 @@ const ComingSoon = ({ pageName = 'This Page' }) => {
         </div>
 
         {/* Coming Soon Heading */}
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">
-          Coming Soon
-        </h1>
+        <h1 className="text-4xl font-bold text-gray-900 mb-4">Coming Soon</h1>
 
         {/* Page Name */}
-        <h2 className="text-2xl font-semibold text-orange-600 mb-4">
-          {pageName}
-        </h2>
+        <h2 className="text-2xl font-semibold text-orange-600 mb-4">{pageName}</h2>
 
         {/* Description */}
         <p className="text-gray-600 mb-6 leading-relaxed">
-          We&apos;re working hard to bring you this feature. 
-          The <strong>{pageName}</strong> page is currently under development 
-          and will be available soon.
+          We&apos;re working hard to bring you this feature. The <strong>{pageName}</strong> page is currently under development and will be available soon.
         </p>
 
         {/* Progress Indicator */}
         <div className="bg-gray-200 rounded-full h-2 mb-4 overflow-hidden">
-          <div 
-            className="bg-orange-500 h-full rounded-full animate-pulse"
-            style={{ width: '45%' }}
-          ></div>
+          <div className="bg-orange-500 h-full rounded-full animate-pulse" style={{ width: '45%' }}></div>
         </div>
 
         {/* Status Badge */}
@@ -58,9 +63,7 @@ const ComingSoon = ({ pageName = 'This Page' }) => {
 
         {/* Additional Info */}
         <div className="mt-8 p-4 bg-gray-50 rounded-lg">
-          <p className="text-sm text-gray-500">
-            Check back later or contact the development team for updates.
-          </p>
+          <p className="text-sm text-gray-500">Check back later or contact the development team for updates.</p>
         </div>
       </div>
     </div>
