@@ -237,7 +237,7 @@ const ReplyForm = ({ email, onBack }) => (
     <button
       type='button'
       onClick={onBack}
-      className='inline-flex items-center gap-1.5 text-base text-gray-500 hover:text-gray-800 transition-colors duration-150 group'
+      className='inline-flex cursor-pointer items-center gap-1.5 text-base text-gray-500 hover:text-gray-800 transition-colors duration-150 group'
     >
       <MdArrowBack
         className='text-lg group-hover:-translate-x-0.5 transition-transform duration-150'
@@ -283,10 +283,15 @@ const ReplyForm = ({ email, onBack }) => (
         {/* Send */}
         <button
           type='button'
-          className='inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-black-bg-cta rounded-lg hover:bg-[#e5501a] hover:shadow-[0_4px_14px_rgba(255,101,51,0.35)] transition-all duration-200 active:scale-[0.97]'
+          className='group inline-flex cursor-pointer items-center gap-2 overflow-hidden px-5 py-2.5 text-sm font-semibold text-white bg-black-bg-cta rounded-lg hover:bg-[#e5501a] hover:shadow-[0_4px_14px_rgba(255,101,51,0.35)] transition-all duration-200 active:scale-[0.97]'
         >
-          <MdSend className='text-lg' aria-hidden='true' />
-          Send Email
+          <MdSend
+            className='text-lg shrink-0 transition-transform duration-300 ease-out group-hover:translate-x-1'
+            aria-hidden='true'
+          />
+          <span className='inline-block -translate-x-1 transition-transform duration-300 ease-out delay-100 group-hover:translate-x-0'>
+            Send Email
+          </span>
         </button>
       </div>
     </div>
@@ -305,7 +310,7 @@ const EmailDetail = ({ email, onBack }) => {
       <button
         type='button'
         onClick={onBack}
-        className='inline-flex items-center gap-1.5 text-base text-gray-500 hover:text-gray-800 transition-colors duration-150 mb-6 group'
+        className='inline-flex cursor-pointer items-center gap-1.5 text-base text-gray-500 hover:text-gray-800 transition-colors duration-150 mb-6 group'
       >
         <MdArrowBack
           className='text-lg group-hover:-translate-x-0.5 transition-transform duration-150'
@@ -350,7 +355,7 @@ const EmailDetail = ({ email, onBack }) => {
         <button
           type='button'
           onClick={() => setShowReply(true)}
-          className='inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-black-bg-cta rounded-lg hover:bg-[#e5501a] hover:shadow-[0_4px_14px_rgba(255,101,51,0.35)] transition-all duration-200 active:scale-[0.97]'
+          className='inline-flex cursor-pointer items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-black-bg-cta rounded-lg hover:bg-[#e5501a] hover:shadow-[0_4px_14px_rgba(255,101,51,0.35)] transition-all duration-200 active:scale-[0.97]'
         >
           <MdReply className='text-lg' aria-hidden='true' />
           Reply
