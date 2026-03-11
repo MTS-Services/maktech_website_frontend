@@ -65,7 +65,7 @@ code {
   justify-content: space-between;
   gap: 8px;
   padding: 10px 12px 10px 20px;
-  background: rgba(28, 28, 28, 0.82);
+  background: transparent
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -107,7 +107,7 @@ code {
   align-items: center;
   gap: 4px;
   padding: 8px 16px;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 500;
   color: rgba(255, 255, 255, 0.7);
   text-decoration: none;

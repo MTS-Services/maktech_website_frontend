@@ -21,7 +21,7 @@ const Banner = () => {
       <div className="w-full max-w-[70%] mx-auto px-6 md:px-12 lg:px-24 z-10 xl:mt-42.5 2xl:mt-35">
         {/* Logo */}
         <div
-          className={`flex items-center gap-2 mb-9 transition-all duration-500 ease-out ${
+          className={`flex items-center gap-2 mb-9 transition-all duration-500 ease-out xl:-ml-5 2xl:ml-0 ${
             visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
           }`}
           style={{ transitionDelay: "100ms" }}
@@ -49,7 +49,7 @@ const Banner = () => {
 
         {/* CTA Button */}
         <button
-          className={`group flex items-center gap-3 w-fit rounded-full font-semibold text-lg cursor-pointer text-white transition-all duration-500 ease-out hover:-translate-y-0.5 active:scale-95 ${
+          className={`group flex items-center gap-3 w-fit rounded-full font-semibold text-lg cursor-pointer text-white transition-all duration-500 ease-out hover:-translate-y-0.5 active:scale-95 xl:-ml-5 2xl:ml-0 ${
             visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
           }`}
           style={{
