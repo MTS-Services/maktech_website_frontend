@@ -1,17 +1,6 @@
 /**
- * Reusable metric stat card.
- * Import on any admin page: import StatCard from '../../components/StatCard';
- *
- * Props
- *   Icon        — react-icons component
- *   iconBg      — Tailwind bg class for icon container  e.g. 'bg-green-50'
- *   iconColor   — Tailwind text class for icon          e.g. 'text-green-600'
- *   badge       — Short label shown top-right           e.g. '+12.5%'
- *   badgeBg     — Tailwind bg class for badge pill      e.g. 'bg-green-50'
- *   badgeColor  — Tailwind text class for badge         e.g. 'text-green-700'
- *   label       — Metric name                          e.g. 'Monthly Revenue'
- *   value       — Display value                         e.g. '$95,000'
- *   accentColor — Hex string for the top accent strip   e.g. '#16a34a'
+ * Reusable metric stat card — importable on any admin page.
+ * Usage: import StatCard from '@/components/StatCard';
  */
 const StatCard = ({
   Icon,
@@ -24,29 +13,36 @@ const StatCard = ({
   value,
   accentColor,
 }) => (
-  <article className='group bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-default'>
-    {/* Thin top strip — unique color per metric for instant visual recognition */}
-    <div className='h-0.75 w-full' style={{ backgroundColor: accentColor }} />
-
+  <article className='group relative bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden hover:shadow-xl hover:-translate-y-1.5 hover:border-gray-200 transition-all duration-300 cursor-default'>
     <div className='p-5 sm:p-6'>
-      {/* Icon + badge row */}
+      {/* Icon + badge */}
       <div className='flex items-start justify-between mb-5'>
         <div
-          className={`inline-flex items-center justify-center w-11 h-11 rounded-2xl shrink-0 ${iconBg}`}
+          className={`inline-flex items-center justify-center w-12 h-12 rounded-2xl shrink-0 ${iconBg}`}
         >
-          <Icon className={`text-xl ${iconColor}`} />
+          <Icon className={`text-2xl ${iconColor}`} />
         </div>
         <span
-          className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold ${badgeBg} ${badgeColor}`}
+          className={`inline-flex items-center text-xs font-semibold px-2.5 py-1.5 rounded-full ${badgeBg} ${badgeColor}`}
         >
           {badge}
         </span>
       </div>
 
-      {/* Metric */}
-      <p className='text-sm font-medium text-gray-500 mb-1.5'>{label}</p>
-      <p className='text-2xl font-bold text-gray-900 tracking-tight'>{value}</p>
+      {/* Value */}
+      <p className='text-2xl font-bold text-gray-900 tracking-tight leading-none mb-2'>
+        {value}
+      </p>
+
+      {/* Label */}
+      <p className='text-sm font-medium text-gray-400'>{label}</p>
     </div>
+
+    {/* Accent line slides left→right on hover — interactive, non-template feel */}
+    <div
+      className='absolute bottom-0 left-0 h-0.75 w-0 group-hover:w-full transition-all duration-500 ease-out'
+      style={{ backgroundColor: accentColor }}
+    />
   </article>
 );
 
