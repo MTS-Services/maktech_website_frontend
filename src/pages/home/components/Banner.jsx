@@ -103,7 +103,7 @@ const Banner = () => {
           } ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"}`}
           style={{
             background: "var(--color-orange-bg-cta)",
-            padding: isMobile ? "16px 24px" : "13px 24px",
+            padding: isMobile ? "12px 24px" : "13px 24px",
             transitionDelay: "450ms",
           }}
           onMouseEnter={(e) => (e.currentTarget.style.background = "#d14608")}
