@@ -20,13 +20,22 @@
 
 import { Outlet } from "react-router-dom";
 import Navbar from "../../components/Navbar";
+import AnimatedLines from "../../components/AnimatedLines";
 
 const PublicLayout = () => {
   return (
-    <>
-      <Outlet />
+    <div className="relative min-h-screen bg-black-bg">
+      {/* Animated vertical lines background - shown on all public pages */}
+      <AnimatedLines />
+      
+      {/* Page content */}
+      <div className="relative z-10">
+        <Outlet />
+      </div>
+      
+      {/* Floating navbar */}
       <Navbar />
-    </>
+    </div>
   );
 };
 
