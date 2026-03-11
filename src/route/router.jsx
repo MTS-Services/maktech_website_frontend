@@ -5,6 +5,7 @@ import AdminLayout from '../layout/adminLayout/AdminLayout';
 // Lazy-loaded routes — each page is its own chunk, only parsed when visited
 const Login = lazy(() => import('../pages/login/Login'));
 const Dashboard = lazy(() => import('../pages/admin/dashboard/Dashboard'));
+const Emails = lazy(() => import('../pages/admin/emails/Emails'));
 const ComingSoon = lazy(() => import('../pages/ComingSoon'));
 const NotFound = lazy(() => import('../pages/NotFound'));
 
@@ -16,7 +17,7 @@ const AppRoutes = () => (
       <Route path='/admin' element={<AdminLayout />}>
         <Route index element={<Navigate to='/admin/dashboard' replace />} />
         <Route path='dashboard' element={<Dashboard />} />
-        <Route path='emails' element={<ComingSoon pageName='Emails' />} />
+        <Route path='emails' element={<Emails />} />
         <Route path='leads' element={<ComingSoon pageName='Leads' />} />
         <Route path='orders' element={<ComingSoon pageName='Orders' />} />
         <Route
