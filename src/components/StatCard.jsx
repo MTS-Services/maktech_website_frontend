@@ -38,6 +38,7 @@ const StatCard = ({
     </div>
 
     <div
+      aria-hidden='true'
       className='absolute bottom-0 left-0 h-0.75 w-0 group-hover:w-full transition-all duration-500 ease-out'
       style={{ backgroundColor: accentColor }}
     />

@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import StatCard from '../../../components/StatCard';
 import {
   MdEmail,
@@ -252,8 +252,14 @@ const ReplyForm = ({ email, onBack }) => (
       <div className='space-y-4'>
         {/* To */}
         <div>
-          <label className='block text-sm text-gray-500 mb-1.5'>To:</label>
+          <label
+            htmlFor='reply-to'
+            className='block text-sm text-gray-500 mb-1.5'
+          >
+            To:
+          </label>
           <input
+            id='reply-to'
             type='email'
             defaultValue={email.email}
             className='w-full px-4 py-2.5 rounded-lg border border-gray-200 text-base text-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-transparent transition'
@@ -262,8 +268,14 @@ const ReplyForm = ({ email, onBack }) => (
 
         {/* Subject */}
         <div>
-          <label className='block text-sm text-gray-500 mb-1.5'>Subject:</label>
+          <label
+            htmlFor='reply-subject'
+            className='block text-sm text-gray-500 mb-1.5'
+          >
+            Subject:
+          </label>
           <input
+            id='reply-subject'
             type='text'
             defaultValue={`Re: ${email.subject}`}
             className='w-full px-4 py-2.5 rounded-lg border border-gray-200 text-base text-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-transparent transition'
@@ -272,8 +284,14 @@ const ReplyForm = ({ email, onBack }) => (
 
         {/* Message */}
         <div>
-          <label className='block text-sm text-gray-500 mb-1.5'>Message:</label>
+          <label
+            htmlFor='reply-message'
+            className='block text-sm text-gray-500 mb-1.5'
+          >
+            Message:
+          </label>
           <textarea
+            id='reply-message'
             rows={7}
             placeholder='Type your message here...'
             className='w-full px-4 py-3 rounded-lg border border-gray-200 text-base text-gray-700 resize-none focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-transparent transition'
@@ -545,6 +563,10 @@ export default function Emails() {
   const handlePage = (p) => setPage(Math.max(1, Math.min(totalPages, p)));
   const handleSelect = (email) => setSelected(email);
   const handleBack = () => setSelected(null);
+
+  useEffect(() => {
+    document.title = 'Emails – Maktech Admin';
+  }, []);
 
   return (
     <div className='space-y-6 pb-8'>

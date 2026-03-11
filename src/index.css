@@ -40,11 +40,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family:
-    source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
-}
-
 /* Custom scrollbar styles for webkit browsers */
 ::-webkit-scrollbar {
   width: 8px;

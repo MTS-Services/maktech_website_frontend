@@ -63,6 +63,7 @@ const Sidebar = ({ onClose }) => {
           <p className='text-sm text-gray-400 mt-1.5'>Admin Dashboard</p>
         </div>
         <button
+          type='button'
           onClick={onClose}
           className='lg:hidden mt-0.5 p-1.5 -mr-1 rounded-md text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors'
           aria-label='Close navigation'

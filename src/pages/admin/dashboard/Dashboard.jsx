@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useId, useMemo } from 'react';
 import StatCard from '../../../components/StatCard';
 import {
   LineChart,
@@ -108,12 +108,20 @@ const TOOLTIP_STYLE = {
 };
 
 const Dashboard = () => {
+  const uid = useId();
+  // Unique per-instance ID prevents SVG gradient ID collisions if component mounts twice
+  const gradientId = `bar-gradient${uid}`;
+
   // Computed at render time so it reflects the user's actual session hour
   const greeting = useMemo(() => {
     const h = new Date().getHours();
     if (h < 12) return 'Good Morning';
     if (h < 18) return 'Good Afternoon';
     return 'Good Evening';
+  }, []);
+
+  useEffect(() => {
+    document.title = 'Dashboard – Maktech Admin';
   }, []);
 
   return (
@@ -214,7 +222,7 @@ const Dashboard = () => {
                 margin={{ top: 4, right: 4, left: 0, bottom: 0 }}
               >
                 <defs>
-                  <linearGradient id='barGradient' x1='0' y1='0' x2='0' y2='1'>
+                  <linearGradient id={gradientId} x1='0' y1='0' x2='0' y2='1'>
                     <stop
                       offset='0%'
                       stopColor={CHART_COLOR}
@@ -238,7 +246,7 @@ const Dashboard = () => {
                 <Tooltip contentStyle={TOOLTIP_STYLE} />
                 <Bar
                   dataKey='orders'
-                  fill='url(#barGradient)'
+                  fill={`url(#${gradientId})`}
                   radius={[4, 4, 0, 0]}
                 />
               </BarChart>
