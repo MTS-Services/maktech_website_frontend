@@ -27,9 +27,9 @@ const NAV_ITEMS = [
 const NAV_BASE =
   'group flex items-center gap-3 rounded-lg text-base font-medium transition-all duration-150 pl-3.25 pr-3 py-2.5';
 const NAV_ACTIVE =
-  'bg-orange-100 text-orange-700 shadow-[inset_3px_0_0_0_#ea580c] border border-orange-200';
+  'bg-orange-100 text-orange-700 shadow-[inset_3px_0_0_0_#ea580c]';
 const NAV_INACTIVE =
-  'text-gray-700 border border-gray-200 hover:bg-gray-50 hover:text-gray-900 hover:border-gray-300';
+  'text-gray-700 border border-gray-100 hover:bg-gray-50 hover:text-gray-900 hover:border-gray-200';
 
 const getNavClass = ({ isActive }) =>
   `${NAV_BASE} ${isActive ? NAV_ACTIVE : NAV_INACTIVE}`;
@@ -111,13 +111,13 @@ const Sidebar = ({ onClose }) => {
       <div className='shrink-0 border-t border-gray-100 px-3 py-3 space-y-1.5'>
         <button
           onClick={handleLogout}
-          className='group w-full flex items-center gap-3 pl-3.25 pr-3 py-2.5 rounded-lg text-base font-medium text-gray-600 border border-gray-200 hover:bg-red-50 hover:text-red-600 hover:border-red-200 transition-all duration-150 hover:shadow-[inset_3px_0_0_0_#ef4444]'
+          className='group w-full flex items-center gap-3 pl-3.25 pr-3 py-2.5 rounded-lg text-base font-medium text-gray-600 hover:bg-red-50 hover:text-red-600 transition-all duration-150 hover:shadow-[inset_3px_0_0_0_#ef4444]'
         >
           <MdLogout className='shrink-0 text-xl text-gray-400 group-hover:text-red-500 transition-colors' />
           <span>Sign Out</span>
         </button>
 
-        <div className='flex items-center gap-3 px-3 py-2.5 rounded-lg border border-gray-100 bg-gray-50'>
+        <div className='flex items-center gap-3 px-3 py-2.5 rounded-lg bg-gray-50'>
           <div className='shrink-0 w-9 h-9 rounded-full bg-linear-to-br from-orange-400 to-orange-600 flex items-center justify-center text-white text-base font-bold select-none'>
             M
           </div>
