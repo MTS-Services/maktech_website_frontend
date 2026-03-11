@@ -7,7 +7,7 @@
 
 const AnimatedLines = () => {
   // Line positions (percentage from left)
-  const linePositions = [15, 38, 62, 85]
+  const linePositions = [20, 40, 60, 80]
 
   return (
     <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">

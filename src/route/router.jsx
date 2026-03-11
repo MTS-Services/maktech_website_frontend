@@ -11,6 +11,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import Login from "../pages/login/Login";
 import AdminLayout from "../layout/adminLayout/AdminLayout";
+import PublicLayout from "../layout/publicLayout/PublicLayout";
 import Dashboard from "../pages/admin/dashboard/Dashboard";
 import ComingSoon from "../pages/ComingSoon";
 import NotFound from "../pages/NotFound";
@@ -25,7 +26,10 @@ import Home from "../pages/home/Home";
 const AppRoutes = () => {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
+      {/* Public Routes - with shared Navbar */}
+      <Route element={<PublicLayout />}>
+        <Route path="/" element={<Home />} />
+      </Route>
 
       {/* Public Route - Login Page */}
       <Route path="/login" element={<Login />} />
