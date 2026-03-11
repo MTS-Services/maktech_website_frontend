@@ -40,6 +40,13 @@ export default defineConfig({
             return 'vendor-redux';
           }
           if (
+            id.includes('node_modules/recharts') ||
+            id.includes('node_modules/d3-') ||
+            id.includes('node_modules/victory-')
+          ) {
+            return 'vendor-charts';
+          }
+          if (
             id.includes('node_modules/react-icons') ||
             id.includes('node_modules/react-toastify')
           ) {

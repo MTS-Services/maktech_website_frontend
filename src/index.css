@@ -14,9 +14,6 @@
   --color-white-bg-secondary: #aaaaaa;
   --color-white-bg-cta: #ffffff;
   --color-white-bg-font: #2f2f2f;
-
-  --font-family-dm-sans:
-    -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
 }
 
 /* Global styles */
@@ -41,11 +38,11 @@ code {
 }
 
 ::-webkit-scrollbar-track {
-  background: #1e293b;
+  background: #f1f5f9;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #475569;
+  background: #cbd5e1;
   border-radius: 4px;
 }
 

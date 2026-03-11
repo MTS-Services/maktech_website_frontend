@@ -1,13 +1,3 @@
-/**
- * Router Configuration
- *
- * This file contains all route definitions for the application.
- * Routes are organized by:
- * - Public routes (Login)
- * - Admin routes (Protected with AdminLayout)
- * - Catch-all route (Redirect to login)
- */
-
 import { lazy, Suspense } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import AdminLayout from '../layout/adminLayout/AdminLayout';

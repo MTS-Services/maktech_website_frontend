@@ -38,6 +38,8 @@ const AdminLayout = () => {
 
       {/* ── Sidebar ── */}
       <aside
+        id='sidebar'
+        aria-label='Sidebar navigation'
         className={`
           fixed inset-y-0 left-0 z-30 w-72 transform transition-transform duration-300 ease-in-out
           lg:relative lg:translate-x-0 lg:z-auto lg:shrink-0
@@ -52,9 +54,12 @@ const AdminLayout = () => {
         {/* Mobile top bar — visible only below lg breakpoint */}
         <header className='lg:hidden flex items-center gap-3 h-14 px-4 bg-white border-b border-gray-100 shrink-0'>
           <button
+            type='button'
             onClick={() => setSidebarOpen(true)}
-            className='p-2 -ml-1 rounded-lg text-gray-500 hover:text-gray-800 hover:bg-gray-100 transition-colors'
+            aria-expanded={sidebarOpen}
+            aria-controls='sidebar'
             aria-label='Open navigation'
+            className='p-2 -ml-1 rounded-lg text-gray-500 hover:text-gray-800 hover:bg-gray-100 transition-colors'
           >
             <MdMenu className='text-xl' />
           </button>
