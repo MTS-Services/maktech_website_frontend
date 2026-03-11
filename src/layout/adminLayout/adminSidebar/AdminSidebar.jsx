@@ -35,7 +35,7 @@ const Sidebar = ({ onClose }) => {
   };
 
   return (
-    <div className='h-full w-full bg-white flex flex-col border-r border-gray-200'>
+    <div className='h-full w-full bg-white flex flex-col border-r border-gray-100'>
       {/* ── Brand header ── */}
       <div className='flex items-start justify-between px-5 pt-5 pb-4 border-b border-gray-100 shrink-0'>
         <div>

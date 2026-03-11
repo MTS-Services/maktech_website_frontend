@@ -58,9 +58,14 @@ const AdminLayout = () => {
           >
             <MdMenu className='text-xl' />
           </button>
-          <span className='text-[15px] font-semibold text-gray-900 tracking-tight'>
-            Maktech
-          </span>
+          <img
+            src='/maktech_logo.png'
+            alt='Maktech'
+            className='h-7 w-auto object-contain'
+            onError={(e) => {
+              e.currentTarget.style.display = 'none';
+            }}
+          />
         </header>
 
         {/* Scrollable page area */}
