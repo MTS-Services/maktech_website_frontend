@@ -26,7 +26,7 @@ const NAV_ITEMS = [
 
 // border lives in NAV_BASE so layout never shifts; only the color changes between states (CLS fix)
 const NAV_BASE =
-  'group flex items-center gap-3 rounded-lg border text-base font-medium transition-all duration-150 pl-3.25 pr-3 py-2.5';
+  'group flex items-center gap-3 rounded-lg border text-base font-medium transition-all duration-200 pl-3.25 pr-3 py-2.5 hover:-translate-y-0.5';
 const NAV_ACTIVE =
   'bg-orange-100 text-orange-700 border-transparent shadow-[inset_3px_0_0_0_#ea580c]';
 const NAV_INACTIVE =
