@@ -2,36 +2,55 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" href="/maktech_logo.png" />
+    <link rel="icon" type="image/png" href="/icon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
       content="MakTech Admin Dashboard — manage emails, leads, orders, case studies, blog, jobs and pricing."
     />
     <meta name="theme-color" content="#ffffff" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <!-- Async font load: only 4 weights actually used — avoids full variable axis (~200 KB savings) -->
+    <!-- Logo preloaded before JS runs — cache-warm when React renders it → LCP improvement -->
     <link
       rel="preload"
-      as="style"
-      onload="
-        this.onload = null;
-        this.rel = 'stylesheet';
-      "
-      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap"
+      as="image"
+      href="/maktech_logo.png"
+      fetchpriority="high"
     />
-    <noscript
-      ><link
-        rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap"
-    /></noscript>
+    <style>
+      /* Hide shell once React fills #root. Pure CSS, zero JS overhead. */
+      #root:not(:empty) + #app-shell {
+        display: none;
+      }
+
+      #app-shell {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #ffffff;
+        z-index: 9999;
+      }
+    </style>
     <title>MakTech Admin Dashboard</title>
   </head>
   <body>
-    <!-- Root div where React application will mount -->
+    <!-- #root is intentionally empty: React first commit = clean insert = minimum TBT -->
     <div id="root"></div>
-    <!-- Main application script entry point -->
+    <!--
+      Shell lives OUTSIDE #root. Browser paints it before React JS runs → FCP + LCP.
+      CSS hides it automatically once #root gets content (→ no JS removal needed).
+    -->
+    <div id="app-shell" aria-hidden="true">
+      <img
+        src="/maktech_logo.png"
+        alt=""
+        width="120"
+        height="32"
+        fetchpriority="high"
+        style="height: 32px; width: auto; object-fit: contain"
+      />
+    </div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

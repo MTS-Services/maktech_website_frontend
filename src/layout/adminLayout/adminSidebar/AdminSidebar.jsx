@@ -52,6 +52,7 @@ const Sidebar = ({ onClose }) => {
             alt='Maktech'
             width={120}
             height={32}
+            fetchPriority='high'
             className='h-8 w-auto object-contain'
             onError={(e) => {
               e.currentTarget.style.display = 'none';

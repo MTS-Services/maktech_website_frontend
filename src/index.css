@@ -1,36 +1,37 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
   --color-primary-bg: #1e293b;
   --color-primary-text: #f8fafc;
   --color-primary-hover: #334155;
-  
-  --color-black-bg-primary: #E3E3E3;
-  --color-black-bg-secondary: #A9A9A9;
-  --color-black-bg-cta: #FF6533;
-  
-  --color-white-bg-primary-start: #2F2F2F;
-  --color-white-bg-primary-end: #BFBDBD;
-  --color-white-bg-secondary: #AAAAAA;
-  --color-white-bg-cta: #FFFFFF;
-  --color-white-bg-font: #2F2F2F;
-  
-  --font-family-dm-sans: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+
+  --color-black-bg-primary: #e3e3e3;
+  --color-black-bg-secondary: #a9a9a9;
+  --color-black-bg-cta: #ff6533;
+
+  --color-white-bg-primary-start: #2f2f2f;
+  --color-white-bg-primary-end: #bfbdbd;
+  --color-white-bg-secondary: #aaaaaa;
+  --color-white-bg-cta: #ffffff;
+  --color-white-bg-font: #2f2f2f;
+
+  --font-family-dm-sans:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
 }
 
 /* Global styles */
 body {
   margin: 0;
-  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
+    'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family:
+    source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
 /* Custom scrollbar styles for webkit browsers */

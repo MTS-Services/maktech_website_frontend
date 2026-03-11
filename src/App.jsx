@@ -16,7 +16,10 @@ function App() {
         pauseOnHover
         draggable
         theme='light'
-        style={{ fontFamily: 'DM Sans, sans-serif', fontSize: '14px' }}
+        style={{
+          fontFamily: 'system-ui, -apple-system, sans-serif',
+          fontSize: '14px',
+        }}
       />
     </Router>
   );

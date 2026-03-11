@@ -63,6 +63,7 @@ const AdminLayout = () => {
             alt='Maktech'
             width={120}
             height={28}
+            fetchPriority='high'
             className='h-7 w-auto object-contain'
             onError={(e) => {
               e.currentTarget.style.display = 'none';
