@@ -9,6 +9,7 @@ import {
   MdChevronLeft,
   MdChevronRight,
   MdArrowBack,
+  MdSend,
 } from 'react-icons/md';
 
 const PAGE_SIZE = 8;
@@ -229,14 +230,14 @@ const getPageRange = (current, total) => {
   return range;
 };
 
-// ─── Email Detail View ───────────────────────────────────────────────────────
-const EmailDetail = ({ email, onBack }) => (
-  <div className='border-2 border-dashed border-blue-300 rounded-2xl p-5 sm:p-8'>
+// ─── Reply Form ─────────────────────────────────────────────────────────────
+const ReplyForm = ({ email, onBack }) => (
+  <div className='space-y-6'>
     {/* Back link */}
     <button
       type='button'
       onClick={onBack}
-      className='inline-flex items-center gap-1.5 text-base text-gray-500 hover:text-gray-800 transition-colors duration-150 mb-6 group'
+      className='inline-flex items-center gap-1.5 text-base text-gray-500 hover:text-gray-800 transition-colors duration-150 group'
     >
       <MdArrowBack
         className='text-lg group-hover:-translate-x-0.5 transition-transform duration-150'
@@ -245,49 +246,119 @@ const EmailDetail = ({ email, onBack }) => (
       Back to Inbox
     </button>
 
-    {/* Email card */}
     <div className='bg-white rounded-xl border border-gray-100 shadow-sm p-6 sm:p-8'>
-      {/* Header row: subject + status badge */}
-      <div className='flex items-start justify-between gap-4 mb-3'>
-        <h2 className='text-xl sm:text-2xl font-bold text-gray-900 leading-snug'>
-          {email.subject}
-        </h2>
-        <span
-          className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold shrink-0 ${getStatusStyle(email.status)}`}
+      <h2 className='text-xl font-bold text-gray-900 mb-6'>Reply to Email</h2>
+
+      <div className='space-y-4'>
+        {/* To */}
+        <div>
+          <label className='block text-sm text-gray-500 mb-1.5'>To:</label>
+          <input
+            type='email'
+            defaultValue={email.email}
+            className='w-full px-4 py-2.5 rounded-lg border border-gray-200 text-base text-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-transparent transition'
+          />
+        </div>
+
+        {/* Subject */}
+        <div>
+          <label className='block text-sm text-gray-500 mb-1.5'>Subject:</label>
+          <input
+            type='text'
+            defaultValue={`Re: ${email.subject}`}
+            className='w-full px-4 py-2.5 rounded-lg border border-gray-200 text-base text-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-transparent transition'
+          />
+        </div>
+
+        {/* Message */}
+        <div>
+          <label className='block text-sm text-gray-500 mb-1.5'>Message:</label>
+          <textarea
+            rows={7}
+            placeholder='Type your message here...'
+            className='w-full px-4 py-3 rounded-lg border border-gray-200 text-base text-gray-700 resize-none focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-transparent transition'
+          />
+        </div>
+
+        {/* Send */}
+        <button
+          type='button'
+          className='inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-black-bg-cta rounded-lg hover:bg-[#e5501a] hover:shadow-[0_4px_14px_rgba(255,101,51,0.35)] transition-all duration-200 active:scale-[0.97]'
         >
-          {email.status}
-        </span>
+          <MdSend className='text-lg' aria-hidden='true' />
+          Send Email
+        </button>
       </div>
-
-      {/* Meta: From · email · datetime */}
-      <p className='text-sm text-gray-400 mb-6'>
-        <span className='text-gray-500'>From:</span>{' '}
-        <span className='font-medium text-gray-700'>{email.client}</span>
-        <span className='mx-2 text-gray-300'>&bull;</span>
-        {email.email}
-        <span className='mx-2 text-gray-300'>&bull;</span>
-        {formatDetailDate(email.datetime)}
-      </p>
-
-      {/* Divider */}
-      <hr className='border-gray-100 mb-6' />
-
-      {/* Body */}
-      <p className='text-base text-gray-600 leading-relaxed mb-8'>
-        {email.body}
-      </p>
-
-      {/* Reply button */}
-      <button
-        type='button'
-        className='inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-black-bg-cta rounded-lg hover:bg-[#e5501a] hover:shadow-[0_4px_14px_rgba(255,101,51,0.35)] transition-all duration-200 active:scale-[0.97]'
-      >
-        <MdReply className='text-lg' aria-hidden='true' />
-        Reply
-      </button>
     </div>
   </div>
 );
+
+// ─── Email Detail View ───────────────────────────────────────────────────────
+const EmailDetail = ({ email, onBack }) => {
+  const [showReply, setShowReply] = useState(false);
+
+  if (showReply) return <ReplyForm email={email} onBack={onBack} />;
+
+  return (
+    <div>
+      {/* Back link */}
+      <button
+        type='button'
+        onClick={onBack}
+        className='inline-flex items-center gap-1.5 text-base text-gray-500 hover:text-gray-800 transition-colors duration-150 mb-6 group'
+      >
+        <MdArrowBack
+          className='text-lg group-hover:-translate-x-0.5 transition-transform duration-150'
+          aria-hidden='true'
+        />
+        Back to Inbox
+      </button>
+
+      {/* Email card */}
+      <div className='bg-white rounded-xl border border-gray-100 shadow-sm p-6 sm:p-8'>
+        {/* Header row: subject + status badge */}
+        <div className='flex items-start justify-between gap-4 mb-3'>
+          <h2 className='text-xl sm:text-2xl font-bold text-gray-900 leading-snug'>
+            {email.subject}
+          </h2>
+          <span
+            className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold shrink-0 ${getStatusStyle(email.status)}`}
+          >
+            {email.status}
+          </span>
+        </div>
+
+        {/* Meta: From · email · datetime */}
+        <p className='text-sm text-gray-400 mb-6'>
+          <span className='text-gray-500'>From:</span>{' '}
+          <span className='font-medium text-gray-700'>{email.client}</span>
+          <span className='mx-2 text-gray-300'>&bull;</span>
+          {email.email}
+          <span className='mx-2 text-gray-300'>&bull;</span>
+          {formatDetailDate(email.datetime)}
+        </p>
+
+        {/* Divider */}
+        <hr className='border-gray-100 mb-6' />
+
+        {/* Body */}
+        <p className='text-base text-gray-600 leading-relaxed mb-8'>
+          {email.body}
+        </p>
+
+        {/* Reply button */}
+        <button
+          type='button'
+          onClick={() => setShowReply(true)}
+          className='inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-black-bg-cta rounded-lg hover:bg-[#e5501a] hover:shadow-[0_4px_14px_rgba(255,101,51,0.35)] transition-all duration-200 active:scale-[0.97]'
+        >
+          <MdReply className='text-lg' aria-hidden='true' />
+          Reply
+        </button>
+      </div>
+    </div>
+  );
+};
 
 // ─── EmailCard — mobile layout (< md) ───────────────────────────────────────
 const EmailCard = ({ email, onSelect }) => {
