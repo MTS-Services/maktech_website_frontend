@@ -162,7 +162,7 @@ const Dashboard = () => {
             role='img'
             aria-label='Line chart: monthly revenue from $47,000 in January to $99,000 in December'
           >
-            <ResponsiveContainer width='100%' height={260}>
+            <ResponsiveContainer width='100%' height={300}>
               <LineChart
                 data={REVENUE_DATA}
                 margin={{ top: 4, right: 4, left: 0, bottom: 0 }}
@@ -198,7 +198,7 @@ const Dashboard = () => {
             role='img'
             aria-label='Bar chart: daily order volume this week, peaking at 19 orders on Thursday'
           >
-            <ResponsiveContainer width='100%' height={260}>
+            <ResponsiveContainer width='100%' height={300}>
               <BarChart
                 data={ORDER_DATA}
                 margin={{ top: 4, right: 4, left: 0, bottom: 0 }}
