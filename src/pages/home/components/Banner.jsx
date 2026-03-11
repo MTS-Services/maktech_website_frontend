@@ -6,7 +6,7 @@ const Banner = () => {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth <= 768);
+    const check = () => setIsMobile(window.innerWidth <= 425);
     check();
     window.addEventListener("resize", check);
     const timer = setTimeout(() => setVisible(true), 50);
@@ -18,7 +18,9 @@ const Banner = () => {
 
   return (
     <div
-      className="relative w-full h-screen flex items-start justify-center"
+      className={`relative w-full flex items-start justify-center ${
+        isMobile ? "h-100" : "h-screen"
+      }`}
       style={
         !isMobile
           ? {
@@ -33,8 +35,8 @@ const Banner = () => {
       <div
         className={
           isMobile
-            ? "w-full px-5 z-10 mt-24"
-            : "w-full max-w-[70%] mx-auto px-6 md:px-12 lg:px-24 z-10 xl:mt-42.5 lg:mt-52 2xl:mt-35"
+            ? "w-full px-5 z-10 pt-20 pb-8"
+            : "w-full max-w-[70%] mx-auto px-6 md:px-12 lg:px-24 z-10 md:mt-55 lg:mt-52 xl:mt-42.5 2xl:mt-35"
         }
       >
         {/* Logo - only on desktop */}
@@ -58,7 +60,7 @@ const Banner = () => {
           className={`relative font-bold mb-9 max-w-[1080px] transition-all duration-500 ease-out ${
             isMobile
               ? "text-[22px] leading-[1.35] text-white"
-              : "text-white 2xl:leading-[1.1] text-2xl md:text-4xl lg:text-[33px] xl:text-[48px] 2xl:text-[68px] tracking-[0.5px] delay-250 xl:-ml-5 2xl:ml-0"
+              : "text-white 2xl:leading-[1.1] text-2xl md:text-[26px] lg:text-[33px] xl:text-[48px] 2xl:text-[68px] tracking-[0.5px] delay-250 xl:-ml-5 2xl:ml-0"
           } ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"}`}
         >
           {isMobile ? (

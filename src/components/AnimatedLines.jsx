@@ -12,7 +12,7 @@ const AnimatedLines = () => {
   const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth <= 768)
+    const check = () => setIsMobile(window.innerWidth <= 425)
     check()
     window.addEventListener('resize', check)
     return () => window.removeEventListener('resize', check)
