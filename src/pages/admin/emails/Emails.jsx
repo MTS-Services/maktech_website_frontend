@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import StatCard from '../../../components/StatCard';
 import {
   MdEmail,
@@ -543,8 +544,92 @@ const Pagination = ({ page, totalPages, pageRange, onPage }) => {
   );
 };
 
+// ─── Compose New Email Form ──────────────────────────────────────────────────
+const ComposeForm = ({ onBack }) => (
+  <div className='space-y-6'>
+    <button
+      type='button'
+      onClick={onBack}
+      className='inline-flex cursor-pointer items-center gap-1.5 text-base text-gray-500 hover:text-gray-800 transition-colors duration-150 group'
+    >
+      <MdArrowBack
+        className='text-lg group-hover:-translate-x-0.5 transition-transform duration-150'
+        aria-hidden='true'
+      />
+      Back to Inbox
+    </button>
+
+    <div className='bg-white rounded-xl border border-gray-100 shadow-sm p-6 sm:p-8'>
+      <h2 className='text-xl font-bold text-gray-900 mb-6'>
+        Compose New Email
+      </h2>
+
+      <div className='space-y-4'>
+        <div>
+          <label
+            htmlFor='compose-to'
+            className='block text-sm text-gray-500 mb-1.5'
+          >
+            To:
+          </label>
+          <input
+            id='compose-to'
+            type='email'
+            placeholder='client@example.com'
+            className='w-full px-4 py-2.5 rounded-lg border border-gray-200 text-base text-gray-700 placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-transparent transition'
+          />
+        </div>
+
+        <div>
+          <label
+            htmlFor='compose-subject'
+            className='block text-sm text-gray-500 mb-1.5'
+          >
+            Subject:
+          </label>
+          <input
+            id='compose-subject'
+            type='text'
+            placeholder='Email subject'
+            className='w-full px-4 py-2.5 rounded-lg border border-gray-200 text-base text-gray-700 placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-transparent transition'
+          />
+        </div>
+
+        <div>
+          <label
+            htmlFor='compose-message'
+            className='block text-sm text-gray-500 mb-1.5'
+          >
+            Message:
+          </label>
+          <textarea
+            id='compose-message'
+            rows={7}
+            placeholder='Type your message here..'
+            className='w-full px-4 py-3 rounded-lg border border-gray-200 text-base text-gray-700 placeholder:text-gray-300 resize-none focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-transparent transition'
+          />
+        </div>
+
+        <button
+          type='button'
+          className='group inline-flex cursor-pointer items-center gap-2 overflow-hidden px-5 py-2.5 text-sm font-semibold text-white bg-black-bg-cta rounded-lg hover:bg-[#e5501a] hover:shadow-[0_4px_14px_rgba(255,101,51,0.35)] transition-all duration-200 active:scale-[0.97]'
+        >
+          <MdSend
+            className='text-lg shrink-0 transition-transform duration-300 ease-out group-hover:translate-x-1'
+            aria-hidden='true'
+          />
+          <span className='inline-block -translate-x-1 transition-transform duration-300 ease-out delay-100 group-hover:translate-x-0'>
+            Send Email
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+);
+
 // ─── Page component ──────────────────────────────────────────────────────────
 export default function Emails() {
+  const navigate = useNavigate();
   const [page, setPage] = useState(1);
   const [selectedEmail, setSelected] = useState(null);
 
@@ -582,6 +667,7 @@ export default function Emails() {
         </div>
         <button
           type='button'
+          onClick={() => navigate('/admin/compose')}
           className='group inline-flex cursor-pointer items-center gap-1.5 overflow-hidden px-4 py-2.5 text-sm font-semibold text-white bg-black-bg-cta rounded-lg hover:bg-[#e5501a] hover:shadow-[0_4px_14px_rgba(255,101,51,0.35)] transition-all duration-200 active:scale-[0.97]'
         >
           <MdAdd

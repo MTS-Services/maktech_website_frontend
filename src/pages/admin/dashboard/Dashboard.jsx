@@ -1,4 +1,5 @@
 import { useEffect, useId, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import StatCard from '../../../components/StatCard';
 import {
   LineChart,
@@ -108,6 +109,7 @@ const TOOLTIP_STYLE = {
 };
 
 const Dashboard = () => {
+  const navigate = useNavigate();
   const uid = useId();
   // Unique per-instance ID prevents SVG gradient ID collisions if component mounts twice
   const gradientId = `bar-gradient${uid}`;
@@ -150,6 +152,7 @@ const Dashboard = () => {
           </button>
           <button
             type='button'
+            onClick={() => navigate('/admin/compose')}
             className='group inline-flex cursor-pointer items-center gap-1.5 overflow-hidden px-4 py-2.5 text-sm font-semibold text-white bg-black-bg-cta rounded-lg hover:bg-[#e5501a] hover:shadow-[0_4px_14px_rgba(255,101,51,0.35)] transition-all duration-200 active:scale-[0.97]'
           >
             <span className='inline-block transition-transform duration-300 ease-out group-hover:translate-x-1'>
