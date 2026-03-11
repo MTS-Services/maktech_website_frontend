@@ -76,7 +76,7 @@ const Sidebar = ({ onClose }) => {
         className='flex-1 overflow-y-auto px-3 py-5'
         aria-label='Main navigation'
       >
-        <p className='px-3 mb-3 text-sm font-semibold text-gray-400 uppercase tracking-[0.08em]'>
+        <p className='px-3 mb-3 text-xs font-semibold text-gray-400 uppercase tracking-[0.08em]'>
           Main Menu
         </p>
         <ul className='space-y-1.5' role='list'>
