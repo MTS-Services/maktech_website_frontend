@@ -61,6 +61,8 @@ const AdminLayout = () => {
           <img
             src='/maktech_logo.png'
             alt='Maktech'
+            width={120}
+            height={28}
             className='h-7 w-auto object-contain'
             onError={(e) => {
               e.currentTarget.style.display = 'none';
