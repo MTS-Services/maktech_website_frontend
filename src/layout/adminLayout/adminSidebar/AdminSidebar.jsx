@@ -11,6 +11,7 @@ import {
   MdAttachMoney,
   MdLogout,
   MdClose,
+  MdChevronRight,
 } from 'react-icons/md';
 
 const NAV_ITEMS = [
@@ -97,9 +98,12 @@ const Sidebar = ({ onClose }) => {
                       }`}
                     />
                     <span className='truncate flex-1'>{name}</span>
-                    {isActive && (
-                      <span className='w-2 h-2 rounded-full bg-orange-500 shrink-0 mr-0.5' />
-                    )}
+                    {/* animate-nav-arrow re-fires the keyframe on every active entry */}
+                    <MdChevronRight
+                      className={`shrink-0 text-lg mr-0.5 text-orange-500 drop-shadow-[0_0_6px_#f97316] ${
+                        isActive ? 'animate-nav-arrow' : 'opacity-0'
+                      }`}
+                    />
                   </>
                 )}
               </NavLink>

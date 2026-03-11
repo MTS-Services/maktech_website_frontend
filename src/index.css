@@ -14,6 +14,20 @@
   --color-white-bg-secondary: #aaaaaa;
   --color-white-bg-cta: #ffffff;
   --color-white-bg-font: #2f2f2f;
+
+  /* Nav arrow animation — fires on every active state entry */
+  --animate-nav-arrow: nav-arrow 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes nav-arrow {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 /* Global styles */
