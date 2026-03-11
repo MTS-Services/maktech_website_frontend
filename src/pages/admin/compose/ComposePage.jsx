@@ -9,6 +9,11 @@ export default function ComposePage() {
     document.title = 'Compose Email – Maktech Admin';
   }, []);
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // TODO: wire to send email API
+  };
+
   return (
     <div className='space-y-6 pb-8'>
       {/* Back link */}
@@ -26,11 +31,11 @@ export default function ComposePage() {
 
       {/* Compose card */}
       <div className='bg-white rounded-xl border border-gray-100 shadow-sm p-6 sm:p-8'>
-        <h2 className='text-xl font-bold text-gray-900 mb-6'>
+        <h1 className='text-xl font-bold text-gray-900 mb-6'>
           Compose New Email
-        </h2>
+        </h1>
 
-        <div className='space-y-4'>
+        <form onSubmit={handleSubmit} noValidate className='space-y-4'>
           {/* To */}
           <div>
             <label
@@ -41,7 +46,10 @@ export default function ComposePage() {
             </label>
             <input
               id='compose-to'
+              name='to'
               type='email'
+              autoComplete='email'
+              required
               placeholder='client@example.com'
               className='w-full px-4 py-2.5 rounded-lg border border-gray-200 text-base text-gray-700 placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-transparent transition'
             />
@@ -57,7 +65,10 @@ export default function ComposePage() {
             </label>
             <input
               id='compose-subject'
+              name='subject'
               type='text'
+              autoComplete='off'
+              required
               placeholder='Email subject'
               className='w-full px-4 py-2.5 rounded-lg border border-gray-200 text-base text-gray-700 placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-transparent transition'
             />
@@ -73,7 +84,10 @@ export default function ComposePage() {
             </label>
             <textarea
               id='compose-message'
+              name='message'
               rows={7}
+              autoComplete='off'
+              required
               placeholder='Type your message here..'
               className='w-full px-4 py-3 rounded-lg border border-gray-200 text-base text-gray-700 placeholder:text-gray-300 resize-none focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-transparent transition'
             />
@@ -81,7 +95,7 @@ export default function ComposePage() {
 
           {/* Send */}
           <button
-            type='button'
+            type='submit'
             className='group inline-flex cursor-pointer items-center gap-2 overflow-hidden px-5 py-2.5 text-sm font-semibold text-white bg-black-bg-cta rounded-lg hover:bg-[#e5501a] hover:shadow-[0_4px_14px_rgba(255,101,51,0.35)] transition-all duration-200 active:scale-[0.97]'
           >
             <MdSend
@@ -92,7 +106,7 @@ export default function ComposePage() {
               Send Email
             </span>
           </button>
-        </div>
+        </form>
       </div>
     </div>
   );
