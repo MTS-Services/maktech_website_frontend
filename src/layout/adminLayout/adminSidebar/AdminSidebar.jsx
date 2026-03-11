@@ -31,7 +31,7 @@ const NAV_BASE =
 const NAV_ACTIVE =
   'bg-orange-100 text-orange-700 border-transparent shadow-[inset_3px_0_0_0_#ea580c]';
 const NAV_INACTIVE =
-  'text-gray-700 border-gray-100 hover:bg-gray-50 hover:text-gray-900 hover:border-gray-200';
+  'text-gray-700 border-gray-100 hover:bg-orange-50/40 hover:text-gray-900 hover:border-orange-100';
 
 const getNavClass = ({ isActive }) =>
   `${NAV_BASE} ${isActive ? NAV_ACTIVE : NAV_INACTIVE}`;
