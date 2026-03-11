@@ -355,10 +355,15 @@ const EmailDetail = ({ email, onBack }) => {
         <button
           type='button'
           onClick={() => setShowReply(true)}
-          className='inline-flex cursor-pointer items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-black-bg-cta rounded-lg hover:bg-[#e5501a] hover:shadow-[0_4px_14px_rgba(255,101,51,0.35)] transition-all duration-200 active:scale-[0.97]'
+          className='group inline-flex cursor-pointer items-center gap-2 overflow-hidden px-5 py-2.5 text-sm font-semibold text-white bg-black-bg-cta rounded-lg hover:bg-[#e5501a] hover:shadow-[0_4px_14px_rgba(255,101,51,0.35)] transition-all duration-200 active:scale-[0.97]'
         >
-          <MdReply className='text-lg' aria-hidden='true' />
-          Reply
+          <MdReply
+            className='text-lg shrink-0 transition-transform duration-300 ease-out group-hover:translate-x-1'
+            aria-hidden='true'
+          />
+          <span className='inline-block -translate-x-1 transition-transform duration-300 ease-out delay-100 group-hover:translate-x-0'>
+            Reply
+          </span>
         </button>
       </div>
     </div>
@@ -555,10 +560,15 @@ export default function Emails() {
         </div>
         <button
           type='button'
-          className='flex cursor-pointer items-center gap-1.5 px-4 py-2.5 text-sm font-semibold text-white bg-black-bg-cta rounded-lg hover:bg-[#e5501a] hover:shadow-[0_4px_14px_rgba(255,101,51,0.35)] transition-all duration-200 active:scale-[0.97]'
+          className='group inline-flex cursor-pointer items-center gap-1.5 overflow-hidden px-4 py-2.5 text-sm font-semibold text-white bg-black-bg-cta rounded-lg hover:bg-[#e5501a] hover:shadow-[0_4px_14px_rgba(255,101,51,0.35)] transition-all duration-200 active:scale-[0.97]'
         >
-          <MdAdd className='text-lg' aria-hidden='true' />
-          Compose Email
+          <MdAdd
+            className='text-lg shrink-0 transition-transform duration-300 ease-out group-hover:translate-x-1'
+            aria-hidden='true'
+          />
+          <span className='inline-block -translate-x-1 transition-transform duration-300 ease-out delay-100 group-hover:translate-x-0'>
+            Compose Email
+          </span>
         </button>
       </div>
 
