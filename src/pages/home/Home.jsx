@@ -1,8 +1,12 @@
 import Banner from './components/Banner'
+import AboutSection from './components/AboutSection'
 
 const Home = () => {
   return (
-    <Banner />
+    <>
+      <Banner />
+      <AboutSection />
+    </>
   )
 }
 
