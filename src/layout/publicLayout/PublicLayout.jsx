@@ -34,7 +34,7 @@ const PublicLayout = () => {
       </div>
       
       {/* Floating navbar */}
-      {/* <Navbar /> */}
+      <Navbar />
     </div>
   );
 };

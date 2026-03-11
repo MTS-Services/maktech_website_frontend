@@ -86,7 +86,7 @@ const AboutSection = () => {
             </div>
 
             {/* Heading */}
-            <h2 className="text-4xl xl:text-4xl 2xl:text-5xl font-medium leading-tight tracking-tight">
+            <h2 className="text-2xl xl:text-4xl 2xl:text-5xl font-medium leading-tight tracking-tight">
               <span style={{ color: "#2F2F2F" }}>More </span>
               <span style={{ color: "#6e6e6e" }}>Than a </span>
               <span style={{ color: "#BFBDBD" }}>Team We&apos;re</span>
