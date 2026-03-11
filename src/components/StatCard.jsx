@@ -1,7 +1,3 @@
-/**
- * Reusable metric stat card — importable on any admin page.
- * Usage: import StatCard from '@/components/StatCard';
- */
 const StatCard = ({
   Icon,
   iconBg,
@@ -13,7 +9,10 @@ const StatCard = ({
   value,
   accentColor,
 }) => (
-  <article className='group relative bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden hover:shadow-xl hover:-translate-y-1.5 hover:border-gray-200 transition-all duration-300 cursor-default'>
+  <article
+    aria-label={label}
+    className='group relative bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden hover:shadow-xl hover:-translate-y-1.5 hover:border-gray-200 transition-all duration-300 cursor-default'
+  >
     <div className='p-5 sm:p-6'>
       {/* Icon + badge */}
       <div className='flex items-start justify-between mb-5'>
@@ -38,7 +37,6 @@ const StatCard = ({
       <p className='text-sm font-medium text-gray-400'>{label}</p>
     </div>
 
-    {/* Accent line slides left→right on hover — interactive, non-template feel */}
     <div
       className='absolute bottom-0 left-0 h-0.75 w-0 group-hover:w-full transition-all duration-500 ease-out'
       style={{ backgroundColor: accentColor }}

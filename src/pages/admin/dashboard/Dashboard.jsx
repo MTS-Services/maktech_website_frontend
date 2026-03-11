@@ -94,6 +94,19 @@ const ORDER_DATA = [
 const CHART_COLOR = '#FF6533';
 const TICK_STYLE = { fill: '#9ca3af', fontSize: 12 };
 
+// Shared chart config — spread onto each recharts primitive to stay DRY
+const AXIS_BASE = { axisLine: false, tickLine: false, tick: TICK_STYLE };
+const GRID_PROPS = {
+  strokeDasharray: '3 3',
+  stroke: '#f3f4f6',
+  vertical: false,
+};
+const TOOLTIP_STYLE = {
+  borderRadius: '8px',
+  border: '1px solid #f3f4f6',
+  fontSize: '13px',
+};
+
 const Dashboard = () => {
   // Computed at render time so it reflects the user's actual session hour
   const greeting = useMemo(() => {
@@ -108,7 +121,7 @@ const Dashboard = () => {
       {/* Page Header */}
       <div className='flex flex-wrap items-start justify-between gap-4'>
         <div>
-          <h1 className='text-3xl font-bold text-gray-900 leading-tight'>
+          <h1 className='text-2xl sm:text-3xl font-bold text-gray-900 leading-tight'>
             {greeting}, Admin!
           </h1>
           <p className='text-base text-gray-500 mt-1'>
@@ -154,32 +167,15 @@ const Dashboard = () => {
                 data={REVENUE_DATA}
                 margin={{ top: 4, right: 4, left: 0, bottom: 0 }}
               >
-                <CartesianGrid
-                  strokeDasharray='3 3'
-                  stroke='#f3f4f6'
-                  vertical={false}
-                />
-                <XAxis
-                  dataKey='month'
-                  tick={TICK_STYLE}
-                  axisLine={false}
-                  tickLine={false}
-                />
+                <CartesianGrid {...GRID_PROPS} />
+                <XAxis dataKey='month' {...AXIS_BASE} />
                 <YAxis
                   domain={[0, 100000]}
                   ticks={[0, 25000, 50000, 75000, 100000]}
-                  tick={TICK_STYLE}
-                  axisLine={false}
-                  tickLine={false}
                   width={58}
+                  {...AXIS_BASE}
                 />
-                <Tooltip
-                  contentStyle={{
-                    borderRadius: '8px',
-                    border: '1px solid #f3f4f6',
-                    fontSize: '13px',
-                  }}
-                />
+                <Tooltip contentStyle={TOOLTIP_STYLE} />
                 <Line
                   type='monotone'
                   dataKey='revenue'
@@ -221,32 +217,15 @@ const Dashboard = () => {
                     />
                   </linearGradient>
                 </defs>
-                <CartesianGrid
-                  strokeDasharray='3 3'
-                  stroke='#f3f4f6'
-                  vertical={false}
-                />
-                <XAxis
-                  dataKey='day'
-                  tick={TICK_STYLE}
-                  axisLine={false}
-                  tickLine={false}
-                />
+                <CartesianGrid {...GRID_PROPS} />
+                <XAxis dataKey='day' {...AXIS_BASE} />
                 <YAxis
                   domain={[0, 24]}
                   ticks={[0, 6, 12, 18, 24]}
-                  tick={TICK_STYLE}
-                  axisLine={false}
-                  tickLine={false}
                   width={28}
+                  {...AXIS_BASE}
                 />
-                <Tooltip
-                  contentStyle={{
-                    borderRadius: '8px',
-                    border: '1px solid #f3f4f6',
-                    fontSize: '13px',
-                  }}
-                />
+                <Tooltip contentStyle={TOOLTIP_STYLE} />
                 <Bar
                   dataKey='orders'
                   fill='url(#barGradient)'
