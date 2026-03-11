@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import StatCard from '../../../components/StatCard';
 import {
   LineChart,
   Line,
@@ -20,37 +21,46 @@ import {
 const STAT_CARDS = [
   {
     Icon: MdAttachMoney,
-    iconBg: 'bg-green-100',
+    accentColor: '#16a34a',
+    iconBg: 'bg-green-50',
     iconColor: 'text-green-600',
     badge: '+12.5%',
-    badgeColor: 'text-green-600',
+    badgeBg: 'bg-green-50',
+    badgeColor: 'text-green-700',
     label: 'Monthly Revenue',
     value: '$95,000',
   },
   {
     Icon: MdShowChart,
-    iconBg: 'bg-blue-100',
+    accentColor: '#2563eb',
+    iconBg: 'bg-blue-50',
     iconColor: 'text-blue-600',
     badge: 'All Time',
-    badgeColor: 'text-blue-600',
+    badgeBg: 'bg-blue-50',
+    badgeColor: 'text-blue-700',
     label: 'Lifetime Revenue',
     value: '$8,08,000',
   },
   {
     Icon: MdPeople,
-    iconBg: 'bg-purple-100',
+    accentColor: '#9333ea',
+    iconBg: 'bg-purple-50',
     iconColor: 'text-purple-600',
     badge: 'Active',
-    badgeColor: 'text-purple-600',
+    badgeBg: 'bg-purple-50',
+    badgeColor: 'text-purple-700',
     label: 'Active Clients',
     value: '24',
   },
   {
+    // Brand orange on the Leads card anchors the accent palette to Maktech identity
     Icon: MdPersonAdd,
-    iconBg: 'bg-orange-100',
+    accentColor: '#FF6533',
+    iconBg: 'bg-orange-50',
     iconColor: 'text-orange-500',
     badge: '+8 this week',
-    badgeColor: 'text-orange-500',
+    badgeBg: 'bg-orange-50',
+    badgeColor: 'text-orange-700',
     label: 'Total Leads',
     value: '47',
   },
@@ -108,40 +118,24 @@ const Dashboard = () => {
         <div className='flex items-center gap-3'>
           <button
             type='button'
-            className='flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors'
+            className='flex cursor-pointer items-center gap-1.5 px-4 py-2.5 text-sm font-semibold text-gray-800 bg-white border border-gray-300 rounded-lg hover:bg-gray-900 hover:text-white hover:border-gray-900 transition-all duration-200 active:scale-[0.97]'
           >
             + Create New Order
           </button>
           <button
             type='button'
-            className='flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-white bg-black-bg-cta rounded-lg hover:opacity-90 transition-opacity'
+            className='flex cursor-pointer items-center gap-1.5 px-4 py-2.5 text-sm font-semibold text-white bg-black-bg-cta rounded-lg hover:bg-[#e5501a] hover:shadow-[0_4px_14px_rgba(255,101,51,0.35)] transition-all duration-200 active:scale-[0.97]'
           >
             + Compose Email
           </button>
         </div>
       </div>
 
-      {/* Stat Cards */}
+      {/* Stat Cards — StatCard is importable on any admin page */}
       <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5'>
-        {STAT_CARDS.map(
-          ({ Icon, iconBg, iconColor, badge, badgeColor, label, value }) => (
-            <div
-              key={label}
-              className='bg-white rounded-xl p-5 border border-gray-100 shadow-sm'
-            >
-              <div className='flex items-start justify-between mb-4'>
-                <div className={`p-2.5 rounded-xl ${iconBg}`}>
-                  <Icon className={`text-xl ${iconColor}`} />
-                </div>
-                <span className={`text-sm font-medium ${badgeColor}`}>
-                  {badge}
-                </span>
-              </div>
-              <p className='text-sm text-gray-500 mb-1'>{label}</p>
-              <p className='text-2xl font-bold text-gray-900'>{value}</p>
-            </div>
-          ),
-        )}
+        {STAT_CARDS.map((card) => (
+          <StatCard key={card.label} {...card} />
+        ))}
       </div>
 
       {/* Charts */}
