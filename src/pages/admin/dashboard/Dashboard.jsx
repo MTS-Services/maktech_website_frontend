@@ -131,15 +131,25 @@ const Dashboard = () => {
         <div className='flex items-center gap-3'>
           <button
             type='button'
-            className='flex cursor-pointer items-center gap-1.5 px-4 py-2.5 text-sm font-semibold text-gray-800 bg-white border border-gray-300 rounded-lg hover:bg-gray-900 hover:text-white hover:border-gray-900 transition-all duration-200 active:scale-[0.97]'
+            className='group inline-flex cursor-pointer items-center gap-1.5 overflow-hidden px-4 py-2.5 text-sm font-semibold text-gray-800 bg-white border border-gray-300 rounded-lg hover:bg-gray-900 hover:text-white hover:border-gray-900 transition-all duration-200 active:scale-[0.97]'
           >
-            + Create New Order
+            <span className='inline-block transition-transform duration-300 ease-out group-hover:translate-x-1'>
+              +
+            </span>
+            <span className='inline-block -translate-x-1 transition-transform duration-300 ease-out delay-100 group-hover:translate-x-0'>
+              Create New Order
+            </span>
           </button>
           <button
             type='button'
-            className='flex cursor-pointer items-center gap-1.5 px-4 py-2.5 text-sm font-semibold text-white bg-black-bg-cta rounded-lg hover:bg-[#e5501a] hover:shadow-[0_4px_14px_rgba(255,101,51,0.35)] transition-all duration-200 active:scale-[0.97]'
+            className='group inline-flex cursor-pointer items-center gap-1.5 overflow-hidden px-4 py-2.5 text-sm font-semibold text-white bg-black-bg-cta rounded-lg hover:bg-[#e5501a] hover:shadow-[0_4px_14px_rgba(255,101,51,0.35)] transition-all duration-200 active:scale-[0.97]'
           >
-            + Compose Email
+            <span className='inline-block transition-transform duration-300 ease-out group-hover:translate-x-1'>
+              +
+            </span>
+            <span className='inline-block -translate-x-1 transition-transform duration-300 ease-out delay-100 group-hover:translate-x-0'>
+              Compose Email
+            </span>
           </button>
         </div>
       </div>
