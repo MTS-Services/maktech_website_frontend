@@ -7,6 +7,7 @@ const Login = lazy(() => import('../pages/login/Login'));
 const Dashboard = lazy(() => import('../pages/admin/dashboard/Dashboard'));
 const Emails = lazy(() => import('../pages/admin/emails/Emails'));
 const ComposePage = lazy(() => import('../pages/admin/compose/ComposePage'));
+const Leads = lazy(() => import('../pages/admin/leads/Leads'));
 const ComingSoon = lazy(() => import('../pages/ComingSoon'));
 const NotFound = lazy(() => import('../pages/NotFound'));
 
@@ -20,7 +21,7 @@ const AppRoutes = () => (
         <Route path='dashboard' element={<Dashboard />} />
         <Route path='emails' element={<Emails />} />
         <Route path='compose' element={<ComposePage />} />
-        <Route path='leads' element={<ComingSoon pageName='Leads' />} />
+        <Route path='leads' element={<Leads />} />
         <Route path='orders' element={<ComingSoon pageName='Orders' />} />
         <Route
           path='case-studies'
