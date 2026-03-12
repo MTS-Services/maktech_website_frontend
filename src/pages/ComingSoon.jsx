@@ -32,11 +32,11 @@ const ComingSoon = () => {
   const pageName = formatPageName(lastSegment)
 
   return (
-    <div className="flex items-center justify-center min-h-[70vh]">
-      <div className="text-center max-w-md">
+    <div className='flex items-center justify-center min-h-[70vh]'>
+      <div className='text-center max-w-md'>
         {/* Construction Icon */}
-        <div className="inline-flex items-center justify-center w-24 h-24 bg-orange-100 rounded-full mb-6">
-          <MdConstruction className="text-5xl text-orange-600" />
+        <div className='inline-flex items-center justify-center w-24 h-24 bg-orange-100 rounded-full mb-6'>
+          <MdConstruction className='text-5xl text-orange-600' />
         </div>
 
         {/* Coming Soon Heading */}
@@ -56,9 +56,9 @@ const ComingSoon = () => {
         </div>
 
         {/* Status Badge */}
-        <div className="inline-flex items-center gap-2 bg-orange-50 text-orange-700 px-4 py-2 rounded-full">
-          <div className="w-2 h-2 bg-orange-600 rounded-full animate-pulse"></div>
-          <span className="text-sm font-medium">In Development</span>
+        <div className='inline-flex items-center gap-2 bg-orange-50 text-orange-700 px-4 py-2 rounded-full'>
+          <div className='w-2 h-2 bg-orange-600 rounded-full animate-pulse'></div>
+          <span className='text-sm font-medium'>In Development</span>
         </div>
 
         {/* Additional Info */}
@@ -67,7 +67,7 @@ const ComingSoon = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ComingSoon
+export default ComingSoon;

@@ -14,6 +14,8 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import { useEffect } from 'react'
 import Lenis from 'lenis'
 import AppRoutes from './route/router'
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   useEffect(() => {
@@ -49,8 +51,22 @@ function App() {
       }}
     >
       <AppRoutes />
+      <ToastContainer
+        position='bottom-right'
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        pauseOnHover
+        draggable
+        theme='light'
+        style={{
+          fontFamily: 'system-ui, -apple-system, sans-serif',
+          fontSize: '14px',
+        }}
+      />
     </Router>
-  )
+  );
 }
 
-export default App
+export default App;

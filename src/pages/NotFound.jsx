@@ -13,7 +13,7 @@ const NotFound = () => {
         <div className="flex items-center justify-center gap-3">
           <button
             onClick={() => navigate('/login')}
-            className="px-4 py-2 bg-black-bg-cta text-white rounded-lg font-medium shadow-sm hover:opacity-90 transition"
+            className="px-4 py-2 bg-orange-bg-cta text-white rounded-lg font-medium shadow-sm hover:opacity-90 transition"
           >
             Go to Login
           </button>
