@@ -268,9 +268,22 @@ export default function Leads() {
         </div>
       </div>
 
-      {/* Table — desktop (sm+) */}
-      <div className='hidden sm:block bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden'>
-        <div className='overflow-x-auto'>
+      {/* Leads list — single card, mobile cards + desktop table */}
+      <section
+        aria-label='Leads list'
+        className='bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden'
+      >
+        {/* Mobile: card list */}
+        <div className='sm:hidden p-4 space-y-3'>
+          {pageData.map((lead) => (
+            <div key={lead.id} role='listitem'>
+              <LeadCard lead={lead} onEdit={handleEdit} />
+            </div>
+          ))}
+        </div>
+
+        {/* Desktop: table */}
+        <div className='hidden sm:block overflow-x-auto'>
           <AdminTable columns={TABLE_COLS} ariaLabel='Leads list'>
             {pageData.map((lead) => (
               <LeadRow key={lead.id} lead={lead} onEdit={handleEdit} />
@@ -279,7 +292,7 @@ export default function Leads() {
         </div>
 
         {/* Bottom bar */}
-        <div className='flex flex-wrap items-center justify-between gap-3 px-5 py-4 border-t border-gray-100'>
+        <div className='flex flex-col items-center gap-3 px-5 py-4 border-t border-gray-100 sm:flex-row sm:items-center sm:justify-between'>
           <p className='text-sm text-gray-400 shrink-0'>
             Showing{' '}
             <span className='font-semibold text-gray-700'>
@@ -298,16 +311,7 @@ export default function Leads() {
             />
           </nav>
         </div>
-      </div>
-
-      {/* Cards — mobile */}
-      <div className='sm:hidden space-y-3' role='list' aria-label='Leads list'>
-        {pageData.map((lead) => (
-          <div key={lead.id} role='listitem'>
-            <LeadCard lead={lead} onEdit={handleEdit} />
-          </div>
-        ))}
-      </div>
+      </section>
     </div>
   );
 }

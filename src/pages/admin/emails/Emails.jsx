@@ -570,7 +570,7 @@ export default function Emails() {
           </div>
 
           {/* Bottom bar */}
-          <div className='flex flex-wrap items-center justify-between gap-3 px-5 py-4 border-t border-gray-100'>
+          <div className='flex flex-col items-center gap-3 px-5 py-4 border-t border-gray-100 sm:flex-row sm:items-center sm:justify-between'>
             <p className='text-sm text-gray-400 shrink-0'>
               Showing{' '}
               <span className='font-semibold text-gray-700'>
