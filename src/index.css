@@ -179,8 +179,8 @@ code {
   color: #ffffff;
 }
 
-/* Mobile phones only (≤425px): Top bar header style */
-@media (max-width: 425px) {
+/* Mobile & Tablet (< 1280px): Top bar header style */
+@media (max-width: 1279px) {
   .navbar-container {
     position: fixed;
     top: 0;
@@ -269,8 +269,8 @@ code {
   }
 }
 
-/* Tablets & small desktops (426px - 1024px): Bottom navbar with hamburger */
-@media (min-width: 426px) and (max-width: 1024px) {
+/* Removed - tablets now use mobile layout */
+@media (min-width: 9999px) and (max-width: 9998px) {
   .navbar-container {
     position: fixed;
     bottom: 30px;
@@ -357,8 +357,8 @@ code {
   }
 }
 
-/* Shared animation styles for both mobile and tablet */
-@media (max-width: 1024px) {
+/* Shared animation styles for mobile and tablet */
+@media (max-width: 1279px) {
   .navbar-links .navbar-link,
   .navbar-links .navbar-cta-mobile {
     opacity: 0;
@@ -408,8 +408,8 @@ code {
   }
 }
 
-/* Hide hamburger on desktop (≥1025px) */
-@media (min-width: 1025px) {
+/* Hide hamburger on desktop (≥1280px) */
+@media (min-width: 1280px) {
   .navbar-hamburger {
     display: none;
   }
@@ -420,8 +420,8 @@ code {
   }
 }
 
-/* Desktop: lg to xl (1025px - 1279px) */
-@media (min-width: 1025px) and (max-width: 1279px) {
+/* Removed - now starts at xl */
+@media (min-width: 9999px) and (max-width: 9998px) {
   .navbar-container {
     width: 60%;
     bottom: 30px;
@@ -490,5 +490,35 @@ code {
   .navbar-cta {
     font-size: 14px;
     padding: 10px 26px;
+  }
+}
+
+/* ===== Diagonal Marquee Animations ===== */
+@keyframes marquee-left {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes marquee-right {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+/* ===== Diagonal Marquee Responsive Positioning ===== */
+.diagonal-marquee {
+  top: calc(100vh - 110px);
+}
+
+@media (min-width: 1536px) {
+  .diagonal-marquee {
+    top: calc(100vh - 150px);
   }
 }

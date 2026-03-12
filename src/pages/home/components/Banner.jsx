@@ -6,7 +6,7 @@ const Banner = () => {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth <= 425);
+    const check = () => setIsMobile(window.innerWidth < 1280);
     check();
     window.addEventListener("resize", check);
     const timer = setTimeout(() => setVisible(true), 50);
@@ -19,7 +19,7 @@ const Banner = () => {
   return (
     <div
       className={`relative w-full flex items-start justify-center ${
-        isMobile ? "h-100" : "h-screen"
+        isMobile ? "" : "h-screen"
       }`}
       style={
         !isMobile
