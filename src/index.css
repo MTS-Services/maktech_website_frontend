@@ -522,3 +522,13 @@ code {
     top: calc(100vh - 150px);
   }
 }
+
+/* ===== Testimonials Auto Scroll Animation ===== */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}

@@ -2,6 +2,8 @@ import Banner from './components/Banner'
 import AboutSection from './components/AboutSection'
 import WhatWeDo from './components/WhatWeDo'
 import OurWork from './components/OurWork'
+import WhyChooseUs from './components/WhyChooseUs'
+import Testimonials from './components/Testimonials'
 
 const Home = () => {
   return (
@@ -16,7 +18,7 @@ const Home = () => {
         }}
       >
         <img 
-          src="/public/marquee.png" 
+          src="/marquee.png" 
           alt="Diagonal marquee decoration"
           className="w-full h-auto object-contain"
           style={{
@@ -27,6 +29,8 @@ const Home = () => {
       <AboutSection />
       <WhatWeDo />
       <OurWork />
+      <WhyChooseUs />
+      <Testimonials />
     </div>
   )
 }
