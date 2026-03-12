@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState } from 'react';
 import {
   MdAdd,
   MdRemoveRedEye,
-  MdClose,
   MdArrowBack,
   MdOpenInNew,
 } from 'react-icons/md';
@@ -161,7 +160,7 @@ const getStatusStyle = (status) =>
 
 const TD = 'px-5 py-3.5 text-sm text-gray-700 whitespace-nowrap';
 
-// Shared input class for the create-order form
+// Shared input / select / textarea class for the create-order form
 const INPUT_CLS =
   'w-full px-4 py-2.5 rounded-lg border border-gray-200 text-sm text-gray-700 placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-transparent transition';
 
@@ -172,6 +171,17 @@ const REQUIRED_STAR = (
     *
   </span>
 );
+
+// Drives both the <select> options and the static ORDERS assignedTeam values
+const TEAM_OPTIONS = [
+  'Development Team A',
+  'Development Team B',
+  'Mobile Dev Team C',
+  'Design Team D',
+  'Marketing Team A',
+  'Marketing Team B',
+  'SEO & Analytics Team',
+];
 
 // ─── Order Detail View ────────────────────────────────────────────────────────
 const OrderDetail = ({ order, onBack }) => (
@@ -283,6 +293,8 @@ const CreateOrderForm = ({ onCancel }) => {
     startDate: '',
     deliveryDate: '',
     price: '',
+    assignedTeam: '',
+    notes: '',
   });
 
   const handleChange = (e) =>
@@ -291,19 +303,23 @@ const CreateOrderForm = ({ onCancel }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // TODO: wire to create order API
-    toast.success('Order created successfully!');
+    toast.success('Order created & payment link generated!');
     onCancel();
   };
 
   return (
     <div className='space-y-6 pb-8'>
+      {/* Back nav — consistent with OrderDetail pattern */}
       <button
         type='button'
         onClick={onCancel}
-        className='inline-flex cursor-pointer items-center gap-1.5 text-sm text-gray-500 hover:text-gray-800 transition-colors duration-150'
+        className='inline-flex cursor-pointer items-center gap-1.5 text-sm text-gray-500 hover:text-gray-800 transition-colors duration-150 group'
       >
-        <MdClose className='text-base' aria-hidden='true' />
-        Cancel
+        <MdArrowBack
+          className='text-base group-hover:-translate-x-0.5 transition-transform duration-150'
+          aria-hidden='true'
+        />
+        Back to Orders
       </button>
 
       <div className='bg-white rounded-xl border border-gray-100 shadow-sm p-6 sm:p-8'>
@@ -312,10 +328,11 @@ const CreateOrderForm = ({ onCancel }) => {
         </h1>
 
         <form onSubmit={handleSubmit} noValidate>
-          <div className='grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4 mb-6'>
+          {/* 2-col grid: Client Name | Service Name | Start Date | Delivery Date | Price | Assigned Team */}
+          <div className='grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4 mb-4'>
             <div>
               <label htmlFor='co-client' className={LABEL_CLS}>
-                Client{REQUIRED_STAR}
+                Client Name{REQUIRED_STAR}
               </label>
               <input
                 id='co-client'
@@ -323,16 +340,15 @@ const CreateOrderForm = ({ onCancel }) => {
                 type='text'
                 value={form.client}
                 onChange={handleChange}
-                autoComplete='off'
+                autoComplete='name'
                 required
-                placeholder='Client name'
                 className={INPUT_CLS}
               />
             </div>
 
             <div>
               <label htmlFor='co-service' className={LABEL_CLS}>
-                Service{REQUIRED_STAR}
+                Service Name{REQUIRED_STAR}
               </label>
               <input
                 id='co-service'
@@ -342,7 +358,6 @@ const CreateOrderForm = ({ onCancel }) => {
                 onChange={handleChange}
                 autoComplete='off'
                 required
-                placeholder='e.g. Website Development'
                 className={INPUT_CLS}
               />
             </div>
@@ -379,7 +394,7 @@ const CreateOrderForm = ({ onCancel }) => {
 
             <div>
               <label htmlFor='co-price' className={LABEL_CLS}>
-                Price{REQUIRED_STAR}
+                Price ($){REQUIRED_STAR}
               </label>
               <input
                 id='co-price'
@@ -389,18 +404,58 @@ const CreateOrderForm = ({ onCancel }) => {
                 onChange={handleChange}
                 autoComplete='off'
                 required
-                placeholder='e.g. $85,000'
                 className={INPUT_CLS}
               />
             </div>
+
+            <div>
+              <label htmlFor='co-team' className={LABEL_CLS}>
+                Assigned Team{REQUIRED_STAR}
+              </label>
+              {/* Native <select> — best keyboard/screen-reader support, no extra JS */}
+              <select
+                id='co-team'
+                name='assignedTeam'
+                value={form.assignedTeam}
+                onChange={handleChange}
+                required
+                className={`${INPUT_CLS} appearance-none bg-[url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%236b7280'%3E%3Cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd'/%3E%3C/svg%3E")] bg-no-repeat bg-position-[right_0.75rem_center] bg-size-[1.25rem] pr-10`}
+              >
+                <option value='' disabled>
+                  Select a team
+                </option>
+                {TEAM_OPTIONS.map((team) => (
+                  <option key={team} value={team}>
+                    {team}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
 
-          <div className='flex items-center gap-3'>
+          {/* Project Notes — full-width, optional */}
+          <div className='mb-6'>
+            <label htmlFor='co-notes' className={LABEL_CLS}>
+              Project Notes
+            </label>
+            <textarea
+              id='co-notes'
+              name='notes'
+              value={form.notes}
+              onChange={handleChange}
+              rows={4}
+              autoComplete='off'
+              className={`${INPUT_CLS} resize-none`}
+            />
+          </div>
+
+          <div className='flex flex-wrap items-center gap-3'>
             <button
               type='submit'
-              className='inline-flex cursor-pointer items-center px-5 py-2.5 text-sm font-semibold text-white bg-black-bg-cta rounded-lg hover:bg-[#e5501a] hover:shadow-[0_4px_14px_rgba(255,101,51,0.35)] transition-all duration-200 active:scale-[0.97]'
+              className='inline-flex cursor-pointer items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-black-bg-cta rounded-lg hover:bg-[#e5501a] hover:shadow-[0_4px_14px_rgba(255,101,51,0.35)] transition-all duration-200 active:scale-[0.97]'
             >
-              Create Order
+              <MdOpenInNew className='text-base shrink-0' aria-hidden='true' />
+              Create Order &amp; Generate Payment Link
             </button>
             <button
               type='button'
