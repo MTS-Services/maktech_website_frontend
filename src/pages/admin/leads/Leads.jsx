@@ -120,24 +120,28 @@ const INPUT_CLS =
 
 const LABEL_CLS = 'block text-sm font-medium text-gray-600 mb-1.5';
 
-// ─── Edit Lead Form ───────────────────────────────────────────────────────────
-const EditLeadForm = ({ lead, onCancel }) => {
-  const [form, setForm] = useState({
-    name: lead.name,
-    company: lead.company,
-    phone: lead.phone,
-    email: lead.email,
-    location: lead.location,
-  });
+// ─── Shared form shell (DRY) — used by both Add and Edit forms ───────────────
+const REQUIRED_STAR = (
+  <span className='text-red-500 ml-0.5' aria-hidden='true'>
+    *
+  </span>
+);
+
+const LeadFormShell = ({
+  title,
+  initialValues,
+  submitLabel,
+  onSubmit,
+  onCancel,
+}) => {
+  const [form, setForm] = useState(initialValues);
 
   const handleChange = (e) =>
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // TODO: wire to update lead API
-    toast.success('Lead updated successfully!');
-    onCancel();
+    onSubmit(form);
   };
 
   return (
@@ -146,7 +150,7 @@ const EditLeadForm = ({ lead, onCancel }) => {
       <button
         type='button'
         onClick={onCancel}
-        className='inline-flex cursor-pointer items-center gap-1.5 text-sm text-gray-500 hover:text-gray-800 transition-colors duration-150 group'
+        className='inline-flex cursor-pointer items-center gap-1.5 text-sm text-gray-500 hover:text-gray-800 transition-colors duration-150'
       >
         <MdClose className='text-base' aria-hidden='true' />
         Cancel
@@ -154,20 +158,16 @@ const EditLeadForm = ({ lead, onCancel }) => {
 
       {/* Form card */}
       <div className='bg-white rounded-xl border border-gray-100 shadow-sm p-6 sm:p-8'>
-        <h1 className='text-xl font-bold text-gray-900 mb-6'>Edit Lead</h1>
+        <h1 className='text-xl font-bold text-gray-900 mb-6'>{title}</h1>
 
         <form onSubmit={handleSubmit} noValidate>
           <div className='grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4 mb-6'>
-            {/* Name */}
             <div>
-              <label htmlFor='edit-name' className={LABEL_CLS}>
-                Name{' '}
-                <span className='text-red-500' aria-hidden='true'>
-                  *
-                </span>
+              <label htmlFor='lf-name' className={LABEL_CLS}>
+                Name{REQUIRED_STAR}
               </label>
               <input
-                id='edit-name'
+                id='lf-name'
                 name='name'
                 type='text'
                 value={form.name}
@@ -178,16 +178,12 @@ const EditLeadForm = ({ lead, onCancel }) => {
               />
             </div>
 
-            {/* Company Name */}
             <div>
-              <label htmlFor='edit-company' className={LABEL_CLS}>
-                Company Name{' '}
-                <span className='text-red-500' aria-hidden='true'>
-                  *
-                </span>
+              <label htmlFor='lf-company' className={LABEL_CLS}>
+                Company Name{REQUIRED_STAR}
               </label>
               <input
-                id='edit-company'
+                id='lf-company'
                 name='company'
                 type='text'
                 value={form.company}
@@ -198,16 +194,12 @@ const EditLeadForm = ({ lead, onCancel }) => {
               />
             </div>
 
-            {/* Phone */}
             <div>
-              <label htmlFor='edit-phone' className={LABEL_CLS}>
-                Phone{' '}
-                <span className='text-red-500' aria-hidden='true'>
-                  *
-                </span>
+              <label htmlFor='lf-phone' className={LABEL_CLS}>
+                Phone{REQUIRED_STAR}
               </label>
               <input
-                id='edit-phone'
+                id='lf-phone'
                 name='phone'
                 type='tel'
                 value={form.phone}
@@ -218,16 +210,12 @@ const EditLeadForm = ({ lead, onCancel }) => {
               />
             </div>
 
-            {/* Email */}
             <div>
-              <label htmlFor='edit-email' className={LABEL_CLS}>
-                Email{' '}
-                <span className='text-red-500' aria-hidden='true'>
-                  *
-                </span>
+              <label htmlFor='lf-email' className={LABEL_CLS}>
+                Email{REQUIRED_STAR}
               </label>
               <input
-                id='edit-email'
+                id='lf-email'
                 name='email'
                 type='email'
                 value={form.email}
@@ -240,14 +228,11 @@ const EditLeadForm = ({ lead, onCancel }) => {
 
             {/* Location — half-row on sm+ */}
             <div>
-              <label htmlFor='edit-location' className={LABEL_CLS}>
-                Location{' '}
-                <span className='text-red-500' aria-hidden='true'>
-                  *
-                </span>
+              <label htmlFor='lf-location' className={LABEL_CLS}>
+                Location{REQUIRED_STAR}
               </label>
               <input
-                id='edit-location'
+                id='lf-location'
                 name='location'
                 type='text'
                 value={form.location}
@@ -259,13 +244,12 @@ const EditLeadForm = ({ lead, onCancel }) => {
             </div>
           </div>
 
-          {/* Actions */}
           <div className='flex items-center gap-3'>
             <button
               type='submit'
               className='inline-flex cursor-pointer items-center px-5 py-2.5 text-sm font-semibold text-white bg-black-bg-cta rounded-lg hover:bg-[#e5501a] hover:shadow-[0_4px_14px_rgba(255,101,51,0.35)] transition-all duration-200 active:scale-[0.97]'
             >
-              Update Lead
+              {submitLabel}
             </button>
             <button
               type='button'
@@ -278,6 +262,56 @@ const EditLeadForm = ({ lead, onCancel }) => {
         </form>
       </div>
     </div>
+  );
+};
+
+const EMPTY_LEAD = {
+  name: '',
+  company: '',
+  phone: '',
+  email: '',
+  location: '',
+};
+
+// ─── Add New Lead form ────────────────────────────────────────────────────────
+const AddLeadForm = ({ onCancel }) => {
+  const handleSubmit = () => {
+    // TODO: wire to create lead API
+    toast.success('Lead added successfully!');
+    onCancel();
+  };
+  return (
+    <LeadFormShell
+      title='Add New Lead'
+      initialValues={EMPTY_LEAD}
+      submitLabel='Add Lead'
+      onSubmit={handleSubmit}
+      onCancel={onCancel}
+    />
+  );
+};
+
+// ─── Edit Lead form ───────────────────────────────────────────────────────────
+const EditLeadForm = ({ lead, onCancel }) => {
+  const handleSubmit = () => {
+    // TODO: wire to update lead API
+    toast.success('Lead updated successfully!');
+    onCancel();
+  };
+  return (
+    <LeadFormShell
+      title='Edit Lead'
+      initialValues={{
+        name: lead.name,
+        company: lead.company,
+        phone: lead.phone,
+        email: lead.email,
+        location: lead.location,
+      }}
+      submitLabel='Update Lead'
+      onSubmit={handleSubmit}
+      onCancel={onCancel}
+    />
   );
 };
 
@@ -390,13 +424,17 @@ export default function Leads() {
   const handlePage = (p) => setPage(Math.max(1, Math.min(totalPages, p)));
 
   const [editingLead, setEditingLead] = useState(null);
+  const [addingLead, setAddingLead] = useState(false);
   const handleEdit = (lead) => setEditingLead(lead);
   const handleCancelEdit = () => setEditingLead(null);
+  const handleCancelAdd = () => setAddingLead(false);
 
   return (
     <div className='space-y-6 pb-8'>
       {editingLead ? (
         <EditLeadForm lead={editingLead} onCancel={handleCancelEdit} />
+      ) : addingLead ? (
+        <AddLeadForm onCancel={handleCancelAdd} />
       ) : (
         <>
           {/* Page Header */}
@@ -412,6 +450,7 @@ export default function Leads() {
 
             <button
               type='button'
+              onClick={() => setAddingLead(true)}
               className='group inline-flex cursor-pointer items-center gap-2 overflow-hidden px-5 py-2.5 text-sm font-semibold text-white bg-black-bg-cta rounded-lg hover:bg-[#e5501a] hover:shadow-[0_4px_14px_rgba(255,101,51,0.35)] transition-all duration-200 active:scale-[0.97]'
             >
               <MdPersonAdd
