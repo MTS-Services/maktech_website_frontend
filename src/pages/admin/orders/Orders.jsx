@@ -1,5 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
-import { MdAdd, MdRemoveRedEye, MdClose, MdArrowBack } from 'react-icons/md';
+import {
+  MdAdd,
+  MdRemoveRedEye,
+  MdClose,
+  MdArrowBack,
+  MdOpenInNew,
+} from 'react-icons/md';
 import { toast } from 'react-toastify';
 import AdminTable from '../../../components/AdminTable';
 import Pagination from '../../../components/Pagination';
@@ -14,8 +20,10 @@ const ORDERS = [
     service: 'Website Development',
     startDate: '2026-01-15',
     deliveryDate: '2026-02-15',
-    price: '$85,000',
+    price: '৳85,000',
     status: 'In progress',
+    assignedTeam: 'Development Team A',
+    notes: 'E-commerce website with payment gateway integration',
   },
   {
     id: 2,
@@ -24,8 +32,10 @@ const ORDERS = [
     service: 'Digital Marketing',
     startDate: '2026-01-20',
     deliveryDate: '2026-02-20',
-    price: '$45,000',
+    price: '৳45,000',
     status: 'In progress',
+    assignedTeam: 'Marketing Team B',
+    notes: 'Focus on social media channels and email campaigns',
   },
   {
     id: 3,
@@ -34,8 +44,10 @@ const ORDERS = [
     service: 'Mobile App Development',
     startDate: '2025-12-01',
     deliveryDate: '2026-01-15',
-    price: '$150,000',
+    price: '৳1,50,000',
     status: 'Completed',
+    assignedTeam: 'Mobile Dev Team C',
+    notes: 'Cross-platform app for iOS and Android with offline support',
   },
   {
     id: 4,
@@ -44,8 +56,10 @@ const ORDERS = [
     service: 'SEO Optimization',
     startDate: '2026-01-25',
     deliveryDate: '2026-03-25',
-    price: '$35,000',
+    price: '৳35,000',
     status: 'Pending',
+    assignedTeam: 'SEO & Analytics Team',
+    notes: 'Improve organic rankings for top 20 target keywords',
   },
   {
     id: 5,
@@ -54,8 +68,10 @@ const ORDERS = [
     service: 'E-commerce Development',
     startDate: '2026-02-01',
     deliveryDate: '2026-04-01',
-    price: '$120,000',
+    price: '৳1,20,000',
     status: 'Pending',
+    assignedTeam: 'Development Team A',
+    notes: 'Multi-vendor marketplace with Stripe and bKash integration',
   },
   {
     id: 6,
@@ -64,8 +80,10 @@ const ORDERS = [
     service: 'Brand Identity Design',
     startDate: '2026-01-10',
     deliveryDate: '2026-02-10',
-    price: '$25,000',
+    price: '৳25,000',
     status: 'Completed',
+    assignedTeam: 'Design Team D',
+    notes: 'Logo, brand guidelines, business card, and stationery kit',
   },
   {
     id: 7,
@@ -74,8 +92,10 @@ const ORDERS = [
     service: 'Content Management System',
     startDate: '2026-02-05',
     deliveryDate: '2026-04-05',
-    price: '$70,000',
+    price: '৳70,000',
     status: 'In progress',
+    assignedTeam: 'Development Team B',
+    notes: 'Headless CMS with custom admin panel and role-based access',
   },
   {
     id: 8,
@@ -84,8 +104,10 @@ const ORDERS = [
     service: 'Social Media Campaign',
     startDate: '2026-02-10',
     deliveryDate: '2026-03-10',
-    price: '$18,000',
+    price: '৳18,000',
     status: 'Pending',
+    assignedTeam: 'Marketing Team A',
+    notes: '60-day campaign targeting Facebook and Instagram audiences',
   },
   {
     id: 9,
@@ -94,8 +116,10 @@ const ORDERS = [
     service: 'Mobile App Development',
     startDate: '2026-01-05',
     deliveryDate: '2026-03-05',
-    price: '$95,000',
+    price: '৳95,000',
     status: 'In progress',
+    assignedTeam: 'Mobile Dev Team C',
+    notes: 'Fintech app with biometric authentication and transaction history',
   },
   {
     id: 10,
@@ -104,8 +128,11 @@ const ORDERS = [
     service: 'Website Redesign',
     startDate: '2025-11-15',
     deliveryDate: '2026-01-15',
-    price: '$55,000',
+    price: '৳55,000',
     status: 'Completed',
+    assignedTeam: 'Development Team A',
+    notes:
+      'Full redesign with modern UI/UX and Lighthouse performance optimization',
   },
 ];
 
@@ -162,10 +189,14 @@ const OrderDetail = ({ order, onBack }) => (
     </button>
 
     <div className='bg-white rounded-xl border border-gray-100 shadow-sm p-6 sm:p-8'>
+      {/* Header: order number + service subtitle + status badge */}
       <div className='flex items-start justify-between gap-4 mb-6'>
-        <h1 className='text-xl font-bold text-gray-900'>
-          Order {order.orderId}
-        </h1>
+        <div>
+          <h1 className='text-xl font-bold text-gray-900'>
+            Order {order.orderId}
+          </h1>
+          <p className='text-sm text-gray-500 mt-0.5'>{order.service}</p>
+        </div>
         <span
           className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold shrink-0 ${getStatusStyle(order.status)}`}
         >
@@ -173,22 +204,73 @@ const OrderDetail = ({ order, onBack }) => (
         </span>
       </div>
 
-      <dl className='grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4'>
-        {[
-          { label: 'Client', value: order.client },
-          { label: 'Service', value: order.service },
-          { label: 'Start Date', value: order.startDate },
-          { label: 'Delivery Date', value: order.deliveryDate },
-          { label: 'Price', value: order.price },
-        ].map(({ label, value }) => (
-          <div key={label} className='border-b border-gray-50 pb-4'>
-            <dt className='text-xs font-medium text-gray-400 uppercase tracking-wide mb-1'>
-              {label}
-            </dt>
-            <dd className='text-base text-gray-800 font-medium'>{value}</dd>
+      {/* Field groups — divide-y creates the visual row separators */}
+      <dl className='divide-y divide-gray-100'>
+        {/* Row 1: Client Name + Service Name */}
+        <div className='grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4 py-5 first:pt-0'>
+          <div>
+            <dt className='text-sm text-gray-400 mb-1'>Client Name</dt>
+            <dd className='text-base text-gray-800 font-medium'>
+              {order.client}
+            </dd>
           </div>
-        ))}
+          <div>
+            <dt className='text-sm text-gray-400 mb-1'>Service Name</dt>
+            <dd className='text-base text-gray-800 font-medium'>
+              {order.service}
+            </dd>
+          </div>
+        </div>
+
+        {/* Row 2: Start Date + Delivery Date */}
+        <div className='grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4 py-5'>
+          <div>
+            <dt className='text-sm text-gray-400 mb-1'>Start Date</dt>
+            <dd className='text-base text-gray-800 font-medium'>
+              {order.startDate}
+            </dd>
+          </div>
+          <div>
+            <dt className='text-sm text-gray-400 mb-1'>Delivery Date</dt>
+            <dd className='text-base text-gray-800 font-medium'>
+              {order.deliveryDate}
+            </dd>
+          </div>
+        </div>
+
+        {/* Row 3: Price + Assigned Team + Project Notes share one group (no divider between them) */}
+        <div className='py-5 space-y-4'>
+          <div className='grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4'>
+            <div>
+              <dt className='text-sm text-gray-400 mb-1'>Price</dt>
+              <dd className='text-base text-gray-800 font-semibold'>
+                {order.price}
+              </dd>
+            </div>
+            <div>
+              <dt className='text-sm text-gray-400 mb-1'>Assigned Team</dt>
+              <dd className='text-base text-gray-800 font-medium'>
+                {order.assignedTeam}
+              </dd>
+            </div>
+          </div>
+          <div>
+            <dt className='text-sm text-gray-400 mb-1'>Project Notes</dt>
+            <dd className='text-base text-gray-800'>{order.notes}</dd>
+          </div>
+        </div>
       </dl>
+
+      {/* Get Payment Link — external action */}
+      <div className='pt-2'>
+        <button
+          type='button'
+          className='inline-flex cursor-pointer items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-black-bg-cta rounded-lg hover:bg-[#e5501a] hover:shadow-[0_4px_14px_rgba(255,101,51,0.35)] transition-all duration-200 active:scale-[0.97]'
+        >
+          <MdOpenInNew className='text-base shrink-0' aria-hidden='true' />
+          Get Payment Link
+        </button>
+      </div>
     </div>
   </div>
 );
