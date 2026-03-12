@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
-import { MdPersonAdd, MdEdit } from 'react-icons/md';
+import { MdPersonAdd, MdEdit, MdClose } from 'react-icons/md';
+import { toast } from 'react-toastify';
 import AdminTable from '../../../components/AdminTable';
 import Pagination from '../../../components/Pagination';
 import { getPageRange } from '../../../utils/helpers';
@@ -113,6 +114,173 @@ const TABLE_COLS = [
 // TD — shared cell class for LeadRow; thead is handled by AdminTable
 const TD = 'px-5 py-3.5 text-sm text-gray-700 whitespace-nowrap';
 
+// Shared input class — avoids repeating across all edit form fields
+const INPUT_CLS =
+  'w-full px-4 py-2.5 rounded-lg border border-gray-200 text-sm text-gray-700 placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-transparent transition';
+
+const LABEL_CLS = 'block text-sm font-medium text-gray-600 mb-1.5';
+
+// ─── Edit Lead Form ───────────────────────────────────────────────────────────
+const EditLeadForm = ({ lead, onCancel }) => {
+  const [form, setForm] = useState({
+    name: lead.name,
+    company: lead.company,
+    phone: lead.phone,
+    email: lead.email,
+    location: lead.location,
+  });
+
+  const handleChange = (e) =>
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // TODO: wire to update lead API
+    toast.success('Lead updated successfully!');
+    onCancel();
+  };
+
+  return (
+    <div className='space-y-6 pb-8'>
+      {/* Cancel link */}
+      <button
+        type='button'
+        onClick={onCancel}
+        className='inline-flex cursor-pointer items-center gap-1.5 text-sm text-gray-500 hover:text-gray-800 transition-colors duration-150 group'
+      >
+        <MdClose className='text-base' aria-hidden='true' />
+        Cancel
+      </button>
+
+      {/* Form card */}
+      <div className='bg-white rounded-xl border border-gray-100 shadow-sm p-6 sm:p-8'>
+        <h1 className='text-xl font-bold text-gray-900 mb-6'>Edit Lead</h1>
+
+        <form onSubmit={handleSubmit} noValidate>
+          <div className='grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4 mb-6'>
+            {/* Name */}
+            <div>
+              <label htmlFor='edit-name' className={LABEL_CLS}>
+                Name{' '}
+                <span className='text-red-500' aria-hidden='true'>
+                  *
+                </span>
+              </label>
+              <input
+                id='edit-name'
+                name='name'
+                type='text'
+                value={form.name}
+                onChange={handleChange}
+                autoComplete='name'
+                required
+                className={INPUT_CLS}
+              />
+            </div>
+
+            {/* Company Name */}
+            <div>
+              <label htmlFor='edit-company' className={LABEL_CLS}>
+                Company Name{' '}
+                <span className='text-red-500' aria-hidden='true'>
+                  *
+                </span>
+              </label>
+              <input
+                id='edit-company'
+                name='company'
+                type='text'
+                value={form.company}
+                onChange={handleChange}
+                autoComplete='organization'
+                required
+                className={INPUT_CLS}
+              />
+            </div>
+
+            {/* Phone */}
+            <div>
+              <label htmlFor='edit-phone' className={LABEL_CLS}>
+                Phone{' '}
+                <span className='text-red-500' aria-hidden='true'>
+                  *
+                </span>
+              </label>
+              <input
+                id='edit-phone'
+                name='phone'
+                type='tel'
+                value={form.phone}
+                onChange={handleChange}
+                autoComplete='tel'
+                required
+                className={INPUT_CLS}
+              />
+            </div>
+
+            {/* Email */}
+            <div>
+              <label htmlFor='edit-email' className={LABEL_CLS}>
+                Email{' '}
+                <span className='text-red-500' aria-hidden='true'>
+                  *
+                </span>
+              </label>
+              <input
+                id='edit-email'
+                name='email'
+                type='email'
+                value={form.email}
+                onChange={handleChange}
+                autoComplete='email'
+                required
+                className={INPUT_CLS}
+              />
+            </div>
+
+            {/* Location — half-row on sm+ */}
+            <div>
+              <label htmlFor='edit-location' className={LABEL_CLS}>
+                Location{' '}
+                <span className='text-red-500' aria-hidden='true'>
+                  *
+                </span>
+              </label>
+              <input
+                id='edit-location'
+                name='location'
+                type='text'
+                value={form.location}
+                onChange={handleChange}
+                autoComplete='address-level2'
+                required
+                className={INPUT_CLS}
+              />
+            </div>
+          </div>
+
+          {/* Actions */}
+          <div className='flex items-center gap-3'>
+            <button
+              type='submit'
+              className='inline-flex cursor-pointer items-center px-5 py-2.5 text-sm font-semibold text-white bg-black-bg-cta rounded-lg hover:bg-[#e5501a] hover:shadow-[0_4px_14px_rgba(255,101,51,0.35)] transition-all duration-200 active:scale-[0.97]'
+            >
+              Update Lead
+            </button>
+            <button
+              type='button'
+              onClick={onCancel}
+              className='inline-flex cursor-pointer items-center px-5 py-2.5 text-sm font-semibold text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-all duration-200 active:scale-[0.97]'
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
+
 // ─── Mobile card ──────────────────────────────────────────────────────────────
 const LeadCard = ({ lead, onEdit }) => (
   <article className='bg-white rounded-xl border border-gray-100 shadow-sm p-4'>
@@ -220,98 +388,110 @@ export default function Leads() {
   const rangeEnd = Math.min(page * PAGE_SIZE, LEADS.length);
 
   const handlePage = (p) => setPage(Math.max(1, Math.min(totalPages, p)));
-  const handleEdit = (lead) => {
-    // TODO: open edit lead modal or navigate to edit page
-    void lead;
-  };
+
+  const [editingLead, setEditingLead] = useState(null);
+  const handleEdit = (lead) => setEditingLead(lead);
+  const handleCancelEdit = () => setEditingLead(null);
 
   return (
     <div className='space-y-6 pb-8'>
-      {/* Page Header */}
-      <div className='flex flex-wrap items-start justify-between gap-4'>
-        <div>
-          <h1 className='text-2xl sm:text-3xl font-bold text-gray-900 leading-tight'>
-            Leads
-          </h1>
-          <p className='text-base text-gray-500 mt-1'>
-            Manage your business growth pipeline
-          </p>
-        </div>
-
-        <button
-          type='button'
-          className='group inline-flex cursor-pointer items-center gap-2 overflow-hidden px-5 py-2.5 text-sm font-semibold text-white bg-black-bg-cta rounded-lg hover:bg-[#e5501a] hover:shadow-[0_4px_14px_rgba(255,101,51,0.35)] transition-all duration-200 active:scale-[0.97]'
-        >
-          <MdPersonAdd
-            className='text-lg shrink-0 transition-transform duration-300 ease-out group-hover:translate-x-1'
-            aria-hidden='true'
-          />
-          <span className='inline-block -translate-x-1 transition-transform duration-300 ease-out delay-100 group-hover:translate-x-0'>
-            Add New Lead
-          </span>
-        </button>
-      </div>
-
-      {/* Stat Cards */}
-      <div className='grid grid-cols-1 sm:grid-cols-2 gap-5'>
-        <div className='bg-white rounded-xl border border-gray-100 shadow-sm p-6'>
-          <p className='text-sm font-medium text-gray-500 mb-2'>Total Leads</p>
-          <p className='text-4xl font-bold text-gray-900'>{LEADS.length}</p>
-        </div>
-
-        <div className='bg-white rounded-xl border border-gray-100 shadow-sm p-6'>
-          <p className='text-sm font-medium text-gray-500 mb-2'>
-            New Leads This Week
-          </p>
-          <p className='text-4xl font-bold text-gray-900'>{thisWeek}</p>
-          <p className={`mt-2 text-sm font-medium ${diffColor}`}>{diffLabel}</p>
-        </div>
-      </div>
-
-      {/* Leads list — single card, mobile cards + desktop table */}
-      <section
-        aria-label='Leads list'
-        className='bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden'
-      >
-        {/* Mobile: card list */}
-        <div className='sm:hidden p-4 space-y-3'>
-          {pageData.map((lead) => (
-            <div key={lead.id} role='listitem'>
-              <LeadCard lead={lead} onEdit={handleEdit} />
+      {editingLead ? (
+        <EditLeadForm lead={editingLead} onCancel={handleCancelEdit} />
+      ) : (
+        <>
+          {/* Page Header */}
+          <div className='flex flex-wrap items-start justify-between gap-4'>
+            <div>
+              <h1 className='text-2xl sm:text-3xl font-bold text-gray-900 leading-tight'>
+                Leads
+              </h1>
+              <p className='text-base text-gray-500 mt-1'>
+                Manage your business growth pipeline
+              </p>
             </div>
-          ))}
-        </div>
 
-        {/* Desktop: table */}
-        <div className='hidden sm:block overflow-x-auto'>
-          <AdminTable columns={TABLE_COLS} ariaLabel='Leads list'>
-            {pageData.map((lead) => (
-              <LeadRow key={lead.id} lead={lead} onEdit={handleEdit} />
-            ))}
-          </AdminTable>
-        </div>
+            <button
+              type='button'
+              className='group inline-flex cursor-pointer items-center gap-2 overflow-hidden px-5 py-2.5 text-sm font-semibold text-white bg-black-bg-cta rounded-lg hover:bg-[#e5501a] hover:shadow-[0_4px_14px_rgba(255,101,51,0.35)] transition-all duration-200 active:scale-[0.97]'
+            >
+              <MdPersonAdd
+                className='text-lg shrink-0 transition-transform duration-300 ease-out group-hover:translate-x-1'
+                aria-hidden='true'
+              />
+              <span className='inline-block -translate-x-1 transition-transform duration-300 ease-out delay-100 group-hover:translate-x-0'>
+                Add New Lead
+              </span>
+            </button>
+          </div>
 
-        {/* Bottom bar */}
-        <div className='flex flex-col items-center gap-3 px-5 py-4 border-t border-gray-100 sm:flex-row sm:items-center sm:justify-between'>
-          <p className='text-sm text-gray-400 shrink-0'>
-            Showing{' '}
-            <span className='font-semibold text-gray-700'>
-              {rangeStart} to {rangeEnd}
-            </span>{' '}
-            of{' '}
-            <span className='font-semibold text-gray-700'>{LEADS.length}</span>{' '}
-            leads
-          </p>
-          <nav aria-label='Pagination'>
-            <Pagination
-              page={page}
-              totalPages={totalPages}
-              pageRange={pageRange}
-              onPage={handlePage}
-            />
-          </nav>
-        </div>
-      </section>
+          {/* Stat Cards */}
+          <div className='grid grid-cols-1 sm:grid-cols-2 gap-5'>
+            <div className='bg-white rounded-xl border border-gray-100 shadow-sm p-6'>
+              <p className='text-sm font-medium text-gray-500 mb-2'>
+                Total Leads
+              </p>
+              <p className='text-4xl font-bold text-gray-900'>{LEADS.length}</p>
+            </div>
+
+            <div className='bg-white rounded-xl border border-gray-100 shadow-sm p-6'>
+              <p className='text-sm font-medium text-gray-500 mb-2'>
+                New Leads This Week
+              </p>
+              <p className='text-4xl font-bold text-gray-900'>{thisWeek}</p>
+              <p className={`mt-2 text-sm font-medium ${diffColor}`}>
+                {diffLabel}
+              </p>
+            </div>
+          </div>
+
+          {/* Leads list — single card, mobile cards + desktop table */}
+          <section
+            aria-label='Leads list'
+            className='bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden'
+          >
+            {/* Mobile: card list */}
+            <div className='sm:hidden p-4 space-y-3'>
+              {pageData.map((lead) => (
+                <div key={lead.id} role='listitem'>
+                  <LeadCard lead={lead} onEdit={handleEdit} />
+                </div>
+              ))}
+            </div>
+
+            {/* Desktop: table */}
+            <div className='hidden sm:block overflow-x-auto'>
+              <AdminTable columns={TABLE_COLS} ariaLabel='Leads list'>
+                {pageData.map((lead) => (
+                  <LeadRow key={lead.id} lead={lead} onEdit={handleEdit} />
+                ))}
+              </AdminTable>
+            </div>
+
+            {/* Bottom bar */}
+            <div className='flex flex-col items-center gap-3 px-5 py-4 border-t border-gray-100 sm:flex-row sm:items-center sm:justify-between'>
+              <p className='text-sm text-gray-400 shrink-0'>
+                Showing{' '}
+                <span className='font-semibold text-gray-700'>
+                  {rangeStart} to {rangeEnd}
+                </span>{' '}
+                of{' '}
+                <span className='font-semibold text-gray-700'>
+                  {LEADS.length}
+                </span>{' '}
+                leads
+              </p>
+              <nav aria-label='Pagination'>
+                <Pagination
+                  page={page}
+                  totalPages={totalPages}
+                  pageRange={pageRange}
+                  onPage={handlePage}
+                />
+              </nav>
+            </div>
+          </section>
+        </>
+      )}
     </div>
   );
 }
