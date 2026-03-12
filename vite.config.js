@@ -7,6 +7,11 @@ export default defineConfig({
   server: {
     port: 5173,
     open: true,
+    host: true,
+  },
+  preview: {
+    port: 3000,
+    host: '0.0.0.0',
   },
   resolve: {
     alias: {
