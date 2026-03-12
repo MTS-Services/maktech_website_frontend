@@ -1,14 +1,15 @@
 import { useState, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import StatCard from '../../../components/StatCard';
+import AdminTable from '../../../components/AdminTable';
+import Pagination from '../../../components/Pagination';
+import { getPageRange } from '../../../utils/helpers';
 import {
   MdEmail,
   MdOutlineEmail,
   MdScheduleSend,
   MdReply,
   MdAdd,
-  MdChevronLeft,
-  MdChevronRight,
   MdArrowBack,
   MdSend,
 } from 'react-icons/md';
@@ -214,22 +215,12 @@ const formatDetailDate = (dt) => {
   return idx === -1 ? dt : `${dt.slice(0, idx)} at ${dt.slice(idx + 1)}`;
 };
 
-/*
- * Windowed page-range algorithm.
- * Always shows: first + last + ±2 around current + '…' sentinels.
- * Falls back to full list when total ≤ 7 (no ellipsis needed).
- */
-const getPageRange = (current, total) => {
-  if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
-  const left = Math.max(2, current - 2);
-  const right = Math.min(total - 1, current + 2);
-  const range = [1];
-  if (left > 2) range.push('…');
-  for (let i = left; i <= right; i++) range.push(i);
-  if (right < total - 1) range.push('…');
-  range.push(total);
-  return range;
-};
+const EMAIL_COLS = [
+  { label: 'Client Name' },
+  { label: 'Subject' },
+  { label: 'Date & Time' },
+  { label: 'Status', align: 'right' },
+];
 
 // ─── Reply Form ─────────────────────────────────────────────────────────────
 const ReplyForm = ({ email, onBack }) => (
@@ -453,7 +444,7 @@ const EmailRow = ({ email, onSelect }) => {
             aria-hidden='true'
           />
           <span
-            className={`text-base ${
+            className={`text-sm ${
               isUnread
                 ? 'font-semibold text-gray-900'
                 : 'font-medium text-gray-700'
@@ -465,7 +456,7 @@ const EmailRow = ({ email, onSelect }) => {
       </td>
       <td className='py-3.5 px-5'>
         <span
-          className={`text-base ${
+          className={`text-sm ${
             isUnread
               ? 'font-semibold text-gray-900'
               : 'font-normal text-gray-600'
@@ -475,7 +466,7 @@ const EmailRow = ({ email, onSelect }) => {
         </span>
       </td>
       <td className='py-3.5 px-5'>
-        <span className='text-base text-gray-400 whitespace-nowrap'>
+        <span className='text-sm text-gray-400 whitespace-nowrap'>
           {datetime}
         </span>
       </td>
@@ -489,143 +480,6 @@ const EmailRow = ({ email, onSelect }) => {
     </tr>
   );
 };
-
-// ─── Pagination ──────────────────────────────────────────────────────────────
-const Pagination = ({ page, totalPages, pageRange, onPage }) => {
-  if (totalPages <= 1) return null;
-  return (
-    <div className='flex items-center gap-1 flex-wrap'>
-      <button
-        type='button'
-        onClick={() => onPage(page - 1)}
-        disabled={page === 1}
-        aria-label='Previous page'
-        className='inline-flex items-center justify-center w-9 h-9 rounded-lg border border-gray-200 text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors duration-150'
-      >
-        <MdChevronLeft className='text-xl' aria-hidden='true' />
-      </button>
-
-      {pageRange.map((p, i) =>
-        p === '…' ? (
-          <span
-            key={`ell-${i}`}
-            className='w-9 h-9 inline-flex items-center justify-center text-gray-400 text-base select-none'
-          >
-            &hellip;
-          </span>
-        ) : (
-          <button
-            key={p}
-            type='button'
-            onClick={() => onPage(p)}
-            aria-label={`Page ${p}`}
-            aria-current={p === page ? 'page' : undefined}
-            className={`w-9 h-9 rounded-lg text-base font-semibold border transition-colors duration-150 ${
-              p === page
-                ? 'bg-black-bg-cta text-white border-transparent shadow-sm'
-                : 'border-gray-200 text-gray-600 hover:bg-gray-50'
-            }`}
-          >
-            {p}
-          </button>
-        ),
-      )}
-
-      <button
-        type='button'
-        onClick={() => onPage(page + 1)}
-        disabled={page === totalPages}
-        aria-label='Next page'
-        className='inline-flex items-center justify-center w-9 h-9 rounded-lg border border-gray-200 text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors duration-150'
-      >
-        <MdChevronRight className='text-xl' aria-hidden='true' />
-      </button>
-    </div>
-  );
-};
-
-// ─── Compose New Email Form ──────────────────────────────────────────────────
-const ComposeForm = ({ onBack }) => (
-  <div className='space-y-6'>
-    <button
-      type='button'
-      onClick={onBack}
-      className='inline-flex cursor-pointer items-center gap-1.5 text-base text-gray-500 hover:text-gray-800 transition-colors duration-150 group'
-    >
-      <MdArrowBack
-        className='text-lg group-hover:-translate-x-0.5 transition-transform duration-150'
-        aria-hidden='true'
-      />
-      Back to Inbox
-    </button>
-
-    <div className='bg-white rounded-xl border border-gray-100 shadow-sm p-6 sm:p-8'>
-      <h2 className='text-xl font-bold text-gray-900 mb-6'>
-        Compose New Email
-      </h2>
-
-      <div className='space-y-4'>
-        <div>
-          <label
-            htmlFor='compose-to'
-            className='block text-sm text-gray-500 mb-1.5'
-          >
-            To:
-          </label>
-          <input
-            id='compose-to'
-            type='email'
-            placeholder='client@example.com'
-            className='w-full px-4 py-2.5 rounded-lg border border-gray-200 text-base text-gray-700 placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-transparent transition'
-          />
-        </div>
-
-        <div>
-          <label
-            htmlFor='compose-subject'
-            className='block text-sm text-gray-500 mb-1.5'
-          >
-            Subject:
-          </label>
-          <input
-            id='compose-subject'
-            type='text'
-            placeholder='Email subject'
-            className='w-full px-4 py-2.5 rounded-lg border border-gray-200 text-base text-gray-700 placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-transparent transition'
-          />
-        </div>
-
-        <div>
-          <label
-            htmlFor='compose-message'
-            className='block text-sm text-gray-500 mb-1.5'
-          >
-            Message:
-          </label>
-          <textarea
-            id='compose-message'
-            rows={7}
-            placeholder='Type your message here..'
-            className='w-full px-4 py-3 rounded-lg border border-gray-200 text-base text-gray-700 placeholder:text-gray-300 resize-none focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-transparent transition'
-          />
-        </div>
-
-        <button
-          type='button'
-          className='group inline-flex cursor-pointer items-center gap-2 overflow-hidden px-5 py-2.5 text-sm font-semibold text-white bg-black-bg-cta rounded-lg hover:bg-[#e5501a] hover:shadow-[0_4px_14px_rgba(255,101,51,0.35)] transition-all duration-200 active:scale-[0.97]'
-        >
-          <MdSend
-            className='text-lg shrink-0 transition-transform duration-300 ease-out group-hover:translate-x-1'
-            aria-hidden='true'
-          />
-          <span className='inline-block -translate-x-1 transition-transform duration-300 ease-out delay-100 group-hover:translate-x-0'>
-            Send Email
-          </span>
-        </button>
-      </div>
-    </div>
-  </div>
-);
 
 // ─── Page component ──────────────────────────────────────────────────────────
 export default function Emails() {
@@ -704,45 +558,15 @@ export default function Emails() {
 
           {/* Desktop: table (md+) */}
           <div className='hidden md:block overflow-x-auto'>
-            <table className='w-full' aria-label='Client emails'>
-              <thead>
-                <tr className='border-b border-gray-100'>
-                  <th
-                    scope='col'
-                    className='py-3.5 px-5 text-left text-sm font-semibold text-gray-400 uppercase tracking-wide'
-                  >
-                    Client Name
-                  </th>
-                  <th
-                    scope='col'
-                    className='py-3.5 px-5 text-left text-sm font-semibold text-gray-400 uppercase tracking-wide'
-                  >
-                    Subject
-                  </th>
-                  <th
-                    scope='col'
-                    className='py-3.5 px-5 text-left text-sm font-semibold text-gray-400 uppercase tracking-wide'
-                  >
-                    Date &amp; Time
-                  </th>
-                  <th
-                    scope='col'
-                    className='py-3.5 px-5 text-right text-sm font-semibold text-gray-400 uppercase tracking-wide'
-                  >
-                    Status
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {pageData.map((email) => (
-                  <EmailRow
-                    key={email.id}
-                    email={email}
-                    onSelect={handleSelect}
-                  />
-                ))}
-              </tbody>
-            </table>
+            <AdminTable columns={EMAIL_COLS} ariaLabel='Client emails'>
+              {pageData.map((email) => (
+                <EmailRow
+                  key={email.id}
+                  email={email}
+                  onSelect={handleSelect}
+                />
+              ))}
+            </AdminTable>
           </div>
 
           {/* Bottom bar */}

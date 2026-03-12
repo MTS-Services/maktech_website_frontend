@@ -1,5 +1,8 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { MdPersonAdd, MdEdit } from 'react-icons/md';
+import AdminTable from '../../../components/AdminTable';
+import Pagination from '../../../components/Pagination';
+import { getPageRange } from '../../../utils/helpers';
 
 // ─── Static lead data ─────────────────────────────────────────────────────────
 const LEADS = [
@@ -48,21 +51,66 @@ const LEADS = [
     location: 'Dhaka',
     dateAdded: '2026-01-20',
   },
+  {
+    id: 6,
+    name: 'Nusrat Jahan',
+    company: 'E-commerce Experts',
+    phone: '+880 1867-890123',
+    email: 'nusrat@ecommerce.com',
+    location: 'Chittagong',
+    dateAdded: '2026-01-19',
+  },
+  {
+    id: 7,
+    name: 'Shafiqur Rahman',
+    company: 'Logistics Solutions',
+    phone: '+880 1978-901234',
+    email: 'shafiqur@logistics.com',
+    location: 'Dhaka',
+    dateAdded: '2026-01-18',
+  },
+  {
+    id: 8,
+    name: 'Farida Yasmin',
+    company: 'HealthCare Plus',
+    phone: '+880 1689-012345',
+    email: 'farida@healthcare.com',
+    location: 'Chittagong',
+    dateAdded: '2026-01-17',
+  },
+  {
+    id: 9,
+    name: 'Imran Hossain',
+    company: 'Real Estate Co',
+    phone: '+880 1790-123456',
+    email: 'imran@realestate.com',
+    location: 'Dhaka',
+    dateAdded: '2026-01-16',
+  },
+  {
+    id: 10,
+    name: 'Laila Sultana',
+    company: 'Education Hub',
+    phone: '+880 1901-234567',
+    email: 'laila@educationhub.com',
+    location: 'Dhaka',
+    dateAdded: '2026-01-15',
+  },
 ];
+
+const PAGE_SIZE = 8;
 
 const TABLE_COLS = [
-  'Name',
-  'Company',
-  'Phone',
-  'Email',
-  'Location',
-  'Date Added',
-  'Actions',
+  { label: 'Name' },
+  { label: 'Company' },
+  { label: 'Phone' },
+  { label: 'Email' },
+  { label: 'Location' },
+  { label: 'Date Added' },
+  { label: 'Actions' },
 ];
 
-// Shared Tailwind class strings — avoids repeating across every cell
-const TH =
-  'px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide';
+// TD — shared cell class for LeadRow; thead is handled by AdminTable
 const TD = 'px-5 py-3.5 text-sm text-gray-700 whitespace-nowrap';
 
 // ─── Mobile card ──────────────────────────────────────────────────────────────
@@ -158,6 +206,20 @@ export default function Leads() {
       : `${weekDiff} from last week`;
   const diffColor = weekDiff >= 0 ? 'text-green-600' : 'text-red-500';
 
+  const [page, setPage] = useState(1);
+  const totalPages = Math.ceil(LEADS.length / PAGE_SIZE);
+  const pageData = useMemo(
+    () => LEADS.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE),
+    [page],
+  );
+  const pageRange = useMemo(
+    () => getPageRange(page, totalPages),
+    [page, totalPages],
+  );
+  const rangeStart = (page - 1) * PAGE_SIZE + 1;
+  const rangeEnd = Math.min(page * PAGE_SIZE, LEADS.length);
+
+  const handlePage = (p) => setPage(Math.max(1, Math.min(totalPages, p)));
   const handleEdit = (lead) => {
     // TODO: open edit lead modal or navigate to edit page
     void lead;
@@ -208,27 +270,39 @@ export default function Leads() {
 
       {/* Table — desktop (sm+) */}
       <div className='hidden sm:block bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden'>
-        <table className='w-full' aria-label='Leads list'>
-          <thead className='bg-gray-50 border-b border-gray-100'>
-            <tr>
-              {TABLE_COLS.map((col) => (
-                <th key={col} scope='col' className={TH}>
-                  {col}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {LEADS.map((lead) => (
+        <div className='overflow-x-auto'>
+          <AdminTable columns={TABLE_COLS} ariaLabel='Leads list'>
+            {pageData.map((lead) => (
               <LeadRow key={lead.id} lead={lead} onEdit={handleEdit} />
             ))}
-          </tbody>
-        </table>
+          </AdminTable>
+        </div>
+
+        {/* Bottom bar */}
+        <div className='flex flex-wrap items-center justify-between gap-3 px-5 py-4 border-t border-gray-100'>
+          <p className='text-sm text-gray-400 shrink-0'>
+            Showing{' '}
+            <span className='font-semibold text-gray-700'>
+              {rangeStart} to {rangeEnd}
+            </span>{' '}
+            of{' '}
+            <span className='font-semibold text-gray-700'>{LEADS.length}</span>{' '}
+            leads
+          </p>
+          <nav aria-label='Pagination'>
+            <Pagination
+              page={page}
+              totalPages={totalPages}
+              pageRange={pageRange}
+              onPage={handlePage}
+            />
+          </nav>
+        </div>
       </div>
 
       {/* Cards — mobile */}
       <div className='sm:hidden space-y-3' role='list' aria-label='Leads list'>
-        {LEADS.map((lead) => (
+        {pageData.map((lead) => (
           <div key={lead.id} role='listitem'>
             <LeadCard lead={lead} onEdit={handleEdit} />
           </div>
