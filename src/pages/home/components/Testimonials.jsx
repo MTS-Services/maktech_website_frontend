@@ -83,7 +83,7 @@ const Testimonials = () => {
   const duplicatedTestimonials = [...testimonials, ...testimonials];
 
   return (
-    <section className="w-full text-white py-16 xl:py-20 2xl:py-24 relative overflow-hidden">
+    <section className="w-full text-white pt-16 xl:pt-20 2xl:pt-24 relative overflow-hidden">
       <div className="max-w-full xl:max-w-[65%] mx-auto px-5 xl:px-8 2xl:px-12">
         {/* Header */}
         <div className="mb-12 xl:mb-16">

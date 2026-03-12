@@ -4,6 +4,8 @@ import WhatWeDo from './components/WhatWeDo'
 import OurWork from './components/OurWork'
 import WhyChooseUs from './components/WhyChooseUs'
 import Testimonials from './components/Testimonials'
+import FAQ from './components/FAQ'
+import ContactUs from './components/ContactUs'
 
 const Home = () => {
   return (
@@ -31,6 +33,8 @@ const Home = () => {
       <OurWork />
       <WhyChooseUs />
       <Testimonials />
+      <FAQ />
+      <ContactUs />
     </div>
   )
 }
