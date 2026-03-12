@@ -4,6 +4,7 @@ import {
   MdRemoveRedEye,
   MdArrowBack,
   MdOpenInNew,
+  MdKeyboardArrowDown,
 } from 'react-icons/md';
 import { toast } from 'react-toastify';
 import AdminTable from '../../../components/AdminTable';
@@ -174,13 +175,15 @@ const REQUIRED_STAR = (
 
 // Drives both the <select> options and the static ORDERS assignedTeam values
 const TEAM_OPTIONS = [
-  'Development Team A',
-  'Development Team B',
-  'Mobile Dev Team C',
-  'Design Team D',
-  'Marketing Team A',
-  'Marketing Team B',
-  'SEO & Analytics Team',
+  'UI/UX',
+  'Graphics',
+  'Laravel',
+  'Flutter',
+  'Mern',
+  'WordPress',
+  'Marketing',
+  'Shopify',
+  'Wix',
 ];
 
 // ─── Order Detail View ────────────────────────────────────────────────────────
@@ -275,10 +278,15 @@ const OrderDetail = ({ order, onBack }) => (
       <div className='pt-2'>
         <button
           type='button'
-          className='inline-flex cursor-pointer items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-black-bg-cta rounded-lg hover:bg-[#e5501a] hover:shadow-[0_4px_14px_rgba(255,101,51,0.35)] transition-all duration-200 active:scale-[0.97]'
+          className='group inline-flex cursor-pointer items-center gap-2 overflow-hidden px-5 py-2.5 text-sm font-semibold text-white bg-black-bg-cta rounded-lg hover:bg-[#e5501a] hover:shadow-[0_4px_14px_rgba(255,101,51,0.35)] transition-all duration-200 active:scale-[0.97]'
         >
-          <MdOpenInNew className='text-base shrink-0' aria-hidden='true' />
-          Get Payment Link
+          <MdOpenInNew
+            className='text-base shrink-0 transition-transform duration-300 ease-out group-hover:translate-x-1'
+            aria-hidden='true'
+          />
+          <span className='inline-block -translate-x-1 transition-transform duration-300 ease-out delay-100 group-hover:translate-x-0'>
+            Get Payment Link
+          </span>
         </button>
       </div>
     </div>
@@ -412,24 +420,30 @@ const CreateOrderForm = ({ onCancel }) => {
               <label htmlFor='co-team' className={LABEL_CLS}>
                 Assigned Team{REQUIRED_STAR}
               </label>
-              {/* Native <select> — best keyboard/screen-reader support, no extra JS */}
-              <select
-                id='co-team'
-                name='assignedTeam'
-                value={form.assignedTeam}
-                onChange={handleChange}
-                required
-                className={`${INPUT_CLS} appearance-none bg-[url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%236b7280'%3E%3Cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd'/%3E%3C/svg%3E")] bg-no-repeat bg-position-[right_0.75rem_center] bg-size-[1.25rem] pr-10`}
-              >
-                <option value='' disabled>
-                  Select a team
-                </option>
-                {TEAM_OPTIONS.map((team) => (
-                  <option key={team} value={team}>
-                    {team}
+              {/* Wrapper gives us a react-icon chevron while keeping native <select> a11y */}
+              <div className='relative'>
+                <select
+                  id='co-team'
+                  name='assignedTeam'
+                  value={form.assignedTeam}
+                  onChange={handleChange}
+                  required
+                  className={`${INPUT_CLS} appearance-none pr-10 cursor-pointer`}
+                >
+                  <option value='' disabled>
+                    Select a team
                   </option>
-                ))}
-              </select>
+                  {TEAM_OPTIONS.map((team) => (
+                    <option key={team} value={team}>
+                      {team}
+                    </option>
+                  ))}
+                </select>
+                <MdKeyboardArrowDown
+                  className='pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-xl text-gray-400'
+                  aria-hidden='true'
+                />
+              </div>
             </div>
           </div>
 
@@ -449,18 +463,23 @@ const CreateOrderForm = ({ onCancel }) => {
             />
           </div>
 
-          <div className='flex flex-wrap items-center gap-3'>
+          <div className='flex flex-col gap-3 sm:flex-row sm:items-center sm:flex-wrap'>
             <button
               type='submit'
-              className='inline-flex cursor-pointer items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-black-bg-cta rounded-lg hover:bg-[#e5501a] hover:shadow-[0_4px_14px_rgba(255,101,51,0.35)] transition-all duration-200 active:scale-[0.97]'
+              className='group inline-flex cursor-pointer items-center justify-center gap-2 overflow-hidden px-5 py-2.5 text-sm font-semibold text-white bg-black-bg-cta rounded-lg hover:bg-[#e5501a] hover:shadow-[0_4px_14px_rgba(255,101,51,0.35)] transition-all duration-200 active:scale-[0.97]'
             >
-              <MdOpenInNew className='text-base shrink-0' aria-hidden='true' />
-              Create Order &amp; Generate Payment Link
+              <MdOpenInNew
+                className='text-base shrink-0 transition-transform duration-300 ease-out group-hover:translate-x-1'
+                aria-hidden='true'
+              />
+              <span className='inline-block -translate-x-1 transition-transform duration-300 ease-out delay-100 group-hover:translate-x-0'>
+                Create Order &amp; Generate Payment Link
+              </span>
             </button>
             <button
               type='button'
               onClick={onCancel}
-              className='inline-flex cursor-pointer items-center px-5 py-2.5 text-sm font-semibold text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-all duration-200 active:scale-[0.97]'
+              className='w-full sm:w-auto inline-flex cursor-pointer items-center justify-center px-5 py-2.5 text-sm font-semibold text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-all duration-200 active:scale-[0.97]'
             >
               Cancel
             </button>
