@@ -21,6 +21,7 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import AnimatedLines from "../../components/AnimatedLines";
+import Footer from "../../components/Footer";
 
 const PublicLayout = () => {
   return (
@@ -31,6 +32,11 @@ const PublicLayout = () => {
       {/* Page content */}
       <div className="relative z-10">
         <Outlet />
+      </div>
+      
+      {/* Footer */}
+      <div className="relative z-10">
+        <Footer />
       </div>
       
       {/* Floating navbar */}
