@@ -1,6 +1,7 @@
 import Banner from './components/Banner'
 import AboutSection from './components/AboutSection'
 import WhatWeDo from './components/WhatWeDo'
+import OurWork from './components/OurWork'
 
 const Home = () => {
   return (
@@ -25,6 +26,7 @@ const Home = () => {
       </div>
       <AboutSection />
       <WhatWeDo />
+      <OurWork />
     </div>
   )
 }
