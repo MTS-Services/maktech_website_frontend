@@ -116,9 +116,11 @@ const Testimonials = () => {
           </div>
 
           {/* Heading with underline */}
-          <h2 className="text-3xl xl:text-4xl 2xl:text-5xl font-semibold leading-tight inline-block bg-gradient-to-r from-[#FFFFFF] to-[#999999] bg-clip-text text-transparent">
-            Trusted by Businesses{" "}
-            <span className="relative inline-block">
+          <h2 className="text-3xl xl:text-4xl 2xl:text-5xl font-semibold leading-tight">
+            <span className="bg-gradient-to-r from-[#FFFFFF] to-[#999999] bg-clip-text text-transparent">
+              Trusted by Businesses{" "}
+            </span>
+            <span className="relative inline-block bg-gradient-to-r from-[#FFFFFF] to-[#999999] bg-clip-text text-transparent">
               Worldwide
               <svg 
                 className="absolute -bottom-2 left-0 w-full" 
@@ -144,10 +146,13 @@ const Testimonials = () => {
       <div className="relative">
         <div className="overflow-hidden">
           <div 
-            className="flex gap-6"
+            className="flex gap-6 pl-6"
             style={{
-              animation: 'scroll 40s linear infinite',
+              animation: 'scroll 25s linear infinite',
+              willChange: 'transform',
             }}
+            onMouseEnter={(e) => e.currentTarget.style.animationPlayState = 'paused'}
+            onMouseLeave={(e) => e.currentTarget.style.animationPlayState = 'running'}
           >
             {duplicatedTestimonials.map((testimonial, index) => (
               <div key={`${testimonial.id}-${index}`} className="shrink-0 w-[90%] md:w-[45%] xl:w-[30%]">
