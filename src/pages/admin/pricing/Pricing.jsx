@@ -5,6 +5,14 @@ import {
   MdArrowBack,
   MdCheck,
   MdKeyboardArrowDown,
+  MdBolt,
+  MdStarOutline,
+  MdShieldMoon,
+  MdLanguage,
+  MdAutorenew,
+  MdPersonOutline,
+  MdRocketLaunch,
+  MdTrendingUp,
 } from 'react-icons/md';
 import { toast } from 'react-toastify';
 
@@ -84,6 +92,19 @@ const SERVICES = [
 // Comma-format price with $ prefix: 25000 → "$25,000"
 const formatPrice = (n) => `$${Number(n).toLocaleString('en-US')}`;
 
+// Cycling feature icons — different icon per line index
+const FEATURE_ICONS = [
+  MdCheck,
+  MdBolt,
+  MdStarOutline,
+  MdShieldMoon,
+  MdLanguage,
+  MdAutorenew,
+  MdPersonOutline,
+  MdRocketLaunch,
+  MdTrendingUp,
+];
+
 // ─── Shared field styles ──────────────────────────────────────────────────────
 const LABEL_CLS = 'block text-sm font-medium text-gray-600 mb-1.5';
 const INPUT_CLS =
@@ -120,28 +141,35 @@ const PricingCard = ({ pkg, onEdit }) => (
       )}
       <p className='text-sm text-gray-500 mb-5'>{pkg.tagline}</p>
 
-      {/* Price — large bold number + smaller period suffix */}
-      <div className='flex items-baseline gap-0.5 mb-6'>
-        <span className='text-3xl sm:text-4xl font-bold text-gray-900 leading-none'>
-          {formatPrice(pkg.price)}
-        </span>
-        <span className='text-base text-gray-400 ml-1'>{pkg.period}</span>
+      {/* Price — divider + large bold number + smaller period suffix */}
+      <div className='border-t border-gray-100 pt-5 mb-5'>
+        <div className='flex items-baseline gap-1.5'>
+          <span className='text-3xl sm:text-4xl font-bold text-gray-900 leading-none'>
+            {formatPrice(pkg.price)}
+          </span>
+          <span className='text-sm text-gray-400'>
+            {pkg.period.replace('/', 'per ')}
+          </span>
+        </div>
       </div>
 
-      {/* Feature checklist */}
-      <ul role='list' className='space-y-2.5 mb-8'>
-        {pkg.features.map((feature, i) => (
-          <li
-            key={i}
-            className='flex items-center gap-2.5 text-sm text-gray-700'
-          >
-            <MdCheck
-              className='text-green-500 text-base shrink-0'
-              aria-hidden='true'
-            />
-            {feature}
-          </li>
-        ))}
+      {/* Feature checklist — divider above */}
+      <ul role='list' className='space-y-3 border-t border-gray-100 pt-5 mb-8'>
+        {pkg.features.map((feature, i) => {
+          const Icon = FEATURE_ICONS[i % FEATURE_ICONS.length];
+          return (
+            <li
+              key={i}
+              className='flex items-center gap-2.5 text-sm text-gray-600'
+            >
+              <Icon
+                className='text-gray-400 text-base shrink-0'
+                aria-hidden='true'
+              />
+              {feature}
+            </li>
+          );
+        })}
       </ul>
     </div>
 
