@@ -19,7 +19,7 @@ const AnimatedLines = () => {
   }, [])
 
   // 2 lines on mobile, 4 on desktop
-  const linePositions = isMobile ? [15,30, 70,85] : [20, 40, 60, 80]
+  const linePositions = isMobile ? [15,30, 70,85] : [12, 30, 50, 68,88]
 
   return (
     <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">

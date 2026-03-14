@@ -25,7 +25,7 @@ const ContactUs = () => {
   };
 
   return (
-    <section className="w-full relative pt-16 xl:pt-20 2xl:pt-24 overflow-hidden">
+    <section className="w-full relative py-16 xl:py-20 2xl:py-24 overflow-hidden">
       {/* Background Image */}
       <div
         className="absolute inset-0 z-0"
@@ -38,7 +38,7 @@ const ContactUs = () => {
         }}
       />
 
-      <div className="max-w-full xl:max-w-[75%] mx-auto px-5 xl:px-8 2xl:px-12 relative z-10">
+      <div className="container mx-auto px-5 xl:px-8 2xl:px-12 relative z-10">
         {/* Header */}
         <div className="mb-12 xl:mb-16 text-center">
           {/* Badge */}
@@ -85,7 +85,7 @@ const ContactUs = () => {
         </div>
 
         {/* Contact Form Container */}
-        <div className="max-w-6xl mx-auto relative">
+        <div className="container mx-auto relative">
           {/* Orange Gradient Background Glow */}
           <div
             className="absolute inset-0 -z-10"

@@ -112,7 +112,7 @@ const   WhyChooseUs = () => {
         }}
       />
 
-      <div className="max-w-full xl:max-w-[65%] mx-auto px-5 xl:px-8 2xl:px-12 relative z-10">
+      <div className="container mx-auto px-5 xl:px-8 2xl:px-12 relative z-10">
 
         {/* ── Mobile / Tablet: stacked layout ── */}
         <div className="xl:hidden">

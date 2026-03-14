@@ -28,7 +28,7 @@ const Navbar = () => {
 
   return (
     <nav
-      className="navbar-container"
+        className="navbar-container"
       style={{
         opacity: visible ? 1 : 0,
         transform: isMobile
