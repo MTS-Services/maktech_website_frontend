@@ -1,5 +1,10 @@
 import { useEffect, useState } from 'react';
-import { MdEdit } from 'react-icons/md';
+import {
+  MdEdit,
+  MdArrowBack,
+  MdCheck,
+  MdKeyboardArrowDown,
+} from 'react-icons/md';
 import { toast } from 'react-toastify';
 
 // ─── Static case study data ───────────────────────────────────────────────────
@@ -75,8 +80,9 @@ const EditCaseStudyForm = ({ study, onCancel }) => {
   const [form, setForm] = useState({
     title: study.title,
     category: study.category,
-    description: study.description,
+    image: study.image,
     client: study.client,
+    description: study.description,
     result: study.result,
   });
 
@@ -92,14 +98,28 @@ const EditCaseStudyForm = ({ study, onCancel }) => {
 
   return (
     <div className='space-y-6 pb-8'>
+      {/* Back nav — outside the card, consistent with Orders/CreateOrderForm pattern */}
+      <button
+        type='button'
+        onClick={onCancel}
+        className='inline-flex cursor-pointer items-center gap-1.5 text-sm text-gray-500 hover:text-gray-800 transition-colors duration-150 group'
+      >
+        <MdArrowBack
+          className='text-base group-hover:-translate-x-0.5 transition-transform duration-150'
+          aria-hidden='true'
+        />
+        Back to Case Studies
+      </button>
+
       <div className='bg-white rounded-xl border border-gray-100 shadow-sm p-6 sm:p-8'>
         <h1 className='text-xl font-bold text-gray-900 mb-6'>
           Edit Case Study
         </h1>
 
         <form onSubmit={handleSubmit} noValidate>
-          <div className='grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4 mb-4'>
-            <div className='sm:col-span-2'>
+          <div className='space-y-4 mb-6'>
+            {/* Title */}
+            <div>
               <label htmlFor='ecs-title' className={LABEL_CLS}>
                 Title{REQUIRED_STAR}
               </label>
@@ -115,15 +135,43 @@ const EditCaseStudyForm = ({ study, onCancel }) => {
               />
             </div>
 
+            {/* Category — native select, DRY: reuses CATEGORY_STYLES keys */}
             <div>
               <label htmlFor='ecs-category' className={LABEL_CLS}>
                 Category{REQUIRED_STAR}
               </label>
+              <div className='relative'>
+                <select
+                  id='ecs-category'
+                  name='category'
+                  value={form.category}
+                  onChange={handleChange}
+                  required
+                  className={`${INPUT_CLS} appearance-none pr-10 cursor-pointer`}
+                >
+                  {Object.keys(CATEGORY_STYLES).map((cat) => (
+                    <option key={cat} value={cat}>
+                      {cat}
+                    </option>
+                  ))}
+                </select>
+                <MdKeyboardArrowDown
+                  className='pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-xl text-gray-400'
+                  aria-hidden='true'
+                />
+              </div>
+            </div>
+
+            {/* Image URL */}
+            <div>
+              <label htmlFor='ecs-image' className={LABEL_CLS}>
+                Image URL{REQUIRED_STAR}
+              </label>
               <input
-                id='ecs-category'
-                name='category'
-                type='text'
-                value={form.category}
+                id='ecs-image'
+                name='image'
+                type='url'
+                value={form.image}
                 onChange={handleChange}
                 autoComplete='off'
                 required
@@ -131,6 +179,7 @@ const EditCaseStudyForm = ({ study, onCancel }) => {
               />
             </div>
 
+            {/* Client */}
             <div>
               <label htmlFor='ecs-client' className={LABEL_CLS}>
                 Client{REQUIRED_STAR}
@@ -146,9 +195,8 @@ const EditCaseStudyForm = ({ study, onCancel }) => {
                 className={INPUT_CLS}
               />
             </div>
-          </div>
 
-          <div className='space-y-4 mb-6'>
+            {/* Description */}
             <div>
               <label htmlFor='ecs-description' className={LABEL_CLS}>
                 Description{REQUIRED_STAR}
@@ -158,23 +206,24 @@ const EditCaseStudyForm = ({ study, onCancel }) => {
                 name='description'
                 value={form.description}
                 onChange={handleChange}
-                rows={3}
+                rows={4}
                 autoComplete='off'
                 required
                 className={`${INPUT_CLS} resize-none`}
               />
             </div>
 
+            {/* Results */}
             <div>
               <label htmlFor='ecs-result' className={LABEL_CLS}>
-                Result{REQUIRED_STAR}
+                Results{REQUIRED_STAR}
               </label>
               <textarea
                 id='ecs-result'
                 name='result'
                 value={form.result}
                 onChange={handleChange}
-                rows={2}
+                rows={3}
                 autoComplete='off'
                 required
                 className={`${INPUT_CLS} resize-none`}
@@ -187,12 +236,12 @@ const EditCaseStudyForm = ({ study, onCancel }) => {
               type='submit'
               className='group inline-flex cursor-pointer items-center justify-center gap-2 overflow-hidden px-5 py-2.5 text-sm font-semibold text-white bg-orange-bg-cta rounded-lg hover:bg-[#e5501a] hover:shadow-[0_4px_14px_rgba(255,101,51,0.35)] transition-all duration-200 active:scale-[0.97]'
             >
-              <MdEdit
+              <MdCheck
                 className='text-base shrink-0 transition-transform duration-300 ease-out group-hover:translate-x-1'
                 aria-hidden='true'
               />
               <span className='inline-block -translate-x-1 transition-transform duration-300 ease-out delay-100 group-hover:translate-x-0'>
-                Save Changes
+                Update Case Study
               </span>
             </button>
             <button
@@ -251,7 +300,7 @@ const CaseStudyCard = ({ study, onEdit }) => (
       <button
         type='button'
         onClick={() => onEdit(study)}
-        className='inline-flex items-center gap-1.5 text-sm font-medium text-orange-500 hover:text-orange-600 transition-colors duration-150'
+        className='inline-flex items-center gap-1.5 text-sm font-medium text-blue-500 hover:text-blue-600 transition-colors duration-150'
         aria-label={`Edit ${study.title}`}
       >
         <MdEdit className='text-base' aria-hidden='true' />
