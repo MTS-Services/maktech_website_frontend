@@ -73,11 +73,12 @@ const BILLING_PERIODS = [
 ];
 
 const SERVICES = [
-  'UI/UX Design',
   'MERN STACK Development',
+  'UI/UX Design',
   'Flutter App Development',
   'eCommerce Development',
   'Digital Marketing',
+  'Laravel Development',
 ];
 
 // Comma-format price with $ prefix: 25000 → "$25,000"
@@ -112,6 +113,11 @@ const PricingCard = ({ pkg, onEdit }) => (
 
     <div className='flex-1'>
       <h2 className='text-xl font-bold text-gray-900 mb-1'>{pkg.name}</h2>
+      {pkg.service && (
+        <span className='inline-block text-xs font-medium text-orange-bg-cta bg-orange-50 px-2.5 py-1 rounded-full mb-3'>
+          {pkg.service}
+        </span>
+      )}
       <p className='text-sm text-gray-500 mb-5'>{pkg.tagline}</p>
 
       {/* Price — large bold number + smaller period suffix */}
