@@ -390,9 +390,14 @@ export default function Blog() {
       {/* Page Header */}
       <div className='flex flex-wrap items-start justify-between gap-4'>
         <div>
-          <h1 className='text-2xl sm:text-3xl font-bold text-gray-900 leading-tight'>
-            Blog
-          </h1>
+          <div className='flex items-center gap-3'>
+            <h1 className='text-2xl sm:text-3xl font-bold text-gray-900 leading-tight'>
+              Blog
+            </h1>
+            <span className='inline-flex items-center justify-center w-7 h-7 rounded-full bg-orange-bg-cta text-white text-sm font-bold leading-none'>
+              {totalPosts}
+            </span>
+          </div>
           <p className='text-base text-gray-500 mt-1'>
             Manage your content and marketing articles
           </p>
@@ -411,14 +416,6 @@ export default function Blog() {
             Add New Blog Post
           </span>
         </button>
-      </div>
-
-      {/* Stat card */}
-      <div className='bg-white rounded-xl border border-gray-100 shadow-sm p-6 w-full'>
-        <p className='text-sm font-medium text-gray-500 mb-2'>
-          Total Blog Posts
-        </p>
-        <p className='text-4xl font-bold text-gray-900'>{totalPosts}</p>
       </div>
 
       {/* Post list */}
