@@ -76,8 +76,8 @@ const AdminLayout = () => {
           />
         </header>
 
-        {/* Scrollable page area */}
-        <div className='flex-1 overflow-y-auto'>
+        {/* Scrollable page area — data-lenis-prevent stops Lenis hijacking this div's scroll */}
+        <div className='flex-1 overflow-y-auto' data-lenis-prevent>
           <div className='w-full px-6 py-5 sm:px-8 sm:py-6 lg:px-10 lg:py-8'>
             <Outlet />
           </div>
