@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   MdAdd,
   MdEdit,
@@ -14,6 +14,7 @@ const PACKAGES = [
     id: 1,
     name: 'Starter',
     tagline: 'Perfect for small businesses and startups',
+    service: 'UI/UX Design',
     price: 25000,
     period: '/month',
     popular: false,
@@ -29,6 +30,7 @@ const PACKAGES = [
     id: 2,
     name: 'Professional',
     tagline: 'Best for growing businesses',
+    service: 'MERN STACK Development',
     price: 50000,
     period: '/month',
     popular: true,
@@ -46,6 +48,7 @@ const PACKAGES = [
     id: 3,
     name: 'Enterprise',
     tagline: 'For large organizations',
+    service: 'eCommerce Development',
     price: 100000,
     period: '/month',
     popular: false,
@@ -62,7 +65,20 @@ const PACKAGES = [
   },
 ];
 
-const BILLING_PERIODS = ['/month', '/year', '/project', '/hour'];
+const BILLING_PERIODS = [
+  { value: '/month', label: 'Per month' },
+  { value: '/year', label: 'Per year' },
+  { value: '/project', label: 'Per project' },
+  { value: '/hour', label: 'Per hour' },
+];
+
+const SERVICES = [
+  'UI/UX Design',
+  'MERN STACK Development',
+  'Flutter App Development',
+  'eCommerce Development',
+  'Digital Marketing',
+];
 
 // Comma-format price with $ prefix: 25000 → "$25,000"
 const formatPrice = (n) => `$${Number(n).toLocaleString('en-US')}`;
@@ -145,6 +161,63 @@ const PricingCard = ({ pkg, onEdit }) => (
   </article>
 );
 
+// ─── Service custom dropdown (image 2 style) ────────────────────────────────
+const ServiceDropdown = ({ value, onChange }) => {
+  const [open, setOpen] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const handleOutside = (e) => {
+      if (ref.current && !ref.current.contains(e.target)) setOpen(false);
+    };
+    document.addEventListener('mousedown', handleOutside);
+    return () => document.removeEventListener('mousedown', handleOutside);
+  }, []);
+
+  const select = (service) => {
+    onChange({ target: { name: 'service', value: service } });
+    setOpen(false);
+  };
+
+  return (
+    <div ref={ref} className='relative'>
+      <button
+        type='button'
+        onClick={() => setOpen((prev) => !prev)}
+        className={`${INPUT_CLS} flex items-center justify-between text-left ${value ? 'text-gray-700' : 'text-gray-300'}`}
+      >
+        <span>{value || 'Select a service'}</span>
+        <MdKeyboardArrowDown
+          className={`text-xl text-gray-400 shrink-0 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
+          aria-hidden='true'
+        />
+      </button>
+      {open && (
+        <ul
+          role='listbox'
+          className='absolute z-50 mt-1 w-full bg-white rounded-lg shadow-lg border border-gray-100 overflow-hidden'
+        >
+          {SERVICES.map((s) => (
+            <li key={s} role='option' aria-selected={s === value}>
+              <button
+                type='button'
+                onClick={() => select(s)}
+                className={`w-full text-left px-4 py-2.5 text-sm transition-colors duration-150 ${
+                  s === value
+                    ? 'text-orange-bg-cta font-medium bg-orange-50'
+                    : 'text-gray-700 hover:bg-gray-50'
+                }`}
+              >
+                {s}
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+};
+
 // ─── Shared form shell (DRY) ──────────────────────────────────────────────────
 const PackageFormShell = ({
   heading,
@@ -186,42 +259,24 @@ const PackageFormShell = ({
 
         <form onSubmit={handleSubmit} noValidate>
           <div className='space-y-4 mb-6'>
-            {/* Package Name */}
-            <div>
-              <label htmlFor='pf-name' className={LABEL_CLS}>
-                Package Name{REQUIRED_STAR}
-              </label>
-              <input
-                id='pf-name'
-                name='name'
-                type='text'
-                value={form.name}
-                onChange={handleChange}
-                autoComplete='off'
-                required
-                className={INPUT_CLS}
-              />
-            </div>
-
-            {/* Tagline */}
-            <div>
-              <label htmlFor='pf-tagline' className={LABEL_CLS}>
-                Tagline / Subtitle{REQUIRED_STAR}
-              </label>
-              <input
-                id='pf-tagline'
-                name='tagline'
-                type='text'
-                value={form.tagline}
-                onChange={handleChange}
-                autoComplete='off'
-                required
-                className={INPUT_CLS}
-              />
-            </div>
-
-            {/* Price + Billing period — responsive 2-col on sm+ */}
+            {/* Row 1: Package Name | Price */}
             <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
+              <div>
+                <label htmlFor='pf-name' className={LABEL_CLS}>
+                  Package Name{REQUIRED_STAR}
+                </label>
+                <input
+                  id='pf-name'
+                  name='name'
+                  type='text'
+                  value={form.name}
+                  onChange={handleChange}
+                  autoComplete='off'
+                  placeholder='e.g., Starter, Professional'
+                  required
+                  className={INPUT_CLS}
+                />
+              </div>
               <div>
                 <label htmlFor='pf-price' className={LABEL_CLS}>
                   Price ($){REQUIRED_STAR}
@@ -238,9 +293,17 @@ const PackageFormShell = ({
                   className={INPUT_CLS}
                 />
               </div>
+            </div>
+
+            {/* Row 2: Service dropdown | Billing Period */}
+            <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
+              <div>
+                <label className={LABEL_CLS}>Service{REQUIRED_STAR}</label>
+                <ServiceDropdown value={form.service} onChange={handleChange} />
+              </div>
               <div>
                 <label htmlFor='pf-period' className={LABEL_CLS}>
-                  Billing Period
+                  Billing Period{REQUIRED_STAR}
                 </label>
                 <div className='relative'>
                   <select
@@ -250,9 +313,9 @@ const PackageFormShell = ({
                     onChange={handleChange}
                     className={`${INPUT_CLS} appearance-none pr-10 cursor-pointer`}
                   >
-                    {BILLING_PERIODS.map((p) => (
-                      <option key={p} value={p}>
-                        {p}
+                    {BILLING_PERIODS.map(({ value, label }) => (
+                      <option key={value} value={value}>
+                        {label}
                       </option>
                     ))}
                   </select>
@@ -262,6 +325,38 @@ const PackageFormShell = ({
                   />
                 </div>
               </div>
+            </div>
+
+            {/* Mark as Popular */}
+            <label className='flex items-center gap-3 cursor-pointer select-none w-fit'>
+              <input
+                type='checkbox'
+                name='popular'
+                checked={form.popular}
+                onChange={handleChange}
+                className='w-4 h-4 accent-orange-bg-cta rounded cursor-pointer'
+              />
+              <span className='text-sm font-medium text-gray-700'>
+                Mark as Popular Package
+              </span>
+            </label>
+
+            {/* Description */}
+            <div>
+              <label htmlFor='pf-tagline' className={LABEL_CLS}>
+                Description{REQUIRED_STAR}
+              </label>
+              <input
+                id='pf-tagline'
+                name='tagline'
+                type='text'
+                value={form.tagline}
+                onChange={handleChange}
+                autoComplete='off'
+                placeholder='Brief description of the package'
+                required
+                className={INPUT_CLS}
+              />
             </div>
 
             {/* Features — one feature per line, split on submit */}
@@ -285,20 +380,6 @@ const PackageFormShell = ({
                 className={`${INPUT_CLS} resize-y`}
               />
             </div>
-
-            {/* Most Popular checkbox */}
-            <label className='flex items-center gap-3 cursor-pointer select-none w-fit'>
-              <input
-                type='checkbox'
-                name='popular'
-                checked={form.popular}
-                onChange={handleChange}
-                className='w-4 h-4 accent-orange-bg-cta rounded cursor-pointer'
-              />
-              <span className='text-sm font-medium text-gray-700'>
-                Mark as Most Popular
-              </span>
-            </label>
           </div>
 
           {/* Form actions */}
@@ -332,10 +413,11 @@ const PackageFormShell = ({
 // Thin wrappers — single responsibility, keep PackageFormShell DRY
 const AddPackageForm = ({ onCancel, onSubmit }) => (
   <PackageFormShell
-    heading='Add New Package'
+    heading='Add New Pricing Package'
     initialValues={{
       name: '',
       tagline: '',
+      service: '',
       price: '',
       period: '/month',
       popular: false,
@@ -353,6 +435,7 @@ const EditPackageForm = ({ pkg, onCancel, onSubmit }) => (
     initialValues={{
       name: pkg.name,
       tagline: pkg.tagline,
+      service: pkg.service || '',
       price: pkg.price,
       period: pkg.period,
       popular: pkg.popular,
