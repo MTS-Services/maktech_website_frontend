@@ -549,9 +549,14 @@ export default function Pricing() {
       {/* Page header */}
       <div className='flex flex-wrap items-start justify-between gap-4'>
         <div>
-          <h1 className='text-2xl sm:text-3xl font-bold text-gray-900 leading-tight'>
-            Pricing
-          </h1>
+          <div className='flex items-center gap-3'>
+            <h1 className='text-2xl sm:text-3xl font-bold text-gray-900 leading-tight'>
+              Pricing
+            </h1>
+            <span className='inline-flex items-center justify-center w-7 h-7 rounded-full bg-orange-bg-cta text-white text-sm font-bold leading-none'>
+              {activeCount}
+            </span>
+          </div>
           <p className='text-base text-gray-500 mt-1'>
             Manage service packages and pricing
           </p>
@@ -570,14 +575,6 @@ export default function Pricing() {
             Add New Package
           </span>
         </button>
-      </div>
-
-      {/* Stat card — full width */}
-      <div className='bg-white rounded-xl border border-gray-100 shadow-sm p-6'>
-        <p className='text-sm font-medium text-gray-500 mb-2'>
-          Active Pricing Packages
-        </p>
-        <p className='text-4xl font-bold text-gray-900'>{activeCount}</p>
       </div>
 
       {/* pt-4 gives the "Most Popular" -top-4 badge room above the Professional card */}
