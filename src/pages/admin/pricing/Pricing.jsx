@@ -117,55 +117,75 @@ const REQUIRED_STAR = (
 
 // ─── Pricing card ─────────────────────────────────────────────────────────────
 const PricingCard = ({ pkg, onEdit }) => (
-  // No overflow-hidden — the "Most Popular" badge sits above the card boundary
   <article
-    className={`relative flex flex-col bg-white rounded-2xl shadow-sm px-6 py-8 ${
-      pkg.popular ? 'border-2 border-orange-bg-cta' : 'border border-gray-100'
+    className={`relative flex flex-col bg-white rounded-2xl transition-all duration-300 hover:-translate-y-1 ${
+      pkg.popular
+        ? 'border-2 border-orange-bg-cta shadow-[0_8px_32px_rgba(255,101,51,0.18)]'
+        : 'border border-gray-100 shadow-sm hover:shadow-md'
     }`}
   >
-    {/* Overflowing badge — absolute, centered at top edge */}
+    {/* Most Popular badge */}
     {pkg.popular && (
-      <div className='absolute -top-4 left-1/2 -translate-x-1/2 z-10'>
-        <span className='inline-block bg-orange-bg-cta text-white text-xs font-semibold px-4 py-1.5 rounded-full whitespace-nowrap tracking-wide'>
+      <div className='absolute -top-4.5 left-1/2 -translate-x-1/2 z-10'>
+        <span className='inline-flex items-center gap-1.5 bg-orange-bg-cta text-white text-xs font-bold px-5 py-2 rounded-full whitespace-nowrap tracking-widest uppercase shadow-[0_4px_12px_rgba(255,101,51,0.38)]'>
+          <MdRocketLaunch className='text-sm shrink-0' aria-hidden='true' />
           Most Popular
         </span>
       </div>
     )}
 
-    <div className='flex-1'>
-      <h2 className='text-xl font-bold text-gray-900 mb-1'>{pkg.name}</h2>
+    {/* Header */}
+    <div
+      className={`px-6 pt-10 pb-6 rounded-t-2xl ${
+        pkg.popular ? 'bg-linear-to-br from-orange-50 via-white to-white' : ''
+      }`}
+    >
+      <h2 className='text-xl font-bold text-gray-900 mb-2'>{pkg.name}</h2>
       {pkg.service && (
-        <span className='inline-block text-xs font-medium text-orange-bg-cta bg-orange-50 px-2.5 py-1 rounded-full mb-3'>
+        <span
+          className={`inline-block text-xs font-semibold px-3 py-1 rounded-full mb-3 ${
+            pkg.popular
+              ? 'bg-orange-bg-cta text-white'
+              : 'bg-orange-50 text-orange-bg-cta border border-orange-100'
+          }`}
+        >
           {pkg.service}
         </span>
       )}
-      <p className='text-sm text-gray-500 mb-5'>{pkg.tagline}</p>
+      <p className='text-sm text-gray-500 leading-relaxed'>{pkg.tagline}</p>
+    </div>
 
-      {/* Price — divider + large bold number + smaller period suffix */}
-      <div className='border-t border-gray-100 pt-5 mb-5'>
-        <div className='flex items-baseline gap-1.5'>
-          <span className='text-3xl sm:text-4xl font-bold text-gray-900 leading-none'>
-            {formatPrice(pkg.price)}
-          </span>
-          <span className='text-sm text-gray-400'>
-            {pkg.period.replace('/', 'per ')}
-          </span>
-        </div>
+    {/* Price */}
+    <div className='px-6 py-5 border-t border-gray-100'>
+      <div className='flex items-end gap-1.5'>
+        <span className='text-4xl font-bold tracking-tight text-gray-900 leading-none'>
+          {formatPrice(pkg.price)}
+        </span>
+        <span className='text-sm text-gray-400 mb-0.5'>
+          {pkg.period.replace('/', 'per ')}
+        </span>
       </div>
+    </div>
 
-      {/* Feature checklist — divider above */}
-      <ul role='list' className='space-y-3 border-t border-gray-100 pt-5 mb-8'>
+    {/* Features */}
+    <div className='px-6 pb-6 flex-1'>
+      <ul role='list' className='space-y-3 border-t border-gray-100 pt-5'>
         {pkg.features.map((feature, i) => {
           const Icon = FEATURE_ICONS[i % FEATURE_ICONS.length];
           return (
             <li
               key={i}
-              className='flex items-center gap-2.5 text-sm text-gray-600'
+              className='flex items-center gap-3 text-sm text-gray-600'
             >
-              <Icon
-                className='text-gray-400 text-base shrink-0'
-                aria-hidden='true'
-              />
+              <span
+                className={`w-6 h-6 rounded-full flex items-center justify-center shrink-0 ${
+                  pkg.popular
+                    ? 'bg-orange-50 text-orange-bg-cta'
+                    : 'bg-gray-50 text-gray-400'
+                }`}
+              >
+                <Icon className='text-xs' aria-hidden='true' />
+              </span>
               {feature}
             </li>
           );
@@ -173,25 +193,27 @@ const PricingCard = ({ pkg, onEdit }) => (
       </ul>
     </div>
 
-    {/* Edit CTA — orange for popular, gray for others */}
-    <button
-      type='button'
-      onClick={() => onEdit(pkg)}
-      aria-label={`Edit ${pkg.name} package`}
-      className={`group w-full inline-flex cursor-pointer items-center justify-center gap-2 overflow-hidden px-4 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 active:scale-[0.97] ${
-        pkg.popular
-          ? 'bg-orange-bg-cta text-white hover:bg-[#e5501a] hover:shadow-[0_4px_14px_rgba(255,101,51,0.35)]'
-          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-      }`}
-    >
-      <MdEdit
-        className='text-base shrink-0 transition-transform duration-300 ease-out group-hover:translate-x-1'
-        aria-hidden='true'
-      />
-      <span className='inline-block -translate-x-1 transition-transform duration-300 ease-out delay-100 group-hover:translate-x-0'>
-        Edit Package
-      </span>
-    </button>
+    {/* Edit CTA */}
+    <div className='px-6 pb-6'>
+      <button
+        type='button'
+        onClick={() => onEdit(pkg)}
+        aria-label={`Edit ${pkg.name} package`}
+        className={`group w-full inline-flex cursor-pointer items-center justify-center gap-2 overflow-hidden px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-200 active:scale-[0.97] ${
+          pkg.popular
+            ? 'bg-orange-bg-cta text-white shadow-[0_4px_14px_rgba(255,101,51,0.3)] hover:bg-[#e5501a] hover:shadow-[0_6px_20px_rgba(255,101,51,0.45)]'
+            : 'bg-gray-50 text-gray-700 border border-gray-200 hover:bg-gray-100 hover:border-gray-300'
+        }`}
+      >
+        <MdEdit
+          className='text-base shrink-0 transition-transform duration-300 ease-out group-hover:translate-x-1'
+          aria-hidden='true'
+        />
+        <span className='inline-block -translate-x-1 transition-transform duration-300 ease-out delay-100 group-hover:translate-x-0'>
+          Edit Package
+        </span>
+      </button>
+    </div>
   </article>
 );
 
