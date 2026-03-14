@@ -122,7 +122,7 @@ const PricingCard = ({ pkg, onEdit }) => (
 
       {/* Price — large bold number + smaller period suffix */}
       <div className='flex items-baseline gap-0.5 mb-6'>
-        <span className='text-3xl sm:text-4xl font-extrabold text-gray-900 leading-none'>
+        <span className='text-3xl sm:text-4xl font-bold text-gray-900 leading-none'>
           {formatPrice(pkg.price)}
         </span>
         <span className='text-base text-gray-400 ml-1'>{pkg.period}</span>
