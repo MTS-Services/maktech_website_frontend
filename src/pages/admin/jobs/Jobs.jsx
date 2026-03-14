@@ -347,9 +347,14 @@ export default function Jobs() {
       {/* Page Header */}
       <div className='flex flex-wrap items-start justify-between gap-4'>
         <div>
-          <h1 className='text-2xl sm:text-3xl font-bold text-gray-900 leading-tight'>
-            Jobs
-          </h1>
+          <div className='flex items-center gap-3'>
+            <h1 className='text-2xl sm:text-3xl font-bold text-gray-900 leading-tight'>
+              Jobs
+            </h1>
+            <span className='inline-flex items-center justify-center w-7 h-7 rounded-full bg-orange-bg-cta text-white text-sm font-bold leading-none'>
+              {openPositions}
+            </span>
+          </div>
           <p className='text-base text-gray-500 mt-1'>
             Manage hiring and career opportunities
           </p>
@@ -368,12 +373,6 @@ export default function Jobs() {
             Add New Job
           </span>
         </button>
-      </div>
-
-      {/* Stat card — full width */}
-      <div className='bg-white rounded-xl border border-gray-100 shadow-sm p-6 w-full'>
-        <p className='text-sm font-medium text-gray-500 mb-2'>Open Positions</p>
-        <p className='text-4xl font-bold text-gray-900'>{openPositions}</p>
       </div>
 
       {/* Jobs list */}
