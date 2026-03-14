@@ -15,6 +15,7 @@ const CaseStudies = lazy(
   () => import('../pages/admin/caseStudies/CaseStudies'),
 );
 const Blog = lazy(() => import('../pages/admin/blog/Blog'));
+const Jobs = lazy(() => import('../pages/admin/jobs/Jobs'));
 const ComingSoon = lazy(() => import('../pages/ComingSoon'));
 const NotFound = lazy(() => import('../pages/NotFound'));
 
@@ -36,7 +37,7 @@ const AppRoutes = () => (
         <Route path='orders' element={<Orders />} />
         <Route path='case-studies' element={<CaseStudies />} />
         <Route path='blog' element={<Blog />} />
-        <Route path='jobs' element={<ComingSoon pageName='Jobs' />} />
+        <Route path='jobs' element={<Jobs />} />
         <Route path='pricing' element={<ComingSoon pageName='Pricing' />} />
       </Route>
 
