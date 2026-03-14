@@ -221,10 +221,10 @@ const BlogFormShell = ({
               />
             </div>
 
-            {/* Excerpt / Content */}
+            {/* Blog Content */}
             <div>
               <label htmlFor='bf-excerpt' className={LABEL_CLS}>
-                Excerpt{REQUIRED_STAR}
+                Blog Content{REQUIRED_STAR}
               </label>
               <textarea
                 id='bf-excerpt'
