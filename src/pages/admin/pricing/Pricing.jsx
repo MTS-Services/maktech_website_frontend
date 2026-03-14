@@ -128,14 +128,19 @@ const PricingCard = ({ pkg, onEdit }) => (
       type='button'
       onClick={() => onEdit(pkg)}
       aria-label={`Edit ${pkg.name} package`}
-      className={`w-full inline-flex cursor-pointer items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 active:scale-[0.97] ${
+      className={`group w-full inline-flex cursor-pointer items-center justify-center gap-2 overflow-hidden px-4 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 active:scale-[0.97] ${
         pkg.popular
           ? 'bg-orange-bg-cta text-white hover:bg-[#e5501a] hover:shadow-[0_4px_14px_rgba(255,101,51,0.35)]'
           : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
       }`}
     >
-      <MdEdit className='text-base shrink-0' aria-hidden='true' />
-      Edit Package
+      <MdEdit
+        className='text-base shrink-0 transition-transform duration-300 ease-out group-hover:translate-x-1'
+        aria-hidden='true'
+      />
+      <span className='inline-block -translate-x-1 transition-transform duration-300 ease-out delay-100 group-hover:translate-x-0'>
+        Edit Package
+      </span>
     </button>
   </article>
 );
