@@ -14,6 +14,7 @@ const Orders = lazy(() => import('../pages/admin/orders/Orders'));
 const CaseStudies = lazy(
   () => import('../pages/admin/caseStudies/CaseStudies'),
 );
+const Blog = lazy(() => import('../pages/admin/blog/Blog'));
 const ComingSoon = lazy(() => import('../pages/ComingSoon'));
 const NotFound = lazy(() => import('../pages/NotFound'));
 
@@ -34,7 +35,7 @@ const AppRoutes = () => (
         <Route path='leads' element={<Leads />} />
         <Route path='orders' element={<Orders />} />
         <Route path='case-studies' element={<CaseStudies />} />
-        <Route path='blog' element={<ComingSoon pageName='Blog' />} />
+        <Route path='blog' element={<Blog />} />
         <Route path='jobs' element={<ComingSoon pageName='Jobs' />} />
         <Route path='pricing' element={<ComingSoon pageName='Pricing' />} />
       </Route>
