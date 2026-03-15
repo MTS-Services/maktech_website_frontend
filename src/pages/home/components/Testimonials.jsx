@@ -78,12 +78,12 @@ const TestimonialCard = ({ testimonial }) => {
   );
 };
 
-const Testimonials = () => {
+const Testimonials = ({ className = '' }) => {
   // Duplicate testimonials for seamless loop
   const duplicatedTestimonials = [...testimonials, ...testimonials];
 
   return (
-    <section className="w-full text-white pt-16 xl:pt-20 2xl:pt-24 relative overflow-hidden">
+    <section className={`w-full text-white relative overflow-hidden ${className}`}>
       <div className="container mx-auto px-5 xl:px-8 2xl:px-12">
         {/* Header */}
         <div className="mb-12 xl:mb-16">
@@ -120,7 +120,7 @@ const Testimonials = () => {
             <span className="bg-linear-to-r from-[#FFFFFF] to-[#999999] bg-clip-text text-transparent">
               Trusted by Businesses{" "}
             </span>
-            <span className="relative inline-block bg-gradient-to-r from-[#FFFFFF] to-[#999999] bg-clip-text text-transparent">
+            <span className="relative inline-block bg-linear-to-r from-[#FFFFFF] to-[#999999] bg-clip-text text-transparent">
               Worldwide
               <svg 
                 className="absolute -bottom-2 left-0 w-full" 
