@@ -1,3 +1,5 @@
+import Breadcrumb from '../../../components/Breadcrumb';
+
 const AboutHero = () => (
   <div className='relative flex flex-col items-center justify-center min-h-[88vh] xl:min-h-screen px-5 pt-28 pb-16 text-center'>
     {/* Left glass effect — decorative, desktop only */}
@@ -8,10 +10,11 @@ const AboutHero = () => (
       <img
         src='/glassEffectRight.png'
         alt=''
-        width={240}
+        width={1040}
         height={420}
         loading='lazy'
         decoding='async'
+        className='-ml-98 mt-100 '
       />
     </div>
 
@@ -31,40 +34,9 @@ const AboutHero = () => (
     </div>
 
     {/* Breadcrumb */}
-    <nav aria-label='Breadcrumb' className='mb-10 relative z-10'>
-      <ol className='inline-flex items-center gap-2 px-5 py-2 rounded-full border border-white/20 text-sm text-white/70'>
-        <li>
-          <a
-            href='/'
-            className='hover:text-white transition-colors duration-150'
-          >
-            Home
-          </a>
-        </li>
-        <li aria-hidden='true'>
-          <svg
-            width='12'
-            height='12'
-            viewBox='0 0 12 12'
-            fill='none'
-            aria-hidden='true'
-          >
-            <path
-              d='M4.5 2.5L7.5 6L4.5 9.5'
-              stroke='currentColor'
-              strokeWidth='1.5'
-              strokeLinecap='round'
-              strokeLinejoin='round'
-            />
-          </svg>
-        </li>
-        <li>
-          <span aria-current='page' className='text-white/90 font-medium'>
-            About US
-          </span>
-        </li>
-      </ol>
-    </nav>
+    <div className='mb-10 relative z-10'>
+      <Breadcrumb label='About US' />
+    </div>
 
     {/* Heading */}
     <h1
