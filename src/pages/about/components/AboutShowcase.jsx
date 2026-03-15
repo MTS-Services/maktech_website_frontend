@@ -30,7 +30,7 @@ const AboutShowcase = () => (
                 alt='Over 5000 happy clients — a digital-first team'
                 width={300}
                 height={56}
-                className='w-[95%] ml-4 h-full object-contain mt-46'
+                className='w-[95%] ml-4 h-full object-contain mt-46 '
                 loading='lazy'
               />
             </div>
@@ -58,7 +58,7 @@ const AboutShowcase = () => (
               alt='Designing digital systems for sustainable growth'
               width={400}
               height={280}
-              className='w-full h-full object-contain object-top-right'
+              className='w-[95%] h-[70%] ml-4 mt-20  '
               loading='lazy'
             />
           </div>
