@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import AboutHero from './components/AboutHero';
+import AboutShowcase from './components/AboutShowcase';
 
 const About = () => {
   useEffect(() => {
@@ -13,6 +14,7 @@ const About = () => {
       className='relative w-full overflow-hidden'
     >
       <AboutHero />
+      <AboutShowcase />
     </main>
   );
 };
