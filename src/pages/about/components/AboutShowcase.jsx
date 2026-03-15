@@ -1,5 +1,6 @@
 import AnimatedLines from '../../../components/AnimatedLines';
 import { useEffect, useRef, useState } from 'react';
+import { FaStar } from 'react-icons/fa';
 
 const AnimatedCounter = ({ target, duration = 2000, suffix = '+' }) => {
   const [count, setCount] = useState(0);
@@ -56,44 +57,44 @@ const AboutShowcase = () => (
         {/* ─── Left Column ─── */}
         <div className='w-full lg:w-[57%] flex flex-col gap-4 xl:gap-5'>
           {/* Person photo + Happy clients badge */}
-          <div className='flex gap-4 xl:gap-5 lg:h-[38%]'>
-            <div className='w-[34%] aspect-3/4 lg:aspect-auto lg:h-full shrink-0 rounded-2xl overflow-visible relative z-10'>
+          <div className='flex gap-4 xl:gap-5 lg:h-[48%] items-start'>
+            <div className='w-[34%] aspect-3/4 lg:aspect-auto lg:h-full shrink-0 rounded-2xl overflow-hidden relative z-10 -mt-22'>
               <img
                 src='/about1.png'
                 alt='Maktech team member'
                 width={280}
                 height={370}
-                className='w-full h-[122%] object-cover rounded-2xl rounded-bl-[60px] rounded-tr-[60px] object-top mt-16'
+                className='w-full h-full object-cover rounded-2xl rounded-bl-[60px] rounded-tr-[60px] '
                 loading='lazy'
               />
             </div>
-            <div className='flex-1 flex items-center'>
+            <div className='flex-1 flex items-start pt-0'>
               <img
                 src='/about2.png'
                 alt='Over 5000 happy clients — a digital-first team'
                 width={300}
                 height={56}
-                className='w-[95%] ml-4 h-full object-contain mt-46 '
+                className='w-full object-cover rounded-2xl'
                 loading='lazy'
               />
             </div>
           </div>
 
           {/* Office workspace photo */}
-          <div className='w-full flex-1 min-h-52 rounded-[20px] overflow-hidden'>
+          <div className='w-full flex-1  rounded-[20px] overflow-visible relative'>
             <img
               src='/about3.png'
               alt='Maktech team collaborating in a modern workspace'
               width={600}
               height={400}
-              className='w-full h-full '
+              className='w-full h-full -mt-54'
               loading='lazy'
             />
           </div>
         </div>
 
         {/* ─── Right Column ─── */}
-        <div className='w-full lg:w-[43%] flex flex-col gap-4 xl:gap-5'>
+        <div className='w-full lg:w-[43%] flex flex-col gap-3'>
           {/* Geometric cubes + title */}
           <div className='lg:h-[42%]'>
             <img
@@ -101,21 +102,59 @@ const AboutShowcase = () => (
               alt='Designing digital systems for sustainable growth'
               width={400}
               height={280}
-              className='w-[95%] h-[70%] ml-4 mt-20  '
+              className='w-full h-full object-contain object-top'
               loading='lazy'
             />
           </div>
 
           {/* Testimonial card */}
           <div className='flex-1 min-h-48 rounded-2xl overflow-hidden'>
-            <img
+            {/* <img
               src='/about5.png'
               alt='Five-star testimonial from a Product Manager at a SaaS Startup'
               width={400}
               height={250}
-              className='w-full h-full '
+              className='w-full h-full'
               loading='lazy'
-            />
+            /> */}
+            <div className='w-full h-full bg-[#2a2a2a]  overflow-visible rounded-2xl px-6 py-6 flex flex-col'>
+              {/* Stars */}
+              <div className='flex items-center gap-1 overflow-visible'>
+                {[...Array(5)].map((_, i) => (
+                  <FaStar
+                    key={i}
+                    size={18}
+                    color='#FBBF24'
+                    aria-hidden='true'
+                  />
+                ))}
+              </div>
+
+              {/* Quote */}
+              <p className='text-white/90 text-base leading-relaxed flex-1 mt-4'>
+                &ldquo;The team understood our vision from day one. The final
+                product was clean, fast, and exactly what we needed to
+                scale.&rdquo;
+              </p>
+
+              {/* Reviewer */}
+              <div className='flex items-center gap-3 mt-4'>
+                <img
+                  src='/about5.png'
+                  alt='Product Manager at SaaS Startup'
+                  width={40}
+                  height={40}
+                  className='w-10 h-10 rounded-full object-cover object-top shrink-0'
+                  loading='lazy'
+                />
+                <div className='flex flex-col'>
+                  <span className='text-white font-semibold text-base leading-snug'>
+                    Product Manager,
+                  </span>
+                  <span className='text-white/50 text-sm'>SaaS Startup</span>
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Stats bar */}
@@ -128,7 +167,7 @@ const AboutShowcase = () => (
               className='w-[180%] h-full mt-14 -ml-20'
               loading='lazy'
             /> */}
-            <div className='w-[110%] h-full -ml-20 mt-48 overflow-visible flex items-center justify-center bg-[#2a2a2a] rounded-2xl px-8 py-6'>
+            <div className='w-full h-full flex items-center justify-center bg-[#2a2a2a] rounded-2xl px-8 py-6'>
               <div className='flex-1 flex flex-col items-center'>
                 <span className='text-white text-4xl xl:text-5xl font-bold tracking-tight'>
                   <AnimatedCounter target={300} suffix='+' />
