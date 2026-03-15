@@ -20,7 +20,7 @@ const AboutShowcase = () => (
                 alt='Maktech team member'
                 width={280}
                 height={370}
-                className='w-full h-full object-cover rounded-2xl mt-24 '
+                className='w-full h-[122%] object-cover rounded-2xl rounded-bl-[60px] rounded-tr-[60px] object-top mt-16'
                 loading='lazy'
               />
             </div>
@@ -30,7 +30,7 @@ const AboutShowcase = () => (
                 alt='Over 5000 happy clients — a digital-first team'
                 width={300}
                 height={56}
-                className='w-full h-full object-contain mt-40'
+                className='w-[95%] ml-4 h-full object-contain mt-46'
                 loading='lazy'
               />
             </div>
@@ -43,7 +43,7 @@ const AboutShowcase = () => (
               alt='Maktech team collaborating in a modern workspace'
               width={600}
               height={400}
-              className='w-full h-full object-cover'
+              className='w-full h-full '
               loading='lazy'
             />
           </div>
