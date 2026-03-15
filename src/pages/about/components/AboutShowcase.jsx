@@ -74,7 +74,7 @@ const AboutShowcase = () => (
                 alt='Over 5000 happy clients — a digital-first team'
                 width={300}
                 height={56}
-                className='w-full object-cover rounded-2xl'
+                className='w-full h-full object-cover rounded-2xl'
                 loading='lazy'
               />
             </div>
@@ -87,7 +87,7 @@ const AboutShowcase = () => (
               alt='Maktech team collaborating in a modern workspace'
               width={600}
               height={400}
-              className='w-full h-full -mt-54'
+              className='w-full h-full -mt-50'
               loading='lazy'
             />
           </div>
