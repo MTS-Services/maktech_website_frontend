@@ -36,12 +36,14 @@ const AboutHero = () => (
     {/* CTA */}
     <a
       href='#contact'
-      className='relative z-10 group inline-flex items-center gap-3 bg-orange-bg-cta hover:bg-[#d14608] text-white font-semibold rounded-full transition-all duration-200 hover:-translate-y-0.5 active:scale-95'
+      className='relative z-10 group inline-flex items-center gap-3 overflow-hidden bg-orange-bg-cta hover:bg-[#e5501a] hover:shadow-[0_4px_20px_rgba(255,101,51,0.45)] text-white font-semibold rounded-full transition-all duration-200 active:scale-[0.97]'
       style={{ padding: '13px 28px' }}
     >
-      Contact With US
+      <span className='inline-block -translate-x-0.5 transition-transform duration-300 ease-out delay-75 group-hover:translate-x-0'>
+        Contact With US
+      </span>
       <span
-        className='w-7 h-7 flex items-center justify-center rounded-full bg-white shrink-0'
+        className='w-7 h-7 flex items-center justify-center rounded-full bg-white shrink-0 transition-transform duration-300 ease-out group-hover:translate-x-1'
         aria-hidden='true'
       >
         <svg
