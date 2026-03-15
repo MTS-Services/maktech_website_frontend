@@ -6,10 +6,10 @@ const AboutHero = () => (
       aria-hidden='true'
     >
       <img
-        src='/glassEffectLeft.png'
+        src='/glassEffectRight.png'
         alt=''
-        width={220}
-        height={440}
+        width={240}
+        height={420}
         loading='lazy'
         decoding='async'
       />
@@ -21,10 +21,10 @@ const AboutHero = () => (
       aria-hidden='true'
     >
       <img
-        src='/glassEffectRight.png'
+        src='/glassEffectLeft.png'
         alt=''
-        width={220}
-        height={440}
+        width={240}
+        height={420}
         loading='lazy'
         decoding='async'
       />
