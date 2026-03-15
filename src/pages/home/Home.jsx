@@ -32,7 +32,7 @@ const Home = () => {
       <WhatWeDo />
       <OurWork />
       <WhyChooseUs />
-      <Testimonials />
+      <Testimonials className='pt-16 xl:pt-20 2xl:pt-24' />
       <FAQ />
       <ContactUs />
     </div>
