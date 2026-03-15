@@ -147,7 +147,7 @@ const ViewMoreCard = () => {
 const WhatWeDo = () => {
   return (
     <section className="w-full text-white py-4 xl:pt-20 2xl:pt-24 relative">
-      <div className="max-w-full xl:max-w-[65%] mx-auto px-5 xl:px-8 2xl:px-12">
+      <div className="container mx-auto px-5 xl:px-8 2xl:px-12">
         {/* Header */}
         <div className="mb-12 xl:mb-16">
           {/* Badge */}

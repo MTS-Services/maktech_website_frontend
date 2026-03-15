@@ -84,7 +84,7 @@ const Testimonials = () => {
 
   return (
     <section className="w-full text-white pt-16 xl:pt-20 2xl:pt-24 relative overflow-hidden">
-      <div className="max-w-full xl:max-w-[65%] mx-auto px-5 xl:px-8 2xl:px-12">
+      <div className="container mx-auto px-5 xl:px-8 2xl:px-12">
         {/* Header */}
         <div className="mb-12 xl:mb-16">
           {/* Badge */}
@@ -117,7 +117,7 @@ const Testimonials = () => {
 
           {/* Heading with underline */}
           <h2 className="text-3xl xl:text-4xl 2xl:text-5xl font-semibold leading-tight">
-            <span className="bg-gradient-to-r from-[#FFFFFF] to-[#999999] bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-[#FFFFFF] to-[#999999] bg-clip-text text-transparent">
               Trusted by Businesses{" "}
             </span>
             <span className="relative inline-block bg-gradient-to-r from-[#FFFFFF] to-[#999999] bg-clip-text text-transparent">
@@ -143,10 +143,10 @@ const Testimonials = () => {
       </div>
 
       {/* Scrolling Testimonials */}
-      <div className="relative">
-        <div className="overflow-hidden">
+      <div className="container mx-auto px-5 xl:px-8 2xl:px-12">
+        <div className="relative overflow-hidden">
           <div 
-            className="flex gap-6 pl-6"
+            className="flex gap-6"
             style={{
               animation: 'scroll 25s linear infinite',
               willChange: 'transform',

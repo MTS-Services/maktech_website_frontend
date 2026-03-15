@@ -82,7 +82,7 @@ const OurWork = () => {
           zIndex: 0,
         }}
       />
-      <div className="max-w-full xl:max-w-[65%] mx-auto px-5 xl:px-8 2xl:px-12 relative z-10">
+      <div className="container mx-auto px-5 xl:px-8 2xl:px-12 relative z-10">
         {/* Header */}
         <div className="mb-12 xl:mb-16">
           {/* Badge */}
