@@ -3,7 +3,7 @@ import AnimatedLines from '../../../components/AnimatedLines';
 const AboutShowcase = () => (
   <section
     aria-label='About Maktech'
-    className='relative w-full bg-black-bg min-h-screen lg:h-screen px-4 sm:px-6 lg:px-10 xl:px-14 2xl:px-16 py-8 lg:py-6 xl:py-8 overflow-hidden'
+    className='relative w-full bg-black-bg h-screen mt-0 px-4 sm:px-6 lg:px-10 xl:px-14 2xl:px-16 overflow-hidden py-8 lg:py-6 xl:py-8'
   >
     {/* Animated vertical lines — same as hero */}
     <AnimatedLines />
@@ -82,7 +82,7 @@ const AboutShowcase = () => (
               alt='300 plus happy clients and 2500 plus projects completed'
               width={400}
               height={80}
-              className='w-full h-full object-cover'
+              className='w-full h-full object-cover mt-20'
               loading='lazy'
             />
           </div>
