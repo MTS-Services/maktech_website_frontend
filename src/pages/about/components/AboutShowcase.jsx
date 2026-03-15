@@ -1,9 +1,52 @@
 import AnimatedLines from '../../../components/AnimatedLines';
+import { useEffect, useRef, useState } from 'react';
+
+const AnimatedCounter = ({ target, duration = 2000, suffix = '+' }) => {
+  const [count, setCount] = useState(0);
+  const [hasStarted, setHasStarted] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setHasStarted(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!hasStarted) return;
+    let startTime = null;
+    const tick = (now) => {
+      if (!startTime) startTime = now;
+      const progress = Math.min((now - startTime) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 4);
+      setCount(Math.floor(eased * target));
+      if (progress < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }, [hasStarted, target, duration]);
+
+  return (
+    <span ref={ref}>
+      {count.toLocaleString()}
+      {suffix}
+    </span>
+  );
+};
 
 const AboutShowcase = () => (
   <section
     aria-label='About Maktech'
-    className='relative w-full bg-black-bg h-screen mt-0 px-4 sm:px-6 lg:px-10 xl:px-14 2xl:px-16 overflow-hidden py-8 lg:py-6 xl:py-8'
+    className='relative w-full bg-black-bg h-screen px-4 sm:px-6 lg:px-10 xl:px-14 2xl:px-16 overflow-hidden flex items-center py-16'
   >
     {/* Animated vertical lines — same as hero */}
     <AnimatedLines />
@@ -76,15 +119,34 @@ const AboutShowcase = () => (
           </div>
 
           {/* Stats bar */}
-          <div className='lg:h-[14%] min-h-16 rounded-2xl overflow-hidden'>
-            <img
+          <div className='lg:h-[18%] min-h-20 rounded-2xl flex items-center justify-center'>
+            {/* <img
               src='/about6.png'
               alt='300 plus happy clients and 2500 plus projects completed'
               width={400}
               height={80}
-              className='w-full h-full object-cover mt-20'
+              className='w-[180%] h-full mt-14 -ml-20'
               loading='lazy'
-            />
+            /> */}
+            <div className='w-[110%] h-full -ml-20 mt-48 overflow-visible flex items-center justify-center bg-[#2a2a2a] rounded-2xl px-8 py-6'>
+              <div className='flex-1 flex flex-col items-center'>
+                <span className='text-white text-4xl xl:text-5xl font-bold tracking-tight'>
+                  <AnimatedCounter target={300} suffix='+' />
+                </span>
+                <span className='text-white/50 text-base font-medium mt-2'>
+                  Happy Client
+                </span>
+              </div>
+              <div className='w-px h-12 border-l border-dashed border-white/30' />
+              <div className='flex-1 flex flex-col items-center'>
+                <span className='text-white text-4xl xl:text-5xl font-bold tracking-tight'>
+                  <AnimatedCounter target={2500} suffix='+' />
+                </span>
+                <span className='text-white/50 text-base font-medium mt-2'>
+                  Project Completed
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
