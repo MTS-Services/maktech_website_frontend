@@ -115,15 +115,6 @@ const Sidebar = ({ onClose }) => {
 
       {/* Footer */}
       <div className='shrink-0 border-t border-gray-100 px-3 py-3 space-y-1.5'>
-        <button
-          type='button'
-          onClick={handleLogout}
-          className={`${NAV_BASE} w-full text-gray-600 border-transparent hover:bg-red-50 hover:text-red-600 hover:shadow-[inset_3px_0_0_0_#ef4444]`}
-        >
-          <MdLogout className='shrink-0 text-xl text-gray-400 group-hover:text-red-500 transition-colors' />
-          <span>Sign Out</span>
-        </button>
-
         <div className='flex items-center gap-3 px-3 py-2.5 rounded-lg bg-gray-50'>
           <div className='shrink-0 w-9 h-9 rounded-full bg-linear-to-br from-orange-400 to-orange-600 flex items-center justify-center text-white text-base font-bold select-none'>
             M
@@ -137,6 +128,15 @@ const Sidebar = ({ onClose }) => {
             </p>
           </div>
         </div>
+
+        <button
+          type='button'
+          onClick={handleLogout}
+          className={`${NAV_BASE} w-full text-gray-600 border-transparent hover:bg-red-50 hover:text-red-600 hover:shadow-[inset_3px_0_0_0_#ef4444]`}
+        >
+          <MdLogout className='shrink-0 text-xl text-gray-400 group-hover:text-red-500 transition-colors' />
+          <span>Sign Out</span>
+        </button>
       </div>
     </div>
   );
