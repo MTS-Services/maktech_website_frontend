@@ -20,6 +20,12 @@ const AppRoutes = () => (
       {/* Public Routes - with shared Navbar */}
       <Route element={<PublicLayout />}>
         <Route path="/" element={<Home />} />
+        <Route path="/about" element={<ComingSoon/>} />
+        <Route path="/services" element={<ComingSoon />} />
+        <Route path="/pricing" element={<ComingSoon />} />
+        <Route path="/case-study" element={<ComingSoon />} />
+        <Route path="/company" element={<ComingSoon />} />
+        <Route path="/contact" element={<ComingSoon />} />
       </Route>
       <Route path="/login" element={<Login />} />
 
