@@ -30,7 +30,7 @@ const AboutShowcase = () => (
                 alt='Over 5000 happy clients — a digital-first team'
                 width={300}
                 height={56}
-                className='w-full h-full object-contain mt-20'
+                className='w-full h-full object-contain mt-40'
                 loading='lazy'
               />
             </div>
