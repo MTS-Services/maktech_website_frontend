@@ -113,7 +113,7 @@ const AboutShowcase = () => (
               alt='Five-star testimonial from a Product Manager at a SaaS Startup'
               width={400}
               height={250}
-              className='w-full h-full object-cover'
+              className='w-full h-full '
               loading='lazy'
             />
           </div>
