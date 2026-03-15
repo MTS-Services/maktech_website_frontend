@@ -3,6 +3,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import AdminLayout from '../layout/adminLayout/AdminLayout';
 import PublicLayout from '../layout/publicLayout/PublicLayout';
 import Home from '../pages/home/Home';
+import About from '../pages/about/About';
 
 // Lazy-loaded routes — each page is its own chunk, only parsed when visited
 const Login = lazy(() => import('../pages/login/Login'));
@@ -26,6 +27,7 @@ const AppRoutes = () => (
       {/* Public Routes - with shared Navbar */}
       <Route element={<PublicLayout />}>
         <Route path='/' element={<Home />} />
+        <Route path='/about' element={<About />} />
       </Route>
       <Route path='/login' element={<Login />} />
 
