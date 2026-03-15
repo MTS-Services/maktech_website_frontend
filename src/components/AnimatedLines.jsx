@@ -1,20 +1,32 @@
 /**
  * Animated Vertical Lines Component
  * 
- * Creates 4 vertical lines across the page with animated water drop effects
+ * Creates vertical lines across the page with animated water drop effects.
+ * Shows 2 lines on mobile, 4 on desktop for a cleaner responsive look.
  * Used as a background animation on public pages (not in admin dashboard)
  */
 
+import { useState, useEffect } from 'react'
+
 const AnimatedLines = () => {
-  // Line positions (percentage from left)
-  const linePositions = [15, 38, 62, 85]
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth <= 425)
+    check()
+    window.addEventListener('resize', check)
+    return () => window.removeEventListener('resize', check)
+  }, [])
+
+  // 2 lines on mobile, 4 on desktop
+  const linePositions = isMobile ? [15,30, 70,85] : [12, 30, 50, 68,88]
 
   return (
     <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
       {linePositions.map((position, index) => (
         <div
           key={index}
-          className="absolute top-0 bottom-0 w-px bg-linear-to-b from-transparent via-gray-600/50 to-transparent"
+          className="absolute top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-gray-600/50 to-transparent"
           style={{ left: `${position}%` }}
         >
           {/* Animated capsule/rectangular drop that moves down the line */}

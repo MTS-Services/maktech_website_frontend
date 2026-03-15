@@ -3,86 +3,127 @@ const bgImage = "/home_banner_bg.png";
 
 const Banner = () => {
   const [visible, setVisible] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 1280);
+    check();
+    window.addEventListener("resize", check);
     const timer = setTimeout(() => setVisible(true), 50);
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("resize", check);
+    };
   }, []);
+
   return (
     <div
-      className="relative w-full h-screen flex items-center justify-center"
-      style={{
-        backgroundImage: `url(${bgImage})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
+      className={`relative w-full flex items-start justify-center ${
+        isMobile ? "" : "h-screen"
+      }`}
+      style={
+        !isMobile
+          ? {
+              backgroundImage: `url(${bgImage})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }
+          : undefined
+      }
     >
       {/* Content Container - Max Width */}
-      <div className="w-full max-w-7xl mx-auto px-6 md:px-12 lg:px-24 z-10">
-        {/* Logo */}
-        <div
-          className={`flex items-center gap-2 mb-9 transition-all duration-500 ease-out ${
-            visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
-          }`}
-          style={{ transitionDelay: "100ms" }}
-        >
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-            <polygon points="4,4 20,12 4,20" fill="#e8500a" />
-            <polygon points="13,4 20,8 13,12" fill="white" opacity="0.7" />
-          </svg>
-          <span className="text-white font-bold text-lg tracking-tight">
-            maktech
-          </span>
-        </div>
+      <div
+        className={
+          isMobile
+            ? "w-full px-5 z-10 pt-20 pb-8"
+            : "w-full max-w-[70%] mx-auto px-6 md:px-12 lg:px-24 z-10 md:mt-55 lg:mt-52 xl:mt-42.5 2xl:mt-35"
+        }
+      >
+        {/* Logo - only on desktop */}
+        {!isMobile && (
+          <div
+            className={`flex items-center gap-2 mb-9 transition-all duration-500 ease-out xl:-ml-5 2xl:ml-0 ${
+              visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
+            }`}
+            style={{ transitionDelay: "100ms" }}
+          >
+            <img
+              src="/maktech_logo_white.png"
+              alt="maktech logo"
+              className="h-6 w-auto"
+            />
+          </div>
+        )}
 
         {/* Heading */}
         <h1
-          className={`text-white font-extrabold leading-tight mb-9 transition-all duration-500 ease-out ${
-            visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
-          }`}
-          style={{
-            fontSize: "clamp(28px, 3.8vw, 46px)",
-            letterSpacing: "-1.5px",
-            transitionDelay: "250ms",
-            maxWidth: "560px",
-          }}
+          className={`relative font-bold mb-9 max-w-[1080px] transition-all duration-500 ease-out ${
+            isMobile
+              ? "text-[22px] leading-[1.35] text-white"
+              : "text-white 2xl:leading-[1.1] text-2xl md:text-[26px] lg:text-[33px] xl:text-[48px] 2xl:text-[68px] tracking-[0.5px] delay-250 xl:-ml-5 2xl:ml-0"
+          } ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"}`}
         >
-          Full–Stack IT Solutions That Drive
-          <br />
-          Business Growth at{" "}
-          <span className="relative inline-block text-[#7a7a7a]">
-            Every Stage
-            <span
-              className="absolute left-0 bottom-[-4px] w-full h-[2px] rounded-full"
-              style={{ background: "#e8500a" }}
-            />
-          </span>
+          {isMobile ? (
+            <>
+              {/* Sketch annotation decorations */}
+              <img
+                src="/Sketch-annotation.svg"
+                alt=""
+                aria-hidden="true"
+                className="pointer-events-none absolute select-none"
+                style={{
+                  top: "-80%",
+                  right: "-5%",
+                  width: "180px",
+                  height: "auto",
+                  opacity: 0.9,
+                }}
+              />
+              We design, develop, and launch high performance{" "}
+              <span className="text-[#676767]">
+                software that turns ideas into impact.
+              </span>
+            </>
+          ) : (
+            <>
+              Full-Stack IT Solutions That Drive
+              <br />
+              Business Growth at{" "}
+              <span className="relative inline-block text-[#676767]">
+                Every Stage
+              </span>
+            </>
+          )}
         </h1>
 
         {/* CTA Button */}
         <button
-          className={`group flex items-center gap-3 w-fit rounded-full font-semibold text-sm text-white transition-all duration-500 ease-out hover:-translate-y-0.5 active:scale-95 ${
-            visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
-          }`}
+          className={`group flex items-center justify-center gap-3 rounded-full font-semibold cursor-pointer text-white transition-all duration-500 ease-out hover:-translate-y-0.5 active:scale-95 ${
+            isMobile
+              ? "w-full text-base py-1"
+              : "w-fit text-lg xl:-ml-5 2xl:ml-0"
+          } ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"}`}
           style={{
-            background: "#e8500a",
-            padding: "13px 24px",
+            background: "var(--color-orange-bg-cta)",
+            padding: isMobile ? "12px 24px" : "13px 24px",
             transitionDelay: "450ms",
           }}
           onMouseEnter={(e) => (e.currentTarget.style.background = "#d14608")}
-          onMouseLeave={(e) => (e.currentTarget.style.background = "#e8500a")}
+          onMouseLeave={(e) =>
+            (e.currentTarget.style.background = "var(--color-orange-bg-cta)")
+          }
         >
-          Contact With Us
+          {isMobile ? "Contact Us" : "Contact With Us"}
           <span
-            className="w-7 h-7 flex items-center justify-center rounded-full flex-shrink-0"
-            style={{ background: "rgba(255,255,255,0.18)" }}
+            className="w-7 h-7 flex items-center justify-center rounded-full shrink-0"
+            style={{ background: "var(--color-white-bg-cta)" }}
           >
             <svg
               width="14"
               height="14"
               viewBox="0 0 16 16"
               fill="none"
-              stroke="white"
+              stroke="black"
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"

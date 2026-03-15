@@ -37,7 +37,7 @@ const Login = () => {
         <div className="bg-white rounded-2xl shadow-2xl p-8">
           {/* Header */}
           <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-black-bg-cta rounded-full mb-4">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-orange-bg-cta rounded-full mb-4">
               <MdLogin className="text-3xl text-white" />
             </div>
             <h1 className="text-3xl font-bold text-gray-900 mb-2">
@@ -49,10 +49,10 @@ const Login = () => {
           </div>
 
           {/* Demo Credentials Card */}
-          <div className="bg-orange-50 border-l-4 border-black-bg-cta p-4 mb-6 rounded">
+          <div className="bg-orange-50 border-l-4 border-orange-bg-cta p-4 mb-6 rounded">
             <div className="flex items-start">
               <div className="shrink-0">
-                <svg className="h-5 w-5 text-black-bg-cta" viewBox="0 0 20 20" fill="currentColor">
+                <svg className="h-5 w-5 text-orange-bg-cta" viewBox="0 0 20 20" fill="currentColor">
                   <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
                 </svg>
               </div>
@@ -82,7 +82,7 @@ const Login = () => {
                 type="email"
                 id="email"
                 placeholder="admin@test.com"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black-bg-cta focus:border-transparent transition-all"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-bg-cta focus:border-transparent transition-all"
                 defaultValue="admin@test.com"
               />
             </div>
@@ -99,7 +99,7 @@ const Login = () => {
                 type="password"
                 id="password"
                 placeholder="Enter password"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black-bg-cta focus:border-transparent transition-all"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-bg-cta focus:border-transparent transition-all"
                 defaultValue="123"
               />
             </div>
@@ -108,7 +108,7 @@ const Login = () => {
           {/* Continue to Login Button */}
           <button
             onClick={handleLogin}
-            className="w-full bg-black-bg-cta text-white py-3 rounded-lg font-semibold hover:opacity-90 transition-all duration-200 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+            className="w-full bg-orange-bg-cta text-white py-3 rounded-lg font-semibold hover:opacity-90 transition-all duration-200 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
           >
             <MdLogin className="text-xl" />
             Continue to Login
