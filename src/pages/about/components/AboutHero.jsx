@@ -2,37 +2,6 @@ import Breadcrumb from '../../../components/Breadcrumb';
 
 const AboutHero = () => (
   <div className='relative flex flex-col items-center justify-center min-h-[88vh] xl:min-h-screen px-5 pt-28 pb-16 text-center'>
-    {/* Left glass effect — decorative, desktop only */}
-    <div
-      className='hidden xl:block absolute left-0 top-1/2 -translate-y-1/2 pointer-events-none select-none'
-      aria-hidden='true'
-    >
-      <img
-        src='/glassEffectRight.png'
-        alt=''
-        width={1040}
-        height={420}
-        loading='lazy'
-        decoding='async'
-        className='-ml-98 mt-100 '
-      />
-    </div>
-
-    {/* Right glass effect — decorative, desktop only */}
-    <div
-      className='hidden xl:block absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none select-none'
-      aria-hidden='true'
-    >
-      <img
-        src='/glassEffectLeft.png'
-        alt=''
-        width={240}
-        height={420}
-        loading='lazy'
-        decoding='async'
-      />
-    </div>
-
     {/* Breadcrumb */}
     <div className='mb-10 relative z-10'>
       <Breadcrumb label='About US' />
