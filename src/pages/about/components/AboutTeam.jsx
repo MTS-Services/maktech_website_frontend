@@ -30,10 +30,10 @@ const TeamCard = ({ name, role, photo }) => (
     />
     {/* Bottom gradient overlay */}
     <div
-      className='absolute inset-x-0 bottom-0 h-2/5 bg-linear-to-t from-black/80 to-transparent'
+      className='absolute inset-x-0 bottom-0 h-2/5 bg-linear-to-t from-black/95 via-black/60 to-transparent'
       aria-hidden='true'
     />
-    <div className='absolute inset-x-0 bottom-0 px-6 py-5'>
+    <div className='absolute inset-x-0 bottom-0 px-6 py-5 text-center'>
       <p className='text-white text-lg font-semibold leading-snug'>{name}</p>
       <p className='text-white/60 text-base mt-0.5'>{role}</p>
     </div>
