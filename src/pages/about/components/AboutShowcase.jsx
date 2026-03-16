@@ -1,48 +1,6 @@
 import AnimatedLines from '../../../components/AnimatedLines';
-import { useEffect, useRef, useState } from 'react';
+import AnimatedCounter from '../../../components/AnimatedCounter';
 import { FaStar } from 'react-icons/fa';
-
-const AnimatedCounter = ({ target, duration = 2000, suffix = '+' }) => {
-  const [count, setCount] = useState(0);
-  const [hasStarted, setHasStarted] = useState(false);
-  const ref = useRef(null);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setHasStarted(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.1 },
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (!hasStarted) return;
-    let startTime = null;
-    const tick = (now) => {
-      if (!startTime) startTime = now;
-      const progress = Math.min((now - startTime) / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 4);
-      setCount(Math.floor(eased * target));
-      if (progress < 1) requestAnimationFrame(tick);
-    };
-    requestAnimationFrame(tick);
-  }, [hasStarted, target, duration]);
-
-  return (
-    <span ref={ref}>
-      {count.toLocaleString()}
-      {suffix}
-    </span>
-  );
-};
 
 const AboutShowcase = () => (
   <section
@@ -131,7 +89,7 @@ const AboutShowcase = () => (
               </div>
 
               {/* Quote */}
-              <p className='text-white/90 text-base leading-relaxed flex-1 mt-4'>
+              <p className='text-white/90 text-lg leading-relaxed flex-1 mt-4'>
                 &ldquo;The team understood our vision from day one. The final
                 product was clean, fast, and exactly what we needed to
                 scale.&rdquo;
