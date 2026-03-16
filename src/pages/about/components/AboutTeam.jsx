@@ -4,17 +4,17 @@ const TEAM_MEMBERS = [
   {
     name: 'Mohammad Alamgir Kabir',
     role: 'Founder & CEO',
-    photo: '/about1.png',
+    photo: '/sir.png',
   },
   {
     name: 'Mohammad Alamgir Kabir',
     role: 'Founder & CEO',
-    photo: '/about1.png',
+    photo: '/sir.png',
   },
   {
     name: 'Mohammad Alamgir Kabir',
     role: 'Founder & CEO',
-    photo: '/about1.png',
+    photo: '/sir.png',
   },
 ];
 
@@ -48,9 +48,13 @@ const AboutTeam = () => (
     <AnimatedLines />
 
     <div className='relative z-10 max-w-360 mx-auto'>
-      <h2 className='text-white text-2xl sm:text-3xl xl:text-4xl font-normal text-center mb-10'>
+      <h2 className='text-white text-2xl sm:text-3xl xl:text-4xl font-normal text-center mb-4'>
         Where Innovation Begins
       </h2>
+      <p className='text-white/60 text-base leading-relaxed text-center max-w-2xl mx-auto mb-12'>
+        Behind every system we build is a team that takes ownership seriously.
+        These are the people who define how Maktech thinks, works, and delivers.
+      </p>
 
       <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 xl:gap-5'>
         {TEAM_MEMBERS.map((member, idx) => (
