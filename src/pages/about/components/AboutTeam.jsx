@@ -1,0 +1,64 @@
+import AnimatedLines from '../../../components/AnimatedLines';
+
+const TEAM_MEMBERS = [
+  {
+    name: 'Mohammad Alamgir Kabir',
+    role: 'Founder & CEO',
+    photo: '/about1.png',
+  },
+  {
+    name: 'Mohammad Alamgir Kabir',
+    role: 'Founder & CEO',
+    photo: '/about1.png',
+  },
+  {
+    name: 'Mohammad Alamgir Kabir',
+    role: 'Founder & CEO',
+    photo: '/about1.png',
+  },
+];
+
+const TeamCard = ({ name, role, photo }) => (
+  <article className='relative rounded-2xl overflow-hidden aspect-3/4 bg-[#1a1a1a]'>
+    <img
+      src={photo}
+      alt={`${name} — ${role}`}
+      width={400}
+      height={533}
+      className='w-full h-full object-cover object-top'
+      loading='lazy'
+    />
+    {/* Bottom gradient overlay */}
+    <div
+      className='absolute inset-x-0 bottom-0 h-2/5 bg-linear-to-t from-black/80 to-transparent'
+      aria-hidden='true'
+    />
+    <div className='absolute inset-x-0 bottom-0 px-6 py-5'>
+      <p className='text-white text-lg font-semibold leading-snug'>{name}</p>
+      <p className='text-white/60 text-base mt-0.5'>{role}</p>
+    </div>
+  </article>
+);
+
+const AboutTeam = () => (
+  <section
+    aria-label='Meet the Maktech team'
+    className='relative w-full bg-black-bg overflow-hidden px-4 sm:px-6 lg:px-10 xl:px-14 2xl:px-16 py-16 lg:py-24'
+  >
+    <AnimatedLines />
+
+    <div className='relative z-10 max-w-360 mx-auto'>
+      <h2 className='text-white text-2xl sm:text-3xl xl:text-4xl font-normal text-center mb-10'>
+        Where Innovation Begins
+      </h2>
+
+      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 xl:gap-5'>
+        {TEAM_MEMBERS.map((member, idx) => (
+          <TeamCard key={idx} {...member} />
+        ))}
+      </div>
+    </div>
+  </section>
+);
+
+export default AboutTeam;
