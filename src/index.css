@@ -16,7 +16,7 @@
   --color-white-bg-cta: #ffffff;
   --color-white-bg-font: #2f2f2f;
 
-  --font-family-dm-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-family-dm-sans: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
 }
 
 /* Lenis Smooth Scroll */
@@ -51,7 +51,7 @@ body {
 
 code {
   font-family:
-    source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+    source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
 /* Custom scrollbar styles for webkit browsers */
@@ -100,6 +100,36 @@ code {
 @media (min-width: 1536px) {
   .diagonal-marquee {
     top: calc(100vh - 150px);
+  }
+}
+
+/* ===== Feature Card Entrance Animation ===== */
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(36px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== Section Lines Drop Animation ===== */
+@keyframes lineDrop {
+  0% {
+    top: -10%;
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.6;
+  }
+  90% {
+    opacity: 0.6;
+  }
+  100% {
+    top: 110%;
+    opacity: 0;
   }
 }
 

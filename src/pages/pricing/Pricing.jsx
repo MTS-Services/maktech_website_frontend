@@ -1,7 +1,12 @@
 import { useEffect } from 'react';
 import Breadcrumb from '../../components/Breadcrumb';
 import FeatureSection from '../../components/FeatureSection';
-import { FaBullhorn } from 'react-icons/fa';
+import {
+  FaFileInvoiceDollar,
+  FaLayerGroup,
+  FaChartLine,
+  FaCreditCard,
+} from 'react-icons/fa';
 
 const RATE_FEATURES = [
   {
@@ -10,7 +15,10 @@ const RATE_FEATURES = [
     description:
       'No hidden fees or surprise costs. We provide detailed quotes upfront so you know exactly what you are paying for from start to finish.',
     icon: (
-      <FaBullhorn className='w-5 h-5 text-orange-bg-cta' aria-hidden='true' />
+      <FaFileInvoiceDollar
+        className='w-5 h-5 text-orange-bg-cta'
+        aria-hidden='true'
+      />
     ),
   },
   {
@@ -19,7 +27,7 @@ const RATE_FEATURES = [
     description:
       'Whether you are a startup or an enterprise, we offer flexible service tiers that grow with your business and budget.',
     icon: (
-      <FaBullhorn className='w-5 h-5 text-orange-bg-cta' aria-hidden='true' />
+      <FaLayerGroup className='w-5 h-5 text-orange-bg-cta' aria-hidden='true' />
     ),
   },
   {
@@ -28,7 +36,7 @@ const RATE_FEATURES = [
     description:
       'Get premium, agency-quality UI/UX design at competitive rates. We optimize our workflow to deliver top-tier results efficiently.',
     icon: (
-      <FaBullhorn className='w-5 h-5 text-orange-bg-cta' aria-hidden='true' />
+      <FaChartLine className='w-5 h-5 text-orange-bg-cta' aria-hidden='true' />
     ),
   },
   {
@@ -37,7 +45,7 @@ const RATE_FEATURES = [
     description:
       'We offer milestone-based payment plans, allowing you to pay as the project progresses and ensuring your peace of mind.',
     icon: (
-      <FaBullhorn className='w-5 h-5 text-orange-bg-cta' aria-hidden='true' />
+      <FaCreditCard className='w-5 h-5 text-orange-bg-cta' aria-hidden='true' />
     ),
   },
 ];
@@ -116,6 +124,8 @@ const Pricing = () => {
         ctaLink='#'
         features={RATE_FEATURES}
         iconBg={false}
+        animatedLines={true}
+        animateCards={true}
         backgroundStyle='dark'
         backgroundImages={{ blob: '/why_choice_us/Group_1261154808.png' }}
       />

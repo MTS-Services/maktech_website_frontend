@@ -16,8 +16,23 @@
  * - backgroundStyle?: 'dark' | 'light' (default: 'dark')
  */
 
-const FeatureCard = ({ feature, iconBg = true }) => (
-  <div className='bg-[#1e1e1e] xl:bg-[#1e1e1e] rounded-xl p-6 flex flex-col gap-4 border border-white/5'>
+const FeatureCard = ({
+  feature,
+  iconBg = true,
+  index = 0,
+  animateCards = false,
+}) => (
+  <div
+    className='bg-[#1e1e1e] xl:bg-[#1e1e1e] rounded-xl p-6 flex flex-col gap-4 border border-white/5'
+    style={
+      animateCards
+        ? {
+            animation: `fadeSlideUp 0.55s cubic-bezier(0.22,1,0.36,1) both`,
+            animationDelay: `${index * 0.12}s`,
+          }
+        : undefined
+    }
+  >
     {/* Icon */}
     <div
       className={`w-11 h-11 rounded-lg flex items-center justify-center shrink-0 ${
@@ -48,6 +63,8 @@ const FeatureSection = ({
   backgroundStyle = 'dark',
   backgroundImages = null,
   iconBg = true,
+  animatedLines = false,
+  animateCards = false,
 }) => {
   const isDarkBg = backgroundStyle === 'dark';
 
@@ -64,6 +81,51 @@ const FeatureSection = ({
             aria-hidden='true'
             className='w-full h-full object-cover'
           />
+        </div>
+      )}
+
+      {/* Animated vertical lines — section scoped */}
+      {animatedLines && (
+        <div
+          aria-hidden='true'
+          className='absolute inset-0 z-0 overflow-hidden pointer-events-none'
+        >
+          {[12, 30, 50, 70, 88].map((pos, i) => (
+            <div
+              key={i}
+              className='absolute top-0 bottom-0 w-px'
+              style={{
+                left: `${pos}%`,
+                background:
+                  'linear-gradient(to bottom, transparent, rgba(255,101,51,0.12) 40%, rgba(255,101,51,0.06) 60%, transparent)',
+              }}
+            >
+              <div
+                className='absolute w-0.5 h-16 rounded-full'
+                style={{
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  background:
+                    'linear-gradient(to bottom, transparent, #ff6533 50%, transparent)',
+                  opacity: 0.45,
+                  animation: `lineDrop ${7 + i * 1.5}s linear infinite`,
+                  animationDelay: `${i * 1.4}s`,
+                }}
+              />
+              <div
+                className='absolute w-0.5 h-10 rounded-full'
+                style={{
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  background:
+                    'linear-gradient(to bottom, transparent, #ff6533 50%, transparent)',
+                  opacity: 0.3,
+                  animation: `lineDrop ${9 + i * 1.2}s linear infinite`,
+                  animationDelay: `${i * 1.4 + 3.5}s`,
+                }}
+              />
+            </div>
+          ))}
         </div>
       )}
 
@@ -202,8 +264,14 @@ const FeatureSection = ({
 
           {/* Cards — 1 col mobile, 2 col tablet */}
           <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-            {features.map((f) => (
-              <FeatureCard key={f.id} feature={f} iconBg={iconBg} />
+            {features.map((f, i) => (
+              <FeatureCard
+                key={f.id}
+                feature={f}
+                iconBg={iconBg}
+                index={i}
+                animateCards={animateCards}
+              />
             ))}
           </div>
         </div>
@@ -311,8 +379,14 @@ const FeatureSection = ({
 
           {/* Right: 2×2 feature cards */}
           <div className='flex-1 grid grid-cols-2 gap-4'>
-            {features.map((f) => (
-              <FeatureCard key={f.id} feature={f} iconBg={iconBg} />
+            {features.map((f, i) => (
+              <FeatureCard
+                key={f.id}
+                feature={f}
+                iconBg={iconBg}
+                index={i}
+                animateCards={animateCards}
+              />
             ))}
           </div>
         </div>
