@@ -58,7 +58,7 @@ const AboutShowcase = () => (
         <div className='w-full lg:w-[57%] flex flex-col gap-4 xl:gap-5'>
           {/* Person photo + Happy clients badge */}
           <div className='flex gap-4 xl:gap-5 lg:h-[48%] items-start'>
-            <div className='w-[34%] aspect-3/4 lg:aspect-auto lg:h-full shrink-0 rounded-2xl overflow-hidden relative z-10 -mt-22'>
+            <div className='w-[34%] aspect-3/4 lg:aspect-auto lg:h-[102%] shrink-0 rounded-2xl overflow-hidden relative z-10 -mt-23'>
               <img
                 src='/about1.png'
                 alt='Maktech team member'
@@ -74,7 +74,7 @@ const AboutShowcase = () => (
                 alt='Over 5000 happy clients — a digital-first team'
                 width={300}
                 height={56}
-                className='w-full h-full object-cover rounded-2xl'
+                className='w-[95%] ml-4 h-full object-cover rounded-2xl'
                 loading='lazy'
               />
             </div>
@@ -96,13 +96,13 @@ const AboutShowcase = () => (
         {/* ─── Right Column ─── */}
         <div className='w-full lg:w-[43%] flex flex-col gap-3'>
           {/* Geometric cubes + title */}
-          <div className='lg:h-[42%]'>
+          <div className='lg:h-[40%] overflow-hidden rounded-2xl bg-white'>
             <img
               src='/about4.png'
               alt='Designing digital systems for sustainable growth'
               width={400}
-              height={280}
-              className='w-full h-full object-contain object-top'
+              height={200}
+              className='w-full h-full object-cover'
               loading='lazy'
             />
           </div>
