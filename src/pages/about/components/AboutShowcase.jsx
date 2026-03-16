@@ -96,19 +96,19 @@ const AboutShowcase = () => (
         {/* ─── Right Column ─── */}
         <div className='w-full lg:w-[43%] flex flex-col gap-3'>
           {/* Geometric cubes + title */}
-          <div className='lg:h-[32%] overflow-hidden rounded-2xl relative'>
+          <div className='lg:h-[30%] overflow-hidden rounded-2xl relative'>
             <img
               src='/about4.png'
               alt='Designing digital systems for sustainable growth'
               width={400}
               height={200}
-              className='w-full h-full'
+              className='w-full h-full ml-6 rounded-2xl'
               loading='lazy'
             />
           </div>
 
           {/* Testimonial card */}
-          <div className='flex-1 min-h-48 rounded-2xl overflow-hidden'>
+          <div className='flex-1 min-h-48 rounded-2xl overflow-hidden mt-6'>
             {/* <img
               src='/about5.png'
               alt='Five-star testimonial from a Product Manager at a SaaS Startup'
@@ -117,7 +117,7 @@ const AboutShowcase = () => (
               className='w-full h-full'
               loading='lazy'
             /> */}
-            <div className='w-full h-full lg:h-[67.5%] bg-[#2a2a2a]  overflow-visible rounded-2xl px-6 py-6 flex flex-col'>
+            <div className='w-full h-full lg:h-[66%] bg-[#2a2a2a] ml-6 overflow-visible rounded-2xl px-6 py-6 flex flex-col'>
               {/* Stars */}
               <div className='flex items-center gap-1 overflow-visible'>
                 {[...Array(5)].map((_, i) => (
@@ -181,7 +181,7 @@ const AboutShowcase = () => (
                 <span className='text-white text-4xl xl:text-5xl font-bold tracking-tight'>
                   <AnimatedCounter target={2500} suffix='+' />
                 </span>
-                <span className='text-white/50 text-base font-medium mt-2'>
+                <span className='text-white/50 text-base font-medium'>
                   Project Completed
                 </span>
               </div>
