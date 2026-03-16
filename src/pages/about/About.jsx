@@ -1,6 +1,10 @@
 import { useEffect } from 'react';
 import AboutHero from './components/AboutHero';
 import AboutShowcase from './components/AboutShowcase';
+import AboutMission from './components/AboutMission';
+import AboutTeam from './components/AboutTeam';
+import Testimonials from '../home/components/Testimonials';
+import FAQ from '../home/components/FAQ';
 
 const About = () => {
   useEffect(() => {
@@ -15,6 +19,10 @@ const About = () => {
     >
       <AboutHero />
       <AboutShowcase />
+      <AboutMission />
+      <AboutTeam />
+      <Testimonials />
+      <FAQ />
     </main>
   );
 };

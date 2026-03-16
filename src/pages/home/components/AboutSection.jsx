@@ -1,56 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
-
-// Custom hook to animate numbers
-const AnimatedCounter = ({ target, duration = 2000, suffix = '+' }) => {
-  const [count, setCount] = useState(0);
-  const [isVisible, setIsVisible] = useState(false);
-  const ref = useRef(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.1 }, // Triggers when 10% of the element is in view
-    );
-
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (!isVisible) return;
-
-    let startTime = null;
-    const animate = (currentTime) => {
-      if (!startTime) startTime = currentTime;
-      const progress = Math.min((currentTime - startTime) / duration, 1);
-
-      // easeOutQuart easing function for smooth deceleration
-      const easeOut = 1 - Math.pow(1 - progress, 4);
-      setCount(Math.floor(easeOut * target));
-
-      if (progress < 1) {
-        requestAnimationFrame(animate);
-      }
-    };
-
-    requestAnimationFrame(animate);
-  }, [isVisible, target, duration]);
-
-  return (
-    <span ref={ref}>
-      {count.toLocaleString()}
-      {suffix}
-    </span>
-  );
-};
+import AnimatedCounter from '../../../components/AnimatedCounter';
 
 const AboutSection = () => {
   const stats = [
@@ -79,8 +27,8 @@ const AboutSection = () => {
             {/* Badge */}
             <div className='flex items-center gap-2 bg-[#f0ddd8] px-3 py-1.5 border border-[#e5cac3] rounded-md'>
               <div className='relative flex items-center justify-center w-3.5 h-3.5'>
-                <span className='absolute w-full h-full bg-[#ff6533] rounded-full opacity-30'></span>
-                <span className='w-2 h-2 bg-[#ff6533] rounded-full'></span>
+                <span className='absolute w-full h-full bg-orange-bg-cta rounded-full opacity-30'></span>
+                <span className='w-2 h-2 bg-orange-bg-cta rounded-full'></span>
               </div>
               <span className='text-xl font-medium text-[#555555]'>
                 Who We are
@@ -117,7 +65,7 @@ const AboutSection = () => {
 
             {/* CTA Button */}
             <button
-              className='mt-2 bg-[#ff6533] hover:bg-[#d14608] text-white px-6 py-3 rounded-sm text-base font-semibold flex items-center gap-2 transition-colors duration-200 cursor-pointer'
+              className='mt-2 bg-orange-bg-cta hover:bg-[#d14608] text-white px-6 py-3 rounded-sm text-base font-semibold flex items-center gap-2 transition-colors duration-200 cursor-pointer'
               onMouseEnter={(e) =>
                 (e.currentTarget.style.background = '#d14608')
               }
@@ -146,7 +94,7 @@ const AboutSection = () => {
         <div className='grid grid-cols-4 gap-4'>
           {stats.map((stat, idx) => (
             <div key={idx} className='flex flex-col gap-1'>
-              <h3 className='text-4xl xl:text-5xl font-bold text-[var(--color-white-bg-font)] tracking-tight'>
+              <h3 className='text-4xl xl:text-5xl font-bold text-(--color-white-bg-font) tracking-tight'>
                 <AnimatedCounter target={stat.target} suffix={stat.suffix} />
               </h3>
               <p className='text-[#666666] text-lg font-medium mt-1'>
