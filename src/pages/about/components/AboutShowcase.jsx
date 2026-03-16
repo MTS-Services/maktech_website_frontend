@@ -16,7 +16,7 @@ const AboutShowcase = () => (
         <div className='w-full lg:w-[57%] flex flex-col gap-4 xl:gap-5'>
           {/* Person photo + Happy clients badge */}
           <div className='flex gap-4 xl:gap-5 lg:h-[48%] items-start'>
-            <div className='w-[34%] aspect-3/4 lg:aspect-auto lg:h-[102%] shrink-0 rounded-2xl overflow-hidden relative z-10 mt-0 lg:-mt-23'>
+            <div className='w-[34%] aspect-3/4 lg:aspect-auto lg:h-[102%] shrink-0 rounded-2xl overflow-hidden relative z-10 -mt-14 lg:-mt-23'>
               <img
                 src='/about1.png'
                 alt='Maktech team member'
@@ -32,7 +32,7 @@ const AboutShowcase = () => (
                 alt='Over 5000 happy clients — a digital-first team'
                 width={300}
                 height={56}
-                className='w-[95%] ml-4 h-full object-cover rounded-2xl'
+                className='w-full lg:w-[95%]  lg:ml-4 h-full object-cover rounded-2xl'
                 loading='lazy'
               />
             </div>
@@ -45,7 +45,7 @@ const AboutShowcase = () => (
               alt='Maktech team collaborating in a modern workspace'
               width={600}
               height={400}
-              className='w-full h-full mt-0 lg:-mt-50'
+              className='w-full h-full -mt-16 lg:-mt-50'
               loading='lazy'
             />
           </div>
@@ -54,7 +54,7 @@ const AboutShowcase = () => (
         {/* ─── Right Column ─── */}
         <div className='w-full lg:w-[43%] flex flex-col gap-3'>
           {/* Geometric cubes + title */}
-          <div className='h-48 sm:h-56 lg:h-[30%] overflow-hidden rounded-2xl relative'>
+          <div className='h-48 sm:h-56 lg:h-[30%] overflow-hidden rounded-2xl relative mt-4 lg:mt-0'>
             <img
               src='/about4.png'
               alt='Designing digital systems for sustainable growth'
