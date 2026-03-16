@@ -89,7 +89,7 @@ const AboutShowcase = () => (
               </div>
 
               {/* Quote */}
-              <p className='text-white/90 text-lg leading-relaxed flex-1 mt-4'>
+              <p className='text-white/90 text-lg leading-relaxed flex-1 mt-6'>
                 &ldquo;The team understood our vision from day one. The final
                 product was clean, fast, and exactly what we needed to
                 scale.&rdquo;
