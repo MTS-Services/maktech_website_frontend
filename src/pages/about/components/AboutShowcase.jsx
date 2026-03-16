@@ -172,7 +172,7 @@ const AboutShowcase = () => (
                 <span className='text-white text-5xl xl:text-6xl font-bold tracking-tight'>
                   <AnimatedCounter target={300} suffix='+' />
                 </span>
-                <span className='text-white/50 text-base font-medium mt-4 text-center'>
+                <span className='text-white/50 text-lg font-medium mt-2 text-start -ml-8'>
                   Happy Client
                 </span>
               </div>
@@ -181,7 +181,7 @@ const AboutShowcase = () => (
                 <span className='text-white text-5xl xl:text-6xl font-bold tracking-tight'>
                   <AnimatedCounter target={2500} suffix='+' />
                 </span>
-                <span className='text-white/50 text-base font-medium mt-4 text-center'>
+                <span className='text-white/50 text-lg font-medium mt-2 text-start -ml-8'>
                   Project Completed
                 </span>
               </div>
