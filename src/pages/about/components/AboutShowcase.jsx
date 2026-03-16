@@ -96,13 +96,13 @@ const AboutShowcase = () => (
         {/* ─── Right Column ─── */}
         <div className='w-full lg:w-[43%] flex flex-col gap-3'>
           {/* Geometric cubes + title */}
-          <div className='lg:h-[40%] overflow-hidden rounded-2xl bg-white'>
+          <div className='lg:h-[32%] overflow-hidden rounded-2xl relative'>
             <img
               src='/about4.png'
               alt='Designing digital systems for sustainable growth'
               width={400}
               height={200}
-              className='w-full h-full object-cover'
+              className='w-full h-full'
               loading='lazy'
             />
           </div>
@@ -117,7 +117,7 @@ const AboutShowcase = () => (
               className='w-full h-full'
               loading='lazy'
             /> */}
-            <div className='w-full h-full bg-[#2a2a2a]  overflow-visible rounded-2xl px-6 py-6 flex flex-col'>
+            <div className='w-full h-full lg:h-[67.5%] bg-[#2a2a2a]  overflow-visible rounded-2xl px-6 py-6 flex flex-col'>
               {/* Stars */}
               <div className='flex items-center gap-1 overflow-visible'>
                 {[...Array(5)].map((_, i) => (
