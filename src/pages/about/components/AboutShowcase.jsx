@@ -158,7 +158,7 @@ const AboutShowcase = () => (
           </div>
 
           {/* Stats bar */}
-          <div className='lg:h-[18%] min-h-20 rounded-2xl flex items-center justify-center'>
+          <div className='lg:h-[18%] min-h-20  rounded-2xl flex items-center justify-center'>
             {/* <img
               src='/about6.png'
               alt='300 plus happy clients and 2500 plus projects completed'
@@ -167,21 +167,21 @@ const AboutShowcase = () => (
               className='w-[180%] h-full mt-14 -ml-20'
               loading='lazy'
             /> */}
-            <div className='w-full h-full flex items-center justify-center bg-[#2a2a2a] rounded-2xl px-8 py-6'>
+            <div className='w-[114%] h-full flex items-center justify-center bg-[#2a2a2a] rounded-2xl px-8 py-6 -mt-48 -ml-20'>
               <div className='flex-1 flex flex-col items-center'>
-                <span className='text-white text-4xl xl:text-5xl font-bold tracking-tight'>
+                <span className='text-white text-5xl xl:text-6xl font-bold tracking-tight'>
                   <AnimatedCounter target={300} suffix='+' />
                 </span>
-                <span className='text-white/50 text-base font-medium mt-2'>
+                <span className='text-white/50 text-base font-medium mt-4 text-center'>
                   Happy Client
                 </span>
               </div>
               <div className='w-px h-12 border-l border-dashed border-white/30' />
               <div className='flex-1 flex flex-col items-center'>
-                <span className='text-white text-4xl xl:text-5xl font-bold tracking-tight'>
+                <span className='text-white text-5xl xl:text-6xl font-bold tracking-tight'>
                   <AnimatedCounter target={2500} suffix='+' />
                 </span>
-                <span className='text-white/50 text-base font-medium'>
+                <span className='text-white/50 text-base font-medium mt-4 text-center'>
                   Project Completed
                 </span>
               </div>
