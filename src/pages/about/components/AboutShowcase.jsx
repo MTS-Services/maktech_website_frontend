@@ -67,14 +67,6 @@ const AboutShowcase = () => (
 
           {/* Testimonial card */}
           <div className='flex-1 min-h-48 rounded-2xl overflow-hidden mt-6'>
-            {/* <img
-              src='/about5.png'
-              alt='Five-star testimonial from a Product Manager at a SaaS Startup'
-              width={400}
-              height={250}
-              className='w-full h-full'
-              loading='lazy'
-            /> */}
             <div className='w-full h-full lg:h-[66%] bg-[#2a2a2a] ml-6 overflow-visible rounded-2xl px-6 py-6 flex flex-col'>
               {/* Stars */}
               <div className='flex items-center gap-1 overflow-visible'>
@@ -117,14 +109,6 @@ const AboutShowcase = () => (
 
           {/* Stats bar */}
           <div className='lg:h-[18%] min-h-20  rounded-2xl flex items-center justify-center'>
-            {/* <img
-              src='/about6.png'
-              alt='300 plus happy clients and 2500 plus projects completed'
-              width={400}
-              height={80}
-              className='w-[180%] h-full mt-14 -ml-20'
-              loading='lazy'
-            /> */}
             <div className='w-[114%] h-full flex items-center justify-center bg-[#2a2a2a] rounded-2xl px-8 py-6 -mt-48 -ml-20'>
               <div className='flex-1 flex flex-col items-center'>
                 <span className='text-white text-5xl xl:text-6xl font-bold tracking-tight'>
