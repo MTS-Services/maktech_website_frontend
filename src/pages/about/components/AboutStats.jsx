@@ -1,48 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
-
-// ─── Animated counter — fires once when scrolled into view ─────────────────
-const AnimatedCounter = ({ target, duration = 2000, suffix = '+' }) => {
-  const [count, setCount] = useState(0);
-  const [hasStarted, setHasStarted] = useState(false);
-  const ref = useRef(null);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setHasStarted(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.1 },
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (!hasStarted) return;
-    let startTime = null;
-    const tick = (now) => {
-      if (!startTime) startTime = now;
-      const progress = Math.min((now - startTime) / duration, 1);
-      // easeOutQuart for smooth deceleration
-      const eased = 1 - Math.pow(1 - progress, 4);
-      setCount(Math.floor(eased * target));
-      if (progress < 1) requestAnimationFrame(tick);
-    };
-    requestAnimationFrame(tick);
-  }, [hasStarted, target, duration]);
-
-  return (
-    <span ref={ref}>
-      {count.toLocaleString()}
-      {suffix}
-    </span>
-  );
-};
+import AnimatedCounter from '../../../components/AnimatedCounter';
 
 const STATS = [
   { target: 7500, label: 'Clients Worldwide', suffix: '+' },
