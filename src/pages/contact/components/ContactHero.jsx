@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 
 const ContactHero = () => {
     return (
-        <div className='relative flex flex-col items-center justify-center  px-5 pt-28 pb-2 md:pb-16 text-center'>
+        <div className='relative flex flex-col items-center justify-center h-screen  px-5 pt-28 pb-2 md:pb-16 text-center'>
             {/* Breadcrumb */}
             <div className='mb-10 relative z-10'>
                 <nav aria-label='Breadcrumb'>

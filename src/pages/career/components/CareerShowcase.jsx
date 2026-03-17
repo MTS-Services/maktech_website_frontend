@@ -132,7 +132,7 @@ const CareerShowcase = () => {
     ];
 
     return (
-        <section className="py-12 "> 
+        <section className="py-12  h-screen"> 
             <div className="container mx-auto px-4">
 
                 {/* Masonry Grid */}
