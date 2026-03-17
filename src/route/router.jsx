@@ -8,7 +8,6 @@ import OurTeam from "../pages/ourTeam/OurTeam";
 import Career from "../pages/career/Career";
 import ApplyJobs from "../pages/career/ApplyJobs";
 import Contact from "../pages/contact/Contact";
-
 // Lazy-loaded routes — each page is its own chunk, only parsed when visited
 const Login = lazy(() => import("../pages/login/Login"));
 const Dashboard = lazy(() => import("../pages/admin/dashboard/Dashboard"));
