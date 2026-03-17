@@ -28,6 +28,7 @@ const companyMegaItems = [
   { title: "Blogs", slug: "blogs" },
   { title: "Career", slug: "career" },
   { title: "Our team", slug: "our-team" },
+   { title: "contact us", slug: "contact-us" },
 ];
 
 const navItemBaseClass =

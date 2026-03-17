@@ -3,7 +3,7 @@ import ServiceQuoteSection from './components/ServiceQuoteSection'
 import ServiceCaseStudyCard from './components/ServiceCaseStudyCard'
 import ServiceGrid from './components/ServiceGrid'
 import WhoWeAre from './components/WhoWeAre'
-import Testimonials from '../home/components/Testimonials'
+import Testimonials from '../../components/Testimonials'
 
 const Services = () => {
   return (
