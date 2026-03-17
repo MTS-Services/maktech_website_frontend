@@ -19,6 +19,8 @@ const Blog = lazy(() => import('../pages/admin/blog/Blog'));
 const Jobs = lazy(() => import('../pages/admin/jobs/Jobs'));
 const Pricing = lazy(() => import('../pages/admin/pricing/Pricing'));
 const Services = lazy(() => import('../pages/services/Services'));
+const Blogs = lazy(() => import('../pages/blogs/Blogs'));
+const BlogDetails = lazy(() => import('../pages/blogs/blogDetails/BlogDetails'));
 const ComingSoon = lazy(() => import('../pages/ComingSoon'));
 const NotFound = lazy(() => import('../pages/NotFound'));
 
@@ -30,6 +32,8 @@ const AppRoutes = () => (
         <Route path='/' element={<Home />} />
         <Route path='/about' element={<About />} />
         <Route path="/services" element={<Services />} />
+        <Route path="/blogs" element={<Blogs />} />
+        <Route path="/blogs/details" element={<BlogDetails />} />
         <Route path="/pricing" element={<ComingSoon />} />
         <Route path="/case-study" element={<ComingSoon />} />
         <Route path="/company" element={<ComingSoon />} />

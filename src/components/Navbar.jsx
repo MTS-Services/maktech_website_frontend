@@ -25,7 +25,7 @@ const servicesMegaItems = [
 ];
 
 const companyMegaItems = [
-  { title: "Blogs", slug: "blogs" },
+  { title: "Blogs", slug: "blogs", to: "/blogs" },
   { title: "Career", slug: "career" },
   { title: "Our team", slug: "our-team" },
 ];
@@ -398,7 +398,7 @@ const Navbar = () => {
                     {companyMegaItems.map((item) => (
                       <NavLink
                         key={item.slug}
-                        to={`/company?section=${item.slug}`}
+                        to={item.to || `/company?section=${item.slug}`}
                         className="rounded-sm bg-[#c7c7c7] px-4 py-2.5 text-[16px] font-medium leading-none text-black-bg no-underline transition-colors duration-200 hover:bg-orange-bg-cta hover:text-white"
                         onClick={handleNavigate}
                       >
@@ -428,7 +428,7 @@ const Navbar = () => {
                   {companyMegaItems.map((item) => (
                     <NavLink
                       key={item.slug}
-                      to={`/company?section=${item.slug}`}
+                      to={item.to || `/company?section=${item.slug}`}
                       className="block rounded-sm bg-white/5 px-3 py-2 text-[14px] text-white/90 no-underline transition-colors duration-200 hover:bg-orange-bg-cta hover:text-white"
                       onClick={handleNavigate}
                     >
