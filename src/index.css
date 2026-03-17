@@ -103,6 +103,14 @@ code {
   }
 }
 
+/* ===== Scrollbar hide utility ===== */
+.scrollbar-none {
+  scrollbar-width: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
 /* ===== Feature Card Entrance Animation ===== */
 @keyframes fadeSlideUp {
   from {

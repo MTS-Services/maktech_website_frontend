@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import PricingHero from './components/PricingHero';
+import PricingPlans from './components/PricingPlans';
 import PricingWhyBest from './components/PricingWhyBest';
 
 const Pricing = () => {
@@ -15,6 +16,7 @@ const Pricing = () => {
     >
       <PricingHero />
       <PricingWhyBest />
+      <PricingPlans />
     </main>
   );
 };
