@@ -37,9 +37,7 @@ const ContactHero = () => {
                 id='about-heading'
                 className='relative z-10 text-white font-bold leading-tight tracking-tight text-[clamp(1.75rem,5vw,4rem)] max-w-5xl mb-6'
             >
-
                 Designing
-
                 <span className='relative inline-block'>
                     Experiences That DriveGrowth
 
