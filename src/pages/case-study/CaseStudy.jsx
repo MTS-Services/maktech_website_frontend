@@ -11,7 +11,7 @@ const CaseStudy = () => {
     <main
       id='case-study'
       aria-labelledby='case-study-heading'
-      className='relative w-full overflow-hidden'
+      className='relative w-full'
     >
       <CaseStudyHero />
       <CaseStudyGrid />

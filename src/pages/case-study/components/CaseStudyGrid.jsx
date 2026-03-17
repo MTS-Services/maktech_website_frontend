@@ -16,13 +16,14 @@ const ProjectCard = ({ project, activeTab }) => (
   <Link
     to={`/case-study/${project.slug}`}
     state={{ category: activeTab }}
-    className='group bg-[#262626] block overflow-hidden relative rounded-2xl'
-    style={{ aspectRatio: '600/500' }}
+    aria-label={`View case study: ${project.title}`}
+    className='group bg-[#262626] block overflow-hidden relative rounded-2xl aspect-6/5'
   >
-    {/* Project image */}
     <img
       src={project.coverImage}
       alt={project.title}
+      loading='lazy'
+      decoding='async'
       className='absolute inset-0 w-full h-full object-cover pointer-events-none transition-transform duration-500 group-hover:scale-105'
     />
 
@@ -68,11 +69,11 @@ const CaseStudyGrid = () => {
     <section className='w-full pb-20 xl:pb-28'>
       <div className='max-w-7xl mx-auto px-5 xl:px-10 2xl:px-16 flex flex-col gap-10'>
         {/* Tab bar */}
-        <div className='flex justify-center'>
+        <div className='flex justify-center w-full overflow-x-auto scrollbar-none'>
           <div
             role='tablist'
             aria-label='Project categories'
-            className='flex items-center gap-1 p-4 rounded-2xl overflow-x-auto scrollbar-none'
+            className='flex items-center gap-1 p-4 rounded-2xl shrink-0'
             style={{ background: 'rgba(154,140,136,0.2)' }}
           >
             {TABS.map((tab) => {
@@ -98,11 +99,14 @@ const CaseStudyGrid = () => {
           </div>
         </div>
 
-        {/* Project grid */}
+        {/* Project grid — fadeSlideUp on tab change */}
         <div
           key={activeTab}
           className='grid grid-cols-1 md:grid-cols-2 gap-6'
-          style={{ animation: 'fadeSlideUp 0.4s ease both' }}
+          style={{
+            animation: 'fadeSlideUp 0.35s ease both',
+            willChange: 'opacity, transform',
+          }}
         >
           {filtered.length > 0 ? (
             filtered.map((project) => (
