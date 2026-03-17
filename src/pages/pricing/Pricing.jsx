@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import PricingHero from './components/PricingHero';
 import PricingPlans from './components/PricingPlans';
 import PricingWhyBest from './components/PricingWhyBest';
-import FAQ from '../home/components/FAQ';
+import FAQ from '../../components/FAQ';
 
 const Pricing = () => {
   useEffect(() => {
