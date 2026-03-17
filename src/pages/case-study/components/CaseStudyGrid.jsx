@@ -1,18 +1,6 @@
 import { useState } from 'react';
-
-// Figma project card images (remote — available for 7 days)
-const imgDesktop831 =
-  'https://www.figma.com/api/mcp/asset/780f5b2c-1d40-49bb-83be-c6a459062005';
-const imgMar1 =
-  'https://www.figma.com/api/mcp/asset/931072f5-e93d-47f3-bb18-d0e5fa6bddea';
-const imgMockup182 =
-  'https://www.figma.com/api/mcp/asset/ed63f473-64ea-4ca9-a699-976716525414';
-const img01WebShowcase =
-  'https://www.figma.com/api/mcp/asset/ec23a3f1-bcbd-4cf9-8fe5-fd89d69bcf7c';
-const imgMockupImage11 =
-  'https://www.figma.com/api/mcp/asset/b34547e3-4ce1-442f-89e0-d98760806b88';
-const imgDesktop512 =
-  'https://www.figma.com/api/mcp/asset/abe64753-38cf-4522-a8c2-cb62176a4800';
+import { Link } from 'react-router-dom';
+import { ALL_PROJECTS } from '../data/projects';
 
 const TABS = [
   'UI/UX',
@@ -24,60 +12,16 @@ const TABS = [
   'AI',
 ];
 
-const ALL_PROJECTS = [
-  {
-    id: 1,
-    title: 'Maktech Website Redesign',
-    image: imgDesktop831,
-    tags: ['UI/UX', 'Graphic', 'Laravel'],
-    categories: ['UI/UX', 'Laravel'],
-  },
-  {
-    id: 2,
-    title: 'Flexible Freelance Platform',
-    image: imgMar1,
-    tags: ['UI/UX', 'Graphic', 'MERN'],
-    categories: ['UI/UX', 'MERN'],
-  },
-  {
-    id: 3,
-    title: 'E-commerce Dashboard',
-    image: imgMockup182,
-    tags: ['UI/UX', 'Graphic', 'Laravel'],
-    categories: ['UI/UX', 'Laravel'],
-  },
-  {
-    id: 4,
-    title: 'Corporate Portfolio',
-    image: img01WebShowcase,
-    tags: ['UI/UX', 'Graphic', 'MERN'],
-    categories: ['UI/UX', 'MERN'],
-  },
-  {
-    id: 5,
-    title: 'Real Estate Showcase',
-    image: imgMockupImage11,
-    tags: ['UI/UX', 'Graphic', 'Laravel'],
-    categories: ['UI/UX', 'CMS'],
-  },
-  {
-    id: 6,
-    title: 'Property Discovery App',
-    image: imgDesktop512,
-    tags: ['UI/UX', 'Graphic', 'Laravel'],
-    categories: ['UI/UX', 'Flutter'],
-  },
-];
-
-const ProjectCard = ({ project }) => (
-  <a
-    href='#'
+const ProjectCard = ({ project, activeTab }) => (
+  <Link
+    to={`/case-study/${project.slug}`}
+    state={{ category: activeTab }}
     className='group bg-[#262626] block overflow-hidden relative rounded-2xl'
     style={{ aspectRatio: '600/500' }}
   >
     {/* Project image */}
     <img
-      src={project.image}
+      src={project.coverImage}
       alt={project.title}
       className='absolute inset-0 w-full h-full object-cover pointer-events-none transition-transform duration-500 group-hover:scale-105'
     />
@@ -101,7 +45,7 @@ const ProjectCard = ({ project }) => (
         ))}
       </div>
     </div>
-  </a>
+  </Link>
 );
 
 const CaseStudyGrid = () => {
@@ -162,7 +106,11 @@ const CaseStudyGrid = () => {
         >
           {filtered.length > 0 ? (
             filtered.map((project) => (
-              <ProjectCard key={project.id} project={project} />
+              <ProjectCard
+                key={project.id}
+                project={project}
+                activeTab={activeTab}
+              />
             ))
           ) : (
             <p className='text-white/50 text-center col-span-2 py-16'>

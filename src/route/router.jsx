@@ -20,6 +20,9 @@ const Jobs = lazy(() => import('../pages/admin/jobs/Jobs'));
 const Pricing = lazy(() => import('../pages/admin/pricing/Pricing'));
 const PublicPricing = lazy(() => import('../pages/pricing/Pricing'));
 const PublicCaseStudy = lazy(() => import('../pages/case-study/CaseStudy'));
+const CaseStudyDetailPage = lazy(
+  () => import('../pages/case-study/CaseStudyDetailPage'),
+);
 const Services = lazy(() => import('../pages/services/Services'));
 const ComingSoon = lazy(() => import('../pages/ComingSoon'));
 const NotFound = lazy(() => import('../pages/NotFound'));
@@ -34,6 +37,7 @@ const AppRoutes = () => (
         <Route path='/services' element={<Services />} />
         <Route path='/pricing' element={<PublicPricing />} />
         <Route path='/case-study' element={<PublicCaseStudy />} />
+        <Route path='/case-study/:slug' element={<CaseStudyDetailPage />} />
         <Route path='/company' element={<ComingSoon />} />
         <Route path='/contact' element={<ComingSoon />} />
       </Route>
