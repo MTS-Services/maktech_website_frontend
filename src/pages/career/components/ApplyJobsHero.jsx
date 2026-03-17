@@ -1,36 +1,3 @@
-// import Breadcrumb from "../../../components/Breadcrumb";
-
-// const ApplyJobsHero = () => {
-//     return (
-//         <div className='relative flex flex-col items-center justify-center h-screen px-5 pt-28 pb-16 text-center'>
-//             {/* Breadcrumb */}
-//             <div className='mb-10 relative z-10'>
-//                 <Breadcrumb label='Career' />
-//             </div>
-
-//             {/* Heading */}
-//             <h1
-//                 id='about-heading'
-//                 className='relative z-10 text-white font-bold leading-tight tracking-tight text-[clamp(1.75rem,5vw,4rem)] max-w-5xl mb-6'
-//             >
-//                 Be a member of MAKTECH
-//             </h1>
-
-//             {/* Description */}
-//             <p className='relative z-10 text-white/60 text-base xl:text-lg max-w-2xl leading-relaxed mb-10'>
-//                 We’re a digital-first team helping businesses build meaningful products through strategy, design, and technology.
-//             </p>
-//         </div>
-//     );
-// };
-
-// export default ApplyJobsHero;
-
-
-
-
-
-
 import Breadcrumb from "../../../components/Breadcrumb";
 
 const ApplyJobsHero = () => {
