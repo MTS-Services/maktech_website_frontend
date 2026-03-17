@@ -26,9 +26,9 @@ const servicesMegaItems = [
 
 const companyMegaItems = [
   { title: "Blogs", slug: "blogs" },
-  { title: "Career", slug: "career" },
+  { title: "Career", slug: "career", path: "/career" },
   { title: "Our team", slug: "our-team", path: "/our-team" },
-  { title: "contact us", slug: "contact-us" },
+  { title: "contact us", slug: "contact-us", path: "/contact" },
 ];
 
 const navItemBaseClass =
@@ -208,15 +208,15 @@ const Navbar = () => {
         style={
           isMobile
             ? {
-                maxHeight: menuOpen ? "620px" : "0px",
-                opacity: menuOpen ? 1 : 0,
-                pointerEvents: menuOpen ? "auto" : "none",
-                padding: menuOpen ? "16px 20px" : "0 20px",
-              }
+              maxHeight: menuOpen ? "620px" : "0px",
+              opacity: menuOpen ? 1 : 0,
+              pointerEvents: menuOpen ? "auto" : "none",
+              padding: menuOpen ? "16px 20px" : "0 20px",
+            }
             : {
-                maxHeight: "none",
-                pointerEvents: "auto",
-              }
+              maxHeight: "none",
+              pointerEvents: "auto",
+            }
         }
       >
         {navLinks.map((link) => (
@@ -255,55 +255,53 @@ const Navbar = () => {
 
               {/* Desktop mega menu: outer wrapper bridges the visual gap for hover continuity */}
               <div
-                className={`absolute left-1/2 bottom-full hidden w-[min(860px,76vw)] -translate-x-1/2 xl:block ${
-                  isServicesMegaOpen ? "pointer-events-auto" : "pointer-events-none"
-                }`}
+                className={`absolute left-1/2 bottom-full hidden w-[min(860px,76vw)] -translate-x-1/2 xl:block ${isServicesMegaOpen ? "pointer-events-auto" : "pointer-events-none"
+                  }`}
               >
                 <div
-                  className={`rounded-md border border-black/6 bg-[#d7d7d7] p-5.5 shadow-[0_18px_44px_rgba(0,0,0,0.24)] transition-all duration-200 ${
-                    isServicesMegaOpen
+                  className={`rounded-md border border-black/6 bg-[#d7d7d7] p-5.5 shadow-[0_18px_44px_rgba(0,0,0,0.24)] transition-all duration-200 ${isServicesMegaOpen
                       ? "visible translate-y-0 opacity-100"
                       : "invisible translate-y-2.5 opacity-0"
-                  }`}
+                    }`}
                 >
-                <div className="mb-4 flex items-start justify-between gap-3">
-                  <div>
-                    <h3 className="m-0 text-[44px] font-bold leading-[1.08] tracking-[-0.02em] text-black-bg">
-                      Want to grow with us?
-                    </h3>
-                    <p className="mt-2 text-[20px] leading-[1.22] text-black-bg">
-                      Let&apos;s implement your skills toward to grow MAKTECH.
-                    </p>
+                  <div className="mb-4 flex items-start justify-between gap-3">
+                    <div>
+                      <h3 className="m-0 text-[44px] font-bold leading-[1.08] tracking-[-0.02em] text-black-bg">
+                        Want to grow with us?
+                      </h3>
+                      <p className="mt-2 text-[20px] leading-[1.22] text-black-bg">
+                        Let&apos;s implement your skills toward to grow MAKTECH.
+                      </p>
+                    </div>
+
+                    <NavLink
+                      to="/contact"
+                      className="group inline-flex items-center gap-2.5 whitespace-nowrap rounded-md bg-orange-bg-cta px-4 py-2.75 text-sm font-semibold text-white no-underline shadow-[0_12px_24px_rgba(0,0,0,0.2)] transition duration-200 hover:-translate-y-px hover:bg-white hover:text-black"
+                      onClick={handleNavigate}
+                    >
+                      <span
+                        className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-white/24 transition-colors duration-200 group-hover:bg-black/10"
+                        aria-hidden="true"
+                      >
+                        <svg
+                          width="14"
+                          height="14"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="1.8"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <path d="M7 17L17 7" />
+                          <path d="M9 7h8v8" />
+                        </svg>
+                      </span>
+                      Contact With Us
+                    </NavLink>
                   </div>
 
-                  <NavLink
-                    to="/contact"
-                    className="group inline-flex items-center gap-2.5 whitespace-nowrap rounded-md bg-orange-bg-cta px-4 py-2.75 text-sm font-semibold text-white no-underline shadow-[0_12px_24px_rgba(0,0,0,0.2)] transition duration-200 hover:-translate-y-px hover:bg-white hover:text-black"
-                    onClick={handleNavigate}
-                  >
-                    <span
-                      className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-white/24 transition-colors duration-200 group-hover:bg-black/10"
-                      aria-hidden="true"
-                    >
-                      <svg
-                        width="14"
-                        height="14"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="1.8"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path d="M7 17L17 7" />
-                        <path d="M9 7h8v8" />
-                      </svg>
-                    </span>
-                    Contact With Us
-                  </NavLink>
-                </div>
-
-                <div className="grid grid-cols-3 gap-4">
+                  <div className="grid grid-cols-3 gap-4">
                     {servicesMegaItems.map((item) => (
                       <MegaMenuCard
                         key={item.slug}
@@ -311,18 +309,17 @@ const Navbar = () => {
                         onNavigate={handleNavigate}
                       />
                     ))}
+                  </div>
                 </div>
-              </div>
-              {/* 16px transparent bridge keeps hover continuous while preserving visible gap */}
-              <div className="h-4 w-full" />
+                {/* 16px transparent bridge keeps hover continuous while preserving visible gap */}
+                <div className="h-4 w-full" />
               </div>
 
               <div
-                className={`xl:hidden overflow-hidden transition-all duration-300 ${
-                  isServicesMegaOpen
+                className={`xl:hidden overflow-hidden transition-all duration-300 ${isServicesMegaOpen
                     ? "mt-2 max-h-[320px] opacity-100"
                     : "max-h-0 opacity-0"
-                }`}
+                  }`}
               >
                 <div className="space-y-1 rounded-md border border-white/10 bg-white/5 p-2">
                   <NavLink
@@ -379,16 +376,14 @@ const Navbar = () => {
               </NavLink>
 
               <div
-                className={`absolute left-1/2 bottom-full hidden w-[220px] -translate-x-1/2 xl:block ${
-                  isCompanyMegaOpen ? "pointer-events-auto" : "pointer-events-none"
-                }`}
+                className={`absolute left-1/2 bottom-full hidden w-[220px] -translate-x-1/2 xl:block ${isCompanyMegaOpen ? "pointer-events-auto" : "pointer-events-none"
+                  }`}
               >
                 <div
-                  className={`rounded-md border border-black/6 bg-[#d7d7d7] p-2 shadow-[0_18px_44px_rgba(0,0,0,0.24)] transition-all duration-200 ${
-                    isCompanyMegaOpen
+                  className={`rounded-md border border-black/6 bg-[#d7d7d7] p-2 shadow-[0_18px_44px_rgba(0,0,0,0.24)] transition-all duration-200 ${isCompanyMegaOpen
                       ? "visible translate-y-0 opacity-100"
                       : "invisible translate-y-2.5 opacity-0"
-                  }`}
+                    }`}
                 >
                   <div className="flex flex-col gap-1">
                     {companyMegaItems.map((item) => (
@@ -407,11 +402,10 @@ const Navbar = () => {
               </div>
 
               <div
-                className={`xl:hidden overflow-hidden transition-all duration-300 ${
-                  isCompanyMegaOpen
+                className={`xl:hidden overflow-hidden transition-all duration-300 ${isCompanyMegaOpen
                     ? "mt-2 max-h-[220px] opacity-100"
                     : "max-h-0 opacity-0"
-                }`}
+                  }`}
               >
                 <div className="space-y-1 rounded-md border border-white/10 bg-white/5 p-2">
                   <NavLink
