@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import PricingHero from './components/PricingHero';
 import PricingPlans from './components/PricingPlans';
 import PricingWhyBest from './components/PricingWhyBest';
-import FAQ from '../../components/FAQ';
+import PricingFAQ from './components/PricingFAQ';
 
 const Pricing = () => {
   useEffect(() => {
@@ -18,7 +18,7 @@ const Pricing = () => {
       <PricingHero />
       <PricingWhyBest />
       <PricingPlans />
-      <FAQ lightBg />
+      <PricingFAQ />
     </main>
   );
 };
