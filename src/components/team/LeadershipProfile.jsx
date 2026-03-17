@@ -1,0 +1,68 @@
+const LeadershipProfile = ({
+  orientation = "image-left",
+  headline,
+  description,
+  name,
+  role,
+  company = "",
+  image,
+  imageAlt,
+}) => {
+  const isImageLeft = orientation === "image-left";
+  const paragraphs = Array.isArray(description) ? description : [description];
+
+  const imageBlock = (
+    <div className="relative mx-auto w-full max-w-[520px] overflow-hidden rounded-[32px] bg-[#2e2e2e] aspect-[0.9]">
+      <img
+        src={image}
+        alt={imageAlt || name}
+        className="h-full w-full object-cover"
+        loading="lazy"
+      />
+    </div>
+  );
+
+  const textBlock = (
+    <div className="flex flex-col gap-6 text-left">
+      <h3 className="text-[32px] sm:text-[36px] font-semibold leading-tight text-gray-bg-primary">
+        {headline}
+      </h3>
+
+      <div className="flex flex-col gap-3 text-base text-[#d4d4d4] leading-relaxed">
+        {paragraphs.map((para, idx) => (
+          <p key={idx} className="m-0">
+            {para}
+          </p>
+        ))}
+      </div>
+
+      <div className="flex flex-col gap-0.5 text-white">
+        <span className="text-xl font-semibold">{name}</span>
+        <span className="text-lg">{role}</span>
+        {company ? (
+          <span className="text-lg text-white/60">{company}</span>
+        ) : null}
+      </div>
+    </div>
+  );
+
+  return (
+    <div
+      className={`grid items-center gap-10 lg:gap-16 ${isImageLeft ? "lg:grid-cols-[minmax(0,520px)_1fr]" : "lg:grid-cols-[1fr_minmax(0,520px)]"}`}
+    >
+      {isImageLeft ? (
+        <>
+          {imageBlock}
+          {textBlock}
+        </>
+      ) : (
+        <>
+          {textBlock}
+          {imageBlock}
+        </>
+      )}
+    </div>
+  );
+};
+
+export default LeadershipProfile;

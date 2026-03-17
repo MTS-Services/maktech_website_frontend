@@ -11,24 +11,24 @@ const navLinks = [
 ];
 
 const servicesMegaItems = [
-  { title: "UI / UX design", slug: "ui-ux-design", featured: true },
-  { title: "Flutter Development", slug: "flatter-development" },
-  { title: "Shopify", slug: "shopify" },
-  { title: "Graphic design", slug: "graphic-design" },
-  { title: "Laravel Development", slug: "laravel-development" },
-  { title: "WIX", slug: "wix" },
-  { title: "MERN Development", slug: "mern-development" },
-  { title: "WordPress", slug: "wordpress" },
-  { title: "Digital Marketing", slug: "digital-marketing" },
-  { title: "AI/ML", slug: "ai-ml" },
-  { title: "SAS Product", slug: "sas-product" },
+  { title: "UI / UX design", path: "/services/ui-ux", slug: "ui-ux", featured: true },
+  { title: "Flutter Development", path: "/services/flutter", slug: "flutter" },
+  { title: "Shopify", path: "/services/shopify", slug: "shopify" },
+  { title: "Graphic design", path: "/services/graphic-design", slug: "graphic-design" },
+  { title: "Laravel Development", path: "/services/laravel", slug: "laravel" },
+  { title: "WIX", path: "/services/wix", slug: "wix" },
+  { title: "MERN Development", path: "/services/mern", slug: "mern" },
+  { title: "WordPress", path: "/services/wordpress", slug: "wordpress" },
+  { title: "Digital Marketing", path: "/services/digital-marketing", slug: "digital-marketing" },
+  { title: "AI/ML", path: "/services/ai-ml", slug: "ai-ml" },
+  { title: "SAS Product", path: "/services/sas-product", slug: "sas-product" },
 ];
 
 const companyMegaItems = [
   { title: "Blogs", slug: "blogs" },
   { title: "Career", slug: "career" },
-  { title: "Our team", slug: "our-team" },
-   { title: "contact us", slug: "contact-us" },
+  { title: "Our team", slug: "our-team", path: "/our-team" },
+  { title: "contact us", slug: "contact-us" },
 ];
 
 const navItemBaseClass =
@@ -64,14 +64,9 @@ const NavItem = ({ link, onNavigate, delay }) => (
   </NavLink>
 );
 
-const MegaMenuCard = ({
-  item,
-  onNavigate,
-  basePath = "/services",
-  queryKey = "category",
-}) => (
+const MegaMenuCard = ({ item, onNavigate }) => (
   <NavLink
-    to={`${basePath}?${queryKey}=${item.slug}`}
+    to={item.path}
     onClick={onNavigate}
     className="group flex min-h-16 items-start gap-2.5 border border-black/10 bg-[#3B3B3B33] px-3.5 py-3 text-black-bg no-underline transition duration-200 hover:-translate-y-px hover:border-orange-bg-cta hover:bg-orange-bg-cta hover:text-white "
   >
@@ -309,13 +304,13 @@ const Navbar = () => {
                 </div>
 
                 <div className="grid grid-cols-3 gap-4">
-                  {servicesMegaItems.map((item) => (
-                    <MegaMenuCard
-                      key={item.slug}
-                      item={item}
-                      onNavigate={handleNavigate}
-                    />
-                  ))}
+                    {servicesMegaItems.map((item) => (
+                      <MegaMenuCard
+                        key={item.slug}
+                        item={item}
+                        onNavigate={handleNavigate}
+                      />
+                    ))}
                 </div>
               </div>
               {/* 16px transparent bridge keeps hover continuous while preserving visible gap */}
@@ -340,7 +335,7 @@ const Navbar = () => {
                   {servicesMegaItems.map((item) => (
                     <NavLink
                       key={item.slug}
-                      to={`/services?category=${item.slug}`}
+                      to={item.path}
                       className="block rounded-sm bg-white/5 px-3 py-2 text-[14px] text-white/90 no-underline transition-colors duration-200 hover:bg-orange-bg-cta hover:text-white"
                       onClick={handleNavigate}
                     >
@@ -399,7 +394,7 @@ const Navbar = () => {
                     {companyMegaItems.map((item) => (
                       <NavLink
                         key={item.slug}
-                        to={`/company?section=${item.slug}`}
+                        to={item.path || `/company?section=${item.slug}`}
                         className="rounded-sm bg-[#c7c7c7] px-4 py-2.5 text-[16px] font-medium leading-none text-black-bg no-underline transition-colors duration-200 hover:bg-orange-bg-cta hover:text-white"
                         onClick={handleNavigate}
                       >
@@ -429,7 +424,7 @@ const Navbar = () => {
                   {companyMegaItems.map((item) => (
                     <NavLink
                       key={item.slug}
-                      to={`/company?section=${item.slug}`}
+                      to={item.path || `/company?section=${item.slug}`}
                       className="block rounded-sm bg-white/5 px-3 py-2 text-[14px] text-white/90 no-underline transition-colors duration-200 hover:bg-orange-bg-cta hover:text-white"
                       onClick={handleNavigate}
                     >

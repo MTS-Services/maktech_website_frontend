@@ -70,8 +70,8 @@ const ServiceInside = ({
 
       <div className="relative z-10 container mx-auto px-5 sm:px-8 lg:px-10 xl:px-12 flex flex-col gap-16">
         {/* Grid section */}
-        <div className="flex flex-col items-center gap-10">
-          <div className="w-full max-w-6xl flex flex-col gap-6">
+        <div className="flex flex-col items-start gap-10">
+          <div className="w-full max-w-6xl flex flex-col gap-4 text-left">
             <div
               className="inline-flex items-center gap-3 rounded-lg px-3 py-2 text-white shadow-sm w-fit border"
               style={{
@@ -98,7 +98,7 @@ const ServiceInside = ({
             </h2>
           </div>
 
-          <div className="w-full container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {cards.map((card) => (
               <div
                 key={card.title}
@@ -124,7 +124,7 @@ const ServiceInside = ({
 
           <Link
             to={pricingCtaLink}
-            className="inline-flex items-center gap-3 rounded-lg bg-[#ff6533] px-6 py-3 text-base font-medium text-white shadow-md transition-transform duration-200 hover:-translate-y-0.5"
+            className="inline-flex items-center gap-3 rounded-lg bg-[#ff6533] px-6 py-3 text-base font-medium text-white shadow-md transition-transform duration-200 hover:-translate-y-0.5 self-start"
           >
             {pricingCtaText}
             <span className="flex h-6 w-6 items-center justify-center">

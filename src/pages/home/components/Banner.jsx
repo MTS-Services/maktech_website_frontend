@@ -60,7 +60,7 @@ const Banner = () => {
           className={`relative font-bold mb-9 max-w-[1080px] transition-all duration-500 ease-out ${
             isMobile
               ? "text-[22px] leading-[1.35] text-white"
-              : "text-white 2xl:leading-[1.1] text-2xl md:text-[26px] lg:text-[33px] xl:text-[48px] 2xl:text-[68px] tracking-[0.5px] delay-250 xl:-ml-5 2xl:ml-0"
+              : "text-white 2xl:leading-[1.1] text-2xl md:text-[26px] lg:text-[33px] xl:text-[48px] 2xl:text-[64px] tracking-[0.5px] delay-250 xl:-ml-5 2xl:ml-0"
           } ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"}`}
         >
           {isMobile ? (

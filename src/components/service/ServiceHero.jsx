@@ -62,7 +62,7 @@ const ServiceHero = ({
             })}
           </div>
 
-          <h1 className="font-semibold leading-tight tracking-tight text-2xl md:text-[26px] lg:text-[33px] xl:text-[48px] 2xl:text-[68px]">
+          <h1 className="font-semibold leading-tight tracking-tight text-2xl md:text-[26px] lg:text-[33px] xl:text-[48px] 2xl:text-[64px]">
             {title}
           </h1>
 
