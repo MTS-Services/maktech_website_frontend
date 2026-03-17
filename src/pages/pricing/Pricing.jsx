@@ -18,7 +18,7 @@ const Pricing = () => {
       <PricingHero />
       <PricingWhyBest />
       <PricingPlans />
-      <FAQ />
+      <FAQ lightBg />
     </main>
   );
 };
