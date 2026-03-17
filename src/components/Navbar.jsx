@@ -25,9 +25,9 @@ const servicesMegaItems = [
 ];
 
 const companyMegaItems = [
-  { title: "Blogs", slug: "blogs", path: "/company?section=blogs" },
+  { title: "Blogs", slug: "blogs", },
   { title: "Career", slug: "career", path: "/career" },
-  { title: "Our team", slug: "our-team", path: "/company?section=our-team" },
+  { title: "Our team", slug: "our-team",  },
 ];
 
 const navItemBaseClass =
