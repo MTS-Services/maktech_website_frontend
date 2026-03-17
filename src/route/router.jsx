@@ -4,6 +4,7 @@ import AdminLayout from '../layout/adminLayout/AdminLayout';
 import PublicLayout from '../layout/publicLayout/PublicLayout';
 import Home from '../pages/home/Home';
 import About from '../pages/about/About';
+import Career from '../pages/career/Career';
 
 // Lazy-loaded routes — each page is its own chunk, only parsed when visited
 const Login = lazy(() => import('../pages/login/Login'));
@@ -30,6 +31,7 @@ const AppRoutes = () => (
         <Route path='/' element={<Home />} />
         <Route path='/about' element={<About />} />
         <Route path="/services" element={<Services />} />
+        <Route path="/career" element={<Career />} />
         <Route path="/pricing" element={<ComingSoon />} />
         <Route path="/case-study" element={<ComingSoon />} />
         <Route path="/company" element={<ComingSoon />} />
