@@ -50,10 +50,10 @@ const ApplyJobsRequirements = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-12">
                         {requirements.map((req, idx) => (
                             <div key={idx} className="flex flex-col gap-1">
-                                <h4 className="text-[20px] font-normal text-[#383838]">
+                                <h4 className="text-base font-normal text-[#383838]">
                                     {req.title}
                                 </h4>
-                                <p className="text-[20px]  font-normal text-[#383838] leading-[1.3]">
+                                <p className="text-base  font-normal text-[#383838] leading-[1.3]">
                                     {req.description}
                                 </p>
                             </div>

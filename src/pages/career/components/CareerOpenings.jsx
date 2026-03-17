@@ -121,7 +121,7 @@ const CareerOpenings = () => {
 
                             {/* Apply Button */}
                             <div className="flex justify-between items-center mt-8 pt-2">
-                                <span className="text-white text-xl font-semibold group-hover:text-[#F55D2C] transition-colors">
+                                <span className="text-white text-base font-semibold group-hover:text-[#F55D2C] transition-colors">
                                     Apply
                                 </span>
                                 <NavLink

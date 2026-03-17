@@ -84,7 +84,7 @@ const ContactFAQ = () => {
     };
 
     return (
-        <section className="w-full text-white pt-16 xl:pt-20 2xl:pt-24 relative pb-16 xl:pb-20">
+        <section className="w-full text-white pt-16 relative pb-16 xl:pb-20">
             <div className="max-w-full xl:max-w-[65%] mx-auto px-5 xl:px-8 2xl:px-12">
                 {/* Header */}
                 <div className="mb-12 xl:mb-16 text-center">
