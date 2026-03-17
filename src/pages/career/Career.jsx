@@ -1,9 +1,9 @@
 
 import CareerHero from "./components/CareerHero";
+import CareerShowcase from "./components/CareerShowcase";
+import CareerOpenings from "./components/CareerOpenings";
 
 const Career = () => {
-
-
     return (
         <main
             id='about'
@@ -11,6 +11,8 @@ const Career = () => {
             className='relative w-full overflow-hidden'
         >
             <CareerHero />
+            <CareerShowcase />
+            <CareerOpenings />
         </main>
     );
 };
