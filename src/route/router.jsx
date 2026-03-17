@@ -5,7 +5,9 @@ import PublicLayout from "../layout/publicLayout/PublicLayout";
 import Home from "../pages/home/Home";
 import About from "../pages/about/About";
 import OurTeam from "../pages/ourTeam/OurTeam";
-
+import Career from "../pages/career/Career";
+import ApplyJobs from "../pages/career/ApplyJobs";
+import Contact from "../pages/contact/Contact";
 // Lazy-loaded routes — each page is its own chunk, only parsed when visited
 const Login = lazy(() => import("../pages/login/Login"));
 const Dashboard = lazy(() => import("../pages/admin/dashboard/Dashboard"));
@@ -26,8 +28,12 @@ const ServiceFlutter = lazy(() => import("../pages/services/Flutter"));
 const ServiceLaravel = lazy(() => import("../pages/services/Laravel"));
 const ServiceShopify = lazy(() => import("../pages/services/Shopify"));
 const ServiceWix = lazy(() => import("../pages/services/Wix"));
-const ServiceDigitalMarketing = lazy(() => import("../pages/services/DigitalMarketing"));
-const ServiceGraphicDesign = lazy(() => import("../pages/services/GraphicDesign"));
+const ServiceDigitalMarketing = lazy(
+  () => import("../pages/services/DigitalMarketing"),
+);
+const ServiceGraphicDesign = lazy(
+  () => import("../pages/services/GraphicDesign"),
+);
 const ServiceWordPress = lazy(() => import("../pages/services/WordPress"));
 const ServiceAIML = lazy(() => import("../pages/services/AIML"));
 const ServiceSASProduct = lazy(() => import("../pages/services/SASProduct"));
@@ -49,15 +55,29 @@ const AppRoutes = () => (
         <Route path="/services/laravel" element={<ServiceLaravel />}></Route>
         <Route path="/services/shopify" element={<ServiceShopify />}></Route>
         <Route path="/services/wix" element={<ServiceWix />}></Route>
-        <Route path="/services/digital-marketing" element={<ServiceDigitalMarketing />}></Route>
-        <Route path="/services/graphic-design" element={<ServiceGraphicDesign />}></Route>
-        <Route path="/services/wordpress" element={<ServiceWordPress />}></Route>
+        <Route
+          path="/services/digital-marketing"
+          element={<ServiceDigitalMarketing />}
+        ></Route>
+        <Route
+          path="/services/graphic-design"
+          element={<ServiceGraphicDesign />}
+        ></Route>
+        <Route
+          path="/services/wordpress"
+          element={<ServiceWordPress />}
+        ></Route>
         <Route path="/services/ai-ml" element={<ServiceAIML />}></Route>
-        <Route path="/services/sas-product" element={<ServiceSASProduct />}></Route>
+        <Route
+          path="/services/sas-product"
+          element={<ServiceSASProduct />}
+        ></Route>
         <Route path="/pricing" element={<ComingSoon />} />
         <Route path="/case-study" element={<ComingSoon />} />
         <Route path="/company" element={<ComingSoon />} />
-        <Route path="/contact" element={<ComingSoon />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/career" element={<Career />} />
+        <Route path="/apply-jobs" element={<ApplyJobs />} />
       </Route>
       <Route path="/login" element={<Login />} />
 

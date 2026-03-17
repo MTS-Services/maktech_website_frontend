@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { NavLink } from "react-router-dom";
 
 const Footer = () => {
   const [isHovered, setIsHovered] = useState(false);
@@ -22,9 +23,12 @@ const Footer = () => {
               <br />
               to grow MAKTECH.
             </p>
-            <button className="bg-orange-bg-cta hover:bg-[#d14608] text-white px-8 py-3 rounded-full text-base font-medium transition-all duration-200">
+            <NavLink
+              to="/contact"
+              className="inline-block bg-orange-bg-cta hover:bg-[#d14608] text-white px-8 py-3 rounded-full text-base font-medium transition-all duration-200"
+            >
               Contact Now
-            </button>
+            </NavLink>
           </div>
         </div>
       </div>
@@ -37,9 +41,8 @@ const Footer = () => {
       >
         {/* Large Background Text (visible on hover) */}
         <div
-          className={`absolute inset-0 xl:flex items-end justify-center pb-8 pointer-events-none transition-opacity duration-500 ${
-            isHovered ? "opacity-100" : "opacity-0"
-          }`}
+          className={`absolute inset-0 xl:flex items-end justify-center pb-8 pointer-events-none transition-opacity duration-500 ${isHovered ? "opacity-100" : "opacity-0"
+            }`}
           style={{ display: isHovered ? "flex" : "none" }}
         >
           <div className="text-[180px] 2xl:text-[220px] font-bold text-orange-bg-cta/40 select-none whitespace-nowrap leading-none">
@@ -200,12 +203,12 @@ const Footer = () => {
                   </a>
                 </li>
                 <li>
-                  <a
-                    href="#"
+                  <NavLink
+                    to="/contact"
                     className="text-gray-400 hover:text-white transition-colors duration-200 text-sm"
                   >
                     Contact
-                  </a>
+                  </NavLink>
                 </li>
                 <li>
                   <a
@@ -380,9 +383,8 @@ const Footer = () => {
                 viewBox="0 0 24 24"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                className={`transition-transform duration-200 ${
-                  openSection === "quicklink" ? "rotate-180" : ""
-                }`}
+                className={`transition-transform duration-200 ${openSection === "quicklink" ? "rotate-180" : ""
+                  }`}
               >
                 <path
                   d="M6 9L12 15L18 9"
@@ -413,12 +415,12 @@ const Footer = () => {
                 >
                   Case Study&apos;s
                 </a>
-                <a
-                  href="#"
+                <NavLink
+                  to="/contact"
                   className="block text-gray-400 hover:text-white transition-colors duration-200 text-sm"
                 >
                   Contact
-                </a>
+                </NavLink>
                 <a
                   href="#"
                   className="block text-gray-400 hover:text-white transition-colors duration-200 text-sm"
@@ -448,9 +450,8 @@ const Footer = () => {
                 viewBox="0 0 24 24"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                className={`transition-transform duration-200 ${
-                  openSection === "company" ? "rotate-180" : ""
-                }`}
+                className={`transition-transform duration-200 ${openSection === "company" ? "rotate-180" : ""
+                  }`}
               >
                 <path
                   d="M6 9L12 15L18 9"
@@ -492,9 +493,8 @@ const Footer = () => {
                 viewBox="0 0 24 24"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                className={`transition-transform duration-200 ${
-                  openSection === "contacts" ? "rotate-180" : ""
-                }`}
+                className={`transition-transform duration-200 ${openSection === "contacts" ? "rotate-180" : ""
+                  }`}
               >
                 <path
                   d="M6 9L12 15L18 9"
@@ -523,7 +523,7 @@ const Footer = () => {
         <div className="relative border-t border-white/10 overflow-hidden">
           {/* Orange Gradient Background */}
           <div className="absolute inset-0 bg-gradient-to-t from-orange-bg-cta/40 via-orange-bg-cta/20 to-transparent pointer-events-none" />
-          
+
           <div className="relative max-w-7xl mx-auto px-4 py-4 z-10">
             <div className="flex flex-col md:flex-row items-center justify-between gap-4">
               <p className="text-gray-400 text-sm">©2026 Maktech</p>
