@@ -12,7 +12,7 @@ const navLinks = [
 
 const servicesMegaItems = [
   { title: "UI / UX design", slug: "ui-ux-design", featured: true },
-  { title: "Flatter Development", slug: "flatter-development" },
+  { title: "Flutter Development", slug: "flatter-development" },
   { title: "Shopify", slug: "shopify" },
   { title: "Graphic design", slug: "graphic-design" },
   { title: "Laravel Development", slug: "laravel-development" },

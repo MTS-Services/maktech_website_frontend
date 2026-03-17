@@ -20,6 +20,7 @@ const Jobs = lazy(() => import("../pages/admin/jobs/Jobs"));
 const Pricing = lazy(() => import("../pages/admin/pricing/Pricing"));
 const Services = lazy(() => import("../pages/services/Services"));
 const ServiceUIUX = lazy(() => import("../pages/services/UIUX"));
+const ServiceMERN = lazy(() => import("../pages/services/MERN"));
 const ComingSoon = lazy(() => import("../pages/ComingSoon"));
 const NotFound = lazy(() => import("../pages/NotFound"));
 
@@ -32,6 +33,7 @@ const AppRoutes = () => (
         <Route path="/about" element={<About />} />
         <Route path="/services" element={<Services />}></Route>
         <Route path="/services/ui-ux" element={<ServiceUIUX />}></Route>
+        <Route path="/services/mern" element={<ServiceMERN />}></Route>
         <Route path="/pricing" element={<ComingSoon />} />
         <Route path="/case-study" element={<ComingSoon />} />
         <Route path="/company" element={<ComingSoon />} />
