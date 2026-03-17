@@ -1,10 +1,12 @@
+import { Link } from "react-router-dom";
+
 const Breadcrumb = ({ label }) => (
   <nav aria-label='Breadcrumb'>
     <ol className='inline-flex items-center gap-2 px-5 py-2 rounded-full border border-white/20 text-sm text-white/70'>
       <li>
-        <a href='/' className='hover:text-white transition-colors duration-150'>
+        <Link to='/' className='hover:text-white transition-colors duration-150'>
           Home
-        </a>
+        </Link>
       </li>
       <li aria-hidden='true'>
         <svg
