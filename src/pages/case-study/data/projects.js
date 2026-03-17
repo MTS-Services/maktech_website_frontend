@@ -1,13 +1,13 @@
 // Shared project data — used by CaseStudyGrid (cards) and CaseStudyDetailPage (detail view)
-
-const imgDesktop831 = '/our_work/image 7.png';
-const imgMar1 = '/our_work/image 8.png';
-const imgMockup182 = '/our_work/image 9.png';
-const img01WebShowcase = '/our_work/Frame 2147226474.png';
-const imgMockupImage11 = '/about1.png';
-const imgDesktop512 = '/about2.png';
-const imgDigiMarketing = '/about3.png';
-const imgAI = '/about4.png';
+// Replace imgUiux1–imgUiux6 paths below with your actual project screenshots
+const imgUiux1 = '/uiux1.png';
+const imgUiux2 = '/uiux2.png';
+const imgUiux3 = '/uiux3.png';
+const imgUiux4 = '/uiux4.png';
+const imgUiux5 = '/uiux5.png';
+const imgUiux6 = '/uiux6.png';
+const imgDigiMarketing = '/uiux7.png';
+const imgAI = '/uiux8.png';
 
 export const ALL_PROJECTS = [
   {
@@ -16,8 +16,8 @@ export const ALL_PROJECTS = [
     title: 'Maktech Website Redesign',
     subtitle:
       "A complete brand refresh and website redesign to reflect Maktech's new identity as a cutting-edge digital agency.",
-    coverImage: imgDesktop831,
-    galleryImages: [imgDesktop831, imgMar1, imgMockup182],
+    coverImage: imgUiux1,
+    galleryImages: [imgUiux1, imgUiux2, imgUiux3],
     tags: ['UI/UX', 'Graphic', 'Laravel'],
     categories: ['UI/UX', 'Laravel'],
     primaryCategory: 'Laravel',
@@ -61,8 +61,8 @@ export const ALL_PROJECTS = [
     title: 'Flexible Freelance Platform',
     subtitle:
       'A MERN stack marketplace connecting skilled freelancers with businesses looking for top-tier digital talent.',
-    coverImage: imgMar1,
-    galleryImages: [imgMar1, imgDesktop831, img01WebShowcase],
+    coverImage: imgUiux2,
+    galleryImages: [imgUiux2, imgUiux1, imgUiux4],
     tags: ['UI/UX', 'Graphic', 'MERN'],
     categories: ['UI/UX', 'MERN'],
     primaryCategory: 'MERN',
@@ -106,8 +106,8 @@ export const ALL_PROJECTS = [
     title: 'E-commerce Dashboard',
     subtitle:
       'A powerful Laravel-based analytics and management dashboard for e-commerce store owners.',
-    coverImage: imgMockup182,
-    galleryImages: [imgMockup182, imgDesktop512, imgDesktop831],
+    coverImage: imgUiux3,
+    galleryImages: [imgUiux3, imgUiux6, imgUiux1],
     tags: ['UI/UX', 'Graphic', 'Laravel'],
     categories: ['UI/UX', 'Laravel'],
     primaryCategory: 'Laravel',
@@ -151,8 +151,8 @@ export const ALL_PROJECTS = [
     title: 'Corporate Portfolio',
     subtitle:
       'A sleek MERN-powered portfolio website for showcasing corporate projects, team, and services.',
-    coverImage: img01WebShowcase,
-    galleryImages: [img01WebShowcase, imgMar1, imgMockupImage11],
+    coverImage: imgUiux4,
+    galleryImages: [imgUiux4, imgUiux2, imgUiux5],
     tags: ['UI/UX', 'Graphic', 'MERN'],
     categories: ['UI/UX', 'MERN'],
     primaryCategory: 'MERN',
@@ -196,8 +196,8 @@ export const ALL_PROJECTS = [
     title: 'Real Estate Showcase',
     subtitle:
       'A CMS-driven real estate website allowing agencies to list, filter, and showcase properties beautifully.',
-    coverImage: imgMockupImage11,
-    galleryImages: [imgMockupImage11, imgDesktop512, imgMockup182],
+    coverImage: imgUiux5,
+    galleryImages: [imgUiux5, imgUiux6, imgUiux3],
     tags: ['UI/UX', 'Graphic', 'CMS'],
     categories: ['UI/UX', 'CMS'],
     primaryCategory: 'CMS',
@@ -241,8 +241,8 @@ export const ALL_PROJECTS = [
     title: 'Property Discovery App',
     subtitle:
       'A Flutter mobile app for discovering and comparing properties with an intuitive map-first interface.',
-    coverImage: imgDesktop512,
-    galleryImages: [imgDesktop512, imgMockupImage11, imgMar1],
+    coverImage: imgUiux6,
+    galleryImages: [imgUiux6, imgUiux5, imgUiux2],
     tags: ['UI/UX', 'Graphic', 'Flutter'],
     categories: ['UI/UX', 'Flutter'],
     primaryCategory: 'Flutter',
@@ -287,7 +287,7 @@ export const ALL_PROJECTS = [
     subtitle:
       'A full-funnel digital marketing strategy that tripled organic traffic and doubled lead generation for a B2B SaaS company.',
     coverImage: imgDigiMarketing,
-    galleryImages: [imgDigiMarketing, imgMar1, imgMockup182],
+    galleryImages: [imgDigiMarketing, imgUiux1, imgUiux3],
     tags: ['SEO', 'Content', 'Digital Marketing'],
     categories: ['Digital Marketing'],
     primaryCategory: 'Digital Marketing',
@@ -332,7 +332,7 @@ export const ALL_PROJECTS = [
     subtitle:
       'An AI-powered SaaS tool that lets teams upload, query, and summarize documents using natural language.',
     coverImage: imgAI,
-    galleryImages: [imgAI, imgDesktop512, img01WebShowcase],
+    galleryImages: [imgAI, imgUiux4, imgUiux6],
     tags: ['AI', 'NLP', 'SaaS'],
     categories: ['AI'],
     primaryCategory: 'AI',
