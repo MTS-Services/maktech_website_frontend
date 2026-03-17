@@ -289,29 +289,28 @@ const ApplyContact = () => {
                                 </div>
 
                                 {/* Submit Button */}
-                                <div className="flex items-center gap-3">
-                                    <button
-                                        type="submit"
-                                        className="bg-orange-bg-cta hover:bg-orange-600 text-white font-semibold py-3 px-8 rounded-lg transition-all duration-200 transform hover:scale-105"
-                                    >
-                                        Send Message
-                                    </button>
-                                    <div className="w-12 h-12 rounded-full bg-orange-bg-cta/20 border border-orange-bg-cta/40 flex items-center justify-center hover:bg-orange-bg-cta/30 transition-all duration-200">
+                                <button
+                                    type="submit"
+                                    className="group flex items-center justify-between gap-4 bg-[#FF6533] hover:bg-[#e55a2d] text-white p-2 pl-8 rounded-full transition-all duration-300 active:scale-95"
+                                >
+                                    <span className="text-lg font-medium">Send Message</span>
+
+                                    {/* White Circle with Arrow */}
+                                    <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center transition-transform duration-300 group-hover:translate-x-1">
                                         <svg
-                                            width="24"
-                                            height="24"
+                                            width="20"
+                                            height="20"
                                             viewBox="0 0 24 24"
                                             fill="none"
-                                            stroke="currentColor"
-                                            strokeWidth="2"
+                                            stroke="black"
+                                            strokeWidth="2.5"
                                             strokeLinecap="round"
                                             strokeLinejoin="round"
-                                            className="text-orange-bg-cta"
                                         >
                                             <path d="M5 12h14M12 5l7 7-7 7" />
                                         </svg>
                                     </div>
-                                </div>
+                                </button>
                             </form>
                         </div>
 

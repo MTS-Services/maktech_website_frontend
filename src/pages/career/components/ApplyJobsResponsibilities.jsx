@@ -26,11 +26,13 @@ const ApplyJobsResponsibilities = () => {
 
     return (
         <section className="px-5 py-16 xl:px-0 xl:py-24 ">
-            <div className="mx-auto max-w-[1200px] flex  gap-12">
+            <div className="mx-auto max-w-[1200px] flex flex-col gap-8 md:gap-10 xl:flex-row xl:gap-12">
                 {/* Header */}
-                <div className="mb-12">
+                <div className="mb-0 xl:mb-12">
                     <div className="flex items-center gap-3 mb-6">
-                        <div className="w-3 h-3 rounded-full bg-orange-bg-cta"></div>
+                        <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-lg bg-[#DAB8AC] mt-1">
+                        <div className="h-[8px] w-[8px] rounded-full bg-gradient-to-br from-[#FFBEA9] to-[#FA6332] shadow-[2.25px_3.37px_4.5px_rgba(68,18,0,0.36)]"></div>
+                    </div>
                         <h2 className="text-2xl xl:text-3xl font-semibold">Key Responsibilities</h2>
                     </div>
                 </div>

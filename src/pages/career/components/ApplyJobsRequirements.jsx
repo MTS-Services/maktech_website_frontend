@@ -22,8 +22,8 @@ const ApplyJobsRequirements = () => {
         <section className="relative overflow-hidden bg-white px-5 py-16">
             
             {/* Background Blur Gradients (Figma Code Implementation) */}
-            <div className="absolute -left-[200px] md:-left-[400px] top-[10%] h-[450px] w-[800px] md:w-[1227px] -rotate-[37deg] rounded-full bg-[#FF6533]/20 blur-[120px] md:blur-[188px] pointer-events-none"></div>
-            <div className="absolute -right-[200px] md:-right-[400px] bottom-[10%] h-[450px] w-[800px] md:w-[1227px] -rotate-[37deg] rounded-full bg-[#FF6533]/20 blur-[120px] md:blur-[188px] pointer-events-none"></div>
+            <div className="absolute -left-[200px] md:-left-[400px] top-[10%] h-[450px] w-[800px] md:w-[600px] -rotate-[37deg] rounded-full bg-[#FF6533]/20 blur-[120px] md:blur-[188px] pointer-events-none"></div>
+            <div className="absolute -right-[200px] md:-right-[400px] bottom-[10%] h-[450px] w-[800px] md:md:w-[600px]  -rotate-[37deg] rounded-full bg-[#FF6533]/20 blur-[120px] md:blur-[188px] pointer-events-none"></div>
 
             <div className="relative z-10 mx-auto max-w-[1200px] flex flex-col lg:flex-row gap-12 lg:gap-20">
                 
@@ -31,7 +31,7 @@ const ApplyJobsRequirements = () => {
                 <div className="flex w-full lg:w-[280px] items-start gap-4 shrink-0">
                     {/* Custom Icon from Figma */}
                     <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#DAB8AC] mt-1">
-                        <div className="h-[18px] w-[18px] rounded-full bg-gradient-to-br from-[#FFBEA9] to-[#FA6332] shadow-[2.25px_3.37px_4.5px_rgba(68,18,0,0.36)]"></div>
+                        <div className="h-[16px] w-[16px] rounded-full bg-gradient-to-br from-[#FFBEA9] to-[#FA6332] shadow-[2.25px_3.37px_4.5px_rgba(68,18,0,0.36)]"></div>
                     </div>
                     <h2 className="text-[24px] font-normal text-[#383838] leading-tight">
                         Job Requirements

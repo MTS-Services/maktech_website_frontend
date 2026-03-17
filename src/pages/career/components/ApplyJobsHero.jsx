@@ -41,13 +41,11 @@ const ApplyJobsHero = () => {
                     <div className="flex flex-col items-start gap-6 lg:pr-10">
                         
                         {/* Vacancy Badge */}
-                        <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-lg bg-[#36231C] border border-white/5">
-                            {/* Orange Dot with slight glow */}
-                            <div className="relative flex items-center justify-center w-3 h-3">
-                                <span className="absolute inline-flex w-full h-full rounded-full bg-[#F55D2C] opacity-40 blur-[2px]"></span>
-                                <span className="relative inline-flex rounded-full w-2.5 h-2.5 bg-gradient-to-br from-[#ff855c] to-[#F55D2C]"></span>
-                            </div>
-                            <span className="text-[#E3E3E3] text-sm md:text-base font-normal">
+                        <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-lg bg-gradient-to-br from-[#FF6533]/30 to-[#1C1C1C] border border-white/80">
+
+                        <div className="h-[10px] w-[10px] rounded-full bg-gradient-to-br from-[#FFBEA9] to-[#FA6332] shadow-[2.25px_3.37px_4.5px_rgba(68,18,0,0.36)]"></div>
+
+                            <span className="text-white text-sm md:text-base font-normal">
                                 Vacancy: 2
                             </span>
                         </div>
@@ -59,7 +57,7 @@ const ApplyJobsHero = () => {
                         </h2>
 
                         {/* Description */}
-                        <p className="text-white text-lg  leading-relaxed">
+                        <p className="text-[#DBDBDB] text-lg  leading-relaxed">
                             We are looking for a creative social media designer who is able to design social media contents for growing our social media profiles.
                         </p>
                     </div>
