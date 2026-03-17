@@ -80,7 +80,7 @@ const ApplyContact = () => {
 
                         {/*  Company Info Box */}
                         <div
-                            className="p-8 xl:p-10 "
+                            className="p-4 md:p-6 xl:p-10"
                             style={{
                                 backgroundColor: "rgba(66, 66, 66, 0.2)",
                                 backdropFilter: "blur(20px)",
@@ -90,7 +90,7 @@ const ApplyContact = () => {
                         >
 
                             {/* Right Side - Application Form */}
-                            <form onSubmit={handleSubmit} className="p-8 xl:p-10">
+                            <form onSubmit={handleSubmit} className="p-0 md:p-2 xl:p-10">
                                 {/* Full Name */}
                                 <div className="mb-8">
                                     <label className="block text-white text-sm md:text-base font-medium mb-3">
@@ -197,7 +197,7 @@ const ApplyContact = () => {
                                                     5+ years
                                                 </option>
                                             </select>
-                                            <IoIosArrowDown />
+                                            <IoIosArrowDown className="absolute right-4 text-white/70 text-lg pointer-events-none" />
                                         </div>
                                     </div>
 
@@ -260,7 +260,7 @@ const ApplyContact = () => {
                                                 Digital Marketer
                                             </option>
                                         </select>
-                                        <IoIosArrowDown />
+                                        <IoIosArrowDown className="absolute right-4 text-white/70 text-lg pointer-events-none" />
                                     </div>
                                 </div>
 
@@ -291,15 +291,15 @@ const ApplyContact = () => {
                                 {/* Submit Button */}
                                 <button
                                     type="submit"
-                                    className="group flex items-center justify-between gap-4 bg-[#FF6533] hover:bg-[#e55a2d] text-white p-2 pl-8 rounded-full transition-all duration-300 active:scale-95"
+                                    className="group w-full sm:w-fit flex items-center justify-between gap-3 bg-[#FF6533] hover:bg-[#e55a2d] text-white p-2 pl-5 sm:pl-8 rounded-full transition-all duration-300 active:scale-95"
                                 >
-                                    <span className="text-lg font-medium">Send Message</span>
+                                    <span className="text-sm sm:text-base lg:text-lg font-medium">Send Message</span>
 
                                     {/* White Circle with Arrow */}
-                                    <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center transition-transform duration-300 group-hover:translate-x-1">
+                                    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-white rounded-full flex items-center justify-center transition-transform duration-300 group-hover:translate-x-1">
                                         <svg
-                                            width="20"
-                                            height="20"
+                                            width="18"
+                                            height="18"
                                             viewBox="0 0 24 24"
                                             fill="none"
                                             stroke="black"
