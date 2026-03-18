@@ -19,49 +19,48 @@ const WhyWeBests = () => {
   ];
 
   return (
-    <section
-      className="min-h-[500px] flex items-center px-6 py-16 md:py-24"
-      style={{
-        background:
-          "radial-gradient(70% 55% at 100% 0%, rgba(255, 182, 146, 0.32), rgba(255, 182, 146, 0) 60%), radial-gradient(70% 55% at 0% 100%, rgba(255, 182, 146, 0.28), rgba(255, 182, 146, 0) 60%), #ffffff",
-      }}
-    >
-      <div className="max-w-7xl mx-auto w-full">
-        <div className="flex flex-col lg:flex-row items-start gap-12 lg:gap-20">
-          {/* Left Column: Badge */}
-          <div className="lg:w-[25%] flex items-center gap-3">
-            <div className="p-3  bg-[#623A2C] rounded-xl">
-              <div className="relative w-5 h-5 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 shadow-[inset_-2px_-2px_6px_rgba(0,0,0,0.3),2px_2px_5px_rgba(251,146,60,0.4)]">
-                <div className="absolute top-1 left-1.5 w-1.5 h-1.5 bg-white/40 rounded-full blur-[1px]"></div>
-              </div>
-            </div>
-            <span className="text-[17px] text-gray-700 font-normal tracking-tight">
-              Why We are best
-            </span>
+    <section className="relative overflow-hidden bg-white px-6 py-20 md:px-16 lg:px-24 xl:px-32 2xl:px-[348px]">
+      <div className="relative z-10 flex flex-col items-start justify-between gap-12 lg:flex-row lg:gap-16">
+        {/* Left Column: Badge */}
+        <div className="flex w-full max-w-[287.5px] items-center gap-4">
+          <div className="flex h-8 w-8 items-center justify-center rounded-[8px] bg-[#623A2C] p-[5.33px]">
+            <div className="h-[18px] w-[18px] rounded-full bg-[radial-gradient(86.93%_86.93%_at_14.58%_10.42%,#FFBEA9_0%,#FA6332_100%)] shadow-[2.25px_3.375px_4.5px_rgba(68,18,0,0.36)]" />
           </div>
+          <span
+            className="text-[20px] leading-[1.3] text-[#565656] md:text-[24px]"
+            style={{ fontFamily: "DM Sans", fontWeight: 400, lineHeight: "31.2px" }}
+          >
+            Why We are best
+          </span>
+        </div>
 
-          {/* Right Column: Heading & Grid */}
-          <div className="lg:w-[75%]">
-            {/* Main Heading */}
-            <h2 className="text-3xl font-medium text-[#383838] leading-[1.2] mb-12 max-w-[800px]">
-              The team understood our vision from day one. The final product was
-              clean, fast, and exactly what we{" "}
-            </h2>
+        {/* Right Column: Heading & Grid */}
+        <div className="flex w-full max-w-[808px] flex-col gap-10">
+          <h2
+            className="text-[26px] font-medium leading-[1.3] text-[#2F2F2F] md:text-[32px]"
+            style={{ fontFamily: "DM Sans", lineHeight: "41.6px" }}
+          >
+            The team understood our vision from day one. The final product was clean,
+            fast, and exactly what we
+          </h2>
 
-            {/* Features Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-10">
-              {features.map((f) => (
-                <p
-                  key={f.id}
-                  className="text-base  text-[#383838] leading-[1.6] font-normal"
-                >
-                  {f.text}
-                </p>
-              ))}
-            </div>
+          <div className="grid grid-cols-1 gap-y-8 md:grid-cols-2 md:gap-x-12 md:gap-y-10">
+            {features.map((f) => (
+              <p
+                key={f.id}
+                className="text-[18px] text-[#565656] md:text-lg"
+                style={{ fontFamily: "DM Sans", fontWeight: 400, lineHeight: "31.2px" }}
+              >
+                {f.text}
+              </p>
+            ))}
           </div>
         </div>
       </div>
+
+      {/* Blurred orange glows */}
+      <div className="pointer-events-none absolute right-[-320px] top-[120px] h-[453px] w-[1227px] rotate-[-37deg] rounded-full bg-[rgba(255,101,51,0.35)] blur-[188.5px]" />
+      <div className="pointer-events-none absolute left-[-860px] top-[340px] h-[453px] w-[1227px] rotate-[-37deg] rounded-full bg-[rgba(255,101,51,0.35)] blur-[188.5px]" />
     </section>
   );
 };

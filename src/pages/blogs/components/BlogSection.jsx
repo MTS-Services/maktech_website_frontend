@@ -1,4 +1,5 @@
 import { FaArrowRight } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const blogs = [
   {
@@ -40,8 +41,8 @@ const blogs = [
 ];
 
 const BlogCard = ({ blog }) => (
-  <div className="bg-[#1c1c1c]   cursor-pointer overflow-hidden">
-    <img src={blog.img} alt={blog.title} className="w-full h-44 object-cover" />
+  <div className=" cursor-pointer overflow-hidden h-full flex flex-col">
+    <img src={blog.img} alt={blog.title} className="w-full h-66 object-cover " />
 
     {/* Title Section */}
     <div className="py-4 ">
@@ -51,16 +52,16 @@ const BlogCard = ({ blog }) => (
     </div>
 
     {/* Description Section */}
-    <div className="pb-4">
-      <p className="text-base  text-[#BEBEBE] leading-relaxed mb-3">
+    <div className="pb-4 flex-1 flex flex-col">
+      <p className="text-base text-[#BEBEBE] leading-relaxed mb-3 flex-1">
         {blog.desc}
       </p>
-      <a
-        href="#"
-        className="inline-flex items-center gap-1 text-base sm:text-lg text-[#ccc] font-medium hover:text-orange-500 transition-colors underline"
+      <Link
+        to="/blogs/details"
+        className="inline-flex items-center gap-1 text-base text-[#ccc] font-medium  underline"
       >
         Read More <FaArrowRight size={13} />
-      </a>
+      </Link>
     </div>
   </div>
 );
