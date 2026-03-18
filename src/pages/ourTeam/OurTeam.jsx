@@ -1,0 +1,113 @@
+import { useEffect } from "react";
+import { Link } from "react-router-dom";
+import LeadershipProfile from "../../components/team/LeadershipProfile";
+import Breadcrumb from "../../components/Breadcrumb";
+
+const LEADERS = [
+  {
+    orientation: "image-left",
+    headline: "Visionary Leader Driving Strategic Growth",
+    description: [
+      "Mohammad Alamgir Kabir leads the company with a strategic vision that drives growth, innovation, and operational excellence. With extensive experience in corporate leadership, he excels in shaping business strategies, fostering sustainable partnerships, and ensuring long-term value for stakeholders.",
+      "His decisive approach and commitment to ethical leadership have consistently positioned the organization at the forefront of its industry.",
+    ],
+    name: "Mohammad Alamgir Kabir",
+    role: "Chief Executive Officer",
+    company: "MAKTECH",
+    image: "/our_work/Frame 2147226428.png",
+    imageAlt: "Portrait of Mohammad Alamgir Kabir",
+  },
+  {
+    orientation: "image-right",
+    headline: "Operational Excellence & Process Optimization Expert",
+    description: [
+      "Md. Firoj Mia oversees all operational functions, ensuring that processes are efficient, scalable, and aligned with organizational goals. He brings a wealth of experience in streamlining operations, optimizing resources, and implementing best practices across departments.",
+      "His leadership ensures seamless coordination between teams, driving operational excellence and supporting the company’s growth trajectory.",
+    ],
+    name: "Md. Firoj Mia",
+    role: "Director, Operations",
+    company: "MAKTECH",
+    image: "/our_work/Frame 2147226428 (1).png",
+    imageAlt: "Portrait of Md. Firoj Mia",
+  },
+  {
+    orientation: "image-left",
+    headline: "Growth-Oriented Sales & Business Strategist",
+    description: [
+      "Mukabber Hossain is responsible for spearheading sales initiatives and cultivating new business opportunities. His strategic insights into market trends, customer needs, and competitive positioning enable the company to expand its reach and strengthen client relationships.",
+      "With a results-oriented approach, he continuously drives revenue growth while fostering a culture of innovation and collaboration within the sales team.",
+    ],
+    name: "Mukabber Hossain",
+    role: "Director, Sales & Business Development",
+    company: "MAKTECH",
+    image: "/our_work/Frame 2147226428 (2).png",
+    imageAlt: "Portrait of Mukabber Hossain",
+  },
+  {
+    orientation: "image-right",
+    headline: "Financial Strategist Ensuring Sustainable Growth",
+    description: [
+      "Toufique Ahmed Akash manages the company’s financial strategy, ensuring robust fiscal planning, reporting, and compliance. His expertise encompasses budgeting, financial analysis, and risk management, supporting informed decision-making at the executive level.",
+      "With a meticulous and forward-thinking approach, he ensures the organization maintains financial health while pursuing sustainable growth opportunities.",
+    ],
+    name: "Toufique Ahmed Akash",
+    role: "Director, Finance",
+    company: "MAKTECH",
+    image: "/our_work/Frame 2147226428 (3).png",
+    imageAlt: "Portrait of Toufique Ahmed Akash",
+  },
+];
+
+const OurTeam = () => {
+  useEffect(() => {
+    document.title = "Our Team – Maktech";
+  }, []);
+
+  return (
+    <main className="relative w-full  overflow-hidden pb-20">
+      <section className="mx-auto container flex-col items-center gap-10 px-5 pt-28 pb-14 text-center sm:px-8 md:pt-32 md:pb-16 lg:px-12 lg:pb-20">
+        <Breadcrumb label="Our team" />
+
+        <div className="flex flex-col items-center gap-4">
+          <h1 className="text-[40px] leading-[1.1] text-white sm:text-[48px] md:text-[56px] lg:text-[64px]">
+            Our Leadership Team
+          </h1>
+          <p className="max-w-4xl text-lg leading-relaxed text-[#dbdbdb]">
+            Driving Vision, Strategy, and Growth Across{" "}
+            <br className="hidden sm:block" />
+            Every Level of Our Organization
+          </p>
+        </div>
+
+        <Link
+          to="/contact"
+          className="inline-flex items-center gap-4 rounded-full bg-orange-bg-cta px-6 py-3 text-base font-semibold text-white shadow-[0_20px_40px_rgba(255,101,51,0.35)] transition duration-200 hover:-translate-y-0.5 hover:bg-[#e45727] mt-4"
+        >
+          <span>Contact With Us</span>
+          <span className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-black">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 12 12"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M5 3l4 3-4 3" />
+            </svg>
+          </span>
+        </Link>
+      </section>
+
+      <section className="mx-auto mt-8 flex container flex-col gap-20 pb-10 sm:mt-12 sm:px-8 lg:mt-16 lg:px-12">
+        {LEADERS.map((leader) => (
+          <LeadershipProfile key={leader.name} {...leader} />
+        ))}
+      </section>
+    </main>
+  );
+};
+
+export default OurTeam;

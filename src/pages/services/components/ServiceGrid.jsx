@@ -6,63 +6,77 @@ const services = [
     title: 'UI/UX Design',
     description:
       'User-centered interfaces designed to convert, engage, and scale.',
-    link: '#',
+    link: '/services/ui-ux',
   },
   {
     id: 2,
     title: 'MERN STACK Development',
     description:
       'High-performance, responsive websites built with clean code for ultimate speed and SEO.',
-    link: '#',
+    link: '/services/mern',
   },
   {
     id: 3,
     title: 'Flutter App Development',
     description:
       'Native-quality iOS and Android applications delivered from a single, scalable codebase.',
-    link: '#',
+    link: '/services/flutter',
   },
   {
     id: 4,
     title: 'Laravel Dev',
     description:
       'Robust, secure, and enterprise-grade web applications built on the world\'s leading PHP framework.',
-    link: '#',
+    link: '/services/laravel',
   },
   {
     id: 5,
     title: 'WordPress Development',
     description:
       'Custom-tailored CMS solutions that combine ease of use with powerful, flexible functionality.',
-    link: '#',
+    link: '/services/wordpress',
   },
   {
     id: 6,
     title: 'Shopify Development',
     description:
       'High-converting e-commerce storefronts designed to streamline your sales and scale your brand.',
-    link: '#',
+    link: '/services/shopify',
   },
   {
     id: 7,
     title: 'Wix Development',
     description:
       'Custom-tailored CMS solutions that combine ease of use with powerful, flexible functionality.',
-    link: '#',
+    link: '/services/wix',
   },
   {
     id: 8,
     title: 'Digital Marketing',
     description:
       'High-converting e-commerce storefronts designed to streamline your sales and scale your brand.',
-    link: '#',
+    link: '/services/digital-marketing',
   },
   {
     id: 9,
     title: 'Graphic Design',
     description:
       'Robust, secure, and enterprise-grade web applications built on the world\'s leading PHP framework.',
-    link: '#',
+    link: '/services/graphic-design',
+  },
+  {
+    id: 10,
+    title: 'AI/ML',
+    description:
+      'Intelligent solutions powered by machine learning models, automation, and data insights.',
+    link: '/services/ai-ml',
+  },
+  {
+    id: 11,
+    title: 'SAS Product',
+    description:
+      'Data analytics products and reporting pipelines that turn raw data into decisions.',
+    link: '/services/sas-product',
   },
 ]
 
