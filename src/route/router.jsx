@@ -43,6 +43,11 @@ const Blogs = lazy(() => import("../pages/blogs/Blogs"));
 const BlogDetails = lazy(
   () => import("../pages/blogs/blogDetails/BlogDetails"),
 );
+const PublicPricing = lazy(() => import("../pages/pricing/Pricing"));
+const PublicCaseStudy = lazy(() => import("../pages/case-study/CaseStudy"));
+const CaseStudyDetailPage = lazy(
+  () => import("../pages/case-study/CaseStudyDetailPage"),
+);
 const AppRoutes = () => (
   <Suspense fallback={null}>
     <Routes>
@@ -75,14 +80,15 @@ const AppRoutes = () => (
           path="/services/sas-product"
           element={<ServiceSASProduct />}
         ></Route>
-        <Route path="/pricing" element={<ComingSoon />} />
-        <Route path="/case-study" element={<ComingSoon />} />
         <Route path="/company" element={<ComingSoon />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/career" element={<Career />} />
         <Route path="/apply-jobs" element={<ApplyJobs />} />
         <Route path="/blogs" element={<Blogs />} />
         <Route path="/blogs/details" element={<BlogDetails />} />
+        <Route path="/pricing" element={<PublicPricing />} />
+        <Route path="/case-study" element={<PublicCaseStudy />} />
+        <Route path="/case-study/:slug" element={<CaseStudyDetailPage />} />
       </Route>
       <Route path="/login" element={<Login />} />
 
