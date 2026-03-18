@@ -4,49 +4,60 @@ import Breadcrumb from "../../../components/Breadcrumb";
 
 export default function HeroSection() {
   return (
-    <>
-      <section 
-        className="relative min-h-175 flex items-center justify-center overflow-hidden"
-     
-      >
-       
+    <div className='relative flex flex-col items-center justify-center h-screen px-5 pt-28 pb-16 text-center'>
+            {/* Breadcrumb */}
+            <div className='mb-10 relative z-10'>
+                <Breadcrumb label='Blogs' />
+            </div>
 
-        {/* Content */}
-        <div className="relative z-10 w-full container mx-auto  px-6  flex flex-col items-center text-center">
-          {/* Breadcrumb */}
-          <Breadcrumb />
-
-          {/* Headline */}
-          <h1 className="text-white font-bold leading-[1.1] tracking-tight mb-5 text-[2.4rem] sm:text-[3rem] md:text-6xl">
-            Designing
-            <br />
-            Experiences That Drive
-           Growth
-          </h1>
-
-          <p className="text-[#DBDBDB] text-lg sm:text-xl leading-relaxed w-4/6 mb-10">
-            We&apos;re a digital-first team helping businesses build meaningful
-            <br className="hidden sm:block" /> products through strategy, design,
-            and technology.
-          </p>
-
-          {/* CTA Button */}
-          <Link to="/blogs/details">
-            <button 
-              className=" bg-[#FF6533] group inline-flex items-center gap-3 rounded-full px-8 py-3.5 text-base sm:text-lg font-semibold text-white transition-all duration-300 hover:-translate-y-0.5"
-            
+            {/* Heading */}
+            <h1
+                id='about-heading'
+                className='relative z-10 text-white font-bold leading-tight tracking-tight text-[clamp(1.75rem,5vw,4rem)] max-w-5xl mb-6'
             >
-              View Blogs
-              <span
-                className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-white transition-transform duration-300 group-hover:translate-x-0.5"
-                style={{ color: "#E8643A" }}
-              >
-                <FaArrowRight size={14} />
-              </span>
+
+               Designing 
+
+                <span className='relative inline-block'>
+                    Experiences That DriveGrowth
+
+                </span>
+            </h1>
+
+            {/* Description */}
+            <p className='relative z-10 text-white/60 text-base xl:text-lg max-w-2xl leading-relaxed mb-10'>
+                We’re a digital-first team helping businesses build meaningful 
+products through strategy, design, and technology.
+            </p>
+
+            {/* CTA */}
+            <button
+                
+                className='relative z-10 group inline-flex items-center gap-3 overflow-hidden bg-orange-bg-cta hover:bg-[#e5501a] hover:shadow-[0_4px_20px_rgba(255,101,51,0.45)] text-white font-semibold rounded-full transition-all duration-200 active:scale-[0.97] border-0 cursor-pointer'
+                style={{ padding: '13px 28px' }}
+            >
+                <span className='inline-block -translate-x-0.5 transition-transform duration-300 ease-out delay-75 group-hover:translate-x-0'>
+                   View Blogs
+                </span>
+                <span
+                    className='w-7 h-7 flex items-center justify-center rounded-full bg-white shrink-0 transition-transform duration-300 ease-out group-hover:translate-x-1'
+                    aria-hidden='true'
+                >
+                    <svg
+                        width='14'
+                        height='14'
+                        viewBox='0 0 16 16'
+                        fill='none'
+                        stroke='black'
+                        strokeWidth='2'
+                        strokeLinecap='round'
+                        strokeLinejoin='round'
+                        aria-hidden='true'
+                    >
+                        <path d='M3 8h10M9 4l4 4-4 4' />
+                    </svg>
+                </span>
             </button>
-          </Link>
         </div>
-      </section>
-    </>
   );
 }
