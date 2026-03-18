@@ -1,4 +1,4 @@
-import { ArrowRight,  } from "lucide-react";
+import { FaArrowRight } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Breadcrumb from "../../../components/Breadcrumb";
 
@@ -41,7 +41,7 @@ export default function HeroSection() {
                 className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-white transition-transform duration-300 group-hover:translate-x-0.5"
                 style={{ color: "#E8643A" }}
               >
-                <ArrowRight size={14} strokeWidth={2} />
+                <FaArrowRight size={14} />
               </span>
             </button>
           </Link>

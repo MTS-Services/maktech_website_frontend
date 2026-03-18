@@ -1,11 +1,9 @@
 import React from 'react';
-import { BarChart2, Share2, Heart, Twitter, Instagram } from 'lucide-react';
+import { FaChartBar, FaShare, FaHeart, FaTwitter, FaInstagram } from 'react-icons/fa';
 
 const SocialIcon = ({ icon: Icon, label, value }) => (
   <div className="flex flex-col items-center mb-8 text-white transition-colors cursor-pointer opacity-70 hover:opacity-100">
-    <Icon size={20} strokeWidth={1.5} />
-    {label && <span className="text-[10px] uppercase mt-1 tracking-wider font-sans">{label}</span>}
-    {value && <span className="text-xs font-semibold mt-0.5 font-sans">{value}</span>}
+    <Icon size={20} />
     <span className="sr-only"></span> {/* For accessibility to match icon.label */}
   </div>
 );
@@ -41,13 +39,11 @@ const ArticleUI = () => {
 
         {/* Sidebar Metrics - Sticky */}
         <aside className="md:sticky md:top-24 self-start flex flex-row md:flex-col items-center justify-center md:justify-start w-full md:w-20 shrink-0 gap-6 md:gap-0 z-10">
-          <SocialIcon icon={BarChart2} label="views" value="1.6K" />
-          <SocialIcon icon={Share2} label="shares" value="996K" />
-          <SocialIcon icon={Heart} value="125" />
-          <SocialIcon icon={Twitter} />
-          <SocialIcon icon={Instagram} value="425" />
-        </aside>
-
+          <SocialIcon icon={FaChartBar} label="views" value="1.6K" />
+          <SocialIcon icon={FaShare} label="shares" value="996K" />
+          <SocialIcon icon={FaHeart} value="125" />
+          <SocialIcon icon={FaTwitter} />
+          <SocialIcon icon={FaInstagram} value="425" />
         {/* Main Content Area */}
         <main className="flex-1 max-w-4xl z-10">
           

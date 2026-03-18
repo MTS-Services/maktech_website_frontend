@@ -1,4 +1,4 @@
-import { ArrowRight } from 'lucide-react';
+import { FaArrowRight } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 const BlogHeroCard = () => {
@@ -45,7 +45,7 @@ const BlogHeroCard = () => {
             >
               <span>Read More</span>
               <div className="bg-white rounded-full p-1.5 flex items-center justify-center">
-                <ArrowRight className="w-5 h-5 text-[#FF6533]" />
+                <FaArrowRight className="w-5 h-5 text-[#FF6533]" />
               </div>
             </button>
           </Link>

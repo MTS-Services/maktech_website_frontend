@@ -1,4 +1,4 @@
-import { ArrowRight } from "lucide-react";
+import { FaArrowRight } from "react-icons/fa";
 
 const blogs = [
   {
@@ -59,7 +59,7 @@ const BlogCard = ({ blog }) => (
         href="#"
         className="inline-flex items-center gap-1 text-base sm:text-lg text-[#ccc] font-medium hover:text-orange-500 transition-colors underline"
       >
-        Read More <ArrowRight size={13} />
+        Read More <FaArrowRight size={13} />
       </a>
     </div>
   </div>
