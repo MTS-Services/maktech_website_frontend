@@ -3,17 +3,22 @@ import AnimatedLines from '../../../components/AnimatedLines';
 const TEAM_MEMBERS = [
   {
     name: 'Mohammad Alamgir Kabir',
-    role: 'Founder & CEO',
+    role: 'Chief Executive Officer',
     photo: '/sir.png',
   },
   {
-    name: 'Mohammad Alamgir Kabir',
-    role: 'Founder & CEO',
+    name: 'Mukabber Hossain',
+    role: 'Director, Sales & Business Development',
     photo: '/sir.png',
   },
   {
-    name: 'Mohammad Alamgir Kabir',
-    role: 'Founder & CEO',
+    name: 'Toufiq Ahmed Akash',
+    role: 'Director, Finance',
+    photo: '/sir.png',
+  },
+  {
+    name: 'Md. Firoj Mia',
+    role: 'Director, Operations',
     photo: '/sir.png',
   },
 ];
@@ -56,7 +61,7 @@ const AboutTeam = () => (
         These are the people who define how Maktech thinks, works, and delivers.
       </p>
 
-      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 xl:gap-5'>
+      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 xl:gap-5'>
         {TEAM_MEMBERS.map((member, idx) => (
           <TeamCard key={idx} {...member} />
         ))}
