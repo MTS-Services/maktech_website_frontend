@@ -217,8 +217,8 @@ const CareerShowcase = () => {
     ];
 
     return (
-        <section className="h-screen py-8"> 
-            <div className=" mx-auto max-w-[1200px] px-4 h-full">
+        <section className="relative w-full bg-black-bg h-auto lg:h-screen px-4 sm:px-6 lg:px-10 xl:px-14 2xl:px-16 overflow-hidden flex items-center py-10 lg:py-16"> 
+            <div className=" mx-auto max-w-7xl  h-full">
 
                 {/* Masonry Grid - Forced to fit screen using grid-rows-3 */}
                 <div className="grid grid-cols-1 md:grid-cols-3 md:grid-rows-3 gap-4 h-full">
