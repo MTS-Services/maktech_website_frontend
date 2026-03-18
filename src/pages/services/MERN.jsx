@@ -32,7 +32,7 @@ const MERN = () => {
           "JWT Authentication & Role-Based Access Control",
           "Cloud Deployment, CI/CD & Scalability Setup",
         ]}
-        imageSrc="/public/services_image/mern/fotis-fotopoulos-DuHKoV44prg-unsplash.jpg"
+        imageSrc="/services_image/mern/fotis-fotopoulos-DuHKoV44prg-unsplash.jpg"
         imageAlt="MERN development screens"
         ctaText="View Case Studies"
         ctaLink="/our_work"
