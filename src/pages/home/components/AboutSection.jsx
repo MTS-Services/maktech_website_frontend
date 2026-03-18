@@ -16,7 +16,7 @@ const AboutSection = () => {
           {/* Image Side */}
           <div className='w-[45%] shrink-0'>
             <img
-              src='https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80'
+              src='/WhoWeare/whoweare.png'
               alt='Team working in office'
               className='w-full h-auto object-cover rounded-sm'
             />
