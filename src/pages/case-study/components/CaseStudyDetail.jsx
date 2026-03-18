@@ -56,7 +56,7 @@ const CaseStudyDetail = ({ project }) => {
   ];
 
   return (
-    <section className='w-full pt-10 pb-20 xl:pb-28'>
+    <section className='w-full pt-20 xl:pt-10 pb-20 xl:pb-28'>
       <div className='max-w-7xl mx-auto px-5 xl:px-10 2xl:px-16 flex flex-col gap-10'>
         {/* Breadcrumb */}
         <Breadcrumb crumbs={breadcrumbCrumbs} />
