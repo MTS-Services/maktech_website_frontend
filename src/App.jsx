@@ -14,6 +14,8 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import { useEffect } from 'react'
 import Lenis from 'lenis'
 import AppRoutes from './route/router'
+import ScrollToTop from './components/ScrollToTop'
+import { setLenisInstance } from './utils/lenisManager'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -29,6 +31,8 @@ function App() {
       touchMultiplier: 2,
     })
 
+    setLenisInstance(lenis)
+
     // Animation frame loop
     function raf(time) {
       lenis.raf(time)
@@ -39,6 +43,7 @@ function App() {
 
     // Cleanup on unmount
     return () => {
+      setLenisInstance(null)
       lenis.destroy()
     }
   }, [])
@@ -50,6 +55,7 @@ function App() {
         v7_relativeSplatPath: true,
       }}
     >
+      <ScrollToTop />
       <AppRoutes />
       <ToastContainer
         position='bottom-right'
