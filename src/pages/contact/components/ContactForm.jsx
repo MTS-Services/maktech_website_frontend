@@ -80,10 +80,10 @@ const ContactForm = () => {
                             >
                                 {/* Company Description */}
                                 <div className="mb-10">
-                                    <h3 className="text-2xl xl:text-3xl font-semibold text-white mb-3 leading-tight">
+                                    <h3 className="text-2xl  font-semibold text-white mb-3 leading-tight">
                                         Designing Experiences That Drive Growth
                                     </h3>
-                                    <p className="text-[#AAAAAA] text-sm md:text-base lg:text-lg">
+                                    <p className="text-[#AAAAAA] text-sm md:text-base ">
                                         We&apos;re a digital-first team helping businesses build
                                         meaningful
                                     </p>
@@ -121,10 +121,10 @@ const ContactForm = () => {
                                             </svg>
                                         </div>
                                         <div className="min-w-0">
-                                            <p className="text-white font-medium text-sm md:text-base lg:text-lg mb-0.5 md:mb-1 truncate">
+                                            <p className="text-white font-medium text-sm md:text-base  mb-0.5 md:mb-1 truncate">
                                                 Email us
                                             </p>
-                                            <p className="text-[#AAAAAA] text-xs md:text-sm lg:text-base break-words">
+                                            <p className="text-[#AAAAAA] text-xs md:text-sm  break-words">
                                                 maktech.corporate@gmail.com
                                             </p>
                                         </div>
@@ -151,7 +151,7 @@ const ContactForm = () => {
                                             </svg>
                                         </div>
                                         <div className="min-w-0">
-                                            <p className="text-white font-medium text-sm md:text-base lg:text-lg mb-0.5 md:mb-1 truncate">
+                                            <p className="text-white font-medium text-sm md:text-base  mb-0.5 md:mb-1 truncate">
                                                 Call on
                                             </p>
                                             <p className="text-[#AAAAAA] text-xs md:text-sm lg:text-base break-words">+012-3456-78910</p>
@@ -188,7 +188,7 @@ const ContactForm = () => {
                                             </svg>
                                         </div>
                                         <div className="min-w-0">
-                                            <p className="text-white font-medium text-sm md:text-base lg:text-lg mb-0.5 md:mb-1 truncate">
+                                            <p className="text-white font-medium text-sm md:text-base  mb-0.5 md:mb-1 truncate">
                                                 Location
                                             </p>
                                             <p className="text-[#AAAAAA] text-xs md:text-sm lg:text-base break-words">
