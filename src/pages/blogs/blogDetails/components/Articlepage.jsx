@@ -14,7 +14,7 @@ const ArticleUI = () => {
             {/* Header Image Section */}
             <div className="relative w-full h-[50vh] overflow-hidden max-w-7xl mx-auto">
                 <img
-                    src="/public/Desktop.jpg"
+                    src="/Desktop.jpg"
                     alt=""
                     className="w-full h-full object-cover object-center"
                 />
