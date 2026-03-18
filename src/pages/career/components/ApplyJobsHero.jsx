@@ -4,7 +4,7 @@ const ApplyJobsHero = () => {
     return (
         <div className="w-full">
             {/* Existing Hero Section */}
-            <div className='relative flex flex-col items-center justify-center min-h-[60vh] px-5 pt-28 pb-16 text-center'>
+            <div className='relative flex flex-col items-center justify-center h-screen px-5 pt-28  text-center'>
                 {/* Breadcrumb */}
                 <div className='mb-10 relative z-10'>
                     <nav aria-label='Breadcrumb'>

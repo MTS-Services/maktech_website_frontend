@@ -84,7 +84,7 @@ const ContactFAQ = () => {
     };
 
     return (
-        <section className="w-full relative py-16 md:py-20 overflow-hidden bg-white">
+        <section className="w-full relative py-16 overflow-hidden bg-white">
             <div
                 className="absolute -top-44 -left-24 w-[360px] h-[360px] md:w-[520px] md:h-[520px] rounded-full pointer-events-none"
                 style={{
