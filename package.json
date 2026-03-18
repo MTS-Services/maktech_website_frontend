@@ -12,9 +12,11 @@
     "start": "vite preview --host"
   },
   "dependencies": {
+    "@gsap/react": "^2.1.2",
     "@reduxjs/toolkit": "^2.2.1",
     "@tailwindcss/vite": "^4.2.1",
     "axios": "^1.6.7",
+    "gsap": "^3.14.2",
     "lenis": "^1.3.18",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
