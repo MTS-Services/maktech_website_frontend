@@ -9,17 +9,17 @@ const TEAM_MEMBERS = [
   {
     name: 'Mukabber Hossain',
     role: 'Director, Sales & Business Development',
-    photo: '/sir.png',
+    photo: '/mukabber.png',
   },
   {
     name: 'Toufiq Ahmed Akash',
     role: 'Director, Finance',
-    photo: '/sir.png',
+    photo: '/toufiq.png',
   },
   {
     name: 'Md. Firoj Mia',
     role: 'Director, Operations',
-    photo: '/sir.png',
+    photo: '/firoj.png',
   },
 ];
 
