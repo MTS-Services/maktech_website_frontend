@@ -1,16 +1,35 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
 
 const Footer = () => {
-  const [isHovered, setIsHovered] = useState(false);
   const [openSection, setOpenSection] = useState(null);
+  const [showFooterBrand, setShowFooterBrand] = useState(false);
+  const desktopEndRef = useRef(null);
 
   const toggleSection = (section) => {
     setOpenSection(openSection === section ? null : section);
   };
 
+  useEffect(() => {
+    const node = desktopEndRef.current;
+    if (!node) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setShowFooterBrand(entry.isIntersecting);
+      },
+      { threshold: 0.35 }
+    );
+
+    observer.observe(node);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
   return (
-    <footer className="relative bg-[#111111] overflow-hidden">
+    <footer className="relative overflow-hidden">
       {/* Top CTA Section */}
       <div className="relative">
         <div className="max-w-7xl mx-auto px-4 py-16 md:py-20">
@@ -33,22 +52,8 @@ const Footer = () => {
         </div>
       </div>
 
-      {/* Footer Content with Hover Effect */}
-      <div
-        className="relative"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
-        {/* Large Background Text (visible on hover) */}
-        <div
-          className={`absolute inset-0 xl:flex items-end justify-center pb-8 pointer-events-none transition-opacity duration-500 ${isHovered ? "opacity-100" : "opacity-0"
-            }`}
-          style={{ display: isHovered ? "flex" : "none" }}
-        >
-          <div className="text-[180px] 2xl:text-[220px] font-bold text-orange-bg-cta/40 select-none whitespace-nowrap leading-none">
-            maktech
-          </div>
-        </div>
+      {/* Footer Content */}
+      <div className="relative">
 
         {/* Desktop Footer Content */}
         <div className="hidden md:block relative z-10 max-w-7xl mx-auto px-4 py-12">
@@ -248,6 +253,9 @@ const Footer = () => {
             </div>
           </div>
         </div>
+
+        {/* Desktop End Sentinel + Animated Brand Text */}
+        <div ref={desktopEndRef} className="hidden md:block h-1" aria-hidden="true" />
 
         {/* Mobile Footer Content (Accordion) */}
         <div className="md:hidden relative z-10 px-4 py-8">
@@ -520,11 +528,39 @@ const Footer = () => {
         </div>
 
         {/* Bottom Copyright Section with Orange Gradient */}
-        <div className="relative border-t border-white/10 overflow-hidden">
-          {/* Orange Gradient Background */}
-          <div className="absolute inset-0 bg-gradient-to-t from-orange-bg-cta/40 via-orange-bg-cta/20 to-transparent pointer-events-none" />
+        <div className="relative overflow-hidden h-72 md:h-100 ">
+          {/* Dark-to-orange layered glow */}
+          {/* <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background:
+                "linear-gradient(180deg, rgba(18,18,18,1) 0%, rgba(20,20,20,0.98) 52%, rgba(22,22,22,0.78) 72%, rgba(255,101,51,0.20) 90%, rgba(255,101,51,0.45) 100%)",
+            }}
+          /> */}
+          <div className="absolute inset-x-0 -bottom-28 h-[120%] pointer-events-none bg-[radial-gradient(62%_115%_at_50%_100%,rgba(255,101,51,0.70)_0%,rgba(255,101,51,0.70)_38%,rgba(255,101,51,0.10)_62%,rgba(255,101,51,0)_82%)]" />
 
-          <div className="relative max-w-7xl mx-auto px-4 py-4 z-10">
+          {/* Animated Brand Text at Top of Copyright Section */}
+          <div
+            className={`hidden md:flex absolute inset-x-0 top-6 z-10 justify-center transition-all duration-700 ease-out ${showFooterBrand
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 translate-y-6"
+              }`}
+          >
+            <p className="select-none leading-none text-[72px] lg:text-[190px] font-extrabold tracking-[0.08em] text-orange-bg-cta/45">
+              maktech
+            </p>
+          </div>
+
+          {/* Vertical strip effect */}
+          {/* <div className="absolute inset-0 pointer-events-none">
+            <div className="h-full max-w-7xl mx-auto px-4 md:px-0 hidden md:flex">
+              {Array.from({ length: 14 }).map((_, idx) => (
+                <div key={idx} className="flex-1 border-r border-white/10" />
+              ))}
+            </div>
+          </div> */}
+
+          <div className="absolute inset-x-0 bottom-0 z-10 max-w-7xl mx-auto px-4 py-2 md:py-3">
             <div className="flex flex-col md:flex-row items-center justify-between gap-4">
               <p className="text-gray-400 text-sm">©2026 Maktech</p>
               <div className="flex items-center gap-6">
@@ -544,6 +580,7 @@ const Footer = () => {
             </div>
           </div>
         </div>
+
       </div>
     </footer>
   );
