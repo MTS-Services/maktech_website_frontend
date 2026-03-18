@@ -13,9 +13,9 @@ const ServiceHero = ({
   //   backgroundClass = "bg-[#0f1115]",
 }) => {
   return (
-    <section className={`relative overflow-hidden `}>
+    <section className="relative overflow-hidden min-h-screen">
       <div className="absolute inset-0 " aria-hidden="true" />
-      <div className="relative flex items-center justify-center px-5 py-18 sm:px-8 md:py-24 lg:py-28">
+      <div className="relative flex min-h-screen items-center justify-center px-5 py-18 sm:px-8 md:py-24 lg:py-28">
         <div className="w-full max-w-5xl text-center text-white">
           <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/20 px-4 py-2 text-xs sm:text-sm text-white/80 bg-white/5 backdrop-blur-sm">
             {breadcrumbs.map((crumb, index) => {

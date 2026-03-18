@@ -3,7 +3,7 @@ import Breadcrumb from '../../../components/Breadcrumb'
 
 const ServiceBanner = () => {
   return (
-    <section className='flex items-start justify-center min-h-[70vh] px-5 pt-20 pb-12 sm:px-8 sm:pt-24 lg:pt-28'>
+    <section className='flex items-center justify-center min-h-screen px-5 pt-20 pb-12 sm:px-8 sm:pt-24 lg:pt-28'>
       <div className='w-full container text-center'>
         <div className='mb-7'>
           <Breadcrumb label='Services' />

@@ -166,16 +166,6 @@ const Navbar = () => {
     handleNavigate();
   };
 
-  const handleCompanyLinkClick = (event) => {
-    if (isMobile) {
-      event.preventDefault();
-      setIsCompanyMegaOpen((prev) => !prev);
-      setIsServicesMegaOpen(false);
-      return;
-    }
-    handleNavigate();
-  };
-
   return (
     <nav
       className="fixed z-[1000] flex w-full items-center justify-between gap-0 bg-[rgba(28,28,28,0.95)] px-5 py-4 shadow-[0_2px_8px_rgba(0,0,0,0.3)] transition-all duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] [backdrop-filter:blur(18px)] xl:w-[60%] xl:max-w-[1200px] xl:rounded-full xl:border xl:border-white/8 xl:bg-[rgba(28,28,28,0.82)] xl:px-5 xl:py-2.5 xl:shadow-[0_8px_32px_rgba(0,0,0,0.45),inset_0_0_0_1px_rgba(255,255,255,0.04)] 2xl:gap-2.5 2xl:px-[22px]"
@@ -351,12 +341,9 @@ const Navbar = () => {
               onFocusCapture={openCompanyMegaMenu}
               onBlurCapture={handleCompanyItemBlur}
             >
-              <NavLink
-                to={link.to}
-                className={({ isActive }) =>
-                  `${navItemBaseClass} w-full justify-between xl:w-auto ${isActive ? navItemActiveClass : ""}`
-                }
-                onClick={handleCompanyLinkClick}
+              <button
+                type="button"
+                className={`${navItemBaseClass} w-full justify-between xl:w-auto border-none bg-transparent text-left`}
                 style={{ transitionDelay: isMobile && menuOpen ? "150ms" : "0ms" }}
               >
                 {link.label}
@@ -373,7 +360,7 @@ const Navbar = () => {
                 >
                   <path d="M2 3.5L5 6.5L8 3.5" />
                 </svg>
-              </NavLink>
+              </button>
 
               <div
                 className={`absolute left-1/2 bottom-full hidden w-[220px] -translate-x-1/2 xl:block ${isCompanyMegaOpen ? "pointer-events-auto" : "pointer-events-none"
@@ -408,13 +395,6 @@ const Navbar = () => {
                   }`}
               >
                 <div className="space-y-1 rounded-md border border-white/10 bg-white/5 p-2">
-                  <NavLink
-                    to="/company"
-                    className="block rounded-sm bg-white/10 px-3 py-2 text-[14px] font-semibold text-white no-underline transition-colors duration-200 hover:bg-orange-bg-cta"
-                    onClick={handleNavigate}
-                  >
-                    View company
-                  </NavLink>
                   {companyMegaItems.map((item) => (
                     <NavLink
                       key={item.slug}

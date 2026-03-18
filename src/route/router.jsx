@@ -80,7 +80,7 @@ const AppRoutes = () => (
           path="/services/sas-product"
           element={<ServiceSASProduct />}
         ></Route>
-        <Route path="/company" element={<ComingSoon />} />
+        {/* <Route path="/company" element={<ComingSoon />} /> */}
         <Route path="/contact" element={<Contact />} />
         <Route path="/career" element={<Career />} />
         <Route path="/apply-jobs" element={<ApplyJobs />} />

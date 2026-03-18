@@ -65,7 +65,7 @@ const OurTeam = () => {
 
   return (
     <main className="relative w-full  overflow-hidden pb-20">
-      <section className="mx-auto container flex-col items-center gap-10 px-5 pt-28 pb-14 text-center sm:px-8 md:pt-32 md:pb-16 lg:px-12 lg:pb-20">
+      <section className="mx-auto container flex min-h-screen flex-col items-center justify-center gap-10 px-5 pt-28 pb-14 text-center sm:px-8 md:pt-32 md:pb-16 lg:px-12 lg:pb-20">
         <Breadcrumb label="Our team" />
 
         <div className="flex flex-col items-center gap-4">
@@ -81,23 +81,27 @@ const OurTeam = () => {
 
         <Link
           to="/contact"
-          className="inline-flex items-center gap-4 rounded-full bg-orange-bg-cta px-6 py-3 text-base font-semibold text-white shadow-[0_20px_40px_rgba(255,101,51,0.35)] transition duration-200 hover:-translate-y-0.5 hover:bg-[#e45727] mt-4"
+          className="inline-flex items-center gap-4 rounded-full bg-orange-bg-cta px-6 py-2 text-base font-semibold text-white shadow-[0_20px_40px_rgba(255,101,51,0.35)] transition duration-200 hover:-translate-y-0.5 hover:bg-[#e45727] mt-4"
         >
           <span>Contact With Us</span>
-          <span className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-black">
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 12 12"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.8"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M5 3l4 3-4 3" />
-            </svg>
-          </span>
+          <span
+        className='w-7 h-7 flex items-center justify-center rounded-full bg-white shrink-0 transition-transform duration-300 ease-out group-hover:translate-x-1'
+        aria-hidden='true'
+      >
+        <svg
+          width='14'
+          height='14'
+          viewBox='0 0 16 16'
+          fill='none'
+          stroke='black'
+          strokeWidth='2'
+          strokeLinecap='round'
+          strokeLinejoin='round'
+          aria-hidden='true'
+        >
+          <path d='M3 8h10M9 4l4 4-4 4' />
+        </svg>
+      </span>
         </Link>
       </section>
 
