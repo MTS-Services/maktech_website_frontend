@@ -2,9 +2,18 @@ import React from 'react';
 import { FaChartBar, FaHeart, FaInstagram, FaShare, FaTwitter } from 'react-icons/fa';
 
 const SocialIcon = ({ icon: Icon, label, value }) => (
-    <div className="flex flex-col items-center mb-8 text-white transition-colors cursor-pointer opacity-70 hover:opacity-100">
+    <div className="flex flex-col items-center mb-0 md:mb-8 text-white transition-colors cursor-pointer ">
         <Icon size={20} />
-        <span className="sr-only">{label || value || 'social icon'}</span>
+        {label && (
+            <span className="mt-2 text-[10px] md:text-[11px] uppercase tracking-[0.08em] text-white">
+                {label}
+            </span>
+        )}
+        {value && (
+            <span className="text-xs md:text-sm font-semibold text-white leading-tight">
+                {value}
+            </span>
+        )}
     </div>
 );
 
@@ -12,7 +21,7 @@ const ArticleUI = () => {
     return (
         <div className="min-h-screen text-[#eee]">
             {/* Header Image Section */}
-            <div className="relative w-full h-[50vh] overflow-hidden max-w-7xl mx-auto">
+            <div className="relative w-full  max-w-360 overflow-hidden  mx-auto">
                 <img
                     src="/Desktop.jpg"
                     alt=""
@@ -24,7 +33,7 @@ const ArticleUI = () => {
                 <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-orange-950/20 to-transparent"></div>
             </div>
 
-            <div className="relative max-w-7xl mx-auto flex flex-col md:flex-row gap-12 px-6 py-16 md:py-24">
+            <div className="relative  max-w-360 mx-auto flex flex-col md:flex-row gap-12 px-6 py-16 md:py-24">
                 {/* Background vertical grid lines */}
                 <div className="absolute inset-0 flex justify-around pointer-events-none opacity-[0.03]">
                     <div className="w-[1px] h-full bg-white"></div>
@@ -43,9 +52,9 @@ const ArticleUI = () => {
                 </aside>
 
                 {/* Main Content Area */}
-                <main className="flex-1 max-w-4xl z-10">
+                <main className="flex-1  max-w-360 z-10">
                     {/* Top Intro Paragraph - Serif font from image */}
-                    <p className="text-base text-[#ccc] leading-[1.8] mb-20 font-serif max-w-3xl">
+                    <p className="text-base text-whiteleading-[1.8] mb-20 font-serif max-w-360">
                         The seamless experience of browsing a website, from reading a sports update to scrolling through a gallery,
                         is the result of a complex yet beautifully coordinated system. At its core, web development is a
                         conversation between a client—your web browser—and a remote server. When you enter a URL, your
@@ -59,7 +68,7 @@ const ArticleUI = () => {
                         <div className="shrink-0 pt-1.5 md:pt-2">
                             <span className="text-6xl md:text-8xl text-white/20 font-serif leading-none italic">”</span>
                         </div>
-                        <h1 className="text-[32px] md:text-[46px] font-extrabold text-[#E3E3E3] font-sans leading-[1.15] tracking-tight">
+                        <h1 className="text-[32px] md:text-[46px] font-bold text-[#E3E3E3] font-sans leading-[1.15] tracking-tight">
                             Decoding the Digital Engine: How the Web Development System Works
                         </h1>
                     </div>
@@ -70,7 +79,7 @@ const ArticleUI = () => {
                         <div className="relative group">
                             {/* Bullet point dot */}
                             <span className="absolute -left-7 md:-left-9 top-3 w-1.5 h-1.5 bg-white rounded-full opacity-80 group-hover:scale-125 transition-transform"></span>
-                            <p className="text-base text-[#ccc] leading-[1.8]">
+                            <p className="text-base text-white leading-[1.8]">
                                 The actual construction of a website relies on three fundamental layers that work in unison
                                 to create a functional experience. The first layer is the structure, defined by HTML,
                                 which acts as the skeleton of the page by identifying headings, paragraphs, and media.
@@ -86,7 +95,7 @@ const ArticleUI = () => {
                         <div className="relative group">
                             {/* Bullet point dot */}
                             <span className="absolute -left-7 md:-left-9 top-3 w-1.5 h-1.5 bg-white rounded-full opacity-80 group-hover:scale-125 transition-transform"></span>
-                            <p className="text-base text-[#ccc] leading-[1.8]">
+                            <p className="text-base text-white leading-[1.8]">
                                 Beyond what the user sees, the system is supported by a robust "Back-end" infrastructure.
                                 This involves the server-side logic and the database, which acts as a massive digital library.
                                 For a blog, the database is where every article, comment, and user profile is securely stored.

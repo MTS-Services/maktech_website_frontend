@@ -51,7 +51,7 @@ const ApplyContact = () => {
                 }}
             />
 
-            <div className="container mx-auto px-5 xl:px-8 2xl:px-12 relative z-10">
+            <div className=" mx-auto px-5 xl:px-8 2xl:px-12 relative z-10">
                 {/* Header */}
                 <div className="mb-12 xl:mb-16 text-center">
                     {/* Badge */}
@@ -69,7 +69,7 @@ const ApplyContact = () => {
                 </div>
 
                 {/* Contact Form Container */}
-                <div className="container mx-auto relative">
+                <div className=" max-w-360 mx-auto relative">
                     {/* Orange Gradient Background Glow */}
                     <div
                         className="absolute inset-0 -z-10"

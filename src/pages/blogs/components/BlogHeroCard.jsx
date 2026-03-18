@@ -3,20 +3,20 @@ import { Link } from 'react-router-dom';
 
 const BlogHeroCard = () => {
   return (
-    <section className="flex items-center justify-center p-6 py-24 min-h-[500px]">
-      <div className=" w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-center">
+    <section className="flex items-center justify-center p-6 py-24 ">
+      <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-stretch">
 
         {/* Left Side: Image Container */}
-        <div className="relative group overflow-hidden rounded-lg shadow-2xl">
+        <div className="relative group overflow-hidden rounded-lg shadow-2xl h-full">
           <img
             src="/Rectangle.png"
             alt="Developer working on web system"
-            className="w-full h-auto object-cover "
+            className="w-full h-88 object-cover"
           />
         </div>
 
         {/* Right Side: Content */}
-        <div className="flex flex-col space-y-6">
+        <div className="flex h-full flex-col space-y-6">
 
           {/* Category Badge */}
 
@@ -34,7 +34,7 @@ const BlogHeroCard = () => {
           </h1>
 
           {/* Description */}
-          <p className="text-gray-300 text-base md:text-xl leading-relaxed max-w-lg">
+          <p className="text-gray-300 text-base max-w-sm leading-relaxed ">
             In this blog, he is trying to develop a web, the blog is about the web...
           </p>
 

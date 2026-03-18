@@ -5,12 +5,15 @@ import WhyWeBests from "./components/WhyWeBests";
 
 const BlogDetails = () => {
     return (
-        <div>
+        <main
+            id='about'
+            aria-labelledby='about-heading'
+            className='relative w-full overflow-hidden'>
             <ArticleHero />
             <ArticlePage/> 
             <WhyWeBests/>
             <BlogSection/>
-        </div>
+        </main>
     );
 };
 

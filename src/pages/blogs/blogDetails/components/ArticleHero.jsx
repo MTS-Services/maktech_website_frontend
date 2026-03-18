@@ -10,18 +10,29 @@ import Breadcrumb from "../../../../components/Breadcrumb";
 
 const ArticleHero = () => {
   return (
-    <section className="relative w-full min-h-190 flex flex-col items-center justify-center  px-6 py-20 text-center overflow-hidden">
-      {/* Decorative Gradient Blobs */}
-      <div className="absolute -left-10 -bottom-10 w-40 h-60 bg-gradient-to-br from-[#FF6B35] to-transparent opacity-40 blur-3xl rounded-full rotate-45" />
-      <div className="absolute -right-10 -bottom-10 w-40 h-60 bg-gradient-to-bl from-[#FF6B35] to-transparent opacity-40 blur-3xl rounded-full -rotate-45" />
-      <Breadcrumb />
-      <div className="container mx-auto z-10">
-        {/* Main Heading */}
-        <h1 className="text-4xl md:text-6xl  font-bold text-white tracking-tight mb-8">
-          How the system of Web Development works
-        </h1>
+    <div className='relative flex flex-col items-center justify-center h-screen px-5 pt-28 pb-16 text-center'>
+      {/* Breadcrumb */}
+      <div className='mb-10 relative z-10'>
+        <Breadcrumb
+          crumbs={[
+            { label: 'Blogs', href: '/blogs' },
+            { label: 'Blog Details' },
+          ]}
+        />
+      </div>
 
-        {/* Metadata Bar */}
+      {/* Heading */}
+      <h1
+        id='about-heading'
+        className='relative z-10 text-white font-bold leading-tight tracking-tight text-[clamp(1.75rem,5vw,4rem)] max-w-5xl mb-6'
+      >
+
+        How the system of Web Development works
+
+      </h1>
+
+      {/* Description */}
+      <p className='relative z-10 text-white/60 text-base xl:text-lg max-w-2xl leading-relaxed mb-10'>
         <div className="flex flex-wrap items-center justify-center gap-y-4 text-[#FFFFFF] text-sm md:text-base font-medium">
           <span className="flex items-center">
             by <span className="text-white ml-1">Emma Rose</span>
@@ -59,18 +70,37 @@ const ArticleHero = () => {
             </button>
           </div>
         </div>
+      </p>
 
-        {/* CTA Button */}
-        <div className="mt-12 flex items-center justify-center">
-          <button className="group flex items-center gap-4 bg-[#FF6B35] hover:bg-[#FF8354] text-white pl-8 pr-2 py-2 rounded-full transition-all duration-300 transform active:scale-95 shadow-lg shadow-orange-900/20">
-            <span className="text-lg font-semibold">Contact With US</span>
-            <div className="bg-white rounded-full p-2 group-hover:translate-x-1 transition-transform">
-              <FaArrowRight size={20} className="text-[#111111]" />
-            </div>
-          </button>
-        </div>
-      </div>
-    </section>
+      {/* CTA */}
+      <button
+
+        className='relative z-10 group inline-flex items-center gap-3 overflow-hidden bg-orange-bg-cta hover:bg-[#e5501a] hover:shadow-[0_4px_20px_rgba(255,101,51,0.45)] text-white font-semibold rounded-full transition-all duration-200 active:scale-[0.97] border-0 cursor-pointer'
+        style={{ padding: '13px 28px' }}
+      >
+        <span className='inline-block -translate-x-0.5 transition-transform duration-300 ease-out delay-75 group-hover:translate-x-0'>
+          Contact With US
+        </span>
+        <span
+          className='w-7 h-7 flex items-center justify-center rounded-full bg-white shrink-0 transition-transform duration-300 ease-out group-hover:translate-x-1'
+          aria-hidden='true'
+        >
+          <svg
+            width='14'
+            height='14'
+            viewBox='0 0 16 16'
+            fill='none'
+            stroke='black'
+            strokeWidth='2'
+            strokeLinecap='round'
+            strokeLinejoin='round'
+            aria-hidden='true'
+          >
+            <path d='M3 8h10M9 4l4 4-4 4' />
+          </svg>
+        </span>
+      </button>
+    </div>
   );
 };
 
