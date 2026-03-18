@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
-
+import { FaBehance } from "react-icons/fa6"
 const ContactForm = () => {
     const [formData, setFormData] = useState({
         fullName: "",
@@ -25,7 +25,7 @@ const ContactForm = () => {
     };
 
     return (
-        <section className="w-full relative py-16   overflow-hidden">
+        <section className="w-full relative py-10 lg:py-16   overflow-hidden">
             {/* Background Image */}
             <div
                 className="absolute inset-0 z-0"
@@ -80,10 +80,10 @@ const ContactForm = () => {
                             >
                                 {/* Company Description */}
                                 <div className="mb-10">
-                                    <h3 className="text-2xl xl:text-3xl font-semibold text-white mb-3 leading-tight">
+                                    <h3 className="text-2xl  font-semibold text-white mb-3 leading-tight">
                                         Designing Experiences That Drive Growth
                                     </h3>
-                                    <p className="text-[#AAAAAA] text-sm md:text-base lg:text-lg">
+                                    <p className="text-[#AAAAAA] text-sm md:text-base ">
                                         We&apos;re a digital-first team helping businesses build
                                         meaningful
                                     </p>
@@ -92,7 +92,7 @@ const ContactForm = () => {
                                 {/* Contact Details */}
                                 <div className="space-y-3 md:space-y-4 mb-10">
                                     {/* Email */}
-                                    <div className="flex items-start gap-3 md:gap-4 p-3 md:p-4 rounded-lg bg-[#3F3F3F] border border-white/10">
+                                    <div className="flex items-start gap-3 md:gap-4 p-3 md:p-4 rounded-lg bg-[#3F3F3F33] border border-white/10">
                                         <div className="shrink-0 mt-0.5 md:mt-1">
                                             <svg
                                                 width="20"
@@ -121,17 +121,17 @@ const ContactForm = () => {
                                             </svg>
                                         </div>
                                         <div className="min-w-0">
-                                            <p className="text-white font-medium text-sm md:text-base lg:text-lg mb-0.5 md:mb-1 truncate">
+                                            <p className="text-white font-medium text-sm md:text-base  mb-0.5 md:mb-1 truncate">
                                                 Email us
                                             </p>
-                                            <p className="text-[#AAAAAA] text-xs md:text-sm lg:text-base break-words">
+                                            <p className="text-[#AAAAAA] text-xs md:text-sm  break-words">
                                                 maktech.corporate@gmail.com
                                             </p>
                                         </div>
                                     </div>
 
                                     {/* Phone */}
-                                    <div className="flex items-start gap-3 md:gap-4 p-3 md:p-4 rounded-lg bg-[#3F3F3F] border border-white/10">
+                                    <div className="flex items-start gap-3 md:gap-4 p-3 md:p-4 rounded-lg bg-[#3F3F3F33] border border-white/10">
                                         <div className="shrink-0 mt-0.5 md:mt-1">
                                             <svg
                                                 width="20"
@@ -151,7 +151,7 @@ const ContactForm = () => {
                                             </svg>
                                         </div>
                                         <div className="min-w-0">
-                                            <p className="text-white font-medium text-sm md:text-base lg:text-lg mb-0.5 md:mb-1 truncate">
+                                            <p className="text-white font-medium text-sm md:text-base  mb-0.5 md:mb-1 truncate">
                                                 Call on
                                             </p>
                                             <p className="text-[#AAAAAA] text-xs md:text-sm lg:text-base break-words">+012-3456-78910</p>
@@ -159,7 +159,7 @@ const ContactForm = () => {
                                     </div>
 
                                     {/* Location */}
-                                    <div className="flex items-start gap-3 md:gap-4 p-3 md:p-4 rounded-lg bg-[#3F3F3F] border border-white/10">
+                                    <div className="flex items-start gap-3 md:gap-4 p-3 md:p-4 rounded-lg bg-[#3F3F3F33] border border-white/10">
                                         <div className="shrink-0 mt-0.5 md:mt-1">
                                             <svg
                                                 width="20"
@@ -188,7 +188,7 @@ const ContactForm = () => {
                                             </svg>
                                         </div>
                                         <div className="min-w-0">
-                                            <p className="text-white font-medium text-sm md:text-base lg:text-lg mb-0.5 md:mb-1 truncate">
+                                            <p className="text-white font-medium text-sm md:text-base  mb-0.5 md:mb-1 truncate">
                                                 Location
                                             </p>
                                             <p className="text-[#AAAAAA] text-xs md:text-sm lg:text-base break-words">
@@ -267,20 +267,7 @@ const ContactForm = () => {
                                             className="w-12 h-12 rounded-lg bg-[#424242]/50 hover:bg-[#424242]/70 border border-white/5 flex items-center justify-center transition-all duration-200"
                                             aria-label="Behance"
                                         >
-                                            <svg
-                                                width="20"
-                                                height="20"
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                stroke="white"
-                                                strokeWidth="2"
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                            >
-                                                <path d="M15 6h5M3 8h5.5a2.5 2.5 0 1 1 0 5H3V8zm0 5h5.5a2.5 2.5 0 1 1 0 5H3v-5z" />
-                                                <path d="M16 13.5a3.5 3.5 0 1 0 3.5 3.5H16v-3.5z" fill="none" />
-                                            </svg>
+                                            <FaBehance className="text-white h-5 w-5"/>
                                         </a>
                                     </div>
                                 </div>
@@ -308,7 +295,7 @@ const ContactForm = () => {
                                             placeholder="Full Name"
                                             value={formData.fullName}
                                             onChange={handleChange}
-                                            className="w-full px-4 py-3 bg-[#3F3F3F] border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-orange-bg-cta transition-colors duration-200"
+                                            className="w-full px-4 py-3 bg-[#3F3F3F33] border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-orange-bg-cta transition-colors duration-200"
                                         />
                                     </div>
 
@@ -324,7 +311,7 @@ const ContactForm = () => {
                                                 placeholder="Company Name"
                                                 value={formData.companyName}
                                                 onChange={handleChange}
-                                                className="w-full px-4 py-3 bg-[#3F3F3F] border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-orange-bg-cta transition-colors duration-200"
+                                                className="w-full px-4 py-3 bg-[#3F3F3F33] border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-orange-bg-cta transition-colors duration-200"
                                             />
                                         </div>
                                         <div>
@@ -337,7 +324,7 @@ const ContactForm = () => {
                                                 placeholder="Email"
                                                 value={formData.email}
                                                 onChange={handleChange}
-                                                className="w-full px-4 py-3 bg-[#3F3F3F] border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-orange-bg-cta transition-colors duration-200"
+                                                className="w-full px-4 py-3 bg-[#3F3F3F33] border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-orange-bg-cta transition-colors duration-200"
                                             />
                                         </div>
                                     </div>
@@ -352,7 +339,7 @@ const ContactForm = () => {
                                                 name="service"
                                                 value={formData.service}
                                                 onChange={handleChange}
-                                                className="w-full px-4 py-3 bg-[#3F3F3F] border border-white/10 rounded-lg text-white focus:outline-none focus:border-orange-bg-cta transition-colors duration-200 appearance-none cursor-pointer"
+                                                className="w-full px-4 py-3 bg-[#3F3F3F33] border border-white/10 rounded-lg text-white focus:outline-none focus:border-orange-bg-cta transition-colors duration-200 appearance-none cursor-pointer"
                                                 style={{
                                                     backgroundImage: `url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")`,
                                                     backgroundRepeat: "no-repeat",
@@ -432,7 +419,7 @@ const ContactForm = () => {
                                                 name="budget"
                                                 value={formData.budget}
                                                 onChange={handleChange}
-                                                className="w-full px-4 py-3 bg-[#3F3F3F] border border-white/10 rounded-lg text-white focus:outline-none focus:border-orange-bg-cta transition-colors duration-200 appearance-none cursor-pointer"
+                                                className="w-full px-4 py-3 bg-[#3F3F3F33] border border-white/10 rounded-lg text-white focus:outline-none focus:border-orange-bg-cta transition-colors duration-200 appearance-none cursor-pointer"
                                                 style={{
                                                     backgroundImage: `url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")`,
                                                     backgroundRepeat: "no-repeat",
@@ -493,7 +480,7 @@ const ContactForm = () => {
                                             placeholder="Full industry name"
                                             value={formData.industry}
                                             onChange={handleChange}
-                                            className="w-full px-4 py-3 bg-[#3F3F3F] border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-orange-bg-cta transition-colors duration-200"
+                                            className="w-full px-4 py-3 bg-[#3F3F3F33] border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-orange-bg-cta transition-colors duration-200"
                                         />
                                     </div>
 
@@ -508,7 +495,7 @@ const ContactForm = () => {
                                             value={formData.message}
                                             onChange={handleChange}
                                             rows="4"
-                                            className="w-full px-4 py-3 bg-[#3F3F3F] border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-orange-bg-cta transition-colors duration-200 resize-none"
+                                            className="w-full px-4 py-3 bg-[#3F3F3F33] border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-orange-bg-cta transition-colors duration-200 resize-none"
                                         />
                                     </div>
 

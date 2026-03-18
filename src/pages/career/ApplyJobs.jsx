@@ -9,14 +9,17 @@ const ApplyJobs = () => {
 
 
     return (
-        <div className="min-h-screen text-white">
+        <main
+            id='about'
+            aria-labelledby='about-heading'
+            className='relative w-full overflow-hidden'>
             <ApplyJobsHero />
             <ApplyJobsRequirements />
             <ApplyJobsResponsibilities />
             <ApplyJobsBenefits />
             <ApplyContact/>
 
-        </div>
+        </main>
     );
 };
 

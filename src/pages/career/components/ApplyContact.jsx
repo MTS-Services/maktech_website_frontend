@@ -5,11 +5,24 @@ const ApplyContact = () => {
         fullName: "",
         companyName: "",
         email: "",
-        service: "",
+        service: "ui-ux",
         budget: "",
         industry: "",
         message: "",
+        experience: "Fresher",
     });
+
+    const positionOptions = [
+        { value: "ui-ux", label: "UI/UX Design" },
+        { value: "mern", label: "MERN STACK Development" },
+        { value: "flutter", label: "Flutter App Development" },
+        { value: "laravel", label: "Laravel Development" },
+        { value: "shopify", label: "Shopify Development" },
+        { value: "wordpress", label: "WordPress Development" },
+        { value: "wix", label: "WIX Development" },
+        { value: "marketing", label: "Digital Marketing" },
+        { value: "design", label: "Graphic Design" },
+    ];
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -25,7 +38,7 @@ const ApplyContact = () => {
     };
 
     return (
-        <section className="w-full relative py-16 xl:py-20 2xl:py-24 overflow-hidden">
+        <section className="w-full relative py-16 xl:py-20  overflow-hidden">
             {/* Background Image */}
             <div
                 className="absolute inset-0 z-0"
@@ -92,7 +105,7 @@ const ApplyContact = () => {
                             {/* Right Side - Application Form */}
                             <form onSubmit={handleSubmit} className="p-0 md:p-2 xl:p-10">
                                 {/* Full Name */}
-                                <div className="mb-8">
+                                <div className="mb-4">
                                     <label className="block text-white text-sm md:text-base font-medium mb-3">
                                         Full Name
                                     </label>
@@ -117,7 +130,7 @@ const ApplyContact = () => {
                                 </div>
 
                                 {/* Phone Number & Email */}
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                                     <div>
                                         <label className="block text-white text-sm md:text-base font-medium mb-3">
                                             Phone Number
@@ -166,13 +179,13 @@ const ApplyContact = () => {
                                 </div>
 
                                 {/* Years of Experience & Expertise Tags */}
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                                     <div>
                                         <label className="block text-white text-sm md:text-base font-medium mb-3">
                                             Years of Experience
                                         </label>
                                         <div
-                                            className="h-13 rounded-xl flex items-center px-5 transition-all duration-200 hover:border-orange-bg-cta/60 group cursor-text relative"
+                                            className="h-13 rounded-xl flex items-center px-5 transition-all duration-200 hover:border-orange-bg-cta/60 group cursor-pointer relative"
                                             style={{
                                                 backgroundColor: "rgba(66, 66, 66, 0.3)",
                                                 backdropFilter: "blur(20px)",
@@ -181,21 +194,17 @@ const ApplyContact = () => {
                                             }}
                                         >
                                             <select
-                                                defaultValue=""
-                                                className="w-full bg-transparent text-white placeholder-[#777777] outline-none text-sm md:text-base appearance-none pr-8"
+                                                value={formData.experience}
+                                                onChange={(e) => setFormData({ ...formData, experience: e.target.value })}
+                                                className="w-full bg-transparent text-white outline-none text-sm md:text-base appearance-none pr-8"
                                             >
-                                                <option value="" className="bg-[#3F3F3F]">
-                                                    Fresher
-                                                </option>
-                                                <option value="1-2" className="bg-[#3F3F3F]">
-                                                    1-2 years
-                                                </option>
-                                                <option value="3-5" className="bg-[#3F3F3F]">
-                                                    3-5 years
-                                                </option>
-                                                <option value="5+" className="bg-[#3F3F3F]">
-                                                    5+ years
-                                                </option>
+                                                <option value="Fresher" className="bg-[#3F3F3F]">Fresher</option>
+                                                <option value="1 year" className="bg-[#3F3F3F]">1 year</option>
+                                                <option value="2 years" className="bg-[#3F3F3F]">2 years</option>
+                                                <option value="3 years" className="bg-[#3F3F3F]">3 years</option>
+                                                <option value="4 years" className="bg-[#3F3F3F]">4 years</option>
+                                                <option value="5 years" className="bg-[#3F3F3F]">5 years</option>
+                                                <option value="5+ years" className="bg-[#3F3F3F]">5+ years</option>
                                             </select>
                                             <IoIosArrowDown className="absolute right-4 text-white/70 text-lg pointer-events-none" />
                                         </div>
@@ -225,12 +234,12 @@ const ApplyContact = () => {
                                 </div>
 
                                 {/* Applying For */}
-                                <div className="mb-8">
+                                <div className="mb-4">
                                     <label className="block text-white text-sm md:text-base font-medium mb-3">
                                         Applying For
                                     </label>
                                     <div
-                                        className="h-13 rounded-xl flex items-center px-5 transition-all duration-200 hover:border-orange-bg-cta/60 group cursor-text relative"
+                                        className="h-13 rounded-xl flex items-center px-5 transition-all duration-200 hover:border-orange-bg-cta/60 group cursor-pointer relative"
                                         style={{
                                             backgroundColor: "rgba(66, 66, 66, 0.3)",
                                             backdropFilter: "blur(20px)",
@@ -239,33 +248,22 @@ const ApplyContact = () => {
                                         }}
                                     >
                                         <select
-                                            name="service"
                                             value={formData.service}
-                                            onChange={handleChange}
-                                            className="w-full bg-transparent text-white placeholder-[#777777] outline-none text-sm md:text-base appearance-none pr-8"
+                                            onChange={(e) => setFormData({ ...formData, service: e.target.value })}
+                                            className="w-full bg-transparent text-white outline-none text-sm md:text-base appearance-none pr-8"
                                         >
-                                            <option value="" className="bg-[#3F3F3F]">
-                                                Select Position
-                                            </option>
-                                            <option value="frontend" className="bg-[#3F3F3F]">
-                                                Frontend Developer
-                                            </option>
-                                            <option value="backend" className="bg-[#3F3F3F]">
-                                                Backend Developer
-                                            </option>
-                                            <option value="designer" className="bg-[#3F3F3F]">
-                                                UI/UX Designer
-                                            </option>
-                                            <option value="marketing" className="bg-[#3F3F3F]">
-                                                Digital Marketer
-                                            </option>
+                                            {positionOptions.map((option) => (
+                                                <option key={option.value} value={option.value} className="bg-[#3F3F3F]">
+                                                    {option.label}
+                                                </option>
+                                            ))}
                                         </select>
                                         <IoIosArrowDown className="absolute right-4 text-white/70 text-lg pointer-events-none" />
                                     </div>
                                 </div>
 
                                 {/* Message */}
-                                <div className="mb-8">
+                                <div className="mb-4">
                                     <label className="block text-white text-sm md:text-base font-medium mb-3">
                                         Message
                                     </label>

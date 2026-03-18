@@ -33,7 +33,7 @@ const ApplyJobsResponsibilities = () => {
                         <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-lg bg-[#DAB8AC] mt-1">
                         <div className="h-[8px] w-[8px] rounded-full bg-gradient-to-br from-[#FFBEA9] to-[#FA6332] shadow-[2.25px_3.37px_4.5px_rgba(68,18,0,0.36)]"></div>
                     </div>
-                        <h2 className="text-2xl xl:text-3xl font-semibold">Key Responsibilities</h2>
+                        <h2 className="text-2xl xl:text-3xl text-white font-semibold">Key Responsibilities</h2>
                     </div>
                 </div>
 
@@ -42,7 +42,7 @@ const ApplyJobsResponsibilities = () => {
                     {responsibilities.map((resp, idx) => (
                         <div
                             key={idx}
-                            className="p-6 rounded-lg border border-white/10 bg-gradient-to-br from-white/5 to-white/[0.02] max-w-sm"
+                            className="p-6 rounded-lg border border-white/10 bg-[#282828] max-w-sm"
                         >
                             <div className="flex-shrink-0 mb-2">
                                 {resp.icon}

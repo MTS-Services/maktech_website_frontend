@@ -68,19 +68,14 @@ const BlogCard = ({ blog }) => (
 export default function BlogSection() {
   return (
     <section className="  px-5 py-14 sm:py-16 md:py-24">
-      <div className="container mx-auto">
+      <div className="container max-w-360 mx-auto">
         {/* Badge */}
-       
-
-
-
-          <div className=" my-6 inline-flex items-center space-x-3 px-6 py-2 rounded-xl bg-[#3d2e2a] border border-white/10 w-fit">
-            <div className="p-3 bg-[#623A2C] rounded-2xl">
-
-            <div className="w-4 h-4 rounded-full bg-[#FF6533] shadow-lg shadow-[#FF6533]/40" />
-            </div>
-            <span className="text-white text-base font-medium">Badge</span>
+        <div className="my-6 inline-flex items-center gap-3 rounded-lg border border-white/25 bg-gradient-to-r from-[#FF6533]/30 to-[#1C1C1C] px-2 py-2 pr-6">
+          <div className="flex h-8 w-8 items-center justify-center rounded-[8px] bg-[#623A2C] p-[5.33px]">
+            <div className="h-[18px] w-[18px] rounded-full bg-[radial-gradient(86.93%_86.93%_at_14.58%_10.42%,#FFBEA9_0%,#FA6332_100%)] shadow-[2.25px_3.375px_4.5px_rgba(68,18,0,0.36)]" />
           </div>
+          <span className="w-[110px] text-[20px] font-normal text-white">Blogs</span>
+        </div>
 
         {/* Title */}
         <h2 className="text-3xl sm:text-5xl font-bold text-white mb-8 leading-tight">
