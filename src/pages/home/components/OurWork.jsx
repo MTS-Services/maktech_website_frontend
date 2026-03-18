@@ -18,14 +18,14 @@ const projects = [
     title: "Makai AI — Visual Design",
     tags: ["UI/UX Design", "Branding"],
   },
+  // {
+  //   id: 3,
+  //   image: "/our_work/image 8.png",
+  //   title: "Makai AI — Color System",
+  //   tags: ["Branding", "Design"],
+  // },
   {
     id: 3,
-    image: "/our_work/image 8.png",
-    title: "Makai AI — Color System",
-    tags: ["Branding", "Design"],
-  },
-  {
-    id: 4,
     image: "/our_work/image 9.png",
     title: "Makai AI — Web Platform",
     tags: ["UI/UX Design", "SAS"],

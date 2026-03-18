@@ -19,17 +19,18 @@ const LEADERS = [
   },
   {
     orientation: "image-right",
-    headline: "Operational Excellence & Process Optimization Expert",
+    headline: "Financial Strategist Ensuring Sustainable Growth",
     description: [
-      "Md. Firoj Mia oversees all operational functions, ensuring that processes are efficient, scalable, and aligned with organizational goals. He brings a wealth of experience in streamlining operations, optimizing resources, and implementing best practices across departments.",
-      "His leadership ensures seamless coordination between teams, driving operational excellence and supporting the company’s growth trajectory.",
+      "Toufique Ahmed Akash manages the company’s financial strategy, ensuring robust fiscal planning, reporting, and compliance. His expertise encompasses budgeting, financial analysis, and risk management, supporting informed decision-making at the executive level.",
+      "With a meticulous and forward-thinking approach, he ensures the organization maintains financial health while pursuing sustainable growth opportunities.",
     ],
-    name: "Md. Firoj Mia",
-    role: "Director, Operations",
+    name: "Toufique Ahmed Akash",
+    role: "Director, Finance",
     company: "MAKTECH",
-    image: "/our_work/Frame 2147226428 (1).png",
-    imageAlt: "Portrait of Md. Firoj Mia",
+    image: "/our_work/Frame 2147226428 (3).png",
+    imageAlt: "Portrait of Toufique Ahmed Akash",
   },
+
   {
     orientation: "image-left",
     headline: "Growth-Oriented Sales & Business Strategist",
@@ -45,16 +46,16 @@ const LEADERS = [
   },
   {
     orientation: "image-right",
-    headline: "Financial Strategist Ensuring Sustainable Growth",
+    headline: "Operational Excellence & Process Optimization Expert",
     description: [
-      "Toufique Ahmed Akash manages the company’s financial strategy, ensuring robust fiscal planning, reporting, and compliance. His expertise encompasses budgeting, financial analysis, and risk management, supporting informed decision-making at the executive level.",
-      "With a meticulous and forward-thinking approach, he ensures the organization maintains financial health while pursuing sustainable growth opportunities.",
+      "Md. Firoj Mia oversees all operational functions, ensuring that processes are efficient, scalable, and aligned with organizational goals. He brings a wealth of experience in streamlining operations, optimizing resources, and implementing best practices across departments.",
+      "His leadership ensures seamless coordination between teams, driving operational excellence and supporting the company’s growth trajectory.",
     ],
-    name: "Toufique Ahmed Akash",
-    role: "Director, Finance",
+    name: "Md. Firoj Mia",
+    role: "Director, Operations",
     company: "MAKTECH",
-    image: "/our_work/Frame 2147226428 (3).png",
-    imageAlt: "Portrait of Toufique Ahmed Akash",
+    image: "/our_work/Frame 2147226428 (1).png",
+    imageAlt: "Portrait of Md. Firoj Mia",
   },
 ];
 

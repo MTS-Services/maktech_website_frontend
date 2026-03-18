@@ -215,22 +215,7 @@ const Footer = () => {
                     Contact
                   </NavLink>
                 </li>
-                <li>
-                  <a
-                    href="#"
-                    className="text-gray-400 hover:text-white transition-colors duration-200 text-sm"
-                  >
-                    Label here
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="text-gray-400 hover:text-white transition-colors duration-200 text-sm"
-                  >
-                    Label here
-                  </a>
-                </li>
+                
               </ul>
             </div>
 
