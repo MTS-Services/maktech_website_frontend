@@ -9,14 +9,14 @@ const AboutSection = () => {
   ];
 
   return (
-    <section className='hidden xl:block w-full bg-white text-black py-20 relative z-10'>
+    <section className='hidden xl:block w-full bg-white text-black py-24 relative z-10'>
       <div className='container mx-auto px-5 xl:px-8 2xl:px-12'>
         {/* Top Content (Image + Text) */}
         <div className='flex items-center gap-12 xl:gap-20 mb-16'>
           {/* Image Side */}
           <div className='w-[45%] shrink-0'>
             <img
-              src='https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80'
+              src='/WhoWeare/whoweare.png'
               alt='Team working in office'
               className='w-full h-auto object-cover rounded-sm'
             />

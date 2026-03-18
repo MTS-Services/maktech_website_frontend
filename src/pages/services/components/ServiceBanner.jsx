@@ -37,11 +37,16 @@ const ServiceBanner = () => {
         <div className='mt-10'>
           <Link
             to='/contact'
-            className='group inline-flex items-center gap-3 rounded-full bg-orange-bg-cta px-6 py-2.5 text-base font-medium text-white transition-transform duration-200 hover:-translate-y-0.5'
+            className='group inline-flex items-center gap-3 overflow-hidden rounded-full bg-orange-bg-cta text-white font-semibold transition-all duration-200 hover:bg-[#e5501a] hover:shadow-[0_4px_20px_rgba(255,101,51,0.45)] active:scale-[0.97]'
+            style={{ padding: '13px 28px' }}
           >
-            <span className='md:hidden'>View Services</span>
-            <span className='hidden md:inline'>Contact With Us</span>
-            <span className='flex h-8 w-8 items-center justify-center rounded-full bg-white text-black'>
+            <span className='inline-block -translate-x-0.5 transition-transform duration-300 ease-out delay-75 group-hover:translate-x-0 md:hidden'>
+              View Services
+            </span>
+            <span className='hidden md:inline-block -translate-x-0.5 transition-transform duration-300 ease-out delay-75 group-hover:translate-x-0'>
+              Contact With Us
+            </span>
+            <span className='flex h-7 w-7 items-center justify-center rounded-full bg-white text-black shrink-0 transition-transform duration-300 ease-out group-hover:translate-x-1'>
               <svg
                 width='14'
                 height='14'

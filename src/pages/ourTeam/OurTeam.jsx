@@ -81,27 +81,30 @@ const OurTeam = () => {
 
         <Link
           to="/contact"
-          className="inline-flex items-center gap-4 rounded-full bg-orange-bg-cta px-6 py-2 text-base font-semibold text-white shadow-[0_20px_40px_rgba(255,101,51,0.35)] transition duration-200 hover:-translate-y-0.5 hover:bg-[#e45727] mt-4"
+          className="relative z-10 group mt-4 inline-flex items-center gap-3 overflow-hidden rounded-full bg-orange-bg-cta text-white font-semibold transition-all duration-200 hover:bg-[#e5501a] hover:shadow-[0_4px_20px_rgba(255,101,51,0.45)] active:scale-[0.97]"
+          style={{ padding: "13px 28px" }}
         >
-          <span>Contact With Us</span>
+          <span className="inline-block -translate-x-0.5 transition-transform duration-300 ease-out delay-75 group-hover:translate-x-0">
+            Contact With Us
+          </span>
           <span
-        className='w-7 h-7 flex items-center justify-center rounded-full bg-white shrink-0 transition-transform duration-300 ease-out group-hover:translate-x-1'
-        aria-hidden='true'
-      >
-        <svg
-          width='14'
-          height='14'
-          viewBox='0 0 16 16'
-          fill='none'
-          stroke='black'
-          strokeWidth='2'
-          strokeLinecap='round'
-          strokeLinejoin='round'
-          aria-hidden='true'
-        >
-          <path d='M3 8h10M9 4l4 4-4 4' />
-        </svg>
-      </span>
+            className="w-7 h-7 flex items-center justify-center rounded-full bg-white shrink-0 transition-transform duration-300 ease-out group-hover:translate-x-1"
+            aria-hidden="true"
+          >
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 16 16"
+              fill="none"
+              stroke="black"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M3 8h10M9 4l4 4-4 4" />
+            </svg>
+          </span>
         </Link>
       </section>
 

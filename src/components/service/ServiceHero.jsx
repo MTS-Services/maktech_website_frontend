@@ -73,10 +73,13 @@ const ServiceHero = ({
           <div className="mt-8 flex justify-center">
             <Link
               to={ctaLink}
-              className="group inline-flex items-center gap-3 rounded-full bg-orange-bg-cta px-5 py-2.5 text-sm font-medium text-white shadow-lg transition-transform duration-200 hover:-translate-y-0.5"
+              className="group inline-flex items-center gap-3 overflow-hidden rounded-full bg-orange-bg-cta text-white font-semibold transition-all duration-200 hover:bg-[#e5501a] hover:shadow-[0_4px_20px_rgba(255,101,51,0.45)] active:scale-[0.97]"
+              style={{ padding: "13px 28px" }}
             >
-              <span>{ctaLabel}</span>
-              <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white text-black group-hover:translate-x-0.5 transition-transform">
+              <span className="inline-block -translate-x-0.5 text-sm transition-transform duration-300 ease-out delay-75 group-hover:translate-x-0 sm:text-base">
+                {ctaLabel}
+              </span>
+              <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white text-black shrink-0 transition-transform duration-300 ease-out group-hover:translate-x-1">
                 <svg
                   width="14"
                   height="14"
