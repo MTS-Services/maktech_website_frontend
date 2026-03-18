@@ -69,11 +69,11 @@ const CaseStudyGrid = () => {
     <section className='w-full pb-20 xl:pb-28'>
       <div className='max-w-7xl mx-auto px-5 xl:px-10 2xl:px-16 flex flex-col gap-10'>
         {/* Tab bar */}
-        <div className='flex justify-center w-full overflow-x-auto scrollbar-none'>
+        <div className='w-full overflow-x-auto scrollbar-none'>
           <div
             role='tablist'
             aria-label='Project categories'
-            className='flex items-center gap-1 p-4 rounded-2xl shrink-0'
+            className='flex items-center gap-1 p-4 rounded-2xl w-max mx-auto'
             style={{ background: 'rgba(154,140,136,0.2)' }}
           >
             {TABS.map((tab) => {
