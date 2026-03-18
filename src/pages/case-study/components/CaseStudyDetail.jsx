@@ -1,71 +1,17 @@
 import { useLocation } from 'react-router-dom';
 import Breadcrumb from '../../../components/Breadcrumb';
 
-// --- Section icons ---
-
-const ProblemIcon = () => (
-  <svg
-    width='24'
-    height='24'
-    viewBox='0 0 24 24'
-    fill='none'
-    aria-hidden='true'
-  >
-    <circle cx='12' cy='12' r='10' stroke='white' strokeWidth='1.5' />
-    <path d='M12 8v4' stroke='white' strokeWidth='2' strokeLinecap='round' />
-    <circle cx='12' cy='16' r='1' fill='white' />
-  </svg>
-);
-
-const SolutionIcon = () => (
-  <svg
-    width='24'
-    height='24'
-    viewBox='0 0 24 24'
-    fill='none'
-    aria-hidden='true'
-  >
-    <path
-      d='M9 12l2 2 4-4'
-      stroke='white'
-      strokeWidth='2'
-      strokeLinecap='round'
-      strokeLinejoin='round'
-    />
-    <circle cx='12' cy='12' r='10' stroke='white' strokeWidth='1.5' />
-  </svg>
-);
-
-const StarIcon = () => (
-  <svg
-    width='24'
-    height='24'
-    viewBox='0 0 24 24'
-    fill='none'
-    aria-hidden='true'
-  >
-    <path
-      d='M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'
-      stroke='white'
-      strokeWidth='1.5'
-      strokeLinejoin='round'
-    />
-  </svg>
-);
-
 // --- Content section ---
 
-const ContentSection = ({ icon: Icon, label, heading, points }) => (
+const ContentSection = ({ label, heading, points }) => (
   <div className='flex flex-col md:flex-row gap-8 md:gap-16 py-10 border-t border-white/10'>
-    {/* Left: icon + label */}
+    {/* Left: dot + label */}
     <div className='flex items-start gap-3 md:w-72 shrink-0'>
       <span
-        className='flex items-center justify-center w-11 h-11 rounded-full shrink-0'
+        className='relative z-10 w-3 h-3 mt-1.5 rounded-full shrink-0'
         style={{ background: '#ff6533' }}
-      >
-        <Icon />
-      </span>
-      <p className='text-lg font-semibold text-white/90 pt-2 leading-snug'>
+      />
+      <p className='text-lg font-semibold text-white/90 leading-snug'>
         {label}
       </p>
     </div>
@@ -153,21 +99,24 @@ const CaseStudyDetail = ({ project }) => {
         </div>
 
         {/* Content sections */}
-        <div className='flex flex-col'>
+        <div className='relative flex flex-col'>
+          {/* Vertical timeline line — desktop only */}
+          <div
+            aria-hidden='true'
+            className='pointer-events-none absolute hidden md:block w-px bg-white/20'
+            style={{ left: '5px', top: '52px', bottom: '52px' }}
+          />
           <ContentSection
-            icon={ProblemIcon}
             label='Problem'
             heading={project.problem.heading}
             points={project.problem.points}
           />
           <ContentSection
-            icon={SolutionIcon}
             label='Solution'
             heading={project.solution.heading}
             points={project.solution.points}
           />
           <ContentSection
-            icon={StarIcon}
             label='Why This Product is the Best'
             heading={project.whyBest.heading}
             points={project.whyBest.points}
