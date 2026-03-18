@@ -59,7 +59,7 @@ const CareerOpenings = () => {
     ];
 
     return (
-        <section className=" py-16 lg:py-20">
+        <section id="career-openings" className=" py-16 lg:py-20">
             <div className="max-w-7xl mx-auto   flex flex-col gap-20">
 
                 {/* Header Section */}

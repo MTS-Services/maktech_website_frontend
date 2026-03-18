@@ -1,7 +1,14 @@
 import Breadcrumb from "../../../components/Breadcrumb";
-import { NavLink } from "react-router-dom";
 
 const CareerHero = () => {
+    const handleScrollToOpenings = () => {
+        setTimeout(() => {
+            const element = document.getElementById('career-openings');
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }, 100);
+    };
     return (
         <div className='relative flex flex-col items-center justify-center h-screen px-5 pt-28 pb-16 text-center'>
             {/* Breadcrumb */}
@@ -30,9 +37,9 @@ const CareerHero = () => {
             </p>
 
             {/* CTA */}
-            <NavLink
-                to='/apply-jobs'
-                className='relative z-10 group inline-flex items-center gap-3 overflow-hidden bg-orange-bg-cta hover:bg-[#e5501a] hover:shadow-[0_4px_20px_rgba(255,101,51,0.45)] text-white font-semibold rounded-full transition-all duration-200 active:scale-[0.97] no-underline'
+            <button
+                onClick={handleScrollToOpenings}
+                className='relative z-10 group inline-flex items-center gap-3 overflow-hidden bg-orange-bg-cta hover:bg-[#e5501a] hover:shadow-[0_4px_20px_rgba(255,101,51,0.45)] text-white font-semibold rounded-full transition-all duration-200 active:scale-[0.97] border-0 cursor-pointer'
                 style={{ padding: '13px 28px' }}
             >
                 <span className='inline-block -translate-x-0.5 transition-transform duration-300 ease-out delay-75 group-hover:translate-x-0'>
@@ -56,7 +63,7 @@ const CareerHero = () => {
                         <path d='M3 8h10M9 4l4 4-4 4' />
                     </svg>
                 </span>
-            </NavLink>
+            </button>
         </div>
     );
 };
