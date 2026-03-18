@@ -4,7 +4,7 @@ import AboutShowcase from './components/AboutShowcase';
 import AboutMission from './components/AboutMission';
 import AboutTeam from './components/AboutTeam';
 import Testimonials from '../../components/Testimonials';
-import FAQ from '../../components/FAQ';
+import PricingFAQ from '../pricing/components/PricingFAQ';
 
 const About = () => {
   useEffect(() => {
@@ -22,7 +22,7 @@ const About = () => {
       <AboutMission />
       <AboutTeam />
       <Testimonials />
-      <FAQ />
+      <PricingFAQ />
     </main>
   );
 };
