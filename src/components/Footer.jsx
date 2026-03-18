@@ -546,7 +546,14 @@ const Footer = () => {
               : "opacity-0 translate-y-6"
               }`}
           >
-            <p className="select-none leading-none text-[72px] lg:text-[190px] font-extrabold tracking-[0.08em] text-orange-bg-cta/45">
+            <p className="select-none leading-none text-[72px] lg:text-[240px] font-extrabold tracking-[0.08em] text-orange-bg-cta/45">
+              maktech
+            </p>
+          </div>
+
+          {/* Mobile Brand Text */}
+          <div className="md:hidden absolute inset-x-0 top-25 z-10 flex justify-center pointer-events-none">
+            <p className="select-none leading-none text-[62px] font-extrabold tracking-[0.06em] text-orange-bg-cta/40">
               maktech
             </p>
           </div>
