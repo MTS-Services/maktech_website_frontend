@@ -35,26 +35,26 @@ const faqs = [
 
 const FAQItem = ({ faq, isOpen, onToggle }) => {
     return (
-        <div className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg overflow-hidden transition-all duration-300">
+        <div className="bg-[#F4F4F4] rounded-xl overflow-hidden transition-all duration-300">
             <button
                 onClick={onToggle}
-                className="w-full flex items-center justify-between p-6 text-left hover:bg-[#1f1f1f] transition-colors duration-200"
+                className="w-full flex items-center justify-between p-4 md:p-6 text-left transition-colors duration-200"
             >
-                <span className="text-white text-base xl:text-lg font-medium pr-4">
+                <span className="text-[#2B2B2B] text-base  font-normal pr-4 leading-snug">
                     {faq.question}
                 </span>
-                <div className={`shrink-0 transition-transform duration-300 ${isOpen ? 'rotate-0' : 'rotate-180'}`}>
+                <div className={`shrink-0 transition-transform duration-300 ${isOpen ? 'rotate-180' : 'rotate-0'}`}>
                     <svg
-                        width="20"
-                        height="20"
-                        viewBox="0 0 20 20"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
                     >
                         <path
-                            d="M5 12.5L10 7.5L15 12.5"
-                            stroke="white"
-                            strokeWidth="2"
+                            d="M6 9L12 15L18 9"
+                            stroke="#2B2B2B"
+                            strokeWidth="1.8"
                             strokeLinecap="round"
                             strokeLinejoin="round"
                         />
@@ -66,8 +66,8 @@ const FAQItem = ({ faq, isOpen, onToggle }) => {
                 className={`overflow-hidden transition-all duration-300 ${isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
                     }`}
             >
-                <div className="px-6 pb-6 pt-0">
-                    <p className="text-[#b0b0b0] text-sm xl:text-base leading-relaxed">
+                <div className="px-4 md:px-6 pb-4 md:pb-6 pt-0">
+                    <p className="text-[#666666] text-base leading-relaxed max-w-3xl">
                         {faq.answer}
                     </p>
                 </div>
@@ -84,51 +84,63 @@ const ContactFAQ = () => {
     };
 
     return (
-        <section className="w-full text-white pt-16 relative pb-16 xl:pb-20">
-            <div className="max-w-full xl:max-w-[65%] mx-auto px-5 xl:px-8 2xl:px-12">
+        <section className="w-full relative py-16 overflow-hidden bg-white">
+            <div
+                className="absolute -top-44 -left-24 w-[360px] h-[360px] md:w-[520px] md:h-[520px] rounded-full pointer-events-none"
+                style={{
+                    background: "rgba(255, 101, 51, 0.35)",
+                    filter: "blur(120px)",
+                    transform: "rotate(27deg)",
+                }}
+            />
+            <div
+                className="absolute -bottom-40 -right-20 w-[280px] h-[280px] md:w-[420px] md:h-[420px] rounded-full pointer-events-none"
+                style={{
+                    background: "rgba(255, 101, 51, 0.35)",
+                    filter: "blur(120px)",
+                }}
+            />
+
+            <div className="max-w-6xl mx-auto px-5 md:px-8 xl:px-10 relative z-10">
                 {/* Header */}
-                <div className="mb-12 xl:mb-16 text-center">
+                <div className="mb-10 md:mb-14 text-center">
                     {/* Badge */}
                     <div
-                        className="flex items-center gap-2 px-3 py-1.5 rounded-md w-fit mb-6 mx-auto"
+                        className="inline-flex items-center gap-2.5 px-2 py-2 pr-4 rounded-lg mb-6 md:mb-8"
                         style={{
-                            background:
-                                "linear-gradient(90deg, rgba(46,34,30,0.98) 0%, rgba(38,30,28,0.92) 50%, rgba(28,22,20,0.88) 100%)",
-                            border: "1px solid rgba(255,255,255,0.03)",
-                            boxShadow: "inset 0 1px 0 rgba(255,255,255,0.02)",
+                            background: "linear-gradient(93deg, rgba(255, 101, 51, 0) 0%, #E4E4E4 100%)",
+                            outline: "1px rgba(255, 255, 255, 0.25) solid",
                         }}
                     >
-                        <div className="relative flex items-center justify-center w-3.5 h-3.5">
+                        <div
+                            className="w-8 h-8 rounded-lg flex items-center justify-center"
+                            style={{ background: "#DAB8AC" }}
+                        >
                             <span
-                                className="absolute w-full h-full rounded-full"
+                                className="w-[18px] h-[18px] rounded-full"
                                 style={{
                                     background:
-                                        "radial-gradient(circle at 35% 30%, rgba(255,101,51,0.95), rgba(255,101,51,0.6) 40%, rgba(255,101,51,0.25) 70%)",
+                                        "radial-gradient(ellipse 86.93% 86.93% at 14.58% 10.42%, #FFBEA9 0%, #FA6332 100%)",
+                                    boxShadow: "2.25px 3.37px 4.5px rgba(68, 18, 0, 0.36)",
                                 }}
-                            ></span>
-                            <span
-                                className="w-2 h-2 rounded-full"
-                                style={{
-                                    background: "linear-gradient(180deg, #ff8a5a, #ff6533)",
-                                }}
-                            ></span>
+                            />
                         </div>
-                        <span className="text-base font-medium text-white">Got Questions?</span>
+                        <span className="text-sm md:text-lg font-normal text-[#666666]">Need Help?</span>
                     </div>
 
                     {/* Heading */}
-                    <h2 className="text-3xl xl:text-4xl 2xl:text-5xl font-semibold mb-4 leading-tight text-white">
-                        Frequently Asked Questions
+                    <h2 className="text-3xl md:text-4xl  font-medium mb-3 leading-tight text-[#7D7D7D]">
+                        Answers to Common Questions
                     </h2>
 
                     {/* Subheading */}
-                    <p className="text-[#AAAAAA] text-base xl:text-lg max-w-2xl mx-auto">
-                        Find answers to common questions about our services, process, and how we can help your business grow.
+                    <p className="text-[#AAAAAA] text-base  max-w-3xl mx-auto leading-relaxed">
+                        Everything you need to know before starting your project with us.
                     </p>
                 </div>
 
                 {/* FAQ List */}
-                <div className="max-w-4xl mx-auto flex flex-col gap-4">
+                <div className="max-w-4xl mx-auto flex flex-col gap-4 md:gap-6">
                     {faqs.map((faq) => (
                         <FAQItem
                             key={faq.id}
@@ -139,7 +151,7 @@ const ContactFAQ = () => {
                     ))}
                 </div>
 
-              
+
             </div>
         </section>
     );

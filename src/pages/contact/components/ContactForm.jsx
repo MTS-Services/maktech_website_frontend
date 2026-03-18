@@ -299,7 +299,7 @@ const ContactForm = () => {
                                 <form onSubmit={handleSubmit} className="space-y-5">
                                     {/* Full Name */}
                                     <div>
-                                        <label className="text-white-bg-cta text-base md:text-lg mb-2 block">
+                                        <label className="text-white-bg-cta text-base  mb-2 block">
                                             Client Name
                                         </label>
                                         <input
@@ -315,7 +315,7 @@ const ContactForm = () => {
                                     {/* Company Name and Email */}
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                                         <div>
-                                            <label className="text-white-bg-cta text-base md:text-lgmb-2 block">
+                                            <label className="text-white-bg-cta text-base  mb-2 block">
                                                 Company Name
                                             </label>
                                             <input
@@ -328,7 +328,7 @@ const ContactForm = () => {
                                             />
                                         </div>
                                         <div>
-                                            <label className="text-white-bg-cta text-base md:text-lg mb-2 block">
+                                            <label className="text-white-bg-cta text-base  mb-2 block">
                                                 Email
                                             </label>
                                             <input
@@ -345,7 +345,7 @@ const ContactForm = () => {
                                     {/* Service and Budget */}
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                                         <div>
-                                            <label className="text-white-bg-cta text-base md:text-lg mb-2 block">
+                                            <label className="text-white-bg-cta text-base  mb-2 block">
                                                 Service
                                             </label>
                                             <select
@@ -425,7 +425,7 @@ const ContactForm = () => {
                                             </select>
                                         </div>
                                         <div>
-                                            <label className="text-white-bg-cta text-base md:text-lg mb-2 block">
+                                            <label className="text-white-bg-cta text-base  mb-2 block">
                                                 Budget
                                             </label>
                                             <select
@@ -484,7 +484,7 @@ const ContactForm = () => {
 
                                     {/* Industry */}
                                     <div>
-                                        <label className="text-white-bg-cta text-base md:text-lg mb-2 block">
+                                        <label className="text-white-bg-cta text-base  mb-2 block">
                                             Industry
                                         </label>
                                         <input
@@ -499,7 +499,7 @@ const ContactForm = () => {
 
                                     {/* Message */}
                                     <div>
-                                        <label className="text-white-bg-cta text-base md:text-lg mb-2 block">
+                                        <label className="text-white-bg-cta text-base  mb-2 block">
                                             Client Name
                                         </label>
                                         <textarea
@@ -515,24 +515,23 @@ const ContactForm = () => {
                                     {/* Submit Button */}
                                     <button
                                         type="submit"
-                                        className="flex items-center justify-center gap-3 bg-orange-bg-cta hover:bg-[#d14608] text-white px-8 py-3.5 rounded-full text-base font-medium transition-all duration-200 cursor-pointer w-full md:w-auto"
+                                        className="group w-full sm:w-fit flex items-center justify-between gap-4 md:gap-12 bg-[#FF6533] hover:bg-[#e55a2d] text-white p-1 pl-5  rounded-full transition-all duration-300 active:scale-95"
                                     >
-                                        Let&apos;s Start
-                                        <div className="flex items-center justify-center w-8 h-8 bg-white rounded-full">
+                                        <span className="text-sm sm:text-base  font-medium">Let’s Talk</span>
+
+                                        {/* White Circle with Arrow */}
+                                        <div className="w-8 h-8 sm:w-10 sm:h-10 bg-white rounded-full flex items-center justify-center transition-transform duration-300 group-hover:translate-x-1">
                                             <svg
-                                                width="16"
-                                                height="16"
+                                                width="18"
+                                                height="18"
                                                 viewBox="0 0 24 24"
                                                 fill="none"
-                                                xmlns="http://www.w3.org/2000/svg"
+                                                stroke="black"
+                                                strokeWidth="2.5"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
                                             >
-                                                <path
-                                                    d="M5 12H19M19 12L12 5M19 12L12 19"
-                                                    stroke="#ff6533"
-                                                    strokeWidth="2.5"
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                />
+                                                <path d="M5 12h14M12 5l7 7-7 7" />
                                             </svg>
                                         </div>
                                     </button>
