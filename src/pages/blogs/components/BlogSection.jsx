@@ -41,7 +41,7 @@ const blogs = [
 ];
 
 const BlogCard = ({ blog }) => (
-  <div className="bg-[#1c1c1c] cursor-pointer overflow-hidden h-full flex flex-col">
+  <div className=" cursor-pointer overflow-hidden h-full flex flex-col">
     <img src={blog.img} alt={blog.title} className="w-full h-66 object-cover " />
 
     {/* Title Section */}
