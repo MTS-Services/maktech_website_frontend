@@ -8,6 +8,7 @@ const ServiceWhyBest = ({
     'From discovery and wireframing to visual systems and final delivery, we provide a seamless design experience focused on quality, consistency, and long-term success.',
   ],
 }) => {
+  const linePositions = [12, 30, 50, 68, 88]
   const leftCol = paragraphs.slice(0, 2)
   const rightCol = paragraphs.slice(2, 4)
 
@@ -22,6 +23,41 @@ const ServiceWhyBest = ({
             'radial-gradient(80% 80% at 100% 0%, rgba(255, 182, 146, 0.28), rgba(255, 182, 146, 0) 60%), radial-gradient(80% 80% at 0% 100%, rgba(255, 182, 146, 0.25), rgba(255, 182, 146, 0) 60%), #ffffff',
         }}
       />
+
+      <div className='pointer-events-none absolute inset-0 z-1'>
+        {linePositions.map((position, index) => (
+          <div
+            key={index}
+            className='absolute top-0 bottom-0 w-px bg-linear-to-b from-transparent via-black/20 to-transparent'
+            style={{ left: `${position}%` }}
+          >
+            <div
+              className='absolute w-0.5 h-12 rounded-full opacity-60 animate-dropFall'
+              style={{
+                left: '50%',
+                transform: 'translateX(-50%)',
+                background:
+                  'linear-gradient(to bottom, rgba(255,255,255,0.1), #FF6533)',
+                animationDelay: `${index * 2}s`,
+                animationDuration: '8s',
+                animationFillMode: 'backwards',
+              }}
+            />
+            <div
+              className='absolute w-0.5 h-10 rounded-full opacity-45 animate-dropFall'
+              style={{
+                left: '50%',
+                transform: 'translateX(-50%)',
+                background:
+                  'linear-gradient(to bottom, rgba(255,255,255,0.1), #FF6533)',
+                animationDelay: `${index * 2 + 4}s`,
+                animationDuration: '8s',
+                animationFillMode: 'backwards',
+              }}
+            />
+          </div>
+        ))}
+      </div>
 
       <div className='relative z-10 container mx-auto px-5 sm:px-10 lg:px-14 flex flex-col gap-14'>
         <div className='flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between'>

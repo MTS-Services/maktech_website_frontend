@@ -1,9 +1,46 @@
 import { Link } from 'react-router-dom'
 
 const ServiceCaseStudyCard = () => {
+  const linePositions = [12, 30, 50, 68, 88]
+
   return (
-    <section className='px-5 pb-16 sm:px-8 md:pb-24'>
-      <div className='flex justify-center'>
+    <section className='relative overflow-hidden px-5 pb-16 sm:px-8 md:pb-24'>
+      <div className='pointer-events-none absolute inset-0 z-0'>
+        {linePositions.map((position, index) => (
+          <div
+            key={index}
+            className='absolute top-0 bottom-0 w-px bg-linear-to-b from-transparent via-black/20 to-transparent'
+            style={{ left: `${position}%` }}
+          >
+            <div
+              className='absolute w-0.5 h-12 rounded-full opacity-60 animate-dropFall'
+              style={{
+                left: '50%',
+                transform: 'translateX(-50%)',
+                background:
+                  'linear-gradient(to bottom, rgba(255,255,255,0.1), #FF6533)',
+                animationDelay: `${index * 2}s`,
+                animationDuration: '8s',
+                animationFillMode: 'backwards',
+              }}
+            />
+            <div
+              className='absolute w-0.5 h-10 rounded-full opacity-45 animate-dropFall'
+              style={{
+                left: '50%',
+                transform: 'translateX(-50%)',
+                background:
+                  'linear-gradient(to bottom, rgba(255,255,255,0.1), #FF6533)',
+                animationDelay: `${index * 2 + 4}s`,
+                animationDuration: '8s',
+                animationFillMode: 'backwards',
+              }}
+            />
+          </div>
+        ))}
+      </div>
+
+      <div className='relative z-10 flex justify-center'>
         <div className='w-full container'>
           <div className='rounded-lg bg-white/95 p-8 md:p-12 lg:p-16'>
             <div className='grid gap-12 md:grid-cols-2 md:gap-16'>

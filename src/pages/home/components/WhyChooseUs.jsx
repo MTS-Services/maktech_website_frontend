@@ -68,6 +68,7 @@ const WhyChooseUs = () => {
       ctaLink="#"
       features={features}
       backgroundStyle="dark"
+      animatedLines
       backgroundImages={{
         blob: '/why_choice_us/Group_1261154808.png'
       }}
