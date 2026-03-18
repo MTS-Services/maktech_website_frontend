@@ -39,7 +39,10 @@ const ServiceAIML = lazy(() => import("../pages/services/AIML"));
 const ServiceSASProduct = lazy(() => import("../pages/services/SASProduct"));
 const ComingSoon = lazy(() => import("../pages/ComingSoon"));
 const NotFound = lazy(() => import("../pages/NotFound"));
-
+const Blogs = lazy(() => import("../pages/blogs/Blogs"));
+const BlogDetails = lazy(
+  () => import("../pages/blogs/blogDetails/BlogDetails"),
+);
 const AppRoutes = () => (
   <Suspense fallback={null}>
     <Routes>
@@ -78,6 +81,8 @@ const AppRoutes = () => (
         <Route path="/contact" element={<Contact />} />
         <Route path="/career" element={<Career />} />
         <Route path="/apply-jobs" element={<ApplyJobs />} />
+        <Route path="/blogs" element={<Blogs />} />
+        <Route path="/blogs/details" element={<BlogDetails />} />
       </Route>
       <Route path="/login" element={<Login />} />
 
