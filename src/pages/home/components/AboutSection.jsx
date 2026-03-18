@@ -9,7 +9,7 @@ const AboutSection = () => {
   ];
 
   return (
-    <section className='hidden xl:block w-full bg-white text-black py-20 relative z-10'>
+    <section className='hidden xl:block w-full bg-white text-black py-24 relative z-10'>
       <div className='container mx-auto px-5 xl:px-8 2xl:px-12'>
         {/* Top Content (Image + Text) */}
         <div className='flex items-center gap-12 xl:gap-20 mb-16'>
