@@ -42,7 +42,7 @@ const ApplyJobsResponsibilities = () => {
                     {responsibilities.map((resp, idx) => (
                         <div
                             key={idx}
-                            className="p-6 rounded-lg border border-white/10 bg-gradient-to-br from-white/5 to-white/[0.02] max-w-sm"
+                            className="p-6 rounded-lg border border-white/10 bg-[#282828] max-w-sm"
                         >
                             <div className="flex-shrink-0 mb-2">
                                 {resp.icon}

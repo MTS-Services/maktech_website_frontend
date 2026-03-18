@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const BlogHeroCard = () => {
   return (
-    <section className="bg-[#1a1a1a] flex items-center justify-center p-6 py-24 min-h-[500px]">
+    <section className="flex items-center justify-center p-6 py-24 min-h-[500px]">
       <div className=" w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-center">
         
         {/* Left Side: Image Container */}

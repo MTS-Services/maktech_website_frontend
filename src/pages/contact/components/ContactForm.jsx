@@ -25,7 +25,7 @@ const ContactForm = () => {
     };
 
     return (
-        <section className="w-full relative py-16   overflow-hidden">
+        <section className="w-full relative py-10 lg:py-16   overflow-hidden">
             {/* Background Image */}
             <div
                 className="absolute inset-0 z-0"

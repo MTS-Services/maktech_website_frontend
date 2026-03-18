@@ -60,7 +60,7 @@ const CareerOpenings = () => {
 
     return (
         <section id="career-openings" className=" py-16 lg:py-20">
-            <div className="max-w-7xl mx-auto   flex flex-col gap-20">
+            <div className="max-w-360 mx-auto   flex flex-col gap-20">
 
                 {/* Header Section */}
                 <div className="relative flex flex-col items-center gap-8 text-center z-10">
@@ -80,7 +80,7 @@ const CareerOpenings = () => {
                 </div>
 
                 {/* Job Cards Grid */}
-                <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 px-4 md-px-0">
+                <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 px-4 md:px-0">
                     {positions.map((position) => (
                         <div
                             key={position.id}

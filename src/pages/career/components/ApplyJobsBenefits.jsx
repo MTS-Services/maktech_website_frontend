@@ -26,7 +26,7 @@ const ApplyJobsBenefits = () => {
 
     return (
         <section className="px-5 py-16 xl:px-0 xl:py-24 ">
-            <div className="mx-auto max-w-[1200px] flex flex-col gap-8 md:gap-10 xl:flex-row xl:gap-12">
+            <div className="mx-auto max-w-[1200px] flex flex-col gap-8 md:gap-10 xl:flex-row xl:gap-16">
                 {/* Header */}
                 <div className="mb-0 xl:mb-12">
                     <div className="flex items-center gap-3 mb-6">
@@ -42,7 +42,7 @@ const ApplyJobsBenefits = () => {
                     {benefits.map((benefit, idx) => (
                         <div
                             key={idx}
-                            className="p-6 rounded-lg border border-white/10 bg-gradient-to-br from-white/5 to-white/[0.02] max-w-sm"
+                            className="p-6 rounded-lg border border-white/10 bg-[#282828] max-w-sm"
                         >
                             <div className="shrink-0 mb-2">
                                 {benefit.icon}
