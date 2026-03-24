@@ -51,27 +51,71 @@ const Footer = () => {
 
   return (
     <footer className='relative overflow-hidden'>
-      {/* Top CTA Section */}
-      <div className='relative'>
-        <div className='max-w-7xl mx-auto px-4 py-16 md:py-20'>
-          <div className='bg-black rounded-2xl p-8 md:p-12 text-center'>
-            <h2 className='text-white text-2xl md:text-4xl font-bold mb-3'>
-              Want to grow with us?
-            </h2>
-            <p className='text-gray-400 text-sm md:text-base mb-6'>
-              Let&apos;s implement your skills toward
-              <br />
-              to grow MAKTECH.
-            </p>
-            <NavLink
-              to='/contact'
-              className='inline-block bg-orange-bg-cta hover:bg-[#d14608] text-white px-8 py-3 rounded-full text-base font-medium transition-all duration-200'
+      {/* ── Top CTA Section ── */}
+      <section
+        aria-label='Call to action'
+        className='relative overflow-hidden'
+        style={{
+          /* Orange glow centred in the section */
+          background:
+            'radial-gradient(ellipse 80% 120% at 50% 50%, rgba(255,101,51,0.09) 0%, rgba(255,101,51,0.03) 55%, transparent 72%), #1c1c1c',
+        }}
+      >
+        {/* Scoped animated vertical lines — absolute so they clip to this section */}
+        <div
+          className='absolute inset-0 pointer-events-none overflow-hidden z-0'
+          aria-hidden='true'
+        >
+          {[12, 30, 50, 68, 88].map((pos, i) => (
+            <div
+              key={pos}
+              className='absolute top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-gray-600/50 to-transparent'
+              style={{ left: `${pos}%` }}
             >
-              Contact Now
-            </NavLink>
-          </div>
+              <div
+                className='absolute w-0.5 h-12 rounded-full opacity-70'
+                style={{
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  background: 'linear-gradient(to bottom, #1C1C1C, #FF6533)',
+                  animation: `dropFall 8s linear infinite`,
+                  animationDelay: `${i * 2}s`,
+                  animationFillMode: 'backwards',
+                }}
+              />
+              <div
+                className='absolute w-0.5 h-10 rounded-full opacity-50'
+                style={{
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  background: 'linear-gradient(to bottom, #1C1C1C, #FF6533)',
+                  animation: `dropFall 8s linear infinite`,
+                  animationDelay: `${i * 2 + 4}s`,
+                  animationFillMode: 'backwards',
+                }}
+              />
+            </div>
+          ))}
         </div>
-      </div>
+
+        {/* Content */}
+        <div className='relative z-10 max-w-7xl mx-auto px-4 py-20 md:py-28 text-center'>
+          <h2 className='text-white text-2xl md:text-4xl font-bold mb-4'>
+            Want to grow with us?
+          </h2>
+          <p className='text-gray-400 text-sm md:text-base mb-8'>
+            Let&apos;s implement your skills toward
+            <br />
+            to grow MAKTECH.
+          </p>
+          <NavLink
+            to='/contact'
+            className='inline-block bg-orange-bg-cta hover:bg-[#d14608] text-white px-8 py-3 rounded-full text-base font-medium transition-colors duration-200'
+          >
+            Contact Now
+          </NavLink>
+        </div>
+      </section>
 
       {/* Footer Content */}
       <div className='relative'>
