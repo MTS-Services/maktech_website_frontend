@@ -19,15 +19,48 @@ const WhyWeBest = () => {
     },
   ];
 
+  const linePositions = [12, 30, 50, 68, 88];
+
   return (
     <section
-      className="min-h-[500px] flex items-center px-6 py-16 md:py-24"
+      className="relative min-h-[500px] flex items-center px-6 py-16 md:py-24 overflow-hidden"
        style={{
           background:
             "radial-gradient(70% 55% at 100% 0%, rgba(255, 182, 146, 0.32), rgba(255, 182, 146, 0) 60%), radial-gradient(70% 55% at 0% 100%, rgba(255, 182, 146, 0.28), rgba(255, 182, 146, 0) 60%), #ffffff",
         }}
     >
-      <div className="max-w-7xl mx-auto w-full">
+      {/* Animated Lines Background */}
+      <div className="pointer-events-none absolute inset-0 z-1">
+        {linePositions.map((position, index) => (
+          <div
+            key={index}
+            className="absolute top-0 bottom-0 w-px bg-linear-to-b from-transparent via-black/20 to-transparent"
+            style={{ left: `${position}%` }}
+          >
+            <div
+              className="absolute w-0.5 h-12 rounded-full opacity-60 animate-dropFall"
+              style={{
+                left: "50%",
+                transform: "translateX(-50%)",
+                background:
+                  "linear-gradient(to bottom, rgba(255,255,255,0.1), #FF6533)",
+                animationDelay: `${index * 2}s`,
+              }}
+            />
+            <div
+              className="absolute w-0.5 h-10 rounded-full opacity-45 animate-dropFall"
+              style={{
+                left: "50%",
+                transform: "translateX(-50%)",
+                background:
+                  "linear-gradient(to bottom, rgba(255,255,255,0.1), #FF6533)",
+                animationDelay: `${index * 2 + 4}s`,
+              }}
+            />
+          </div>
+        ))}
+      </div>
+      <div className="max-w-7xl mx-auto w-full relative z-10">
         <div className="flex flex-col lg:flex-row items-start gap-12 lg:gap-20">
           
           {/* Left Column: Badge */}

@@ -3,6 +3,13 @@ import { Link } from "react-router-dom";
 import Breadcrumb from "../../../components/Breadcrumb";
 
 export default function HeroSection() {
+  const scrollToBlogs = () => {
+    const blogsSection = document.getElementById('blogs-section');
+    if (blogsSection) {
+      blogsSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <div className='relative flex flex-col items-center justify-center h-screen px-5 pt-28 pb-16 text-center'>
             {/* Breadcrumb */}
@@ -32,7 +39,7 @@ products through strategy, design, and technology.
 
             {/* CTA */}
             <button
-                
+                onClick={scrollToBlogs}
                 className='relative z-10 group inline-flex items-center gap-3 overflow-hidden bg-orange-bg-cta hover:bg-[#e5501a] hover:shadow-[0_4px_20px_rgba(255,101,51,0.45)] text-white font-semibold rounded-full transition-all duration-200 active:scale-[0.97] border-0 cursor-pointer'
                 style={{ padding: '13px 28px' }}
             >

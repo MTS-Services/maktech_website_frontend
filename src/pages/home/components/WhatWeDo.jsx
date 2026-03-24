@@ -1,8 +1,11 @@
+import { Link } from 'react-router-dom';
+
 const services = [
   {
     id: 1,
     title: "UI/UX Design",
     description: "Interfaces Designed to Influence Behavior",
+    link: "/services/ui-ux",
     icon: (
       <svg
         className="w-24 h-24"
@@ -21,6 +24,7 @@ const services = [
     id: 2,
     title: "MERN STACK Development",
     description: "Web Infrastructure That Supports Real Growth",
+    link: "/services/mern",
     icon: (
       <svg
         className="w-24 h-24"
@@ -39,6 +43,7 @@ const services = [
     id: 3,
     title: "Flutter App Development",
     description: "Applications Built for Practical, Everyday Use",
+    link: "/services/flutter",
     icon: (
       <svg
         className="w-24 h-24"
@@ -57,6 +62,7 @@ const services = [
     id: 4,
     title: "eCommerce Development",
     description: "Commerce Platforms Designed Around Revenue Logic",
+    link: "/services/shopify",
     icon: (
       <svg
         className="w-24 h-24"
@@ -75,6 +81,7 @@ const services = [
     id: 5,
     title: "Digital Marketing",
     description: "Marketing Linked Directly to Business Outcomes",
+    link: "/services/digital-marketing",
     icon: (
       <svg
         className="w-24 h-24"
@@ -110,7 +117,7 @@ const ServiceCard = ({ service }) => {
       </p>
 
       {/* Read More Button */}
-      <button className="flex cursor-pointer items-center gap-2 text-orange-bg-cta text-sm xl:text-base font-semibold hover:gap-3 transition-all duration-200 group-hover:text-gray-bg-primary">
+      <Link to={service.link} className="flex cursor-pointer items-center gap-2 text-orange-bg-cta text-sm xl:text-base font-semibold hover:gap-3 transition-all duration-200 group-hover:text-gray-bg-primary">
         Read More
         <svg
           width="14"
@@ -124,14 +131,14 @@ const ServiceCard = ({ service }) => {
         >
           <path d="M5 12h14M12 5l7 7-7 7" />
         </svg>
-      </button>
+      </Link>
     </div>
   );
 };
 
 const ViewMoreCard = () => {
   return (
-    <div className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg p-8 flex flex-col items-center justify-center text-orange-bg-cta transition-all duration-300 group cursor-pointer hover:bg-orange-bg-cta h-full">
+    <Link to="/services" className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg p-8 flex flex-col items-center justify-center text-orange-bg-cta transition-all duration-300 group cursor-pointer hover:bg-orange-bg-cta h-full">
       <div className="text-center">
         <h3 className="text-orange-bg-cta text-3xl xl:text-4xl font-medium mb-0 leading-tight">
           <span className="block underline  underline-offset-6 group-hover:text-gray-bg-primary">View More</span>
@@ -140,7 +147,7 @@ const ViewMoreCard = () => {
           </span>
         </h3>
       </div>
-    </div>
+    </Link>
   );
 };
 

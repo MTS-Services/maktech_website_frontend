@@ -35,7 +35,7 @@ const AIML = () => {
         imageSrc="/services_image/Rectangle 6393.jpg"
         imageAlt="AI and machine learning workspace"
         ctaText="View Case Studies"
-        ctaLink="/our_work"
+        ctaLink="/case-study"
         className="pb-12"
       />
 

@@ -20,8 +20,6 @@ const ServiceCaseStudyCard = () => {
                 background:
                   'linear-gradient(to bottom, rgba(255,255,255,0.1), #FF6533)',
                 animationDelay: `${index * 2}s`,
-                animationDuration: '8s',
-                animationFillMode: 'backwards',
               }}
             />
             <div
@@ -32,8 +30,6 @@ const ServiceCaseStudyCard = () => {
                 background:
                   'linear-gradient(to bottom, rgba(255,255,255,0.1), #FF6533)',
                 animationDelay: `${index * 2 + 4}s`,
-                animationDuration: '8s',
-                animationFillMode: 'backwards',
               }}
             />
           </div>
@@ -130,7 +126,7 @@ const ServiceCaseStudyCard = () => {
                 {/* CTA Button */}
                 <div className='mt-8'>
                   <Link
-                    to='/our_work'
+                    to='/case-study'
                     className='group inline-flex items-center gap-3 rounded-full bg-orange-500 px-6 py-3 text-base font-medium text-white transition-transform duration-200 hover:-translate-y-0.5'
                   >
                     See Our Work

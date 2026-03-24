@@ -35,7 +35,7 @@ const Wix = () => {
         imageSrc="/services_image/wix/harshit-katiyar-5sLNGV2EFRM-unsplash.jpg"
         imageAlt="Wix development screen"
         ctaText="View Case Studies"
-        ctaLink="/our_work"
+        ctaLink="/case-study"
       />
 
       <ServiceInside

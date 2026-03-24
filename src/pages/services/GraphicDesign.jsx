@@ -35,7 +35,7 @@ const GraphicDesign = () => {
         imageSrc="/services_image/graphicDesign/emily-bernal-BM3U_D2lygo-unsplash.jpg"
         imageAlt="Graphic design workspace"
         ctaText="View Case Studies"
-        ctaLink="/our_work"
+        ctaLink="/case-study"
         className="pb-12"
       />
 
@@ -58,7 +58,7 @@ const GraphicDesign = () => {
           {
             title: "Brand Rules",
             description:
-              "We give you a simple \"Cheat Sheet\" so anyone on your team can keep your brand looking consistent.",
+              'We give you a simple "Cheat Sheet" so anyone on your team can keep your brand looking consistent.',
             image: "/services_image/uiUx/image_3.jpg",
           },
           {

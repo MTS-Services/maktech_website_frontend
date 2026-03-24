@@ -35,7 +35,7 @@ const MERN = () => {
         imageSrc="/services_image/mern/fotis-fotopoulos-DuHKoV44prg-unsplash.jpg"
         imageAlt="MERN development screens"
         ctaText="View Case Studies"
-        ctaLink="/our_work"
+        ctaLink="/case-study"
       />
 
       <ServiceInside
@@ -46,7 +46,7 @@ const MERN = () => {
             title: "Discovery & Planning",
             description:
               "Analyzing requirements, defining system architecture, and mapping data models aligned to business goals and long-term growth.",
-            image: "/public/services_image/uiUx/image_1.jpg",
+            image: "/services_image/uiUx/image_1.jpg",
           },
           {
             title: "Database Design",

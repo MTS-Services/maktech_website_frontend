@@ -35,7 +35,7 @@ const WordPress = () => {
         imageSrc="/services_image/Rectangle 6393.jpg"
         imageAlt="WordPress development graphic"
         ctaText="View Case Studies"
-        ctaLink="/our_work"
+        ctaLink="/case-study"
         className="pb-12"
       />
 

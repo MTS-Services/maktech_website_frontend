@@ -34,7 +34,7 @@ const Laravel = () => {
         imageSrc="/services_image/laravel/mohammad-rahmani-Y5yxdx2a4PI-unsplash.jpg"
         imageAlt="Laravel backend development"
         ctaText="View Case Studies"
-        ctaLink="/our_work"
+        ctaLink="/case-study"
       />
 
       <ServiceInside

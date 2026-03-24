@@ -35,7 +35,7 @@ const Flutter = () => {
         imageSrc="/services_image/flutter/william-hook-9e9PD9blAto-unsplash.jpg"
         imageAlt="Flutter app showcase"
         ctaText="View Case Studies"
-        ctaLink="/our_work"
+        ctaLink="/case-study"
       />
 
       <ServiceInside

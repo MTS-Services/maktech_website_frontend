@@ -35,7 +35,7 @@ const DigitalMarketing = () => {
         imageSrc="/services_image/digital/myriam-jessier-eveI7MOcSmw-unsplash.jpg"
         imageAlt="Digital marketing analytics"
         ctaText="View Case Studies"
-        ctaLink="/our_work"
+        ctaLink="/case-study"
       />
 
       <ServiceInside

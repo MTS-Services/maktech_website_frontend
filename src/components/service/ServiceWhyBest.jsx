@@ -28,7 +28,7 @@ const ServiceWhyBest = ({
         {linePositions.map((position, index) => (
           <div
             key={index}
-            className='absolute top-0 bottom-0 w-px bg-linear-to-b from-transparent via-black/20 to-transparent'
+            className='absolute -top-15 bottom-0 w-px bg-linear-to-b from-transparent via-black/20 to-transparent'
             style={{ left: `${position}%` }}
           >
             <div
@@ -39,8 +39,6 @@ const ServiceWhyBest = ({
                 background:
                   'linear-gradient(to bottom, rgba(255,255,255,0.1), #FF6533)',
                 animationDelay: `${index * 2}s`,
-                animationDuration: '8s',
-                animationFillMode: 'backwards',
               }}
             />
             <div
@@ -51,8 +49,6 @@ const ServiceWhyBest = ({
                 background:
                   'linear-gradient(to bottom, rgba(255,255,255,0.1), #FF6533)',
                 animationDelay: `${index * 2 + 4}s`,
-                animationDuration: '8s',
-                animationFillMode: 'backwards',
               }}
             />
           </div>

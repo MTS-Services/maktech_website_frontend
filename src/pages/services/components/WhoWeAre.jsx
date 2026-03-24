@@ -64,6 +64,7 @@ const WhoWeAre = () => {
       ctaLink="#"
       features={whoWeAreFeatures}
       backgroundStyle="dark"
+      animatedLines={true}
     />
   )
 }

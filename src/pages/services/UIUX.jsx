@@ -34,7 +34,7 @@ const UIUX = () => {
         imageSrc="/services_image/uiUx/studio-republic-fotKKqWNMQ4-unsplash.jpg"
         imageAlt="UI/UX design collaboration"
         ctaText="View Case Studies"
-        ctaLink="/our_work"
+        ctaLink="/case-study"
         className="pb-12"
       />
 

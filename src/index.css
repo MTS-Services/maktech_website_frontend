@@ -141,6 +141,35 @@ code {
   }
 }
 
+/* ===== Drop Fall Animation for Animated Lines ===== */
+@keyframes dropFall {
+  0% {
+    top: -70px;
+    opacity: 0;
+    transform: translateX(-50%) translateZ(0);
+  }
+  4% {
+    opacity: 0.7;
+    transform: translateX(-50%) translateZ(0);
+  }
+  92% {
+    opacity: 0.3;
+    transform: translateX(-50%) translateZ(0);
+  }
+  100% {
+    top: calc(100% + 70px);
+    opacity: 0;
+    transform: translateX(-50%) translateZ(0);
+  }
+}
+
+/* Drop fall animation utility */
+.animate-dropFall {
+  animation: dropFall 8s linear infinite;
+  will-change: top, opacity;
+  backface-visibility: hidden;
+}
+
 /* ===== Testimonials Auto Scroll Animation ===== */
 @keyframes scroll {
   0% {

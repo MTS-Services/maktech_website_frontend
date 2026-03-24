@@ -16,6 +16,8 @@
  * - backgroundStyle?: 'dark' | 'light' (default: 'dark')
  */
 
+import { Link } from "react-router-dom";
+
 const FeatureCard = ({
   feature,
   iconBg = true,
@@ -93,7 +95,7 @@ const FeatureSection = ({
           {[12, 30, 50, 70, 88].map((pos, i) => (
             <div
               key={i}
-              className='absolute top-0 bottom-0 w-px'
+              className='absolute -top-15 bottom-0 w-px'
               style={{
                 left: `${pos}%`,
                 background:
@@ -110,6 +112,8 @@ const FeatureSection = ({
                   opacity: 0.45,
                   animation: `lineDrop ${7 + i * 1.5}s linear infinite`,
                   animationDelay: `${i * 1.4}s`,
+                  willChange: 'top, opacity',
+                  backfaceVisibility: 'hidden',
                 }}
               />
               <div
@@ -122,6 +126,8 @@ const FeatureSection = ({
                   opacity: 0.3,
                   animation: `lineDrop ${9 + i * 1.2}s linear infinite`,
                   animationDelay: `${i * 1.4 + 3.5}s`,
+                  willChange: 'top, opacity',
+                  backfaceVisibility: 'hidden',
                 }}
               />
             </div>
@@ -241,8 +247,8 @@ const FeatureSection = ({
 
             {/* CTA */}
             {ctaText && (
-              <a
-                href={ctaLink}
+              <Link
+                to={ctaLink}
                 className='inline-flex items-center gap-2 bg-orange-bg-cta hover:bg-[#d14608] text-white px-6 py-3 rounded-md text-sm font-semibold transition-colors duration-200 cursor-pointer'
               >
                 {ctaText}
@@ -258,7 +264,7 @@ const FeatureSection = ({
                 >
                   <path d='M5 12h14M12 5l7 7-7 7' />
                 </svg>
-              </a>
+              </Link>
             )}
           </div>
 
@@ -356,8 +362,8 @@ const FeatureSection = ({
 
             {/* CTA */}
             {ctaText && (
-              <a
-                href={ctaLink}
+              <Link
+                to={ctaLink}
                 className='flex items-center gap-2 bg-orange-bg-cta hover:bg-[#d14608] text-white px-6 py-3 rounded-md text-base font-semibold transition-colors duration-200 cursor-pointer w-fit mt-2'
               >
                 {ctaText}
@@ -373,7 +379,7 @@ const FeatureSection = ({
                 >
                   <path d='M5 12h14M12 5l7 7-7 7' />
                 </svg>
-              </a>
+              </Link>
             )}
           </div>
 

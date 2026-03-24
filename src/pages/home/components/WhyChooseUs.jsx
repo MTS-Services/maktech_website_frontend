@@ -65,7 +65,7 @@ const WhyChooseUs = () => {
         "Younger talent brings speed; senior leaders bring discipline. Roles are clear, processes are defined, and standards hold — no matter the scale."
       ]}
       ctaText="Read more"
-      ctaLink="#"
+      ctaLink="/case-study"
       features={features}
       backgroundStyle="dark"
       animatedLines

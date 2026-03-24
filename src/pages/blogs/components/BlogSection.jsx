@@ -68,7 +68,7 @@ const BlogCard = ({ blog }) => (
 
 export default function BlogSection() {
   return (
-    <section className="  px-5 py-14 sm:py-16 md:py-24">
+    <section id="blogs-section" className="  px-5 py-14 sm:py-16 md:py-24">
       <div className="container max-w-360 mx-auto">
         {/* Badge */}
         <div className="my-6 inline-flex items-center gap-3 rounded-lg border border-white/25 bg-gradient-to-r from-[#FF6533]/30 to-[#1C1C1C] px-2 py-2 pr-6">

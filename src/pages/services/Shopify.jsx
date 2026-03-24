@@ -35,7 +35,7 @@ const Shopify = () => {
         imageSrc="/services_image/shopify/hookle-app-6Pa7l0unTAY-unsplash.jpg"
         imageAlt="Shopify store on laptop"
         ctaText="View Case Studies"
-        ctaLink="/our_work"
+        ctaLink="/case-study"
       />
 
       <ServiceInside

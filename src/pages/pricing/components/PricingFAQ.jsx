@@ -108,7 +108,7 @@ const PricingFAQ = () => {
       {LINE_POSITIONS.map((pos, i) => (
         <div
           key={i}
-          className='absolute top-0 bottom-0 w-px pointer-events-none'
+          className='absolute -top-15 bottom-0 w-px pointer-events-none'
           style={{
             left: `${pos}%`,
             background:

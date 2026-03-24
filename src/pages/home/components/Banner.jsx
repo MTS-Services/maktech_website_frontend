@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 const bgImage = "/home_banner_bg.png";
 
 const Banner = () => {
@@ -97,7 +98,8 @@ const Banner = () => {
         </h1>
 
         {/* CTA Button */}
-        <button
+        <Link
+          to="/contact"
           className={`group flex items-center justify-center gap-3 rounded-full font-semibold cursor-pointer text-white transition-all duration-500 ease-out hover:-translate-y-0.5 active:scale-95 ${
             isMobile
               ? "w-full text-base py-1"
@@ -107,6 +109,9 @@ const Banner = () => {
             background: "var(--color-orange-bg-cta)",
             padding: isMobile ? "12px 24px" : "13px 24px",
             transitionDelay: "450ms",
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "center",
           }}
           onMouseEnter={(e) => (e.currentTarget.style.background = "#d14608")}
           onMouseLeave={(e) =>
@@ -131,7 +136,7 @@ const Banner = () => {
               <path d="M3 8h10M9 4l4 4-4 4" />
             </svg>
           </span>
-        </button>
+        </Link>
       </div>
     </div>
   );

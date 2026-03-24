@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import Breadcrumb from '../../../components/Breadcrumb';
 
 const AboutHero = () => (
@@ -34,8 +35,8 @@ const AboutHero = () => (
     </p>
 
     {/* CTA */}
-    <a
-      href='#contact'
+    <Link
+      to='/contact'
       className='relative z-10 group inline-flex items-center gap-3 overflow-hidden bg-orange-bg-cta hover:bg-[#e5501a] hover:shadow-[0_4px_20px_rgba(255,101,51,0.45)] text-white font-semibold rounded-full transition-all duration-200 active:scale-[0.97]'
       style={{ padding: '13px 28px' }}
     >
@@ -60,7 +61,7 @@ const AboutHero = () => (
           <path d='M3 8h10M9 4l4 4-4 4' />
         </svg>
       </span>
-    </a>
+    </Link>
   </div>
 );
 

@@ -16,7 +16,7 @@ const ServiceShowcase = ({
   imageSrc = "/services_image/mern-showcase.jpg",
   imageAlt = "Service showcase",
   ctaText = "View Case Studies",
-  ctaLink = "/our_work",
+  ctaLink = "/case-study",
   className = "",
 }) => {
   const linePositions = [12, 30, 50, 68, 88];
@@ -39,31 +39,27 @@ const ServiceShowcase = ({
         {linePositions.map((position, index) => (
           <div
             key={index}
-            className="absolute top-0 bottom-0 w-px bg-linear-to-b from-transparent via-black/20 to-transparent"
+            className="absolute -top-15 bottom-0 w-px bg-linear-to-b from-transparent via-black/20 to-transparent"
             style={{ left: `${position}%` }}
           >
             <div
               className="absolute w-0.5 h-12 rounded-full opacity-60 animate-dropFall"
               style={{
-                left: "50%",
-                transform: "translateX(-50%)",
+                left: '50%',
+                transform: 'translateX(-50%)',
                 background:
                   "linear-gradient(to bottom, rgba(255,255,255,0.1), #FF6533)",
                 animationDelay: `${index * 2}s`,
-                animationDuration: "8s",
-                animationFillMode: "backwards",
               }}
             />
             <div
               className="absolute w-0.5 h-10 rounded-full opacity-45 animate-dropFall"
               style={{
-                left: "50%",
-                transform: "translateX(-50%)",
+                left: '50%',
+                transform: 'translateX(-50%)',
                 background:
                   "linear-gradient(to bottom, rgba(255,255,255,0.1), #FF6533)",
                 animationDelay: `${index * 2 + 4}s`,
-                animationDuration: "8s",
-                animationFillMode: "backwards",
               }}
             />
           </div>

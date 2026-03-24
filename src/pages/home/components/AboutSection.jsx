@@ -1,4 +1,5 @@
 import AnimatedCounter from '../../../components/AnimatedCounter';
+import { Link } from 'react-router-dom';
 
 const AboutSection = () => {
   const linePositions = [12, 30, 50, 68, 88];
@@ -16,7 +17,7 @@ const AboutSection = () => {
         {linePositions.map((position, index) => (
           <div
             key={index}
-            className='absolute top-0 bottom-0 w-px bg-linear-to-b from-transparent via-black/20 to-transparent'
+            className='absolute -top-15 bottom-0 w-px bg-linear-to-b from-transparent via-black/20 to-transparent'
             style={{ left: `${position}%` }}
           >
             <div
@@ -27,8 +28,6 @@ const AboutSection = () => {
                 background:
                   'linear-gradient(to bottom, rgba(255,255,255,0.1), #FF6533)',
                 animationDelay: `${index * 2}s`,
-                animationDuration: '8s',
-                animationFillMode: 'backwards',
               }}
             />
             <div
@@ -39,8 +38,6 @@ const AboutSection = () => {
                 background:
                   'linear-gradient(to bottom, rgba(255,255,255,0.1), #FF6533)',
                 animationDelay: `${index * 2 + 4}s`,
-                animationDuration: '8s',
-                animationFillMode: 'backwards',
               }}
             />
           </div>
@@ -101,7 +98,8 @@ const AboutSection = () => {
             </p>
 
             {/* CTA Button */}
-            <button
+            <Link
+              to="/about"
               className='mt-2 bg-orange-bg-cta hover:bg-[#d14608] text-white px-6 py-3 rounded-sm text-base font-semibold flex items-center gap-2 transition-colors duration-200 cursor-pointer'
               onMouseEnter={(e) =>
                 (e.currentTarget.style.background = '#d14608')
@@ -123,7 +121,7 @@ const AboutSection = () => {
               >
                 <path d='M5 12h14M12 5l7 7-7 7' />
               </svg>
-            </button>
+            </Link>
           </div>
         </div>
 
