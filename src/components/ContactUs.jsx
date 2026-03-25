@@ -356,7 +356,7 @@ const ContactUs = () => {
                   {/* Company Name and Email */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div>
-                      <label className="text-white-bg-cta text-base md:text-lgmb-2 block">
+                      <label className="text-white-bg-cta text-base md:text-lg mb-2 block">
                         Company Name
                       </label>
                       <input
@@ -439,39 +439,14 @@ const ContactUs = () => {
                       <label className="text-white-bg-cta text-base md:text-lg mb-2 block">
                         Budget
                       </label>
-                      <select
+                      <input
+                        type="number"
                         name="budget"
+                        placeholder="Budget"
                         value={formData.budget}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 bg-[#3F3F3F] border border-white/10 rounded-lg text-white focus:outline-none focus:border-orange-bg-cta transition-colors duration-200 appearance-none cursor-pointer"
-                        style={{
-                          backgroundImage: `url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")`,
-                          backgroundRepeat: "no-repeat",
-                          backgroundPosition: "right 1rem center",
-                        }}
-                      >
-                        <option value="" disabled>
-                          Budget
-                        </option>
-                        <option value="3000" className="text-white">
-                          $3000
-                        </option>
-                        <option value="4000" className="text-white">
-                          $4000
-                        </option>
-                        <option value="5000" className="text-white">
-                          $5000
-                        </option>
-                        <option value="6000" className="text-white">
-                          $6000
-                        </option>
-                        <option value="7000" className="text-white">
-                          $7000
-                        </option>
-                        <option value="8000" className="text-white">
-                          $8000+
-                        </option>
-                      </select>
+                        className="w-full px-4 py-3 bg-[#3F3F3F] border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-orange-bg-cta transition-colors duration-200"
+                      />
                     </div>
                   </div>
 

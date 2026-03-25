@@ -17,7 +17,7 @@ const Home = () => {
       <WhatWeDo />
       <OurWork />
       <WhyChooseUs />
-      <Testimonials className="pt-16 xl:pt-20 2xl:pt-24" />
+      <Testimonials className="py-16 xl:py-20 2xl:py-24" />
       <FAQ />
       <ContactUs />
     </div>

@@ -2,6 +2,7 @@
 import ContactForm from "./components/ContactForm";
 import ContactFAQ from "./components/ContactFAQ";
 import ContactHero from "./components/ContactHero";
+import ContactUs from "../../components/ContactUs";
 
 const Contact = () => {
     return (
@@ -11,7 +12,8 @@ const Contact = () => {
             className='relative w-full overflow-hidden'
         >
             <ContactHero />
-            <ContactForm />
+            {/* <ContactForm /> */}
+            <ContactUs/>
             <ContactFAQ />
         </main>
     );

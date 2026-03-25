@@ -37,7 +37,7 @@ const ServiceCaseStudyCard = () => {
       </div>
 
       <div className='relative z-10 flex justify-center'>
-        <div className='w-full container'>
+        <div className='w-full container px-5 xl:px-8 2xl:px-12'>
           <div className='rounded-lg bg-white/95 p-8 md:p-12 lg:p-16'>
             <div className='grid gap-12 md:grid-cols-2 md:gap-16'>
               {/* Left side - Badge, Heading, Image */}

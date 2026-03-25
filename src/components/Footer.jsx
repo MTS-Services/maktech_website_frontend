@@ -242,7 +242,7 @@ const Footer = () => {
             </div>
 
             {/* Column 2 - Quick Link */}
-            <div>
+            <div className='justify-self-center'>
               <h3 className='text-white text-base font-normal mb-4'>
                 Quick Link
               </h3>
@@ -284,9 +284,9 @@ const Footer = () => {
 
             {/* Column 3 - Contacts */}
             <div>
-              <h3 className='text-white text-base font-normal mb-4'>
+              {/* <h3 className='text-white text-base font-normal mb-4'>
                 Label here
-              </h3>
+              </h3> */}
               <ul className='space-y-3'>
                 <li className='text-gray-400 text-sm italic'>
                   Maktech.corporate@gmail.com
@@ -473,7 +473,7 @@ const Footer = () => {
                 >
                   Contact
                 </NavLink>
-                <a
+                {/* <a
                   href='#'
                   className='block text-gray-400 hover:text-white transition-colors duration-200 text-sm'
                 >
@@ -484,7 +484,7 @@ const Footer = () => {
                   className='block text-gray-400 hover:text-white transition-colors duration-200 text-sm'
                 >
                   Label here
-                </a>
+                </a> */}
               </div>
             )}
           </div>
@@ -618,7 +618,7 @@ const Footer = () => {
             <div className='flex flex-col md:flex-row items-center justify-between gap-4'>
               <p className='text-gray-400 text-sm'>©2026 Maktech</p>
               <div className='flex items-center gap-6'>
-                <a
+                {/* <a
                   href='#'
                   className='text-gray-400 hover:text-white transition-colors duration-200 text-sm'
                 >
@@ -629,7 +629,7 @@ const Footer = () => {
                   className='text-gray-400 hover:text-white transition-colors duration-200 text-sm'
                 >
                   Label here
-                </a>
+                </a> */}
               </div>
             </div>
           </div>

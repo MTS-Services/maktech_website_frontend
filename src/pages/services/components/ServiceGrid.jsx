@@ -84,7 +84,7 @@ const ServiceGrid = () => {
   return (
     <section className='px-5 pb-16 sm:px-8 md:pb-24'>
       <div className='flex justify-center'>
-        <div className='w-full container'>
+        <div className='w-full container px-5 xl:px-8 2xl:px-12'>
           {/* Header */}
           <div className='mb-12 md:mb-16 lg:mb-20'>
             <div className='mb-4 inline-flex items-center gap-2 rounded-full bg-orange-100/50 px-4 py-2'>
