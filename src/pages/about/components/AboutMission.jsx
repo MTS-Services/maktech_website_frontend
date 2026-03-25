@@ -13,20 +13,29 @@ const MV_ROWS = [
     id: 'mission',
     label: 'Our Mission',
     heading:
-      'To build scalable digital systems that turn ambition into measurable progress.',
+      'We build scalable digital systems that turn ambition into measurable outcomes, aligning product delivery.',
     cols: [
-      'We align technology, product design, and performance into structured delivery frameworks.',
-      "The point isn't short-term activity — it's systems that keep working after launch and still make sense six months later, when your business has moved forward.",
+      'We integrate technology, product strategy, and performance into structured delivery systems that ensure clarity, efficiency.',
+      'Our focus goes beyond short term output creating systems that remain effective, relevant, and scalable long after initial launch and deployment.',
     ],
   },
   {
     id: 'vision',
     label: 'Our Vision',
     heading:
-      "To become a globally trusted full-stack IT company known for institutional discipline, long-term partnerships, and delivery standards that don't depend on individual personalities.",
+      'To become a globally trusted full-stack IT company known for disciplined delivery and lasting partnerships.',
     cols: [
-      'That may sound formal — but the intention is practical. Too many businesses have experienced digital work that feels opaque: unclear scope, inconsistent reporting, no one accountable when things slip.',
-      'We want the opposite. Clarity in decisions, structure in delivery, transparency in progress. Not as a pitch. As a standard we hold ourselves to every day.',
+      'Our vision is grounded in practicality eliminating ambiguity in digital work by ensuring clear scope, defined processes, and accountable execution at stage.',
+      'We prioritize clarity in decisions, structured delivery, and transparent progress establishing standards that build trust, consistency.',
+    ],
+  },
+  {
+    id: 'values',
+    label: 'Our Values',
+    heading:
+      'Our values define how we work, guided by integrity, ownership, and commitment to excellence.',
+    cols: [
+      'Our values shape every decision and interaction driving accountability, strengthening culture, and ensuring we deliver results clients trust.',
     ],
   },
 ];
@@ -36,7 +45,7 @@ const CORE_VALUES = [
     Icon: MdOutlinePlace,
     title: 'Skill',
     description:
-      'Strong technical capability across development, applications, UI/UX, and marketing — built through practice, not claims.',
+      'Strong technical capability across development, applications, UI/UX, and marketing built through practice, not claims.',
   },
   {
     Icon: MdOutlineBolt,
@@ -48,7 +57,7 @@ const CORE_VALUES = [
     Icon: MdOutlineAutorenew,
     title: 'Innovation',
     description:
-      'We keep systems adaptable. Not every feature is necessary, and not every trend is useful — but thoughtful iteration is often essential.',
+      'We keep systems adaptable. Not every feature is necessary, and not every trend is useful but thoughtful iteration is often essential.',
   },
   {
     Icon: MdOutlineVerifiedUser,
@@ -106,27 +115,13 @@ const AboutMission = () => (
         </div>
       ))}
 
-      {/* ── Our Values row ── */}
-      <div className='border-t border-white/10 grid grid-cols-1 lg:grid-cols-[200px_1fr] gap-x-10'>
-        <RowLabel>Our Values</RowLabel>
-        <p className='pt-6 lg:pt-14 pb-12 lg:pb-14 text-white/80 font-semibold text-xl lg:text-2xl leading-relaxed max-w-2xl'>
-          The team understood our vision from day one. The final product was
-          clean, fast, and exactly what we.
-        </p>
-      </div>
-
       {/* ── Our Core Values row ── */}
       <div className='border-t border-white/10 grid grid-cols-1 lg:grid-cols-[200px_1fr] gap-x-10'>
         <RowLabel>Our Core Values</RowLabel>
 
         <div className='pt-6 lg:pt-14 pb-12 lg:pb-14 grid grid-cols-1 sm:grid-cols-2 gap-8 lg:gap-x-10 lg:gap-y-10'>
-          {CORE_VALUES.map(({ Icon, title, description }) => (
+          {CORE_VALUES.map(({ title, description }) => (
             <div key={title} className='flex flex-col gap-3'>
-              <Icon
-                size={26}
-                className='text-orange-bg-cta'
-                aria-hidden='true'
-              />
               <h3 className='text-white/80 text-lg font-semibold'>{title}</h3>
               <p className='text-white/60 text-base leading-relaxed'>
                 {description}
