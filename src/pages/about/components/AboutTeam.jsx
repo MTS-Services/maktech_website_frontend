@@ -6,7 +6,7 @@ const TEAM_MEMBERS = [
     role: 'Chief Executive Officer',
     photo: '/sir.png',
   },
-  
+
   {
     name: 'Toufiq Ahmed Akash',
     role: 'Director, Finance',
@@ -49,7 +49,7 @@ const TeamCard = ({ name, role, photo }) => (
 const AboutTeam = () => (
   <section
     aria-label='Meet the Maktech team'
-    className='relative w-full bg-black-bg overflow-hidden px-4 sm:px-6 lg:px-10 xl:px-14 2xl:px-16 py-16 lg:py-24'
+    className='relative w-full min-h-screen bg-black-bg overflow-hidden px-4 sm:px-6 lg:px-10 xl:px-14 2xl:px-16 py-16 lg:py-24 flex flex-col justify-center'
   >
     <AnimatedLines />
 
