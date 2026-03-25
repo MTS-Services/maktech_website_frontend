@@ -21,7 +21,7 @@ const About = () => {
       <AboutShowcase />
       <AboutMission />
       <AboutTeam />
-      <Testimonials />
+      <Testimonials className='py-16 xl:py-20 2xl:py-24' />
       <PricingFAQ />
     </main>
   );
