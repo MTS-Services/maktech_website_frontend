@@ -82,7 +82,7 @@ const AboutShowcase = () => (
                         alt={person.name}
                         width={96}
                         height={96}
-                        className='w-22 h-22 xl:w-24 xl:h-24 rounded-full object-cover border-[3px] border-[#1c1c1c] group-hover:-translate-y-3 transition-transform duration-200'
+                        className='w-22 h-22 xl:w-24 xl:h-24 rounded-full object-cover border-[3px] border-black-bg group-hover:-translate-y-3 transition-transform duration-200'
                       />
                     </div>
                   );
@@ -167,7 +167,7 @@ const AboutShowcase = () => (
                 <span className='text-white text-4xl sm:text-5xl xl:text-6xl font-bold tracking-tight'>
                   <AnimatedCounter target={300} suffix='+' />
                 </span>
-                <span className='text-white/50 text-base font-medium mt-2 text-center'>
+                <span className='text-white/50 text-base font-medium mt-2 text-start mr-10'>
                   Happy Client
                 </span>
               </div>
@@ -176,7 +176,7 @@ const AboutShowcase = () => (
                 <span className='text-white text-4xl sm:text-5xl xl:text-6xl font-bold tracking-tight'>
                   <AnimatedCounter target={2500} suffix='+' />
                 </span>
-                <span className='text-white/50 text-base font-medium mt-2 text-center'>
+                <span className='text-white/50 text-base font-medium mt-2 text-start lg:mr-10 mr-0'>
                   Project Completed
                 </span>
               </div>
