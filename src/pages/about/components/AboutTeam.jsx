@@ -26,7 +26,14 @@ const TEAM_MEMBERS = [
 
 const TeamCard = ({ name, role, photo, index, featured }) => (
   <article
-    className={`group relative rounded-2xl overflow-hidden aspect-3/4 bg-[#181818] cursor-default transition-transform duration-500 hover:-translate-y-1.5 ${
+    style={{
+      background: featured
+        ? 'radial-gradient(ellipse at 20% 10%, rgba(255,101,51,0.22) 0%, transparent 55%), linear-gradient(175deg, #1f1510 0%, #0e0d0d 100%)'
+        : 'radial-gradient(ellipse at 20% 10%, rgba(255,101,51,0.10) 0%, transparent 50%), linear-gradient(175deg, #181614 0%, #0e0d0d 100%)',
+      animation: 'cardFadeUp 0.55s cubic-bezier(0.22,1,0.36,1) both',
+      animationDelay: `${index * 0.1}s`,
+    }}
+    className={`group relative rounded-2xl overflow-hidden aspect-3/4 cursor-default transition-transform duration-500 hover:-translate-y-1.5 ${
       featured
         ? 'ring-1 ring-orange-bg-cta/40 hover:ring-orange-bg-cta/75'
         : 'ring-1 ring-white/5 hover:ring-white/15'
@@ -94,6 +101,12 @@ const AboutTeam = () => (
     aria-label='Meet the Maktech team'
     className='relative w-full min-h-screen bg-black-bg overflow-hidden px-4 sm:px-6 lg:px-10 xl:px-14 2xl:px-16 py-16 lg:py-24 flex flex-col justify-center'
   >
+    <style>{`
+      @keyframes cardFadeUp {
+        from { opacity: 0; transform: translateY(28px); }
+        to   { opacity: 1; transform: translateY(0);    }
+      }
+    `}</style>
     <AnimatedLines />
 
     <div className='relative z-10 max-w-360 mx-auto w-full'>
