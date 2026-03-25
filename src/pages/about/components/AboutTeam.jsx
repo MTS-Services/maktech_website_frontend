@@ -39,15 +39,6 @@ const TeamCard = ({ name, role, photo, index, featured }) => (
         : 'ring-1 ring-white/5 hover:ring-white/15'
     }`}
   >
-    {/* Index badge */}
-    <span
-      className={`absolute top-4 left-4 z-20 text-xs font-bold tabular-nums tracking-widest ${
-        featured ? 'text-orange-bg-cta' : 'text-white/30'
-      }`}
-    >
-      {String(index + 1).padStart(2, '0')}
-    </span>
-
     {/* Featured crown indicator */}
     {featured && (
       <div className='absolute top-4 right-4 z-20'>
