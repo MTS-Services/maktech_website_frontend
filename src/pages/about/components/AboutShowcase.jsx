@@ -43,15 +43,15 @@ const AboutShowcase = () => (
                     name: 'Jane S.',
                   },
                   {
-                    src: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=120&q=80',
+                    src: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=120&q=80',
                     name: 'Emily D.',
                   },
                   {
-                    src: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&q=80',
+                    src: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&q=80',
                     name: 'Tyler D.',
                   },
                   {
-                    src: 'https://images.unsplash.com/photo-1544725176-7c40e5a71c5e?w=120&q=80',
+                    src: 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=120&q=80',
                     name: 'Dora E.',
                   },
                   {
