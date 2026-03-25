@@ -8,7 +8,7 @@ const services = [
     link: "/services/ui-ux",
     icon: (
       <svg
-        className="w-24 h-24"
+        className="w-32 h-32"
         viewBox="0 0 48 48"
         fill="none"
         stroke="currentColor"
@@ -27,7 +27,7 @@ const services = [
     link: "/services/mern",
     icon: (
       <svg
-        className="w-24 h-24"
+        className="w-32 h-32"
         viewBox="0 0 48 48"
         fill="none"
         stroke="currentColor"
@@ -46,7 +46,7 @@ const services = [
     link: "/services/flutter",
     icon: (
       <svg
-        className="w-24 h-24"
+        className="w-32 h-32"
         viewBox="0 0 48 48"
         fill="none"
         stroke="currentColor"
@@ -65,7 +65,7 @@ const services = [
     link: "/services/shopify",
     icon: (
       <svg
-        className="w-24 h-24"
+        className="w-32 h-32"
         viewBox="0 0 48 48"
         fill="none"
         stroke="currentColor"
@@ -84,7 +84,7 @@ const services = [
     link: "/services/digital-marketing",
     icon: (
       <svg
-        className="w-24 h-24"
+        className="w-32 h-32"
         viewBox="0 0 48 48"
         fill="none"
         stroke="currentColor"
@@ -100,24 +100,35 @@ const services = [
 
 const ServiceCard = ({ service }) => {
   return (
-    <div className="bg-[#1a1a1a] border border-[#101515] rounded-lg p-8 hover:bg-orange-bg-cta transition-all duration-300 group h-full flex flex-col justify-between">
+    <div className="bg-[#1a1a1a] border border-[#101515] rounded-lg p-8 hover:bg-orange-bg-cta transition-all duration-300 group h-full flex flex-col justify-between overflow-hidden hover:shadow-xl hover:shadow-orange-bg-cta/20">
       {/* Icon */}
-      <div className="mb-6 text-white opacity-80 group-hover:opacity-100 transition-opacity">
-        {service.icon}
+      <div className="mb-6 relative h-28 w-28">
+        {/* Default Icon - visible when not hovering */}
+        <div className="absolute inset-0 text-white opacity-80 transition-all duration-500 ease-out group-hover:opacity-0 group-hover:scale-75 group-hover:rotate-12">
+          {service.icon}
+        </div>
+        {/* Hover Icon - visible when hovering */}
+        <div className="absolute inset-0 opacity-0 scale-75 -rotate-12 transition-all duration-500 ease-out group-hover:opacity-100 group-hover:scale-80 group-hover:rotate-0">
+          <img 
+            src="/services_image/service/Frame 2147225682.svg" 
+            alt="" 
+            className="w-20 h-20 drop-shadow-lg"
+          />
+        </div>
       </div>
 
       {/* Title */}
-      <h3 className="text-gray-bg-primary text-xl xl:text-2xl font-semibold mb-3">
+      <h3 className="text-gray-bg-primary text-xl xl:text-2xl font-semibold mb-3 transition-transform duration-300 group-hover:translate-x-1">
         {service.title}
       </h3>
 
       {/* Description */}
-      <p className="text-gray-400 text-sm mb-6 leading-relaxed transition-colors duration-200 group-hover:text-gray-bg-primary">
+      <p className="text-gray-400 text-sm mb-6 leading-relaxed transition-all duration-300 group-hover:text-gray-bg-primary group-hover:translate-x-1">
         {service.description}
       </p>
 
       {/* Read More Button */}
-      <Link to={service.link} className="flex cursor-pointer items-center gap-2 text-orange-bg-cta text-sm xl:text-base font-semibold hover:gap-3 transition-all duration-200 group-hover:text-gray-bg-primary">
+      <Link to={service.link} className="flex cursor-pointer items-center gap-2 text-orange-bg-cta text-sm xl:text-base font-semibold hover:gap-3 transition-all duration-300 group-hover:text-gray-bg-primary transform group-hover:translate-x-1">
         Read More
         <svg
           width="14"
@@ -128,6 +139,7 @@ const ServiceCard = ({ service }) => {
           strokeWidth="2.5"
           strokeLinecap="round"
           strokeLinejoin="round"
+          className="transition-transform duration-300 group-hover:translate-x-1"
         >
           <path d="M5 12h14M12 5l7 7-7 7" />
         </svg>
