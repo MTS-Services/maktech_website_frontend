@@ -73,7 +73,7 @@ const services = [
   },
   {
     id: 11,
-    title: 'SAS Product',
+    title: 'SaaS Product',
     description:
       'Data analytics products and reporting pipelines that turn raw data into decisions.',
     link: '/services/sas-product',

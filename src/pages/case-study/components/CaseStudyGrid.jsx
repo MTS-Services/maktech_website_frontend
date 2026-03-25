@@ -52,10 +52,7 @@ const ProjectCard = ({ project, activeTab }) => (
 const CaseStudyGrid = () => {
   const [activeTab, setActiveTab] = useState('UI/UX');
 
-  const filtered =
-    activeTab === 'UI/UX'
-      ? ALL_PROJECTS
-      : ALL_PROJECTS.filter((p) => p.categories.includes(activeTab));
+  const filtered = ALL_PROJECTS.filter((p) => p.categories.includes(activeTab));
 
   const handleKeyDown = (e, tab) => {
     const idx = TABS.indexOf(activeTab);
