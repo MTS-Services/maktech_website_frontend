@@ -637,8 +637,7 @@ const EditOrderForm = ({ order, onCancel, onSave }) => {
 
       <div className='bg-white rounded-xl border border-gray-100 shadow-sm p-6 sm:p-8'>
         <h1 className='text-xl font-bold text-gray-900 mb-6'>
-          Edit Order{' '}
-          <span className='text-orange-bg-cta'>{order.orderId}</span>
+          Edit Order <span className='text-orange-bg-cta'>{order.orderId}</span>
         </h1>
 
         <form onSubmit={handleSubmit} noValidate>
