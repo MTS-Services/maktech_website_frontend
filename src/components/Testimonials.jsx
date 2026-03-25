@@ -47,7 +47,7 @@ const TestimonialCard = ({ testimonial }) => {
   return (
     <div className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg p-8 flex flex-col gap-6 h-full hover:border-[#3a3a3a] transition-colors duration-300">
       {/* Quote Icon */}
-      <div className="text-[#4a4a4a]">
+      <div className="text-orange-bg-cta">
         <svg width="48" height="48" viewBox="0 0 48 48" fill="currentColor">
           <path d="M12 21h6v12H6V21c0-5.523 4.477-10 10-10v4c-3.313 0-6 2.687-6 6v2zm18 0h6v12h-12V21c0-5.523 4.477-10 10-10v4c-3.313 0-6 2.687-6 6v2z"/>
         </svg>

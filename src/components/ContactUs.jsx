@@ -191,7 +191,9 @@ const ContactUs = () => {
                       <p className="text-white font-medium text-base md:text-lg mb-1">
                         Call on
                       </p>
-                      <p className="text-[#AAAAAA] text-sm md:text-base">+012-3456-78910</p>
+                      <p className="text-[#AAAAAA] text-sm md:text-base">
+                        +012-3456-78910
+                      </p>
                     </div>
                   </div>
 
@@ -315,7 +317,10 @@ const ContactUs = () => {
                         xmlns="http://www.w3.org/2000/svg"
                       >
                         <path d="M15 6h5M3 8h5.5a2.5 2.5 0 1 1 0 5H3V8zm0 5h5.5a2.5 2.5 0 1 1 0 5H3v-5z" />
-                        <path d="M16 13.5a3.5 3.5 0 1 0 3.5 3.5H16v-3.5z" fill="none" />
+                        <path
+                          d="M16 13.5a3.5 3.5 0 1 0 3.5 3.5H16v-3.5z"
+                          fill="none"
+                        />
                       </svg>
                     </a>
                   </div>
@@ -398,64 +403,34 @@ const ContactUs = () => {
                         <option value="" disabled>
                           Service
                         </option>
-                        <option
-                          value="ui-ux"
-                          className="text-white"
-                        >
+                        <option value="ui-ux" className="text-white">
                           UI/UX Design
                         </option>
-                        <option
-                          value="mern"
-                          className="text-white"
-                        >
+                        <option value="mern" className="text-white">
                           MERN Stack Development
                         </option>
-                        <option
-                          value="application"
-                          className="text-white"
-                        >
+                        <option value="application" className="text-white">
                           Application Development
                         </option>
-                        <option
-                          value="ecommerce"
-                          className="text-white"
-                        >
+                        <option value="ecommerce" className="text-white">
                           E-Commerce Development
                         </option>
-                        <option
-                          value="marketing"
-                          className="text-white"
-                        >
+                        <option value="marketing" className="text-white">
                           Digital Marketing
                         </option>
-                        <option
-                          value="wordpress"
-                          className="text-white"
-                        >
+                        <option value="wordpress" className="text-white">
                           WordPress Development
                         </option>
-                        <option
-                          value="shopify"
-                          className="text-white"
-                        >
+                        <option value="shopify" className="text-white">
                           Shopify Development
                         </option>
-                        <option
-                          value="wix"
-                          className="text-white"
-                        >
+                        <option value="wix" className="text-white">
                           WIX Development
                         </option>
-                        <option
-                          value="graphic"
-                          className="text-white"
-                        >
+                        <option value="graphic" className="text-white">
                           Graphic Design
                         </option>
-                        <option
-                          value="other"
-                          className="text-white"
-                        >
+                        <option value="other" className="text-white">
                           Other
                         </option>
                       </select>
@@ -478,40 +453,22 @@ const ContactUs = () => {
                         <option value="" disabled>
                           Budget
                         </option>
-                        <option
-                          value="3000"
-                          className="text-white"
-                        >
+                        <option value="3000" className="text-white">
                           $3000
                         </option>
-                        <option
-                          value="4000"
-                          className="text-white"
-                        >
+                        <option value="4000" className="text-white">
                           $4000
                         </option>
-                        <option
-                          value="5000"
-                          className="text-white"
-                        >
+                        <option value="5000" className="text-white">
                           $5000
                         </option>
-                        <option
-                          value="6000"
-                          className="text-white"
-                        >
+                        <option value="6000" className="text-white">
                           $6000
                         </option>
-                        <option
-                          value="7000"
-                          className="text-white"
-                        >
+                        <option value="7000" className="text-white">
                           $7000
                         </option>
-                        <option
-                          value="8000"
-                          className="text-white"
-                        >
+                        <option value="8000" className="text-white">
                           $8000+
                         </option>
                       </select>
@@ -550,27 +507,30 @@ const ContactUs = () => {
 
                   {/* Submit Button */}
                   <button
-                    type="submit"
-                    className="flex items-center justify-center gap-3 bg-orange-bg-cta hover:bg-[#d14608] text-white px-8 py-3.5 rounded-full text-base font-medium transition-all duration-200 cursor-pointer w-full md:w-auto"
+                    className="relative z-10 group inline-flex items-center gap-3 overflow-hidden bg-orange-bg-cta hover:bg-[#e5501a] hover:shadow-[0_4px_20px_rgba(255,101,51,0.45)] text-white font-semibold rounded-full transition-all duration-200 active:scale-[0.97]"
+                    style={{ padding: "13px 28px" }}
                   >
-                    Let&apos;s Start
-                    <div className="flex items-center justify-center w-8 h-8 bg-white rounded-full">
+                    <span className="inline-block -translate-x-0.5 transition-transform duration-300 ease-out delay-75 group-hover:translate-x-0">
+                      Let’s Start
+                    </span>
+                    <span
+                      className="w-7 h-7 flex items-center justify-center rounded-full bg-white shrink-0 transition-transform duration-300 ease-out group-hover:translate-x-1"
+                      aria-hidden="true"
+                    >
                       <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
+                        width="14"
+                        height="14"
+                        viewBox="0 0 16 16"
                         fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
+                        stroke="black"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        aria-hidden="true"
                       >
-                        <path
-                          d="M5 12H19M19 12L12 5M19 12L12 19"
-                          stroke="#ff6533"
-                          strokeWidth="2.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
+                        <path d="M3 8h10M9 4l4 4-4 4" />
                       </svg>
-                    </div>
+                    </span>
                   </button>
                 </form>
               </div>

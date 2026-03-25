@@ -18,12 +18,6 @@ const projects = [
     title: "Makai AI — Visual Design",
     tags: ["UI/UX Design", "Branding"],
   },
-  // {
-  //   id: 3,
-  //   image: "/our_work/image 8.png",
-  //   title: "Makai AI — Color System",
-  //   tags: ["Branding", "Design"],
-  // },
   {
     id: 3,
     image: "/our_work/image 9.png",
@@ -38,19 +32,94 @@ const OurWork = () => {
 
   useGSAP(() => {
     cardsRef.current.forEach((card, index) => {
+      // 1. Shake animation when card enters view
+      // gsap.fromTo(card, 
+      //   {
+      //     x: 0,
+      //     rotation: 0,
+      //   },
+      //   {
+      //     x: -8,
+      //     rotation: -1,
+      //     duration: 0.1,
+      //     ease: "power2.inOut",
+      //     scrollTrigger: {
+      //       trigger: card,
+      //       start: "top 80%",
+      //       end: "top 8%",
+      //       toggleActions: "play none none none",
+      //     },
+      //     onComplete: () => {
+      //       gsap.to(card, {
+      //         x: 8,
+      //         rotation: 1,
+      //         duration: 0.1,
+      //         yoyo: true,
+      //         repeat: 3,
+      //         ease: "power2.inOut",
+      //         onComplete: () => {
+      //           gsap.to(card, {
+      //             x: 0,
+      //             rotation: 0,
+      //             duration: 0.1,
+      //             ease: "power2.out"
+      //           });
+      //         }
+      //       });
+      //     }
+      //   }
+      // );
+
+      // 2. Pin animation
       ScrollTrigger.create({
         trigger: card,
-        start: "top 15%",
+        start: "top 8%",
         endTrigger: containerRef.current,
         end: `bottom bottom`,
         pin: true,
         pinSpacing: false,
       });
+
+      // 3. Rotate the incoming card from right to center (skip first card)
+      if (index > 0) {
+        gsap.fromTo(card,
+          {
+            rotation: 10, // Starts tilted to the right
+            scale: 0.95, // Starts slightly smaller
+            transformOrigin: "top center",
+          },
+          {
+            rotation: 0, // Rotates to center
+            scale: 1,    // Scales to full size
+            transformOrigin: "top center",
+            scrollTrigger: {
+              trigger: card,
+              start: "top 80%", // Starts when card enters the screen
+              end: "top 8%",    // Ends when card hits its pinned position
+              scrub: true,      // Smooth scroll-linked animation
+            },
+          }
+        );
+      }
+
+      // 4. Rotate previous card to the left when this card scrolls up
+      if (index > 0) {
+        gsap.to(cardsRef.current[index - 1], {
+          rotation: -5, // Adjust degrees for more/less tilt
+          scale: 0.96,  // Shrinks slightly for a 3D depth effect
+          transformOrigin: "top center", // Rotates from the pinned top
+          scrollTrigger: {
+            trigger: card,
+            start: "top 80%", // Starts when the NEW card enters the screen
+            end: "top 8%",    // Ends when the NEW card hits its pinned position
+            scrub: true,      // Smoothly links the rotation to your scroll wheel
+          },
+        });
+      }
     });
   }, { scope: containerRef }); 
 
   return (
-    // সেকশনের এক্সট্রা প্যাডিং রিমুভ করে দিয়েছি
     <section className="w-full text-white py-4 xl:pt-20 2xl:pt-24 relative overflow-x-clip ">
       <div
         aria-hidden="true"
@@ -122,7 +191,6 @@ const OurWork = () => {
             <div
               key={project.id}
               ref={(el) => (cardsRef.current[index] = el)}
-              // প্রতিটি কার্ডের মাঝে স্ক্রল গ্যাপ
               className={`w-full max-w-6xl relative rounded-lg overflow-hidden group cursor-pointer  ${
                 index === projects.length - 1 ? "mb-0" : "mb-[50vh]"
               }`}
@@ -164,14 +232,7 @@ const OurWork = () => {
           ))}
         </div>
 
-        {/* ম্যাজিক স্পেসার (Dummy Footer): 
-          এটি স্ক্রল করার জায়গা তৈরি করবে। যখন আপনি অরিজিনাল Footer বানাবেন, তখন এই div টি মুছে দেবেন। 
-        */}
         <div className="w-full h-[85vh] mt-[20vh] flex flex-col items-center justify-center text-center px-4">
-          {/* <p className="text-gray-400 text-xl font-medium">Your Footer Goes Here</p>
-          <p className="text-gray-600 text-sm mt-2">
-            (এই জায়গাটি দেওয়া হয়েছে যাতে শেষের কার্ডটি স্ক্রল করে উপরে ওঠার সুযোগ পায়)
-          </p> */}
         </div>
 
       </div>
