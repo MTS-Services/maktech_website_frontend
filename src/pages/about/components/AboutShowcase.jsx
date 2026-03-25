@@ -26,15 +26,68 @@ const AboutShowcase = () => (
                 loading='lazy'
               />
             </div>
-            <div className='flex-1 flex items-start pt-0'>
-              <img
-                src='/about2.png'
-                alt='Over 5000 happy clients — a digital-first team'
-                width={300}
-                height={56}
-                className='w-full lg:w-[95%]  lg:ml-4 h-full object-cover rounded-2xl'
-                loading='lazy'
-              />
+            <div className='flex-1 flex items-center pt-0'>
+              {/* Overlapping avatars — wave arc layout */}
+              <div className='w-full lg:w-[95%] lg:ml-4 flex items-center'>
+                {[
+                  {
+                    src: 'https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=120&q=80',
+                    name: 'Alex M.',
+                  },
+                  {
+                    src: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=120&q=80',
+                    name: 'Robert J.',
+                  },
+                  {
+                    src: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=120&q=80',
+                    name: 'Jane S.',
+                  },
+                  {
+                    src: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=120&q=80',
+                    name: 'Emily D.',
+                  },
+                  {
+                    src: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&q=80',
+                    name: 'Tyler D.',
+                  },
+                  {
+                    src: 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=120&q=80',
+                    name: 'Dora E.',
+                  },
+                  {
+                    src: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&q=80',
+                    name: 'Marcus L.',
+                  },
+                  {
+                    src: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=120&q=80',
+                    name: 'Sofia R.',
+                  },
+                ].map((person, i) => {
+                  return (
+                    <div
+                      key={i}
+                      className='relative group'
+                      style={{
+                        marginLeft: i === 0 ? 0 : '-22px',
+                        zIndex: i + 1,
+                      }}
+                    >
+                      {/* Tooltip */}
+                      <div className='absolute -top-11 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-xs font-medium px-2.5 py-1 rounded-md whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-50'>
+                        {person.name}
+                        <div className='absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-900' />
+                      </div>
+                      <img
+                        src={person.src}
+                        alt={person.name}
+                        width={96}
+                        height={96}
+                        className='w-22 h-22 xl:w-24 xl:h-24 rounded-full object-cover border-[3px] border-black-bg group-hover:-translate-y-3 transition-transform duration-200'
+                      />
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </div>
 
@@ -114,7 +167,7 @@ const AboutShowcase = () => (
                 <span className='text-white text-4xl sm:text-5xl xl:text-6xl font-bold tracking-tight'>
                   <AnimatedCounter target={300} suffix='+' />
                 </span>
-                <span className='text-white/50 text-base font-medium mt-2 lg:text-start lg:-ml-8'>
+                <span className='text-white/50 text-base font-medium mt-2 text-start mr-10'>
                   Happy Client
                 </span>
               </div>
@@ -123,7 +176,7 @@ const AboutShowcase = () => (
                 <span className='text-white text-4xl sm:text-5xl xl:text-6xl font-bold tracking-tight'>
                   <AnimatedCounter target={2500} suffix='+' />
                 </span>
-                <span className='text-white/50 text-base font-medium mt-2 lg:text-start lg:-ml-8'>
+                <span className='text-white/50 text-base font-medium mt-2 text-start lg:mr-10 mr-0'>
                   Project Completed
                 </span>
               </div>

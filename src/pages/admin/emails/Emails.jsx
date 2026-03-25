@@ -219,7 +219,7 @@ const EMAIL_COLS = [
   { label: 'Client Name' },
   { label: 'Subject' },
   { label: 'Date & Time' },
-  { label: 'Status', align: 'right' },
+  { label: 'Status' },
 ];
 
 // ─── Reply Form ─────────────────────────────────────────────────────────────
@@ -470,7 +470,7 @@ const EmailRow = ({ email, onSelect }) => {
           {datetime}
         </span>
       </td>
-      <td className='py-3.5 px-5 text-right'>
+      <td className='py-3.5 px-5'>
         <span
           className={`inline-flex items-center px-2.5 py-1 rounded-full text-sm font-semibold ${getStatusStyle(status)}`}
         >

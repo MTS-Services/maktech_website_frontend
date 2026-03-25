@@ -2,6 +2,9 @@ import { useEffect, useMemo, useState } from 'react';
 import {
   MdAdd,
   MdRemoveRedEye,
+  MdEdit,
+  MdDelete,
+  MdCheck,
   MdArrowBack,
   MdOpenInNew,
   MdKeyboardArrowDown,
@@ -12,7 +15,7 @@ import Pagination from '../../../components/Pagination';
 import { getPageRange } from '../../../utils/helpers';
 
 // ─── Static order data ────────────────────────────────────────────────────────
-const ORDERS = [
+const INITIAL_ORDERS = [
   {
     id: 1,
     orderId: '#1',
@@ -491,7 +494,7 @@ const CreateOrderForm = ({ onCancel }) => {
 };
 
 // ─── Mobile order card ────────────────────────────────────────────────────────
-const OrderCard = ({ order, onView }) => (
+const OrderCard = ({ order, onView, onEdit, onDelete }) => (
   <article className='bg-white rounded-xl border border-gray-100 shadow-sm p-4'>
     <div className='flex items-start justify-between gap-2 mb-3'>
       <div>
@@ -530,11 +533,27 @@ const OrderCard = ({ order, onView }) => (
     >
       <MdRemoveRedEye className='text-lg' aria-hidden='true' />
     </button>
+    <button
+      type='button'
+      onClick={() => onEdit(order)}
+      aria-label={`Edit order ${order.orderId}`}
+      className='p-1.5 rounded-lg text-blue-400 hover:bg-blue-50 transition-colors duration-150'
+    >
+      <MdEdit className='text-lg' aria-hidden='true' />
+    </button>
+    <button
+      type='button'
+      onClick={() => onDelete(order.id)}
+      aria-label={`Delete order ${order.orderId}`}
+      className='p-1.5 rounded-lg text-red-400 hover:bg-red-50 transition-colors duration-150'
+    >
+      <MdDelete className='text-lg' aria-hidden='true' />
+    </button>
   </article>
 );
 
 // ─── Desktop table row ────────────────────────────────────────────────────────
-const OrderRow = ({ order, onView }) => (
+const OrderRow = ({ order, onView, onEdit, onDelete }) => (
   <tr className='border-t border-gray-50 hover:bg-orange-50/30 transition-colors duration-150'>
     <td className={`${TD} font-medium text-gray-900`}>{order.orderId}</td>
     <td className={TD}>{order.client}</td>
@@ -550,17 +569,228 @@ const OrderRow = ({ order, onView }) => (
       </span>
     </td>
     <td className='px-5 py-3.5'>
-      <button
-        type='button'
-        onClick={() => onView(order)}
-        aria-label={`View order ${order.orderId}`}
-        className='p-1.5 rounded-lg text-orange-400 hover:bg-orange-50 transition-colors duration-150'
-      >
-        <MdRemoveRedEye className='text-lg' aria-hidden='true' />
-      </button>
+      <div className='flex items-center gap-1'>
+        <button
+          type='button'
+          onClick={() => onView(order)}
+          aria-label={`View order ${order.orderId}`}
+          className='p-1.5 rounded-lg text-orange-400 hover:bg-orange-50 transition-colors duration-150'
+        >
+          <MdRemoveRedEye className='text-lg' aria-hidden='true' />
+        </button>
+        <button
+          type='button'
+          onClick={() => onEdit(order)}
+          aria-label={`Edit order ${order.orderId}`}
+          className='p-1.5 rounded-lg text-blue-400 hover:bg-blue-50 transition-colors duration-150'
+        >
+          <MdEdit className='text-lg' aria-hidden='true' />
+        </button>
+        <button
+          type='button'
+          onClick={() => onDelete(order.id)}
+          aria-label={`Delete order ${order.orderId}`}
+          className='p-1.5 rounded-lg text-red-400 hover:bg-red-50 transition-colors duration-150'
+        >
+          <MdDelete className='text-lg' aria-hidden='true' />
+        </button>
+      </div>
     </td>
   </tr>
 );
+
+// ─── Edit order form ──────────────────────────────────────────────────────────
+const EditOrderForm = ({ order, onCancel, onSave }) => {
+  const [form, setForm] = useState({
+    client: order.client ?? '',
+    service: order.service ?? '',
+    startDate: order.startDate ?? '',
+    deliveryDate: order.deliveryDate ?? '',
+    price: order.price ?? '',
+    assignedTeam: order.assignedTeam ?? '',
+    notes: order.notes ?? '',
+  });
+
+  const handleChange = (e) =>
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSave({ ...order, ...form });
+    toast.success('Order updated successfully!');
+    onCancel();
+  };
+
+  return (
+    <div className='space-y-6 pb-8'>
+      <button
+        type='button'
+        onClick={onCancel}
+        className='inline-flex cursor-pointer items-center gap-1.5 text-sm text-gray-500 hover:text-gray-800 transition-colors duration-150 group'
+      >
+        <MdArrowBack
+          className='text-base group-hover:-translate-x-0.5 transition-transform duration-150'
+          aria-hidden='true'
+        />
+        Back to Orders
+      </button>
+
+      <div className='bg-white rounded-xl border border-gray-100 shadow-sm p-6 sm:p-8'>
+        <h1 className='text-xl font-bold text-gray-900 mb-6'>
+          Edit Order <span className='text-orange-bg-cta'>{order.orderId}</span>
+        </h1>
+
+        <form onSubmit={handleSubmit} noValidate>
+          <div className='grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4 mb-4'>
+            <div>
+              <label htmlFor='eo-client' className={LABEL_CLS}>
+                Client Name{REQUIRED_STAR}
+              </label>
+              <input
+                id='eo-client'
+                name='client'
+                type='text'
+                value={form.client}
+                onChange={handleChange}
+                autoComplete='name'
+                required
+                className={INPUT_CLS}
+              />
+            </div>
+
+            <div>
+              <label htmlFor='eo-service' className={LABEL_CLS}>
+                Service Name{REQUIRED_STAR}
+              </label>
+              <input
+                id='eo-service'
+                name='service'
+                type='text'
+                value={form.service}
+                onChange={handleChange}
+                autoComplete='off'
+                required
+                className={INPUT_CLS}
+              />
+            </div>
+
+            <div>
+              <label htmlFor='eo-start' className={LABEL_CLS}>
+                Start Date{REQUIRED_STAR}
+              </label>
+              <input
+                id='eo-start'
+                name='startDate'
+                type='date'
+                value={form.startDate}
+                onChange={handleChange}
+                required
+                className={INPUT_CLS}
+              />
+            </div>
+
+            <div>
+              <label htmlFor='eo-delivery' className={LABEL_CLS}>
+                Delivery Date{REQUIRED_STAR}
+              </label>
+              <input
+                id='eo-delivery'
+                name='deliveryDate'
+                type='date'
+                value={form.deliveryDate}
+                onChange={handleChange}
+                required
+                className={INPUT_CLS}
+              />
+            </div>
+
+            <div>
+              <label htmlFor='eo-price' className={LABEL_CLS}>
+                Price ($){REQUIRED_STAR}
+              </label>
+              <input
+                id='eo-price'
+                name='price'
+                type='text'
+                value={form.price}
+                onChange={handleChange}
+                autoComplete='off'
+                required
+                className={INPUT_CLS}
+              />
+            </div>
+
+            <div>
+              <label htmlFor='eo-team' className={LABEL_CLS}>
+                Assigned Team{REQUIRED_STAR}
+              </label>
+              <div className='relative'>
+                <select
+                  id='eo-team'
+                  name='assignedTeam'
+                  value={form.assignedTeam}
+                  onChange={handleChange}
+                  required
+                  className={`${INPUT_CLS} appearance-none pr-10 cursor-pointer`}
+                >
+                  <option value='' disabled>
+                    Select a team
+                  </option>
+                  {TEAM_OPTIONS.map((team) => (
+                    <option key={team} value={team}>
+                      {team}
+                    </option>
+                  ))}
+                </select>
+                <MdKeyboardArrowDown
+                  className='pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-xl text-gray-400'
+                  aria-hidden='true'
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className='mb-6'>
+            <label htmlFor='eo-notes' className={LABEL_CLS}>
+              Project Notes
+            </label>
+            <textarea
+              id='eo-notes'
+              name='notes'
+              value={form.notes}
+              onChange={handleChange}
+              rows={4}
+              autoComplete='off'
+              className={`${INPUT_CLS} resize-none`}
+            />
+          </div>
+
+          <div className='flex flex-col gap-3 sm:flex-row sm:items-center sm:flex-wrap'>
+            <button
+              type='submit'
+              className='group inline-flex cursor-pointer items-center justify-center gap-2 overflow-hidden px-5 py-2.5 text-sm font-semibold text-white bg-orange-bg-cta rounded-lg hover:bg-[#e5501a] hover:shadow-[0_4px_14px_rgba(255,101,51,0.35)] transition-all duration-200 active:scale-[0.97]'
+            >
+              <MdCheck
+                className='text-base shrink-0 transition-transform duration-300 ease-out group-hover:scale-110'
+                aria-hidden='true'
+              />
+              <span className='inline-block -translate-x-1 transition-transform duration-300 ease-out delay-100 group-hover:translate-x-0'>
+                Save Changes
+              </span>
+            </button>
+            <button
+              type='button'
+              onClick={onCancel}
+              className='w-full sm:w-auto inline-flex cursor-pointer items-center justify-center px-5 py-2.5 text-sm font-semibold text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-all duration-200 active:scale-[0.97]'
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
 
 // ─── Page component ───────────────────────────────────────────────────────────
 export default function Orders() {
@@ -568,31 +798,43 @@ export default function Orders() {
     document.title = 'Orders – Maktech Admin';
   }, []);
 
+  const [orders, setOrders] = useState(INITIAL_ORDERS);
+
   // Derive stat counts from data — never store derived state
   const { inProgress, completed } = useMemo(
     () => ({
-      inProgress: ORDERS.filter((o) => o.status === 'In progress').length,
-      completed: ORDERS.filter((o) => o.status === 'Completed').length,
+      inProgress: orders.filter((o) => o.status === 'In progress').length,
+      completed: orders.filter((o) => o.status === 'Completed').length,
     }),
-    [],
+    [orders],
   );
 
   const [page, setPage] = useState(1);
-  const totalPages = Math.ceil(ORDERS.length / PAGE_SIZE);
+  const totalPages = Math.ceil(orders.length / PAGE_SIZE);
   const pageData = useMemo(
-    () => ORDERS.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE),
-    [page],
+    () => orders.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE),
+    [orders, page],
   );
   const pageRange = useMemo(
     () => getPageRange(page, totalPages),
     [page, totalPages],
   );
   const rangeStart = (page - 1) * PAGE_SIZE + 1;
-  const rangeEnd = Math.min(page * PAGE_SIZE, ORDERS.length);
+  const rangeEnd = Math.min(page * PAGE_SIZE, orders.length);
   const handlePage = (p) => setPage(Math.max(1, Math.min(totalPages, p)));
 
   const [viewingOrder, setViewingOrder] = useState(null);
   const [creatingOrder, setCreatingOrder] = useState(false);
+  const [editingOrder, setEditingOrder] = useState(null);
+
+  const handleDelete = (id) => {
+    setOrders((prev) => prev.filter((o) => o.id !== id));
+    toast.success('Order deleted.');
+  };
+
+  const handleSaveEdit = (updated) => {
+    setOrders((prev) => prev.map((o) => (o.id === updated.id ? updated : o)));
+  };
 
   if (viewingOrder)
     return (
@@ -601,6 +843,15 @@ export default function Orders() {
 
   if (creatingOrder)
     return <CreateOrderForm onCancel={() => setCreatingOrder(false)} />;
+
+  if (editingOrder)
+    return (
+      <EditOrderForm
+        order={editingOrder}
+        onCancel={() => setEditingOrder(null)}
+        onSave={handleSaveEdit}
+      />
+    );
 
   return (
     <div className='space-y-6 pb-8'>
@@ -633,7 +884,7 @@ export default function Orders() {
       {/* Stat Cards */}
       <div className='grid grid-cols-1 sm:grid-cols-3 gap-5'>
         {[
-          { label: 'Total Orders', value: ORDERS.length },
+          { label: 'Total Orders', value: orders.length },
           { label: 'In Progress', value: inProgress },
           { label: 'Completed', value: completed },
         ].map(({ label, value }) => (
@@ -656,7 +907,12 @@ export default function Orders() {
         <div className='sm:hidden p-4 space-y-3'>
           {pageData.map((order) => (
             <div key={order.id} role='listitem'>
-              <OrderCard order={order} onView={setViewingOrder} />
+              <OrderCard
+                order={order}
+                onView={setViewingOrder}
+                onEdit={setEditingOrder}
+                onDelete={handleDelete}
+              />
             </div>
           ))}
         </div>
@@ -665,7 +921,13 @@ export default function Orders() {
         <div className='hidden sm:block overflow-x-auto'>
           <AdminTable columns={ORDER_COLS} ariaLabel='Orders list'>
             {pageData.map((order) => (
-              <OrderRow key={order.id} order={order} onView={setViewingOrder} />
+              <OrderRow
+                key={order.id}
+                order={order}
+                onView={setViewingOrder}
+                onEdit={setEditingOrder}
+                onDelete={handleDelete}
+              />
             ))}
           </AdminTable>
         </div>
@@ -678,7 +940,7 @@ export default function Orders() {
               {rangeStart} to {rangeEnd}
             </span>{' '}
             of{' '}
-            <span className='font-semibold text-gray-700'>{ORDERS.length}</span>{' '}
+            <span className='font-semibold text-gray-700'>{orders.length}</span>{' '}
             orders
           </p>
           <nav aria-label='Pagination'>
