@@ -7,6 +7,7 @@ import {
   FaLinkedinIn,
   FaXTwitter,
 } from 'react-icons/fa6';
+import { MdKeyboardArrowDown } from 'react-icons/md';
 
 const Footer = () => {
   const [openSection, setOpenSection] = useState(null);
@@ -75,7 +76,7 @@ const Footer = () => {
           {[12, 30, 50, 68, 88].map((pos, i) => (
             <div
               key={pos}
-              className='absolute top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-gray-600/50 to-transparent'
+              className='absolute top-0 bottom-0 w-px bg-linear-to-b from-transparent via-gray-600/50 to-transparent'
               style={{ left: `${pos}%` }}
             >
               <div
@@ -131,25 +132,11 @@ const Footer = () => {
             {/* Column 1 - Logo & Social Card */}
             <div className='bg-[#2a2a2a] border border-white/10 rounded-2xl p-6'>
               <div className='flex items-center gap-2 mb-6'>
-                <div className='flex items-center gap-1'>
-                  <svg
-                    width='24'
-                    height='24'
-                    viewBox='0 0 24 24'
-                    fill='none'
-                    xmlns='http://www.w3.org/2000/svg'
-                  >
-                    <path
-                      d='M2 2L12 22L15 14L22 12L2 2Z'
-                      fill='#ff6533'
-                      stroke='#ff6533'
-                      strokeWidth='2'
-                      strokeLinecap='round'
-                      strokeLinejoin='round'
-                    />
-                  </svg>
-                  <span className='text-white text-xl font-bold'>maktech</span>
-                </div>
+                <img
+                  src='/maktech_logo_white.png'
+                  alt='maktech logo'
+                  className='h-6 w-auto'
+                />
               </div>
 
               {/* Social Media Icons */}
@@ -243,7 +230,7 @@ const Footer = () => {
             {/* Column 3 - Contacts */}
             <div>
               <h3 className='text-white text-base font-normal mb-4'>
-                Connect With Us
+                Get in Touch
               </h3>
               <ul className='space-y-3'>
                 <li className='text-gray-400 text-sm italic'>
@@ -263,25 +250,11 @@ const Footer = () => {
           {/* Logo & Social Card */}
           <div className='bg-[#2a2a2a] border border-white/10 rounded-2xl p-6 mb-6'>
             <div className='flex items-center gap-2 mb-6'>
-              <div className='flex items-center gap-1'>
-                {/* <svg
-                  width='24'
-                  height='24'
-                  viewBox='0 0 24 24'
-                  fill='none'
-                  xmlns='http://www.w3.org/2000/svg'
-                >
-                  <path
-                    d='M2 2L12 22L15 14L22 12L2 2Z'
-                    fill='#ff6533'
-                    stroke='#ff6533'
-                    strokeWidth='2'
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                  />
-                </svg> */}
-                <span className='text-white text-xl font-bold'>maktech</span>
-              </div>
+              <img
+                src='/maktech_logo_white.png'
+                alt='maktech logo'
+                className='h-6 w-auto'
+              />
             </div>
 
             {/* Social Media Icons */}
@@ -338,24 +311,11 @@ const Footer = () => {
               className='w-full flex items-center justify-between py-4 text-white text-base font-normal'
             >
               Quick Link
-              <svg
-                width='20'
-                height='20'
-                viewBox='0 0 24 24'
-                fill='none'
-                xmlns='http://www.w3.org/2000/svg'
-                className={`transition-transform duration-200 ${
+              <MdKeyboardArrowDown
+                className={`transition-transform duration-200 text-white text-xl ${
                   openSection === 'quicklink' ? 'rotate-180' : ''
                 }`}
-              >
-                <path
-                  d='M6 9L12 15L18 9'
-                  stroke='white'
-                  strokeWidth='2'
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                />
-              </svg>
+              />
             </button>
             {openSection === 'quicklink' && (
               <div className='pb-4 space-y-3'>
@@ -387,50 +347,6 @@ const Footer = () => {
             )}
           </div>
 
-          {/* Company Accordion */}
-          <div className='border-b border-white/10'>
-            <button
-              onClick={() => toggleSection('company')}
-              className='w-full flex items-center justify-between py-4 text-white text-base font-normal'
-            >
-              Company
-              <svg
-                width='20'
-                height='20'
-                viewBox='0 0 24 24'
-                fill='none'
-                xmlns='http://www.w3.org/2000/svg'
-                className={`transition-transform duration-200 ${
-                  openSection === 'company' ? 'rotate-180' : ''
-                }`}
-              >
-                <path
-                  d='M6 9L12 15L18 9'
-                  stroke='white'
-                  strokeWidth='2'
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                />
-              </svg>
-            </button>
-            {openSection === 'company' && (
-              <div className='pb-4 space-y-3'>
-                <a
-                  href='#'
-                  className='block text-gray-400 hover:text-white transition-colors duration-200 text-sm'
-                >
-                  Label Name
-                </a>
-                <a
-                  href='#'
-                  className='block text-gray-400 hover:text-white transition-colors duration-200 text-sm'
-                >
-                  Label Name
-                </a>
-              </div>
-            )}
-          </div>
-
           {/* Contacts Accordion */}
           <div className='border-b border-white/10'>
             <button
@@ -438,33 +354,20 @@ const Footer = () => {
               className='w-full flex items-center justify-between py-4 text-white text-base font-normal'
             >
               Contacts
-              <svg
-                width='20'
-                height='20'
-                viewBox='0 0 24 24'
-                fill='none'
-                xmlns='http://www.w3.org/2000/svg'
-                className={`transition-transform duration-200 ${
+              <MdKeyboardArrowDown
+                className={`transition-transform duration-200 text-white text-xl ${
                   openSection === 'contacts' ? 'rotate-180' : ''
                 }`}
-              >
-                <path
-                  d='M6 9L12 15L18 9'
-                  stroke='white'
-                  strokeWidth='2'
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                />
-              </svg>
+              />
             </button>
             {openSection === 'contacts' && (
               <div className='pb-4 space-y-3'>
                 <p className='text-gray-400 text-sm italic'>
-                  Maktech.corporate@gmail.com
+                  maktechgroup@gmail.com
                 </p>
-                <p className='text-gray-400 text-sm'>+88 01234567685</p>
+                <p className='text-gray-400 text-sm'>+88 01897-669233</p>
                 <p className='text-gray-400 text-sm'>
-                  ul. Generała Ziętka Jerzego 54, Mysłowice 41-412
+                  8th Floor, A, Majid Tower, Ka-24 Progati Sarani Rd, Dhaka 1229
                 </p>
               </div>
             )}
@@ -514,7 +417,7 @@ const Footer = () => {
 
           <div className='absolute inset-x-0 bottom-0 z-10 max-w-7xl mx-auto px-4 py-2 md:py-3'>
             <div className='flex flex-col md:flex-row items-center justify-between gap-4'>
-              <p className='text-gray-400 text-sm'>©2026 Maktech</p>
+              <p className='text-gray-400 text-sm'>©2026 maktech</p>
               <div className='flex items-center gap-6'>
                 {/* <a
                   href='#'
