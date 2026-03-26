@@ -101,9 +101,11 @@ const AboutMission = () => (
           <RowLabel>{label}</RowLabel>
 
           <div className='pt-6 lg:pt-14 pb-12 lg:pb-14'>
-            <h2 className='text-white/80 text-xl sm:text-2xl xl:text-2xl font-semibold leading-snug max-w-2xl'>
-              {heading}
-            </h2>
+            <div className='grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-10'>
+              <h2 className='text-white/80 text-xl sm:text-2xl xl:text-2xl font-semibold leading-snug'>
+                {heading}
+              </h2>
+            </div>
             <div className='mt-6 sm:mt-8 grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-10'>
               {cols.map((text, i) => (
                 <p key={i} className='text-white/60 text-base leading-relaxed'>
