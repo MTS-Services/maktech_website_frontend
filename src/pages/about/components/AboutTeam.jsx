@@ -36,7 +36,7 @@ const TeamCard = ({ name, role, photo, index, featured }) => (
     className={`group relative rounded-2xl overflow-hidden aspect-3/4 cursor-default transition-transform duration-500 hover:-translate-y-1.5 ${
       featured
         ? 'ring-1 ring-orange-bg-cta/40 hover:ring-orange-bg-cta/75'
-        : 'ring-1 ring-white/5 hover:ring-white/15'
+        : 'ring-1 ring-white/5 hover:ring-orange-bg-cta/75'
     }`}
   >
     {/* Featured crown indicator */}
