@@ -797,6 +797,91 @@ const OrderDetail = ({ order, onBack }) => {
   );
 };
 
+// ─── Delete confirmation modal ─────────────────────────────────────────────────────
+const DeleteModal = ({ order, onConfirm, onCancel }) => {
+  const [visible, setVisible] = useState(false);
+  const [closing, setClosing] = useState(false);
+
+  useEffect(() => {
+    const t = requestAnimationFrame(() => setVisible(true));
+    return () => cancelAnimationFrame(t);
+  }, []);
+
+  const triggerClose = (cb) => {
+    setClosing(true);
+    setTimeout(cb, 220);
+  };
+
+  const overlayStyle = {
+    transition: 'background 0.22s, backdrop-filter 0.22s',
+    background: !visible || closing ? 'rgba(0,0,0,0)' : 'rgba(0,0,0,0.45)',
+    backdropFilter: !visible || closing ? 'blur(0px)' : 'blur(6px)',
+  };
+
+  const cardStyle = {
+    transition:
+      'opacity 0.22s cubic-bezier(.4,0,.2,1), transform 0.22s cubic-bezier(.4,0,.2,1)',
+    opacity: !visible || closing ? 0 : 1,
+    transform:
+      !visible || closing
+        ? 'scale(0.94) translateY(10px)'
+        : 'scale(1) translateY(0)',
+  };
+
+  return (
+    <div
+      className='fixed inset-0 z-50 flex items-center justify-center p-4'
+      style={overlayStyle}
+      onClick={() => triggerClose(onCancel)}
+    >
+      <div
+        className='relative w-full max-w-sm bg-white rounded-2xl shadow-2xl p-6'
+        style={cardStyle}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Red icon circle */}
+        <div className='flex items-center justify-center w-16 h-16 rounded-full bg-red-50 ring-8 ring-red-50/60 mx-auto mb-5'>
+          <MdDelete className='text-3xl text-red-500' aria-hidden='true' />
+        </div>
+
+        {/* Heading */}
+        <h2 className='text-xl font-bold text-gray-900 text-center mb-1'>
+          Delete Order?
+        </h2>
+        <p className='text-sm text-gray-500 text-center mb-1'>
+          <span className='font-semibold text-gray-800'>{order.orderId}</span>
+          {' — '}
+          {order.projectName}
+        </p>
+        <p className='text-xs text-gray-400 text-center mb-7'>
+          This action is permanent and cannot be undone.
+        </p>
+
+        {/* Divider */}
+        <div className='border-t border-gray-100 mb-5' />
+
+        {/* Actions */}
+        <div className='flex gap-3'>
+          <button
+            type='button'
+            onClick={() => triggerClose(onCancel)}
+            className='flex-1 py-2.5 rounded-xl text-sm font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200 transition-all duration-150 active:scale-[0.97]'
+          >
+            Cancel
+          </button>
+          <button
+            type='button'
+            onClick={() => triggerClose(onConfirm)}
+            className='flex-1 py-2.5 rounded-xl text-sm font-semibold text-white bg-red-500 hover:bg-red-600 hover:shadow-[0_4px_16px_rgba(239,68,68,0.45)] transition-all duration-150 active:scale-[0.97]'
+          >
+            Yes, Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 // ─── Kebab action menu ───────────────────────────────────────────────────────
 const DROPDOWN_W = 144; // px — matches w-36
 const DROPDOWN_H = 120; // px — approx height of the 3-item menu
@@ -1155,8 +1240,16 @@ export default function MarketplaceOrders() {
     toast.success('Order updated successfully!');
   };
 
+  const [deleteTarget, setDeleteTarget] = useState(null);
+
   const handleDelete = (id) => {
-    setOrders((prev) => prev.filter((o) => o.id !== id));
+    const order = orders.find((o) => o.id === id);
+    if (order) setDeleteTarget(order);
+  };
+
+  const confirmDelete = () => {
+    setOrders((prev) => prev.filter((o) => o.id !== deleteTarget.id));
+    setDeleteTarget(null);
     toast.success('Order deleted.');
   };
 
@@ -1196,131 +1289,147 @@ export default function MarketplaceOrders() {
     );
 
   return (
-    <div className='space-y-6 pb-8'>
-      {/* Page Header */}
-      <div className='flex flex-wrap items-start justify-between gap-4'>
-        <div>
-          <h1 className='text-2xl sm:text-3xl font-bold text-gray-900 leading-tight'>
-            Marketplace Orders
-          </h1>
-          <p className='text-base text-gray-500 mt-1'>
-            Fiverr &amp; marketplace client management
-          </p>
-        </div>
-
-        <div className='flex items-center gap-3 flex-wrap'>
-          {/* CSV Upload */}
-          <input
-            ref={csvInputRef}
-            type='file'
-            accept='.csv'
-            className='hidden'
-            onChange={handleCsvUpload}
-            aria-label='Upload CSV'
-          />
-          <button
-            type='button'
-            onClick={() => csvInputRef.current?.click()}
-            className='group inline-flex cursor-pointer items-center gap-2 overflow-hidden px-5 py-2.5 text-sm font-semibold text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 hover:border-gray-300 transition-all duration-200 active:scale-[0.97]'
-          >
-            <MdUploadFile
-              className='text-lg shrink-0 transition-transform duration-300 ease-out group-hover:-translate-y-0.5'
-              aria-hidden='true'
-            />
-            <span className='inline-block -translate-x-1 transition-transform duration-300 ease-out delay-100 group-hover:translate-x-0'>
-              Upload CSV
-            </span>
-          </button>
-
-          {/* Add New Project */}
-          <button
-            type='button'
-            onClick={() => setCreatingOrder(true)}
-            className='group inline-flex cursor-pointer items-center gap-2 overflow-hidden px-5 py-2.5 text-sm font-semibold text-white bg-orange-bg-cta rounded-lg hover:bg-[#e5501a] hover:shadow-[0_4px_14px_rgba(255,101,51,0.35)] transition-all duration-200 active:scale-[0.97]'
-          >
-            <MdAdd
-              className='text-lg shrink-0 transition-transform duration-300 ease-out group-hover:translate-x-1'
-              aria-hidden='true'
-            />
-            <span className='inline-block -translate-x-1 transition-transform duration-300 ease-out delay-100 group-hover:translate-x-0'>
-              Add New Project
-            </span>
-          </button>
-        </div>
-      </div>
-
-      {/* Stat Cards */}
-      <div className='grid grid-cols-1 sm:grid-cols-3 gap-5'>
-        {[
-          { label: 'Total Orders', value: orders.length },
-          { label: 'In Progress', value: inProgress },
-          { label: 'Completed', value: completed },
-        ].map(({ label, value }) => (
-          <div
-            key={label}
-            className='bg-white rounded-xl border border-gray-100 shadow-sm p-6'
-          >
-            <p className='text-sm font-medium text-gray-500 mb-2'>{label}</p>
-            <p className='text-4xl font-bold text-gray-900'>{value}</p>
+    <>
+      <div className='space-y-6 pb-8'>
+        {/* Page Header */}
+        <div className='flex flex-wrap items-start justify-between gap-4'>
+          <div>
+            <h1 className='text-2xl sm:text-3xl font-bold text-gray-900 leading-tight'>
+              Marketplace Orders
+            </h1>
+            <p className='text-base text-gray-500 mt-1'>
+              Fiverr &amp; marketplace client management
+            </p>
           </div>
-        ))}
-      </div>
 
-      {/* Orders list */}
-      <section
-        aria-label='Marketplace orders list'
-        className='bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden'
-      >
-        {/* Mobile */}
-        <div className='sm:hidden p-4 space-y-3'>
-          {pageData.map((order) => (
-            <div key={order.id} role='listitem'>
-              <OrderCard
-                order={order}
-                onView={setViewingOrder}
-                onEdit={setEditingOrder}
-                onDelete={handleDelete}
+          <div className='flex items-center gap-3 flex-wrap'>
+            {/* CSV Upload */}
+            <input
+              ref={csvInputRef}
+              type='file'
+              accept='.csv'
+              className='hidden'
+              onChange={handleCsvUpload}
+              aria-label='Upload CSV'
+            />
+            <button
+              type='button'
+              onClick={() => csvInputRef.current?.click()}
+              className='group inline-flex cursor-pointer items-center gap-2 overflow-hidden px-5 py-2.5 text-sm font-semibold text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 hover:border-gray-300 transition-all duration-200 active:scale-[0.97]'
+            >
+              <MdUploadFile
+                className='text-lg shrink-0 transition-transform duration-300 ease-out group-hover:-translate-y-0.5'
+                aria-hidden='true'
               />
+              <span className='inline-block -translate-x-1 transition-transform duration-300 ease-out delay-100 group-hover:translate-x-0'>
+                Upload CSV
+              </span>
+            </button>
+
+            {/* Add New Project */}
+            <button
+              type='button'
+              onClick={() => setCreatingOrder(true)}
+              className='group inline-flex cursor-pointer items-center gap-2 overflow-hidden px-5 py-2.5 text-sm font-semibold text-white bg-orange-bg-cta rounded-lg hover:bg-[#e5501a] hover:shadow-[0_4px_14px_rgba(255,101,51,0.35)] transition-all duration-200 active:scale-[0.97]'
+            >
+              <MdAdd
+                className='text-lg shrink-0 transition-transform duration-300 ease-out group-hover:translate-x-1'
+                aria-hidden='true'
+              />
+              <span className='inline-block -translate-x-1 transition-transform duration-300 ease-out delay-100 group-hover:translate-x-0'>
+                Add New Project
+              </span>
+            </button>
+          </div>
+        </div>
+
+        {/* Stat Cards */}
+        <div className='grid grid-cols-1 sm:grid-cols-3 gap-5'>
+          {[
+            { label: 'Total Orders', value: orders.length },
+            { label: 'In Progress', value: inProgress },
+            { label: 'Completed', value: completed },
+          ].map(({ label, value }) => (
+            <div
+              key={label}
+              className='bg-white rounded-xl border border-gray-100 shadow-sm p-6'
+            >
+              <p className='text-sm font-medium text-gray-500 mb-2'>{label}</p>
+              <p className='text-4xl font-bold text-gray-900'>{value}</p>
             </div>
           ))}
         </div>
 
-        {/* Desktop */}
-        <div className='hidden sm:block overflow-x-auto'>
-          <AdminTable columns={TABLE_COLS} ariaLabel='Marketplace orders list'>
+        {/* Orders list */}
+        <section
+          aria-label='Marketplace orders list'
+          className='bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden'
+        >
+          {/* Mobile */}
+          <div className='sm:hidden p-4 space-y-3'>
             {pageData.map((order) => (
-              <OrderRow
-                key={order.id}
-                order={order}
-                onView={setViewingOrder}
-                onEdit={setEditingOrder}
-                onDelete={handleDelete}
-              />
+              <div key={order.id} role='listitem'>
+                <OrderCard
+                  order={order}
+                  onView={setViewingOrder}
+                  onEdit={setEditingOrder}
+                  onDelete={handleDelete}
+                />
+              </div>
             ))}
-          </AdminTable>
-        </div>
+          </div>
 
-        {/* Bottom bar */}
-        <div className='flex flex-col items-center gap-3 px-5 py-4 border-t border-gray-100 sm:flex-row sm:items-center sm:justify-between'>
-          <p className='text-sm text-gray-400 shrink-0'>
-            Showing{' '}
-            <span className='font-semibold text-gray-700'>
-              {rangeStart} to {rangeEnd}
-            </span>{' '}
-            of{' '}
-            <span className='font-semibold text-gray-700'>{orders.length}</span>{' '}
-            orders
-          </p>
-          <nav aria-label='Pagination'>
-            <Pagination
-              page={page}
-              totalPages={totalPages}
-              pageRange={pageRange}
-              onPage={handlePage}
-            />
-          </nav>
-        </div>
-      </section>
-    </div>
+          {/* Desktop */}
+          <div className='hidden sm:block overflow-x-auto'>
+            <AdminTable
+              columns={TABLE_COLS}
+              ariaLabel='Marketplace orders list'
+            >
+              {pageData.map((order) => (
+                <OrderRow
+                  key={order.id}
+                  order={order}
+                  onView={setViewingOrder}
+                  onEdit={setEditingOrder}
+                  onDelete={handleDelete}
+                />
+              ))}
+            </AdminTable>
+          </div>
+
+          {/* Bottom bar */}
+          <div className='flex flex-col items-center gap-3 px-5 py-4 border-t border-gray-100 sm:flex-row sm:items-center sm:justify-between'>
+            <p className='text-sm text-gray-400 shrink-0'>
+              Showing{' '}
+              <span className='font-semibold text-gray-700'>
+                {rangeStart} to {rangeEnd}
+              </span>{' '}
+              of{' '}
+              <span className='font-semibold text-gray-700'>
+                {orders.length}
+              </span>{' '}
+              orders
+            </p>
+            <nav aria-label='Pagination'>
+              <Pagination
+                page={page}
+                totalPages={totalPages}
+                pageRange={pageRange}
+                onPage={handlePage}
+              />
+            </nav>
+          </div>
+        </section>
+      </div>
+
+      {/* Delete confirmation modal */}
+      {deleteTarget && (
+        <DeleteModal
+          order={deleteTarget}
+          onConfirm={confirmDelete}
+          onCancel={() => setDeleteTarget(null)}
+        />
+      )}
+    </>
   );
 }
