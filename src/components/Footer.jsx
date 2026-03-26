@@ -45,9 +45,13 @@ const Footer = () => {
         });
       } else if (!atBottom && isShowing) {
         isShowing = false;
-        // Kill any running tween first — prevents shaking
-        gsap.killTweensOf(targets);
-        gsap.set(targets, { y: 600, opacity: 0 });
+        gsap.to(targets, {
+          y: 600,
+          opacity: 0,
+          duration: 0.2,
+          ease: 'power4.in',
+          overwrite: true,
+        });
       }
     };
 
