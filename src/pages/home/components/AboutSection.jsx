@@ -50,7 +50,7 @@ const AboutSection = () => {
           {/* Image Side */}
           <div className='w-[45%] shrink-0'>
             <img
-              src='/WhoWeare/whoweare.png'
+              src='/alvaro-reyes-LXx1hwmp67E-unsplash.jpg'
               alt='Team working in office'
               className='w-full h-auto object-cover rounded-sm'
             />

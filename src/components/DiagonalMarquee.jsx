@@ -23,8 +23,8 @@ const LogoItem = () => (
       flexShrink: 0,
     }}
   >
-    <img 
-      src="/Diagonal/maktech_logo.png" 
+    <img
+      src="/Diagonal/maktech_logo.png"
       alt="maktech logo"
       style={{
         width: "100px",
@@ -36,7 +36,7 @@ const LogoItem = () => (
   </div>
 );
 
-const LogoTrack = ({ duration = 22 }) => {
+const LogoTrack = ({ duration = 22, reverse = false }) => {
   const logos = Array(LOGO_COUNT).fill(null);
   return (
     /*
@@ -48,7 +48,7 @@ const LogoTrack = ({ duration = 22 }) => {
       style={{
         display: "flex",
         width: "max-content",
-        animation: `marquee-logos ${duration}s linear infinite`,
+        animation: `${reverse ? "marquee-logos-reverse" : "marquee-logos"} ${duration}s linear infinite`,
         willChange: "transform",
       }}
     >
@@ -71,6 +71,10 @@ const DiagonalMarquee = () => {
         @keyframes marquee-logos {
           0%   { transform: translateX(0); }
           100% { transform: translateX(-50%); }
+        }
+        @keyframes marquee-logos-reverse {
+          0%   { transform: translateX(-50%); }
+          100% { transform: translateX(0); }
         }
       `}</style>
 
@@ -123,7 +127,7 @@ const DiagonalMarquee = () => {
             left: "50%",
             width: "160%",
             height: "50px",
-            transform: "translate(-50%, -50%) rotate(-6deg)",
+            transform: "translate(-50%, -70%) rotate(-6deg)",
             overflow: "hidden",
             display: "flex",
             alignItems: "center",
@@ -135,8 +139,7 @@ const DiagonalMarquee = () => {
             boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1)",
           }}
         >
-          <LogoTrack duration={30} />{" "}
-          {/* slightly different speed for visual depth */}
+          <LogoTrack duration={30} reverse={true} />
         </div>
       </div>
     </>

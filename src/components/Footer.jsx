@@ -248,28 +248,28 @@ const Footer = () => {
               </h3>
               <ul className='space-y-3'>
                 <li>
-                  <a
-                    href='#'
+                  <NavLink
+                    to='/about'
                     className='text-gray-400 hover:text-white transition-colors duration-200 text-sm'
                   >
                     About Us
-                  </a>
+                  </NavLink>
                 </li>
                 <li>
-                  <a
-                    href='#'
+                  <NavLink
+                    to='/services'
                     className='text-gray-400 hover:text-white transition-colors duration-200 text-sm'
                   >
                     Services
-                  </a>
+                  </NavLink>
                 </li>
                 <li>
-                  <a
-                    href='#'
+                  <NavLink
+                    to='/case-study'
                     className='text-gray-400 hover:text-white transition-colors duration-200 text-sm'
                   >
                     Case Study&apos;s
-                  </a>
+                  </NavLink>
                 </li>
                 <li>
                   <NavLink
@@ -449,42 +449,30 @@ const Footer = () => {
             </button>
             {openSection === 'quicklink' && (
               <div className='pb-4 space-y-3'>
-                <a
-                  href='#'
+                <NavLink
+                  to='/about'
                   className='block text-gray-400 hover:text-white transition-colors duration-200 text-sm'
                 >
                   About Us
-                </a>
-                <a
-                  href='#'
+                </NavLink>
+                <NavLink
+                  to='/services'
                   className='block text-gray-400 hover:text-white transition-colors duration-200 text-sm'
                 >
                   Services
-                </a>
-                <a
-                  href='#'
+                </NavLink>
+                <NavLink
+                  to='/case-study'
                   className='block text-gray-400 hover:text-white transition-colors duration-200 text-sm'
                 >
                   Case Study&apos;s
-                </a>
+                </NavLink>
                 <NavLink
                   to='/contact'
                   className='block text-gray-400 hover:text-white transition-colors duration-200 text-sm'
                 >
                   Contact
                 </NavLink>
-                {/* <a
-                  href='#'
-                  className='block text-gray-400 hover:text-white transition-colors duration-200 text-sm'
-                >
-                  Label here
-                </a>
-                <a
-                  href='#'
-                  className='block text-gray-400 hover:text-white transition-colors duration-200 text-sm'
-                >
-                  Label here
-                </a> */}
               </div>
             )}
           </div>

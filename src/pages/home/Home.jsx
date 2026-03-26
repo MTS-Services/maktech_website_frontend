@@ -4,9 +4,9 @@ import WhatWeDo from "./components/WhatWeDo";
 import OurWork from "./components/OurWork";
 import WhyChooseUs from "./components/WhyChooseUs";
 import Testimonials from "../../components/Testimonials";
-import FAQ from "../../components/FAQ";
 import ContactUs from "../../components/ContactUs";
 import DiagonalMarquee from "../../components/DiagonalMarquee";
+import PricingFAQ from "../pricing/components/PricingFAQ";
 
 const Home = () => {
   return (
@@ -18,7 +18,7 @@ const Home = () => {
       <OurWork />
       <WhyChooseUs />
       <Testimonials className="py-16 xl:py-20 2xl:py-24" />
-      <FAQ />
+      <PricingFAQ/>
       <ContactUs />
     </div>
   );
