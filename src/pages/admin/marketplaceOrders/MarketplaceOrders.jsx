@@ -798,24 +798,53 @@ const OrderDetail = ({ order, onBack }) => {
 };
 
 // ─── Kebab action menu ───────────────────────────────────────────────────────
+const DROPDOWN_W = 144; // px — matches w-36
+const DROPDOWN_H = 120; // px — approx height of the 3-item menu
+
 const ActionMenu = ({ order, onView, onEdit, onDelete }) => {
   const [open, setOpen] = useState(false);
-  const ref = useRef(null);
+  const [pos, setPos] = useState({ top: 0, left: 0, openUp: false });
+  const btnRef = useRef(null);
+
+  const handleToggle = () => {
+    if (!open && btnRef.current) {
+      const rect = btnRef.current.getBoundingClientRect();
+      const spaceBelow = window.innerHeight - rect.bottom;
+      const openUp = spaceBelow < DROPDOWN_H + 8;
+      setPos({
+        top: openUp ? rect.top - DROPDOWN_H - 4 : rect.bottom + 4,
+        left: rect.right - DROPDOWN_W,
+        openUp,
+      });
+    }
+    setOpen((v) => !v);
+  };
 
   useEffect(() => {
     if (!open) return;
-    const handleOutside = (e) => {
-      if (ref.current && !ref.current.contains(e.target)) setOpen(false);
+    const close = (e) => {
+      if (
+        btnRef.current &&
+        !btnRef.current.closest('[data-action-menu]')?.contains(e.target)
+      ) {
+        setOpen(false);
+      }
     };
-    document.addEventListener('mousedown', handleOutside);
-    return () => document.removeEventListener('mousedown', handleOutside);
+    const onScroll = () => setOpen(false);
+    document.addEventListener('mousedown', close);
+    document.addEventListener('scroll', onScroll, true);
+    return () => {
+      document.removeEventListener('mousedown', close);
+      document.removeEventListener('scroll', onScroll, true);
+    };
   }, [open]);
 
   return (
-    <div ref={ref} className='relative inline-flex'>
+    <div data-action-menu className='inline-flex'>
       <button
+        ref={btnRef}
         type='button'
-        onClick={() => setOpen((v) => !v)}
+        onClick={handleToggle}
         aria-label='Actions'
         aria-haspopup='true'
         aria-expanded={open}
@@ -824,57 +853,72 @@ const ActionMenu = ({ order, onView, onEdit, onDelete }) => {
         <MdMoreVert className='text-xl' aria-hidden='true' />
       </button>
 
-      {open && (
-        <div
-          role='menu'
-          className='absolute right-0 z-50 mt-1 w-36 origin-top-right rounded-xl border border-gray-100 bg-white shadow-lg ring-1 ring-black/5 py-1'
-          style={{ top: '100%' }}
-        >
-          <button
-            type='button'
-            role='menuitem'
-            onClick={() => {
-              setOpen(false);
-              onView(order);
-            }}
-            className='flex w-full items-center gap-2.5 px-3 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-600 transition-colors duration-100'
-          >
-            <MdRemoveRedEye
-              className='text-base shrink-0 text-orange-400'
-              aria-hidden='true'
-            />
-            View
-          </button>
-          <button
-            type='button'
-            role='menuitem'
-            onClick={() => {
-              setOpen(false);
-              onEdit(order);
-            }}
-            className='flex w-full items-center gap-2.5 px-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-100'
-          >
-            <MdEdit
-              className='text-base shrink-0 text-blue-400'
-              aria-hidden='true'
-            />
-            Edit
-          </button>
-          <div className='my-1 border-t border-gray-100' />
-          <button
-            type='button'
-            role='menuitem'
-            onClick={() => {
-              setOpen(false);
-              onDelete(order.id);
-            }}
-            className='flex w-full items-center gap-2.5 px-3 py-2 text-sm text-red-500 hover:bg-red-50 transition-colors duration-100'
-          >
-            <MdDelete className='text-base shrink-0' aria-hidden='true' />
-            Delete
-          </button>
-        </div>
-      )}
+      {open &&
+        typeof document !== 'undefined' &&
+        (() => {
+          const el = (
+            <div
+              role='menu'
+              style={{
+                position: 'fixed',
+                top: pos.top,
+                left: pos.left,
+                width: DROPDOWN_W,
+                zIndex: 9999,
+              }}
+              className='rounded-xl border border-gray-100 bg-white shadow-xl ring-1 ring-black/5 py-1'
+            >
+              <button
+                type='button'
+                role='menuitem'
+                onClick={() => {
+                  setOpen(false);
+                  onView(order);
+                }}
+                className='flex w-full items-center gap-2.5 px-3 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-600 transition-colors duration-100'
+              >
+                <MdRemoveRedEye
+                  className='text-base shrink-0 text-orange-400'
+                  aria-hidden='true'
+                />
+                View
+              </button>
+              <button
+                type='button'
+                role='menuitem'
+                onClick={() => {
+                  setOpen(false);
+                  onEdit(order);
+                }}
+                className='flex w-full items-center gap-2.5 px-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-100'
+              >
+                <MdEdit
+                  className='text-base shrink-0 text-blue-400'
+                  aria-hidden='true'
+                />
+                Edit
+              </button>
+              <div className='my-1 border-t border-gray-100' />
+              <button
+                type='button'
+                role='menuitem'
+                onClick={() => {
+                  setOpen(false);
+                  onDelete(order.id);
+                }}
+                className='flex w-full items-center gap-2.5 px-3 py-2 text-sm text-red-500 hover:bg-red-50 transition-colors duration-100'
+              >
+                <MdDelete className='text-base shrink-0' aria-hidden='true' />
+                Delete
+              </button>
+            </div>
+          );
+
+          // Render into document.body via a portal-like approach using a hidden container
+          // Since we can't import createPortal here, we inline-render fixed-positioned element
+          // which escapes any overflow:hidden ancestor naturally when position:fixed is used.
+          return el;
+        })()}
     </div>
   );
 };
