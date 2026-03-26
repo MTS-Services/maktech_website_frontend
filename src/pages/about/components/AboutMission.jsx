@@ -101,12 +101,12 @@ const AboutMission = () => (
           <RowLabel>{label}</RowLabel>
 
           <div className='pt-6 lg:pt-14 pb-12 lg:pb-14'>
-            <div className='grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-10'>
-              <h2 className='text-white/80 text-xl sm:text-2xl xl:text-2xl font-semibold leading-snug'>
-                {heading}
-              </h2>
-            </div>
-            <div className='mt-8 sm:mt-10 grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-10'>
+            <h2 className='text-white/80 text-xl sm:text-2xl xl:text-2xl font-semibold leading-snug sm:w-[calc(50%-1.25rem)]'>
+              {heading}
+            </h2>
+            <div
+              className={`mt-8 sm:mt-10 grid grid-cols-1 gap-6 sm:gap-10 ${cols.length > 1 ? 'sm:grid-cols-2' : 'sm:max-w-[calc(50%-1.25rem)]'}`}
+            >
               {cols.map((text, i) => (
                 <p key={i} className='text-white/60 text-base leading-relaxed'>
                   {text}
@@ -121,7 +121,7 @@ const AboutMission = () => (
       <div className='border-t border-white/10 grid grid-cols-1 lg:grid-cols-[200px_1fr] gap-x-10'>
         <RowLabel>Our Core Values</RowLabel>
 
-        <div className='pt-6 lg:pt-14 pb-12 lg:pb-14 grid grid-cols-1 sm:grid-cols-2 gap-8 lg:gap-x-10 lg:gap-y-10'>
+        <div className='pt-6 lg:pt-14 pb-12 lg:pb-14 grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-10'>
           {CORE_VALUES.map(({ title, description }) => (
             <div key={title} className='flex flex-col gap-3'>
               <h3 className='text-white/80 text-lg font-semibold'>{title}</h3>
