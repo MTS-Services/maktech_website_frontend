@@ -19,12 +19,14 @@ const INITIAL_ORDERS = [
   {
     id: 1,
     orderId: '#MP1',
+    department: 'Laravel',
     projectName: 'E-commerce Store Setup',
     clientName: 'John Carter',
     date: '2026-01-10',
     account: 'Fiverr Pro',
+    salesStatus: 'Won',
     leadingPerson: 'Kamrul H.',
-    deliveryLastDate: '2026-02-10',
+    deliveryLastDate: '2026-04-10',
     sheetLink: 'https://docs.google.com/spreadsheets',
     orderedBy: 'John Carter',
     tableLeader: 'Rafi A.',
@@ -41,12 +43,14 @@ const INITIAL_ORDERS = [
   {
     id: 2,
     orderId: '#MP2',
+    department: 'Graphics',
     projectName: 'Logo & Brand Kit',
     clientName: 'Maria Garcia',
     date: '2026-01-18',
     account: 'Fiverr',
+    salesStatus: 'Negotiating',
     leadingPerson: 'Sadia K.',
-    deliveryLastDate: '2026-02-05',
+    deliveryLastDate: '2026-04-15',
     sheetLink: 'https://docs.google.com/spreadsheets',
     orderedBy: 'Maria Garcia',
     tableLeader: 'Tanvir M.',
@@ -63,12 +67,14 @@ const INITIAL_ORDERS = [
   {
     id: 3,
     orderId: '#MP3',
+    department: 'Marketing',
     projectName: 'SEO Audit & Strategy',
     clientName: 'David Kim',
     date: '2026-01-22',
     account: 'Upwork',
+    salesStatus: 'Won',
     leadingPerson: 'Nafis R.',
-    deliveryLastDate: '2026-03-01',
+    deliveryLastDate: '2026-03-20',
     sheetLink: 'https://docs.google.com/spreadsheets',
     orderedBy: 'David Kim',
     tableLeader: 'Kamrul H.',
@@ -87,13 +93,19 @@ const INITIAL_ORDERS = [
 const PAGE_SIZE = 8;
 
 const TABLE_COLS = [
+  { label: 'Department' },
   { label: 'Order ID' },
-  { label: 'Project Name' },
-  { label: 'Client' },
   { label: 'Date' },
-  { label: 'Delivery Date' },
-  { label: 'Total' },
+  { label: 'Account' },
+  { label: 'Project Name' },
+  { label: 'Client Name' },
+  { label: 'Sales Status' },
   { label: 'OPS Status' },
+  { label: 'Team' },
+  { label: 'Delivery Last Date' },
+  { label: 'Countdown' },
+  { label: 'Sheet Link' },
+  { label: 'Total Amount' },
   { label: 'Actions' },
 ];
 
@@ -105,7 +117,50 @@ const STATUS_STYLES = {
 };
 const getStatusStyle = (s) => STATUS_STYLES[s] ?? 'bg-gray-100 text-gray-600';
 
+const SALES_STATUS_STYLES = {
+  Won: 'bg-green-50 text-green-700',
+  Negotiating: 'bg-blue-50 text-blue-700',
+  Lead: 'bg-purple-50 text-purple-700',
+  Lost: 'bg-red-50 text-red-600',
+  'On Hold': 'bg-amber-50 text-amber-700',
+};
+const getSalesStatusStyle = (s) =>
+  SALES_STATUS_STYLES[s] ?? 'bg-gray-100 text-gray-600';
+
 const OPS_STATUS_OPTIONS = ['Pending', 'In Progress', 'Completed', 'Cancelled'];
+const SALES_STATUS_OPTIONS = ['Lead', 'Negotiating', 'Won', 'Lost', 'On Hold'];
+
+const DEPARTMENT_OPTIONS = [
+  'UI/UX',
+  'Graphics',
+  'Laravel',
+  'Flutter',
+  'MERN',
+  'WordPress',
+  'Marketing',
+  'Shopify',
+  'Wix',
+  'SEO',
+];
+
+const getCountdown = (deliveryDate) => {
+  if (!deliveryDate) return { text: '—', cls: 'text-gray-400' };
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const delivery = new Date(deliveryDate);
+  delivery.setHours(0, 0, 0, 0);
+  const diff = Math.ceil((delivery - today) / (1000 * 60 * 60 * 24));
+  if (diff < 0)
+    return {
+      text: `${Math.abs(diff)}d overdue`,
+      cls: 'text-red-500 font-semibold',
+    };
+  if (diff === 0)
+    return { text: 'Due today', cls: 'text-amber-500 font-semibold' };
+  if (diff <= 3)
+    return { text: `${diff}d left`, cls: 'text-amber-500 font-medium' };
+  return { text: `${diff}d left`, cls: 'text-green-600 font-medium' };
+};
 
 const TEAM_OPTIONS = [
   'UI/UX',
@@ -133,11 +188,13 @@ const REQUIRED_STAR = (
 );
 
 const EMPTY_FORM = {
+  department: '',
   projectName: '',
   clientName: '',
   orderId: '',
   date: '',
   account: '',
+  salesStatus: 'Lead',
   leadingPerson: '',
   deliveryLastDate: '',
   sheetLink: '',
@@ -183,6 +240,12 @@ const SelectField = ({ id, name, value, onChange, options, required }) => (
 const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
   const [form, setForm] = useState(initial);
 
+  useEffect(() => {
+    document
+      .querySelector('[data-lenis-prevent]')
+      ?.scrollTo({ top: 0, behavior: 'instant' });
+  }, []);
+
   const handleChange = (e) =>
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
 
@@ -210,6 +273,21 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
 
         <form onSubmit={handleSubmit} noValidate>
           <div className='grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4 mb-4'>
+            {/* Department */}
+            <div>
+              <label htmlFor='mp-department' className={LABEL_CLS}>
+                Department
+              </label>
+              <SelectField
+                id='mp-department'
+                name='department'
+                value={form.department}
+                onChange={handleChange}
+                options={DEPARTMENT_OPTIONS}
+                required={false}
+              />
+            </div>
+
             {/* Project Name */}
             <div>
               <label htmlFor='mp-projectName' className={LABEL_CLS}>
@@ -482,6 +560,21 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
               />
             </div>
 
+            {/* Sales Status */}
+            <div>
+              <label htmlFor='mp-salesStatus' className={LABEL_CLS}>
+                Sales Status
+              </label>
+              <SelectField
+                id='mp-salesStatus'
+                name='salesStatus'
+                value={form.salesStatus}
+                onChange={handleChange}
+                options={SALES_STATUS_OPTIONS}
+                required
+              />
+            </div>
+
             {/* OPS Status */}
             <div>
               <label htmlFor='mp-opsStatus' className={LABEL_CLS}>
@@ -541,159 +634,167 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
 };
 
 // ─── Order Detail View ────────────────────────────────────────────────────────
-const OrderDetail = ({ order, onBack }) => (
-  <div className='space-y-6 pb-8'>
-    <button
-      type='button'
-      onClick={onBack}
-      className='inline-flex cursor-pointer items-center gap-1.5 text-sm text-gray-500 hover:text-gray-800 transition-colors duration-150 group'
-    >
-      <MdArrowBack
-        className='text-base group-hover:-translate-x-0.5 transition-transform duration-150'
-        aria-hidden='true'
-      />
-      Back to Marketplace Orders
-    </button>
+const OrderDetail = ({ order, onBack }) => {
+  useEffect(() => {
+    document
+      .querySelector('[data-lenis-prevent]')
+      ?.scrollTo({ top: 0, behavior: 'instant' });
+  }, []);
 
-    <div className='bg-white rounded-xl border border-gray-100 shadow-sm p-6 sm:p-8'>
-      <div className='flex items-start justify-between gap-4 mb-6'>
-        <div>
-          <h1 className='text-xl font-bold text-gray-900'>
-            {order.projectName}
-          </h1>
-          <p className='text-sm text-gray-500 mt-0.5'>
-            {order.orderId} · {order.account}
-          </p>
-        </div>
-        <span
-          className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold shrink-0 ${getStatusStyle(order.opsStatus)}`}
-        >
-          {order.opsStatus}
-        </span>
-      </div>
+  return (
+    <div className='space-y-6 pb-8'>
+      <button
+        type='button'
+        onClick={onBack}
+        className='inline-flex cursor-pointer items-center gap-1.5 text-sm text-gray-500 hover:text-gray-800 transition-colors duration-150 group'
+      >
+        <MdArrowBack
+          className='text-base group-hover:-translate-x-0.5 transition-transform duration-150'
+          aria-hidden='true'
+        />
+        Back to Marketplace Orders
+      </button>
 
-      <dl className='divide-y divide-gray-100'>
-        <div className='grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4 py-5 first:pt-0'>
+      <div className='bg-white rounded-xl border border-gray-100 shadow-sm p-6 sm:p-8'>
+        <div className='flex items-start justify-between gap-4 mb-6'>
           <div>
-            <dt className='text-sm text-gray-400 mb-1'>Client Name</dt>
-            <dd className='text-base text-gray-800 font-medium'>
-              {order.clientName}
-            </dd>
+            <h1 className='text-xl font-bold text-gray-900'>
+              {order.projectName}
+            </h1>
+            <p className='text-sm text-gray-500 mt-0.5'>
+              {order.orderId} · {order.account}
+            </p>
           </div>
-          <div>
-            <dt className='text-sm text-gray-400 mb-1'>Ordered By</dt>
-            <dd className='text-base text-gray-800 font-medium'>
-              {order.orderedBy}
-            </dd>
-          </div>
+          <span
+            className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold shrink-0 ${getStatusStyle(order.opsStatus)}`}
+          >
+            {order.opsStatus}
+          </span>
         </div>
-        <div className='grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4 py-5'>
-          <div>
-            <dt className='text-sm text-gray-400 mb-1'>Date</dt>
-            <dd className='text-base text-gray-800 font-medium'>
-              {order.date}
-            </dd>
-          </div>
-          <div>
-            <dt className='text-sm text-gray-400 mb-1'>Delivery Last Date</dt>
-            <dd className='text-base text-gray-800 font-medium'>
-              {order.deliveryLastDate}
-            </dd>
-          </div>
-        </div>
-        <div className='grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4 py-5'>
-          <div>
-            <dt className='text-sm text-gray-400 mb-1'>Account</dt>
-            <dd className='text-base text-gray-800 font-medium'>
-              {order.account}
-            </dd>
-          </div>
-          <div>
-            <dt className='text-sm text-gray-400 mb-1'>Leading Person</dt>
-            <dd className='text-base text-gray-800 font-medium'>
-              {order.leadingPerson}
-            </dd>
-          </div>
-        </div>
-        <div className='grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4 py-5'>
-          <div>
-            <dt className='text-sm text-gray-400 mb-1'>Table Leader</dt>
-            <dd className='text-base text-gray-800 font-medium'>
-              {order.tableLeader}
-            </dd>
-          </div>
-          <div>
-            <dt className='text-sm text-gray-400 mb-1'>Assign Team</dt>
-            <dd className='text-base text-gray-800 font-medium'>
-              {order.assignTeam || '—'}
-            </dd>
-          </div>
-        </div>
-        <div className='grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4 py-5'>
-          <div>
-            <dt className='text-sm text-gray-400 mb-1'>Sales Comment</dt>
-            <dd className='text-base text-gray-800'>
-              {order.salesComment || '—'}
-            </dd>
-          </div>
-          <div>
-            <dt className='text-sm text-gray-400 mb-1'>Meeting Schedule</dt>
-            <dd className='text-base text-gray-800'>
-              {order.meetingSchedule || '—'}
-            </dd>
-          </div>
-        </div>
-        <div className='grid grid-cols-2 sm:grid-cols-4 gap-x-8 gap-y-4 py-5'>
-          <div>
-            <dt className='text-sm text-gray-400 mb-1'>Order Amount</dt>
-            <dd className='text-base text-gray-800 font-semibold'>
-              {order.orderAmount}
-            </dd>
-          </div>
-          <div>
-            <dt className='text-sm text-gray-400 mb-1'>After Fiverr</dt>
-            <dd className='text-base text-gray-800 font-medium'>
-              {order.afterFiverr}
-            </dd>
-          </div>
-          <div>
-            <dt className='text-sm text-gray-400 mb-1'>Bonus</dt>
-            <dd className='text-base text-gray-800 font-medium'>
-              {order.bonus}
-            </dd>
-          </div>
-          <div>
-            <dt className='text-sm text-gray-400 mb-1'>After Bounce</dt>
-            <dd className='text-base text-gray-800 font-medium'>
-              {order.afterBounce}
-            </dd>
-          </div>
-        </div>
-        <div className='grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4 py-5'>
-          <div>
-            <dt className='text-sm text-gray-400 mb-1'>Total</dt>
-            <dd className='text-lg text-gray-900 font-bold'>{order.total}</dd>
-          </div>
-          {order.sheetLink && (
+
+        <dl className='divide-y divide-gray-100'>
+          <div className='grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4 py-5 first:pt-0'>
             <div>
-              <dt className='text-sm text-gray-400 mb-1'>Sheet Link</dt>
-              <dd>
-                <a
-                  href={order.sheetLink}
-                  target='_blank'
-                  rel='noreferrer noopener'
-                  className='text-sm text-blue-500 hover:underline break-all'
-                >
-                  Open Sheet
-                </a>
+              <dt className='text-sm text-gray-400 mb-1'>Client Name</dt>
+              <dd className='text-base text-gray-800 font-medium'>
+                {order.clientName}
               </dd>
             </div>
-          )}
-        </div>
-      </dl>
+            <div>
+              <dt className='text-sm text-gray-400 mb-1'>Ordered By</dt>
+              <dd className='text-base text-gray-800 font-medium'>
+                {order.orderedBy}
+              </dd>
+            </div>
+          </div>
+          <div className='grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4 py-5'>
+            <div>
+              <dt className='text-sm text-gray-400 mb-1'>Date</dt>
+              <dd className='text-base text-gray-800 font-medium'>
+                {order.date}
+              </dd>
+            </div>
+            <div>
+              <dt className='text-sm text-gray-400 mb-1'>Delivery Last Date</dt>
+              <dd className='text-base text-gray-800 font-medium'>
+                {order.deliveryLastDate}
+              </dd>
+            </div>
+          </div>
+          <div className='grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4 py-5'>
+            <div>
+              <dt className='text-sm text-gray-400 mb-1'>Account</dt>
+              <dd className='text-base text-gray-800 font-medium'>
+                {order.account}
+              </dd>
+            </div>
+            <div>
+              <dt className='text-sm text-gray-400 mb-1'>Leading Person</dt>
+              <dd className='text-base text-gray-800 font-medium'>
+                {order.leadingPerson}
+              </dd>
+            </div>
+          </div>
+          <div className='grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4 py-5'>
+            <div>
+              <dt className='text-sm text-gray-400 mb-1'>Table Leader</dt>
+              <dd className='text-base text-gray-800 font-medium'>
+                {order.tableLeader}
+              </dd>
+            </div>
+            <div>
+              <dt className='text-sm text-gray-400 mb-1'>Assign Team</dt>
+              <dd className='text-base text-gray-800 font-medium'>
+                {order.assignTeam || '—'}
+              </dd>
+            </div>
+          </div>
+          <div className='grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4 py-5'>
+            <div>
+              <dt className='text-sm text-gray-400 mb-1'>Sales Comment</dt>
+              <dd className='text-base text-gray-800'>
+                {order.salesComment || '—'}
+              </dd>
+            </div>
+            <div>
+              <dt className='text-sm text-gray-400 mb-1'>Meeting Schedule</dt>
+              <dd className='text-base text-gray-800'>
+                {order.meetingSchedule || '—'}
+              </dd>
+            </div>
+          </div>
+          <div className='grid grid-cols-2 sm:grid-cols-4 gap-x-8 gap-y-4 py-5'>
+            <div>
+              <dt className='text-sm text-gray-400 mb-1'>Order Amount</dt>
+              <dd className='text-base text-gray-800 font-semibold'>
+                {order.orderAmount}
+              </dd>
+            </div>
+            <div>
+              <dt className='text-sm text-gray-400 mb-1'>After Fiverr</dt>
+              <dd className='text-base text-gray-800 font-medium'>
+                {order.afterFiverr}
+              </dd>
+            </div>
+            <div>
+              <dt className='text-sm text-gray-400 mb-1'>Bonus</dt>
+              <dd className='text-base text-gray-800 font-medium'>
+                {order.bonus}
+              </dd>
+            </div>
+            <div>
+              <dt className='text-sm text-gray-400 mb-1'>After Bounce</dt>
+              <dd className='text-base text-gray-800 font-medium'>
+                {order.afterBounce}
+              </dd>
+            </div>
+          </div>
+          <div className='grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4 py-5'>
+            <div>
+              <dt className='text-sm text-gray-400 mb-1'>Total</dt>
+              <dd className='text-lg text-gray-900 font-bold'>{order.total}</dd>
+            </div>
+            {order.sheetLink && (
+              <div>
+                <dt className='text-sm text-gray-400 mb-1'>Sheet Link</dt>
+                <dd>
+                  <a
+                    href={order.sheetLink}
+                    target='_blank'
+                    rel='noreferrer noopener'
+                    className='text-sm text-blue-500 hover:underline break-all'
+                  >
+                    Open Sheet
+                  </a>
+                </dd>
+              </div>
+            )}
+          </div>
+        </dl>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 // ─── Mobile card ──────────────────────────────────────────────────────────────
 const OrderCard = ({ order, onView, onEdit, onDelete }) => (
@@ -713,17 +814,58 @@ const OrderCard = ({ order, onView, onEdit, onDelete }) => (
     </div>
     <dl className='grid grid-cols-2 gap-y-2 gap-x-3 text-sm mb-3'>
       <div>
+        <dt className='text-xs text-gray-400'>Department</dt>
+        <dd className='text-gray-700'>{order.department || '—'}</dd>
+      </div>
+      <div>
         <dt className='text-xs text-gray-400'>Date</dt>
         <dd className='text-gray-700'>{order.date}</dd>
+      </div>
+      <div>
+        <dt className='text-xs text-gray-400'>Account</dt>
+        <dd className='text-gray-700'>{order.account}</dd>
+      </div>
+      <div>
+        <dt className='text-xs text-gray-400'>Sales Status</dt>
+        <dd>
+          <span
+            className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold ${getSalesStatusStyle(order.salesStatus)}`}
+          >
+            {order.salesStatus || '—'}
+          </span>
+        </dd>
       </div>
       <div>
         <dt className='text-xs text-gray-400'>Delivery</dt>
         <dd className='text-gray-700'>{order.deliveryLastDate}</dd>
       </div>
       <div>
+        <dt className='text-xs text-gray-400'>Countdown</dt>
+        <dd
+          className={`font-medium ${getCountdown(order.deliveryLastDate).cls}`}
+        >
+          {getCountdown(order.deliveryLastDate).text}
+        </dd>
+      </div>
+      <div>
         <dt className='text-xs text-gray-400'>Total</dt>
         <dd className='text-gray-700 font-medium'>{order.total}</dd>
       </div>
+      {order.sheetLink && (
+        <div>
+          <dt className='text-xs text-gray-400'>Sheet</dt>
+          <dd>
+            <a
+              href={order.sheetLink}
+              target='_blank'
+              rel='noreferrer noopener'
+              className='text-blue-500 hover:underline text-xs'
+            >
+              Open Sheet
+            </a>
+          </dd>
+        </div>
+      )}
     </dl>
     <div className='flex items-center gap-1'>
       <button
@@ -755,51 +897,81 @@ const OrderCard = ({ order, onView, onEdit, onDelete }) => (
 );
 
 // ─── Desktop table row ────────────────────────────────────────────────────────
-const OrderRow = ({ order, onView, onEdit, onDelete }) => (
-  <tr className='border-t border-gray-50 hover:bg-orange-50/30 transition-colors duration-150'>
-    <td className={`${TD} font-medium text-gray-900`}>{order.orderId}</td>
-    <td className={TD}>{order.projectName}</td>
-    <td className={TD}>{order.clientName}</td>
-    <td className={TD}>{order.date}</td>
-    <td className={TD}>{order.deliveryLastDate}</td>
-    <td className={`${TD} font-medium`}>{order.total}</td>
-    <td className='px-5 py-3.5'>
-      <span
-        className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold ${getStatusStyle(order.opsStatus)}`}
-      >
-        {order.opsStatus}
-      </span>
-    </td>
-    <td className='px-5 py-3.5'>
-      <div className='flex items-center gap-1'>
-        <button
-          type='button'
-          onClick={() => onView(order)}
-          aria-label={`View ${order.projectName}`}
-          className='p-1.5 rounded-lg text-orange-400 hover:bg-orange-50 transition-colors duration-150'
+const OrderRow = ({ order, onView, onEdit, onDelete }) => {
+  const countdown = getCountdown(order.deliveryLastDate);
+  return (
+    <tr className='border-t border-gray-50 hover:bg-orange-50/30 transition-colors duration-150'>
+      <td className={TD}>{order.department || '—'}</td>
+      <td className={`${TD} font-medium text-gray-900`}>{order.orderId}</td>
+      <td className={TD}>{order.date}</td>
+      <td className={TD}>{order.account}</td>
+      <td className={TD}>{order.projectName}</td>
+      <td className={TD}>{order.clientName}</td>
+      <td className='px-5 py-3.5'>
+        <span
+          className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold ${getSalesStatusStyle(order.salesStatus)}`}
         >
-          <MdRemoveRedEye className='text-lg' aria-hidden='true' />
-        </button>
-        <button
-          type='button'
-          onClick={() => onEdit(order)}
-          aria-label={`Edit ${order.projectName}`}
-          className='p-1.5 rounded-lg text-blue-400 hover:bg-blue-50 transition-colors duration-150'
+          {order.salesStatus || '—'}
+        </span>
+      </td>
+      <td className='px-5 py-3.5'>
+        <span
+          className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold ${getStatusStyle(order.opsStatus)}`}
         >
-          <MdEdit className='text-lg' aria-hidden='true' />
-        </button>
-        <button
-          type='button'
-          onClick={() => onDelete(order.id)}
-          aria-label={`Delete ${order.projectName}`}
-          className='p-1.5 rounded-lg text-red-400 hover:bg-red-50 transition-colors duration-150'
-        >
-          <MdDelete className='text-lg' aria-hidden='true' />
-        </button>
-      </div>
-    </td>
-  </tr>
-);
+          {order.opsStatus}
+        </span>
+      </td>
+      <td className={TD}>{order.assignTeam || '—'}</td>
+      <td className={TD}>{order.deliveryLastDate}</td>
+      <td className={`px-5 py-3.5 text-sm whitespace-nowrap ${countdown.cls}`}>
+        {countdown.text}
+      </td>
+      <td className='px-5 py-3.5'>
+        {order.sheetLink ? (
+          <a
+            href={order.sheetLink}
+            target='_blank'
+            rel='noreferrer noopener'
+            className='text-sm text-blue-500 hover:underline whitespace-nowrap'
+          >
+            Open Sheet
+          </a>
+        ) : (
+          <span className='text-sm text-gray-400'>—</span>
+        )}
+      </td>
+      <td className={`${TD} font-medium`}>{order.total}</td>
+      <td className='px-5 py-3.5'>
+        <div className='flex items-center gap-1'>
+          <button
+            type='button'
+            onClick={() => onView(order)}
+            aria-label={`View ${order.projectName}`}
+            className='p-1.5 rounded-lg text-orange-400 hover:bg-orange-50 transition-colors duration-150'
+          >
+            <MdRemoveRedEye className='text-lg' aria-hidden='true' />
+          </button>
+          <button
+            type='button'
+            onClick={() => onEdit(order)}
+            aria-label={`Edit ${order.projectName}`}
+            className='p-1.5 rounded-lg text-blue-400 hover:bg-blue-50 transition-colors duration-150'
+          >
+            <MdEdit className='text-lg' aria-hidden='true' />
+          </button>
+          <button
+            type='button'
+            onClick={() => onDelete(order.id)}
+            aria-label={`Delete ${order.projectName}`}
+            className='p-1.5 rounded-lg text-red-400 hover:bg-red-50 transition-colors duration-150'
+          >
+            <MdDelete className='text-lg' aria-hidden='true' />
+          </button>
+        </div>
+      </td>
+    </tr>
+  );
+};
 
 // ─── Page component ───────────────────────────────────────────────────────────
 export default function MarketplaceOrders() {

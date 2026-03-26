@@ -1,21 +1,21 @@
 /**
  * Root Application Component
- * 
+ *
  * This is the main App component that sets up routing for the entire application.
  * It uses React Router v6 with Router wrapper and routes imported from router.jsx.
- * 
+ *
  * Route Structure:
  * - / : Demo login page (entry point)
  * - /admin/* : Protected admin area with layout and nested routes
  *   - dashboard, emails, leads, orders, case-studies, blog, jobs, pricing
  */
 
-import { BrowserRouter as Router } from 'react-router-dom'
-import { useEffect } from 'react'
-import gsap from 'gsap'
-import AppRoutes from './route/router'
-import ScrollToTop from './components/ScrollToTop'
-import { setSmoothScrollInstance } from './utils/smoothScrollManager'
+import { BrowserRouter as Router } from 'react-router-dom';
+import { useEffect } from 'react';
+import gsap from 'gsap';
+import AppRoutes from './route/router';
+import ScrollToTop from './components/ScrollToTop';
+import { setSmoothScrollInstance } from './utils/smoothScrollManager';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -34,15 +34,36 @@ function App() {
 
     // Handle wheel events with GSAP animation
     const handleWheel = (e) => {
+      // If the wheel event originates inside a scrollable child element
+      // (e.g. the admin layout's overflow-y-auto container), let the
+      // browser handle it natively instead of intercepting it.
+      let el = e.target;
+      while (el && el !== document.body) {
+        const { overflow, overflowY } = window.getComputedStyle(el);
+        if (
+          /auto|scroll/.test(overflow + overflowY) &&
+          el.scrollHeight > el.clientHeight
+        ) {
+          return;
+        }
+        el = el.parentElement;
+      }
+
       e.preventDefault();
       targetScroll += e.deltaY * 0.8;
-      targetScroll = Math.max(0, Math.min(targetScroll, document.documentElement.scrollHeight - window.innerHeight));
-      
+      targetScroll = Math.max(
+        0,
+        Math.min(
+          targetScroll,
+          document.documentElement.scrollHeight - window.innerHeight,
+        ),
+      );
+
       // Use GSAP to animate scroll smoothly
       gsap.to(scrollData, {
         value: targetScroll,
         duration: 1.2,
-        ease: "power2.out",
+        ease: 'power2.out',
         onUpdate: updateScroll,
         overwrite: true, // Cancel previous animations
       });
@@ -58,14 +79,20 @@ function App() {
       const touchY = e.touches[0].clientY;
       const deltaY = touchStartY - touchY;
       targetScroll += deltaY * 1.5;
-      targetScroll = Math.max(0, Math.min(targetScroll, document.documentElement.scrollHeight - window.innerHeight));
+      targetScroll = Math.max(
+        0,
+        Math.min(
+          targetScroll,
+          document.documentElement.scrollHeight - window.innerHeight,
+        ),
+      );
       touchStartY = touchY;
-      
+
       // Use GSAP for smooth touch scrolling
       gsap.to(scrollData, {
         value: targetScroll,
         duration: 0.8,
-        ease: "power2.out",
+        ease: 'power2.out',
         onUpdate: updateScroll,
         overwrite: true,
       });
@@ -84,7 +111,7 @@ function App() {
           gsap.to(scrollData, {
             value: target,
             duration: 1,
-            ease: "power2.out",
+            ease: 'power2.out',
             onUpdate: updateScroll,
             overwrite: true,
           });
@@ -109,7 +136,7 @@ function App() {
       gsap.killTweensOf(scrollData);
       setSmoothScrollInstance(null);
     };
-  }, [])
+  }, []);
 
   return (
     <Router
