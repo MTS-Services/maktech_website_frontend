@@ -8,6 +8,7 @@ import {
   MdCheck,
   MdKeyboardArrowDown,
   MdUploadFile,
+  MdMoreVert,
 } from 'react-icons/md';
 import { toast } from 'react-toastify';
 import AdminTable from '../../../components/AdminTable';
@@ -796,6 +797,88 @@ const OrderDetail = ({ order, onBack }) => {
   );
 };
 
+// ─── Kebab action menu ───────────────────────────────────────────────────────
+const ActionMenu = ({ order, onView, onEdit, onDelete }) => {
+  const [open, setOpen] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const handleOutside = (e) => {
+      if (ref.current && !ref.current.contains(e.target)) setOpen(false);
+    };
+    document.addEventListener('mousedown', handleOutside);
+    return () => document.removeEventListener('mousedown', handleOutside);
+  }, [open]);
+
+  return (
+    <div ref={ref} className='relative inline-flex'>
+      <button
+        type='button'
+        onClick={() => setOpen((v) => !v)}
+        aria-label='Actions'
+        aria-haspopup='true'
+        aria-expanded={open}
+        className='p-1.5 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors duration-150'
+      >
+        <MdMoreVert className='text-xl' aria-hidden='true' />
+      </button>
+
+      {open && (
+        <div
+          role='menu'
+          className='absolute right-0 z-50 mt-1 w-36 origin-top-right rounded-xl border border-gray-100 bg-white shadow-lg ring-1 ring-black/5 py-1'
+          style={{ top: '100%' }}
+        >
+          <button
+            type='button'
+            role='menuitem'
+            onClick={() => {
+              setOpen(false);
+              onView(order);
+            }}
+            className='flex w-full items-center gap-2.5 px-3 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-600 transition-colors duration-100'
+          >
+            <MdRemoveRedEye
+              className='text-base shrink-0 text-orange-400'
+              aria-hidden='true'
+            />
+            View
+          </button>
+          <button
+            type='button'
+            role='menuitem'
+            onClick={() => {
+              setOpen(false);
+              onEdit(order);
+            }}
+            className='flex w-full items-center gap-2.5 px-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-100'
+          >
+            <MdEdit
+              className='text-base shrink-0 text-blue-400'
+              aria-hidden='true'
+            />
+            Edit
+          </button>
+          <div className='my-1 border-t border-gray-100' />
+          <button
+            type='button'
+            role='menuitem'
+            onClick={() => {
+              setOpen(false);
+              onDelete(order.id);
+            }}
+            className='flex w-full items-center gap-2.5 px-3 py-2 text-sm text-red-500 hover:bg-red-50 transition-colors duration-100'
+          >
+            <MdDelete className='text-base shrink-0' aria-hidden='true' />
+            Delete
+          </button>
+        </div>
+      )}
+    </div>
+  );
+};
+
 // ─── Mobile card ──────────────────────────────────────────────────────────────
 const OrderCard = ({ order, onView, onEdit, onDelete }) => (
   <article className='bg-white rounded-xl border border-gray-100 shadow-sm p-4'>
@@ -867,31 +950,13 @@ const OrderCard = ({ order, onView, onEdit, onDelete }) => (
         </div>
       )}
     </dl>
-    <div className='flex items-center gap-1'>
-      <button
-        type='button'
-        onClick={() => onView(order)}
-        aria-label={`View ${order.projectName}`}
-        className='p-1.5 rounded-lg text-orange-400 hover:bg-orange-50 transition-colors duration-150'
-      >
-        <MdRemoveRedEye className='text-lg' />
-      </button>
-      <button
-        type='button'
-        onClick={() => onEdit(order)}
-        aria-label={`Edit ${order.projectName}`}
-        className='p-1.5 rounded-lg text-blue-400 hover:bg-blue-50 transition-colors duration-150'
-      >
-        <MdEdit className='text-lg' />
-      </button>
-      <button
-        type='button'
-        onClick={() => onDelete(order.id)}
-        aria-label={`Delete ${order.projectName}`}
-        className='p-1.5 rounded-lg text-red-400 hover:bg-red-50 transition-colors duration-150'
-      >
-        <MdDelete className='text-lg' />
-      </button>
+    <div className='flex items-center justify-end'>
+      <ActionMenu
+        order={order}
+        onView={onView}
+        onEdit={onEdit}
+        onDelete={onDelete}
+      />
     </div>
   </article>
 );
@@ -942,32 +1007,12 @@ const OrderRow = ({ order, onView, onEdit, onDelete }) => {
       </td>
       <td className={`${TD} font-medium`}>{order.total}</td>
       <td className='px-5 py-3.5'>
-        <div className='flex items-center gap-1'>
-          <button
-            type='button'
-            onClick={() => onView(order)}
-            aria-label={`View ${order.projectName}`}
-            className='p-1.5 rounded-lg text-orange-400 hover:bg-orange-50 transition-colors duration-150'
-          >
-            <MdRemoveRedEye className='text-lg' aria-hidden='true' />
-          </button>
-          <button
-            type='button'
-            onClick={() => onEdit(order)}
-            aria-label={`Edit ${order.projectName}`}
-            className='p-1.5 rounded-lg text-blue-400 hover:bg-blue-50 transition-colors duration-150'
-          >
-            <MdEdit className='text-lg' aria-hidden='true' />
-          </button>
-          <button
-            type='button'
-            onClick={() => onDelete(order.id)}
-            aria-label={`Delete ${order.projectName}`}
-            className='p-1.5 rounded-lg text-red-400 hover:bg-red-50 transition-colors duration-150'
-          >
-            <MdDelete className='text-lg' aria-hidden='true' />
-          </button>
-        </div>
+        <ActionMenu
+          order={order}
+          onView={onView}
+          onEdit={onEdit}
+          onDelete={onDelete}
+        />
       </td>
     </tr>
   );
