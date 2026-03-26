@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 const ChevronIcon = () => (
   <svg
     width='12'
@@ -30,12 +32,12 @@ const Breadcrumb = ({ label, crumbs }) => {
     <nav aria-label='Breadcrumb'>
       <ol className='inline-flex items-center gap-2 px-5 py-2 rounded-full border border-white/20 text-sm text-white/70'>
         <li>
-          <a
-            href='/'
+          <Link
+            to='/'
             className='hover:text-white transition-colors duration-150'
           >
             Home
-          </a>
+          </Link>
         </li>
         {items.map((item, i) => {
           const isLast = i === items.length - 1;
@@ -50,12 +52,12 @@ const Breadcrumb = ({ label, crumbs }) => {
                   {item.label}
                 </span>
               ) : (
-                <a
-                  href={item.href}
+                <Link
+                  to={item.href}
                   className='hover:text-white transition-colors duration-150'
                 >
                   {item.label}
-                </a>
+                </Link>
               )}
             </li>
           );

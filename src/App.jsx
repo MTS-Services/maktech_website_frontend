@@ -12,40 +12,103 @@
 
 import { BrowserRouter as Router } from 'react-router-dom'
 import { useEffect } from 'react'
-import Lenis from 'lenis'
+import gsap from 'gsap'
 import AppRoutes from './route/router'
 import ScrollToTop from './components/ScrollToTop'
-import { setLenisInstance } from './utils/lenisManager'
+import { setSmoothScrollInstance } from './utils/smoothScrollManager'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   useEffect(() => {
-    // Initialize Lenis smooth scroll
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      orientation: 'vertical',
-      smoothWheel: true,
-      wheelMultiplier: 1,
-      touchMultiplier: 2,
-    })
+    // GSAP-powered Smooth Scroll Implementation
+    let currentScroll = window.scrollY;
+    let targetScroll = window.scrollY;
+    const scrollData = { value: window.scrollY };
 
-    setLenisInstance(lenis)
+    // GSAP animation for smooth interpolation
+    const updateScroll = () => {
+      window.scrollTo(0, scrollData.value);
+      currentScroll = scrollData.value;
+    };
 
-    // Animation frame loop
-    function raf(time) {
-      lenis.raf(time)
-      requestAnimationFrame(raf)
-    }
+    // Handle wheel events with GSAP animation
+    const handleWheel = (e) => {
+      e.preventDefault();
+      targetScroll += e.deltaY * 0.8;
+      targetScroll = Math.max(0, Math.min(targetScroll, document.documentElement.scrollHeight - window.innerHeight));
+      
+      // Use GSAP to animate scroll smoothly
+      gsap.to(scrollData, {
+        value: targetScroll,
+        duration: 1.2,
+        ease: "power2.out",
+        onUpdate: updateScroll,
+        overwrite: true, // Cancel previous animations
+      });
+    };
 
-    requestAnimationFrame(raf)
+    // Handle touch events for mobile
+    let touchStartY = 0;
+    const handleTouchStart = (e) => {
+      touchStartY = e.touches[0].clientY;
+    };
+
+    const handleTouchMove = (e) => {
+      const touchY = e.touches[0].clientY;
+      const deltaY = touchStartY - touchY;
+      targetScroll += deltaY * 1.5;
+      targetScroll = Math.max(0, Math.min(targetScroll, document.documentElement.scrollHeight - window.innerHeight));
+      touchStartY = touchY;
+      
+      // Use GSAP for smooth touch scrolling
+      gsap.to(scrollData, {
+        value: targetScroll,
+        duration: 0.8,
+        ease: "power2.out",
+        onUpdate: updateScroll,
+        overwrite: true,
+      });
+    };
+
+    // Smooth scroll API
+    const smoothScroll = {
+      scrollTo: (target, immediate = false) => {
+        targetScroll = target;
+        if (immediate) {
+          scrollData.value = target;
+          currentScroll = target;
+          window.scrollTo(0, target);
+          gsap.killTweensOf(scrollData);
+        } else {
+          gsap.to(scrollData, {
+            value: target,
+            duration: 1,
+            ease: "power2.out",
+            onUpdate: updateScroll,
+            overwrite: true,
+          });
+        }
+      },
+      getCurrentScroll: () => currentScroll,
+      getTargetScroll: () => targetScroll,
+    };
+
+    setSmoothScrollInstance(smoothScroll);
+
+    // Add event listeners
+    window.addEventListener('wheel', handleWheel, { passive: false });
+    window.addEventListener('touchstart', handleTouchStart, { passive: true });
+    window.addEventListener('touchmove', handleTouchMove, { passive: true });
 
     // Cleanup on unmount
     return () => {
-      setLenisInstance(null)
-      lenis.destroy()
-    }
+      window.removeEventListener('wheel', handleWheel);
+      window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchmove', handleTouchMove);
+      gsap.killTweensOf(scrollData);
+      setSmoothScrollInstance(null);
+    };
   }, [])
 
   return (

@@ -113,22 +113,32 @@ const ServiceGrid = () => {
                 key={service.id}
                 className='group rounded-lg border border-white/10 bg-[#101515] p-6 backdrop-blur-sm transition-all duration-300 hover:border-orange-bg-cta hover:bg-orange-bg-cta md:p-8'
               >
-                {/* Icon Placeholder */}
-                <div className='mb-6 inline-flex items-center justify-center rounded-lg  group-hover:bg-white/10 transition-colors'>
-                  <svg
-                    width='64'
-                    height='64'
-                    viewBox='0 0 32 32'
-                    fill='none'
-                    stroke='currentColor'
-                    strokeWidth='1.5'
-                    className='text-white/60 group-hover:text-white transition-colors'
-                  >
-                    <rect x='4' y='4' width='10' height='10' />
-                    <rect x='18' y='4' width='10' height='10' />
-                    <rect x='4' y='18' width='10' height='10' />
-                    <rect x='18' y='18' width='10' height='10' />
-                  </svg>
+                {/* Icon with hover effect */}
+                <div className='mb-6 relative h-16 w-16'>
+                  {/* Default Icon - visible when not hovering */}
+                  <div className='absolute inset-0 text-white/60 opacity-80 transition-all duration-500 ease-out group-hover:opacity-0 group-hover:scale-75 group-hover:rotate-12'>
+                    <svg
+                      width='64'
+                      height='64'
+                      viewBox='0 0 32 32'
+                      fill='none'
+                      stroke='currentColor'
+                      strokeWidth='1.5'
+                    >
+                      <rect x='4' y='4' width='10' height='10' />
+                      <rect x='18' y='4' width='10' height='10' />
+                      <rect x='4' y='18' width='10' height='10' />
+                      <rect x='18' y='18' width='10' height='10' />
+                    </svg>
+                  </div>
+                  {/* Hover Icon - visible when hovering */}
+                  <div className='absolute inset-0 opacity-0 scale-75 -rotate-12 transition-all duration-500 ease-out group-hover:opacity-100 group-hover:scale-80 group-hover:rotate-0'>
+                    <img 
+                      src='/services_image/service/Frame 2147225682.svg' 
+                      alt='' 
+                      className='w-16 h-16 drop-shadow-lg'
+                    />
+                  </div>
                 </div>
 
                 {/* Title */}

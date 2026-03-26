@@ -46,15 +46,15 @@ const PublicLayout = () => {
       // Slide in animation
       gsap.to(leftBannerRef.current, {
         x: 0,
-        duration: 0.8,
+        duration: 1.4,
         ease: "power2.out",
-        delay: 0.2,
+        delay: 0.3,
       });
       gsap.to(rightBannerRef.current, {
         x: 0,
-        duration: 0.8,
+        duration: 1.4,
         ease: "power2.out",
-        delay: 0.2,
+        delay: 0.3,
       });
       return;
     }
@@ -65,7 +65,7 @@ const PublicLayout = () => {
     // Slide out
     tl.to([leftBannerRef.current, rightBannerRef.current], {
       opacity: 0,
-      duration: 0.4,
+      duration: 0.5,
       ease: "power2.in",
     })
     // Reset positions outside
@@ -74,7 +74,7 @@ const PublicLayout = () => {
     // Slide in
     .to([leftBannerRef.current, rightBannerRef.current], {
       x: 0,
-      duration: 0.8,
+      duration: 1.4,
       ease: "power2.out",
     });
   }, [pathname, isHomePage]);
@@ -90,7 +90,7 @@ const PublicLayout = () => {
           {/* Left Banner */}
           <div
             ref={leftBannerRef}
-            className="pointer-events-none absolute left-0 top-0 h-[920px] w-[45%]"
+            className="pointer-events-none absolute left-0 top-0 h-[920px] w-[45%] hidden md:block"
             aria-hidden="true"
           >
             <div
@@ -102,7 +102,7 @@ const PublicLayout = () => {
           {/* Right Banner */}
           <div
             ref={rightBannerRef}
-            className="pointer-events-none absolute right-0 top-0 h-[920px] w-[45%]"
+            className="pointer-events-none absolute right-0 top-0 h-[920px] w-[45%] hidden md:block"
             aria-hidden="true"
           >
             <div

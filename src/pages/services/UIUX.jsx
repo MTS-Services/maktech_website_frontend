@@ -38,7 +38,7 @@ const UIUX = () => {
         className="pb-12"
       />
 
-      <ServiceInside
+      {/* <ServiceInside
         badgeText="Inside UIUX"
         breadcrumbs={[
           { label: "Home", href: "/" },
@@ -90,7 +90,7 @@ const UIUX = () => {
         ]}
         pricingCtaText="View Our Pricing"
         pricingCtaLink="/pricing"
-      />
+      /> */}
       <ServiceWhyBest />
       <Testimonials className="py-16 xl:py-20 2xl:py-24" />
     </>

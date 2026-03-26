@@ -148,7 +148,7 @@ const Testimonials = ({ className = '' }) => {
           <div 
             className="flex gap-6"
             style={{
-              animation: 'scroll 25s linear infinite',
+              animation: 'scroll 10s linear infinite',
               willChange: 'transform',
             }}
             onMouseEnter={(e) => e.currentTarget.style.animationPlayState = 'paused'}

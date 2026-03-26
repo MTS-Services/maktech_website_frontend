@@ -46,26 +46,22 @@ const ServiceInside = ({
   pricingCtaText = "View Our Pricing",
   pricingCtaLink = "/pricing",
 }) => {
-  const renderLines = (text) =>
-    text.split("\n").map((line, idx) => (
-      <span key={`${line}-${idx}`}>
-        {line}
-        {idx !== text.split("\n").length - 1 && <br />}
-      </span>
-    ));
-
   return (
     <section className="relative overflow-hidden text-white py-16 sm:py-20 md:py-24">
-      {/* Orange corner glows */}
+      {/* Orange corner glows - NO BLUR for smooth scrolling */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -left-56 bottom-0 h-[520px] w-[520px] rounded-full opacity-60 blur-[160px]"
-        style={{ background: "rgba(255,101,51,0.35)" }}
+        className="pointer-events-none absolute -left-56 bottom-0 h-[520px] w-[520px] rounded-full opacity-20"
+        style={{ 
+          background: "radial-gradient(circle, rgba(255,101,51,0.6) 0%, rgba(255,101,51,0.3) 40%, transparent 70%)",
+        }}
       />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -right-56 top-0 h-[520px] w-[520px] rounded-full opacity-60 blur-[160px]"
-        style={{ background: "rgba(255,101,51,0.32)" }}
+        className="pointer-events-none absolute -right-56 top-0 h-[520px] w-[520px] rounded-full opacity-20"
+        style={{ 
+          background: "radial-gradient(circle, rgba(255,101,51,0.5) 0%, rgba(255,101,51,0.25) 40%, transparent 70%)",
+        }}
       />
 
       <div className="relative z-10 container mx-auto px-5 sm:px-8 lg:px-10 xl:px-12 flex flex-col gap-16">
@@ -104,12 +100,15 @@ const ServiceInside = ({
                 key={card.title}
                 className="flex flex-col gap-4 bg-black-bg rounded-lg p-4"
               >
-                <img
-                  src={card.image}
-                  alt={card.title}
-                  className="w-full h-64 object-cover rounded-lg"
-                  loading="lazy"
-                />
+                <div className="w-full aspect-[392/224] rounded-lg overflow-hidden bg-[#2a2a2a]">
+                  <img
+                    src={card.image}
+                    alt={card.title}
+                    className="w-full h-full object-cover"
+                    width="392"
+                    height="224"
+                  />
+                </div>
                 <div className="flex flex-col gap-2">
                   <h3 className="text-xl text-[#e3e3e3] font-medium">
                     {card.title}

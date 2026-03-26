@@ -49,6 +49,7 @@ const LogoTrack = ({ duration = 22, reverse = false }) => {
         display: "flex",
         width: "max-content",
         animation: `${reverse ? "marquee-logos-reverse" : "marquee-logos"} ${duration}s linear infinite`,
+        animationDelay: `-${duration / 2}s`,
         willChange: "transform",
       }}
     >
