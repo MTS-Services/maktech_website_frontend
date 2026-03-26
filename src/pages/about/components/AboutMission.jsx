@@ -106,7 +106,7 @@ const AboutMission = () => (
                 {heading}
               </h2>
             </div>
-            <div className='mt-6 sm:mt-8 grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-10'>
+            <div className='mt-8 sm:mt-10 grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-10'>
               {cols.map((text, i) => (
                 <p key={i} className='text-white/60 text-base leading-relaxed'>
                   {text}
