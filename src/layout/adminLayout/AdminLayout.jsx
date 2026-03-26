@@ -5,8 +5,9 @@ import { MdMenu } from 'react-icons/md';
 
 const AdminLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [desktopOpen, setDesktopOpen] = useState(true);
 
-  // Close on Escape key
+  // Close on Escape key (mobile drawer only)
   useEffect(() => {
     const onKey = (e) => {
       if (e.key === 'Escape') setSidebarOpen(false);
@@ -41,13 +42,33 @@ const AdminLayout = () => {
         id='sidebar'
         aria-label='Sidebar navigation'
         className={`
-          fixed inset-y-0 left-0 z-30 w-72 transform transition-transform duration-300 ease-in-out
-          lg:relative lg:translate-x-0 lg:z-auto lg:shrink-0
+          fixed inset-y-0 left-0 z-30 w-72 transform transition-all duration-300 ease-in-out
+          lg:relative lg:z-auto lg:shrink-0
           ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
+          ${
+            desktopOpen
+              ? 'lg:translate-x-0 lg:w-72'
+              : 'lg:translate-x-0 lg:w-0 lg:overflow-hidden'
+          }
         `}
       >
-        <Sidebar onClose={() => setSidebarOpen(false)} />
+        <Sidebar
+          onClose={() => setSidebarOpen(false)}
+          onDesktopClose={() => setDesktopOpen(false)}
+        />
       </aside>
+
+      {/* ── Desktop floating expand button — visible only when sidebar is collapsed ── */}
+      {!desktopOpen && (
+        <button
+          type='button'
+          onClick={() => setDesktopOpen(true)}
+          aria-label='Expand sidebar'
+          className='hidden lg:flex items-center justify-center fixed top-4 left-4 z-20 w-9 h-9 rounded-lg bg-white border border-gray-200 shadow-sm text-gray-600 hover:bg-gray-50 hover:text-gray-900 hover:shadow-md transition-all duration-200'
+        >
+          <MdMenu className='text-[18px]' />
+        </button>
+      )}
 
       {/* ── Main content ── */}
       <main className='flex-1 flex flex-col min-w-0 overflow-hidden'>

@@ -42,7 +42,7 @@ const NAV_INACTIVE =
 const getNavClass = ({ isActive }) =>
   `${NAV_BASE} ${isActive ? NAV_ACTIVE : NAV_INACTIVE}`;
 
-const Sidebar = ({ onClose }) => {
+const Sidebar = ({ onClose, onDesktopClose }) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -68,11 +68,21 @@ const Sidebar = ({ onClose }) => {
           />
           <p className='text-sm text-gray-400 mt-1.5'>Admin Dashboard</p>
         </div>
+        {/* Mobile close button */}
         <button
           type='button'
           onClick={onClose}
           className='lg:hidden mt-0.5 p-1.5 -mr-1 rounded-md text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors'
           aria-label='Close navigation'
+        >
+          <MdClose className='text-xl' />
+        </button>
+        {/* Desktop close / collapse button */}
+        <button
+          type='button'
+          onClick={onDesktopClose}
+          className='hidden lg:flex items-center justify-center mt-0.5 p-1.5 -mr-1 rounded-md text-gray-500 hover:text-gray-800 hover:bg-gray-100 transition-colors'
+          aria-label='Collapse sidebar'
         >
           <MdClose className='text-xl' />
         </button>
