@@ -924,86 +924,124 @@ const ActionMenu = ({ order, onView, onEdit, onDelete }) => {
 };
 
 // ─── Mobile card ──────────────────────────────────────────────────────────────
-const OrderCard = ({ order, onView, onEdit, onDelete }) => (
-  <article className='bg-white rounded-xl border border-gray-100 shadow-sm p-4'>
-    <div className='flex items-start justify-between gap-2 mb-3'>
-      <div>
-        <p className='text-base font-semibold text-gray-900'>
-          {order.orderId} — {order.projectName}
-        </p>
-        <p className='text-sm text-gray-500'>{order.clientName}</p>
+const OrderCard = ({ order, onView, onEdit, onDelete }) => {
+  const countdown = getCountdown(order.deliveryLastDate);
+  return (
+    <article className='bg-white rounded-xl border border-gray-100 shadow-sm p-4'>
+      {/* Header: Order ID + Actions */}
+      <div className='flex items-center justify-between gap-2 mb-4'>
+        <p className='text-sm font-bold text-gray-900'>{order.orderId}</p>
+        <ActionMenu
+          order={order}
+          onView={onView}
+          onEdit={onEdit}
+          onDelete={onDelete}
+        />
       </div>
-      <span
-        className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold shrink-0 ${getStatusStyle(order.opsStatus)}`}
-      >
-        {order.opsStatus}
-      </span>
-    </div>
-    <dl className='grid grid-cols-2 gap-y-2 gap-x-3 text-sm mb-3'>
-      <div>
-        <dt className='text-xs text-gray-400'>Department</dt>
-        <dd className='text-gray-700'>{order.department || '—'}</dd>
-      </div>
-      <div>
-        <dt className='text-xs text-gray-400'>Date</dt>
-        <dd className='text-gray-700'>{order.date}</dd>
-      </div>
-      <div>
-        <dt className='text-xs text-gray-400'>Account</dt>
-        <dd className='text-gray-700'>{order.account}</dd>
-      </div>
-      <div>
-        <dt className='text-xs text-gray-400'>Sales Status</dt>
-        <dd>
-          <span
-            className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold ${getSalesStatusStyle(order.salesStatus)}`}
-          >
-            {order.salesStatus || '—'}
-          </span>
-        </dd>
-      </div>
-      <div>
-        <dt className='text-xs text-gray-400'>Delivery</dt>
-        <dd className='text-gray-700'>{order.deliveryLastDate}</dd>
-      </div>
-      <div>
-        <dt className='text-xs text-gray-400'>Countdown</dt>
-        <dd
-          className={`font-medium ${getCountdown(order.deliveryLastDate).cls}`}
-        >
-          {getCountdown(order.deliveryLastDate).text}
-        </dd>
-      </div>
-      <div>
-        <dt className='text-xs text-gray-400'>Total</dt>
-        <dd className='text-gray-700 font-medium'>{order.total}</dd>
-      </div>
-      {order.sheetLink && (
+
+      <dl className='grid grid-cols-2 gap-x-4 gap-y-3 text-sm'>
+        {/* 1 Department */}
         <div>
-          <dt className='text-xs text-gray-400'>Sheet</dt>
-          <dd>
-            <a
-              href={order.sheetLink}
-              target='_blank'
-              rel='noreferrer noopener'
-              className='text-blue-500 hover:underline text-xs'
-            >
-              Open Sheet
-            </a>
+          <dt className='text-xs text-gray-400 mb-0.5'>Department</dt>
+          <dd className='text-gray-700'>{order.department || '—'}</dd>
+        </div>
+
+        {/* 2 Date */}
+        <div>
+          <dt className='text-xs text-gray-400 mb-0.5'>Date</dt>
+          <dd className='text-gray-700'>{order.date}</dd>
+        </div>
+
+        {/* 3 Account */}
+        <div>
+          <dt className='text-xs text-gray-400 mb-0.5'>Account</dt>
+          <dd className='text-gray-700'>{order.account}</dd>
+        </div>
+
+        {/* 4 Project Name — full width */}
+        <div className='col-span-2'>
+          <dt className='text-xs text-gray-400 mb-0.5'>Project Name</dt>
+          <dd className='text-gray-900 font-semibold leading-snug'>
+            {order.projectName}
           </dd>
         </div>
-      )}
-    </dl>
-    <div className='flex items-center justify-end'>
-      <ActionMenu
-        order={order}
-        onView={onView}
-        onEdit={onEdit}
-        onDelete={onDelete}
-      />
-    </div>
-  </article>
-);
+
+        {/* 5 Client Name */}
+        <div className='col-span-2'>
+          <dt className='text-xs text-gray-400 mb-0.5'>Client Name</dt>
+          <dd className='text-gray-700 font-medium'>{order.clientName}</dd>
+        </div>
+
+        {/* 6 Sales Status */}
+        <div>
+          <dt className='text-xs text-gray-400 mb-0.5'>Sales Status</dt>
+          <dd>
+            <span
+              className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold ${getSalesStatusStyle(order.salesStatus)}`}
+            >
+              {order.salesStatus || '—'}
+            </span>
+          </dd>
+        </div>
+
+        {/* 7 OPS Status */}
+        <div>
+          <dt className='text-xs text-gray-400 mb-0.5'>OPS Status</dt>
+          <dd>
+            <span
+              className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold ${getStatusStyle(order.opsStatus)}`}
+            >
+              {order.opsStatus}
+            </span>
+          </dd>
+        </div>
+
+        {/* 8 Team */}
+        <div className='col-span-2'>
+          <dt className='text-xs text-gray-400 mb-0.5'>Team</dt>
+          <dd className='text-gray-700'>{order.assignTeam || '—'}</dd>
+        </div>
+
+        {/* 9 Delivery Last Date */}
+        <div>
+          <dt className='text-xs text-gray-400 mb-0.5'>Delivery Last Date</dt>
+          <dd className='text-gray-700'>{order.deliveryLastDate}</dd>
+        </div>
+
+        {/* 10 Countdown */}
+        <div>
+          <dt className='text-xs text-gray-400 mb-0.5'>Countdown</dt>
+          <dd className={`font-semibold ${countdown.cls}`}>{countdown.text}</dd>
+        </div>
+
+        {/* 11 Sheet Link */}
+        <div>
+          <dt className='text-xs text-gray-400 mb-0.5'>Sheet Link</dt>
+          <dd>
+            {order.sheetLink ? (
+              <a
+                href={order.sheetLink}
+                target='_blank'
+                rel='noreferrer noopener'
+                className='text-blue-500 hover:underline text-xs'
+              >
+                Open Sheet
+              </a>
+            ) : (
+              '—'
+            )}
+          </dd>
+        </div>
+
+        {/* 12 Total Amount */}
+        <div>
+          <dt className='text-xs text-gray-400 mb-0.5'>Total Amount</dt>
+          <dd className='text-gray-900 font-bold'>{order.total}</dd>
+        </div>
+      </dl>
+    </article>
+  );
+};
 
 // ─── Desktop table row ────────────────────────────────────────────────────────
 const OrderRow = ({ order, onView, onEdit, onDelete }) => {
