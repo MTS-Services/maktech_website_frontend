@@ -1,6 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import gsap from 'gsap';
+import {
+  FaFacebook,
+  FaInstagram,
+  FaLinkedinIn,
+  FaXTwitter,
+} from 'react-icons/fa6';
 
 const Footer = () => {
   const [openSection, setOpenSection] = useState(null);
@@ -149,100 +155,52 @@ const Footer = () => {
               {/* Social Media Icons */}
               <div className='flex items-center gap-3 mb-6'>
                 <a
-                  href='#'
-                  className='w-10 h-10 rounded-lg bg-[#3a3a3a] hover:bg-[#4a4a4a] border border-white/5 flex items-center justify-center transition-all duration-200'
-                  aria-label='Instagram'
+                  href='https://www.facebook.com/maktechgroup'
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  className='group w-10 h-10 rounded-lg bg-[#3a3a3a] hover:bg-orange-bg-cta border border-white/5 flex items-center justify-center transition-all duration-200'
+                  aria-label='Facebook'
                 >
-                  <svg
-                    width='20'
-                    height='20'
-                    viewBox='0 0 24 24'
-                    fill='none'
-                    stroke='white'
-                    strokeWidth='2'
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    xmlns='http://www.w3.org/2000/svg'
-                  >
-                    <rect x='2' y='2' width='20' height='20' rx='5' ry='5' />
-                    <path d='M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z' />
-                    <line x1='17.5' y1='6.5' x2='17.51' y2='6.5' />
-                  </svg>
+                  <FaFacebook className='text-white text-lg' />
                 </a>
                 <a
-                  href='#'
-                  className='w-10 h-10 rounded-lg bg-[#3a3a3a] hover:bg-[#4a4a4a] border border-white/5 flex items-center justify-center transition-all duration-200'
+                  href='https://www.instagram.com/maktechgroup/'
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  className='group w-10 h-10 rounded-lg bg-[#3a3a3a] hover:bg-orange-bg-cta border border-white/5 flex items-center justify-center transition-all duration-200'
                   aria-label='Instagram'
                 >
-                  <svg
-                    width='20'
-                    height='20'
-                    viewBox='0 0 24 24'
-                    fill='none'
-                    stroke='white'
-                    strokeWidth='2'
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    xmlns='http://www.w3.org/2000/svg'
-                  >
-                    <rect x='2' y='2' width='20' height='20' rx='5' ry='5' />
-                    <path d='M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z' />
-                    <line x1='17.5' y1='6.5' x2='17.51' y2='6.5' />
-                  </svg>
+                  <FaInstagram className='text-white text-lg' />
                 </a>
                 <a
-                  href='#'
-                  className='w-10 h-10 rounded-lg bg-[#3a3a3a] hover:bg-[#4a4a4a] border border-white/5 flex items-center justify-center transition-all duration-200'
-                  aria-label='Instagram'
+                  href='https://www.linkedin.com/company/maktechgroup'
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  className='group w-10 h-10 rounded-lg bg-[#3a3a3a] hover:bg-orange-bg-cta border border-white/5 flex items-center justify-center transition-all duration-200'
+                  aria-label='LinkedIn'
                 >
-                  <svg
-                    width='20'
-                    height='20'
-                    viewBox='0 0 24 24'
-                    fill='none'
-                    stroke='white'
-                    strokeWidth='2'
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    xmlns='http://www.w3.org/2000/svg'
-                  >
-                    <rect x='2' y='2' width='20' height='20' rx='5' ry='5' />
-                    <path d='M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z' />
-                    <line x1='17.5' y1='6.5' x2='17.51' y2='6.5' />
-                  </svg>
+                  <FaLinkedinIn className='text-white text-lg' />
                 </a>
                 <a
-                  href='#'
-                  className='w-10 h-10 rounded-lg bg-[#3a3a3a] hover:bg-[#4a4a4a] border border-white/5 flex items-center justify-center transition-all duration-200'
-                  aria-label='Instagram'
+                  href='https://x.com/MakTechSolution'
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  className='group w-10 h-10 rounded-lg bg-[#3a3a3a] hover:bg-orange-bg-cta border border-white/5 flex items-center justify-center transition-all duration-200'
+                  aria-label='X (Twitter)'
                 >
-                  <svg
-                    width='20'
-                    height='20'
-                    viewBox='0 0 24 24'
-                    fill='none'
-                    stroke='white'
-                    strokeWidth='2'
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    xmlns='http://www.w3.org/2000/svg'
-                  >
-                    <rect x='2' y='2' width='20' height='20' rx='5' ry='5' />
-                    <path d='M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z' />
-                    <line x1='17.5' y1='6.5' x2='17.51' y2='6.5' />
-                  </svg>
+                  <FaXTwitter className='text-white text-lg' />
                 </a>
               </div>
 
               {/* Tagline */}
               <p className='text-gray-400 text-sm leading-relaxed'>
-                Let&apos;s turn your idea into a powerful digital
-                solution—starting today.
+                Let&apos;s turn your idea into a powerful digital solution
+                starting today.
               </p>
             </div>
 
             {/* Column 2 - Quick Link */}
-            <div className='justify-self-center'>
+            <div className='justify-self-center '>
               <h3 className='text-white text-base font-normal mb-4'>
                 Quick Link
               </h3>
@@ -250,7 +208,7 @@ const Footer = () => {
                 <li>
                   <NavLink
                     to='/about'
-                    className='text-gray-400 hover:text-white transition-colors duration-200 text-sm'
+                    className='text-gray-400 hover:text-orange-bg-cta transition-colors duration-200 text-sm'
                   >
                     About Us
                   </NavLink>
@@ -258,7 +216,7 @@ const Footer = () => {
                 <li>
                   <NavLink
                     to='/services'
-                    className='text-gray-400 hover:text-white transition-colors duration-200 text-sm'
+                    className='text-gray-400 hover:text-orange-bg-cta transition-colors duration-200 text-sm'
                   >
                     Services
                   </NavLink>
@@ -266,7 +224,7 @@ const Footer = () => {
                 <li>
                   <NavLink
                     to='/case-study'
-                    className='text-gray-400 hover:text-white transition-colors duration-200 text-sm'
+                    className='text-gray-400 hover:text-orange-bg-cta transition-colors duration-200 text-sm'
                   >
                     Case Study&apos;s
                   </NavLink>
@@ -274,7 +232,7 @@ const Footer = () => {
                 <li>
                   <NavLink
                     to='/contact'
-                    className='text-gray-400 hover:text-white transition-colors duration-200 text-sm'
+                    className='text-gray-400 hover:text-orange-bg-cta transition-colors duration-200 text-sm'
                   >
                     Contact
                   </NavLink>
@@ -284,16 +242,16 @@ const Footer = () => {
 
             {/* Column 3 - Contacts */}
             <div>
-              {/* <h3 className='text-white text-base font-normal mb-4'>
-                Label here
-              </h3> */}
+              <h3 className='text-white text-base font-normal mb-4'>
+                Connect With Us
+              </h3>
               <ul className='space-y-3'>
                 <li className='text-gray-400 text-sm italic'>
-                  Maktech.corporate@gmail.com
+                  maktechgroup@gmail.com
                 </li>
-                <li className='text-gray-400 text-sm'>+88 01234567685</li>
+                <li className='text-gray-400 text-sm'>+88 01897-669233</li>
                 <li className='text-gray-400 text-sm'>
-                  ul. Generała Ziętka Jerzego 54, Mysłowice 41-412
+                  8th Floor, A, Majid Tower, Ka-24 Progati Sarani Rd, Dhaka 1229
                 </li>
               </ul>
             </div>
@@ -306,7 +264,7 @@ const Footer = () => {
           <div className='bg-[#2a2a2a] border border-white/10 rounded-2xl p-6 mb-6'>
             <div className='flex items-center gap-2 mb-6'>
               <div className='flex items-center gap-1'>
-                <svg
+                {/* <svg
                   width='24'
                   height='24'
                   viewBox='0 0 24 24'
@@ -321,7 +279,7 @@ const Footer = () => {
                     strokeLinecap='round'
                     strokeLinejoin='round'
                   />
-                </svg>
+                </svg> */}
                 <span className='text-white text-xl font-bold'>maktech</span>
               </div>
             </div>
@@ -329,88 +287,40 @@ const Footer = () => {
             {/* Social Media Icons */}
             <div className='flex items-center gap-3 mb-6'>
               <a
-                href='#'
-                className='w-10 h-10 rounded-lg bg-[#3a3a3a] hover:bg-[#4a4a4a] border border-white/5 flex items-center justify-center transition-all duration-200'
-                aria-label='Instagram'
+                href='https://www.facebook.com/maktechgroup'
+                target='_blank'
+                rel='noopener noreferrer'
+                className='group w-10 h-10 rounded-lg bg-[#3a3a3a] hover:bg-orange-bg-cta border border-white/5 flex items-center justify-center transition-all duration-200'
+                aria-label='Facebook'
               >
-                <svg
-                  width='20'
-                  height='20'
-                  viewBox='0 0 24 24'
-                  fill='none'
-                  stroke='white'
-                  strokeWidth='2'
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  xmlns='http://www.w3.org/2000/svg'
-                >
-                  <rect x='2' y='2' width='20' height='20' rx='5' ry='5' />
-                  <path d='M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z' />
-                  <line x1='17.5' y1='6.5' x2='17.51' y2='6.5' />
-                </svg>
+                <FaFacebook className='text-white text-lg' />
               </a>
               <a
-                href='#'
-                className='w-10 h-10 rounded-lg bg-[#3a3a3a] hover:bg-[#4a4a4a] border border-white/5 flex items-center justify-center transition-all duration-200'
+                href='https://www.instagram.com/maktechgroup/'
+                target='_blank'
+                rel='noopener noreferrer'
+                className='group w-10 h-10 rounded-lg bg-[#3a3a3a] hover:bg-orange-bg-cta border border-white/5 flex items-center justify-center transition-all duration-200'
                 aria-label='Instagram'
               >
-                <svg
-                  width='20'
-                  height='20'
-                  viewBox='0 0 24 24'
-                  fill='none'
-                  stroke='white'
-                  strokeWidth='2'
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  xmlns='http://www.w3.org/2000/svg'
-                >
-                  <rect x='2' y='2' width='20' height='20' rx='5' ry='5' />
-                  <path d='M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z' />
-                  <line x1='17.5' y1='6.5' x2='17.51' y2='6.5' />
-                </svg>
+                <FaInstagram className='text-white text-lg' />
               </a>
               <a
-                href='#'
-                className='w-10 h-10 rounded-lg bg-[#3a3a3a] hover:bg-[#4a4a4a] border border-white/5 flex items-center justify-center transition-all duration-200'
-                aria-label='Instagram'
+                href='https://www.linkedin.com/company/maktechgroup'
+                target='_blank'
+                rel='noopener noreferrer'
+                className='group w-10 h-10 rounded-lg bg-[#3a3a3a] hover:bg-orange-bg-cta border border-white/5 flex items-center justify-center transition-all duration-200'
+                aria-label='LinkedIn'
               >
-                <svg
-                  width='20'
-                  height='20'
-                  viewBox='0 0 24 24'
-                  fill='none'
-                  stroke='white'
-                  strokeWidth='2'
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  xmlns='http://www.w3.org/2000/svg'
-                >
-                  <rect x='2' y='2' width='20' height='20' rx='5' ry='5' />
-                  <path d='M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z' />
-                  <line x1='17.5' y1='6.5' x2='17.51' y2='6.5' />
-                </svg>
+                <FaLinkedinIn className='text-white text-lg' />
               </a>
               <a
-                href='#'
-                className='w-10 h-10 rounded-lg bg-[#3a3a3a] hover:bg-[#4a4a4a] border border-white/5 flex items-center justify-center transition-all duration-200'
-                aria-label='Instagram'
+                href='https://x.com/MakTechSolution'
+                target='_blank'
+                rel='noopener noreferrer'
+                className='group w-10 h-10 rounded-lg bg-[#3a3a3a] hover:bg-orange-bg-cta border border-white/5 flex items-center justify-center transition-all duration-200'
+                aria-label='X (Twitter)'
               >
-                <svg
-                  width='20'
-                  height='20'
-                  viewBox='0 0 24 24'
-                  fill='none'
-                  stroke='white'
-                  strokeWidth='2'
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  xmlns='http://www.w3.org/2000/svg'
-                >
-                  <rect x='2' y='2' width='20' height='20' rx='5' ry='5' />
-                  <path d='M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z' />
-                  <line x1='17.5' y1='6.5' x2='17.51' y2='6.5' />
-                </svg>
+                <FaXTwitter className='text-white text-lg' />
               </a>
             </div>
 
