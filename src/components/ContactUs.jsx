@@ -163,7 +163,7 @@ const ContactUs = () => {
                         Email us
                       </p>
                       <p className="text-[#AAAAAA] text-sm md:text-base">
-                        maktech.corporate@gmail.com
+                        maktechgroup@gmail.com
                       </p>
                     </div>
                   </div>
@@ -192,7 +192,7 @@ const ContactUs = () => {
                         Call on
                       </p>
                       <p className="text-[#AAAAAA] text-sm md:text-base">
-                        +012-3456-78910
+                        +88 01897-669233
                       </p>
                     </div>
                   </div>
@@ -230,7 +230,8 @@ const ContactUs = () => {
                         Location
                       </p>
                       <p className="text-[#AAAAAA] text-sm md:text-base">
-                        A-Majid Tower, Pragati Sarani, Dhaka-1229
+                        8th Floor, A, Majid Tower, Ka-24 Progati Sarani Rd,
+                        Dhaka 1229
                       </p>
                     </div>
                   </div>
@@ -239,88 +240,24 @@ const ContactUs = () => {
                 {/* Social Media */}
                 <div>
                   <p className="text-white text-sm md:text-base font-medium mb-4">
-                    Social media
+                    Instant Query
                   </p>
                   <div className="flex items-center gap-3">
                     <a
-                      href="#"
-                      className="w-12 h-12 rounded-lg bg-[#424242]/50 hover:bg-[#424242]/70 border border-white/5 flex items-center justify-center transition-all duration-200"
-                      aria-label="Facebook"
-                    >
-                      <svg
-                        width="20"
-                        height="20"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="white"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
-                      </svg>
-                    </a>
-                    <a
-                      href="#"
-                      className="w-12 h-12 rounded-lg bg-[#424242]/50 hover:bg-[#424242]/70 border border-white/5 flex items-center justify-center transition-all duration-200"
-                      aria-label="LinkedIn"
-                    >
-                      <svg
-                        width="20"
-                        height="20"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="white"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z" />
-                        <circle cx="4" cy="4" r="2" fill="white" />
-                      </svg>
-                    </a>
-                    <a
-                      href="#"
-                      className="w-12 h-12 rounded-lg bg-[#424242]/50 hover:bg-[#424242]/70 border border-white/5 flex items-center justify-center transition-all duration-200"
+                      href="https://wa.me/8801897669233"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-14 h-14 rounded-lg text-white bg-orange-bg-cta border border-white/5 flex items-center justify-center transition-all duration-200 hover:scale-110"
                       aria-label="WhatsApp"
                     >
                       <svg
-                        width="20"
-                        height="20"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="white"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
                         xmlns="http://www.w3.org/2000/svg"
+                        width="32"
+                        height="32"
+                        fill="currentColor"
+                        viewBox="0 0 16 16"
                       >
-                        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
-                      </svg>
-                    </a>
-                    <a
-                      href="#"
-                      className="w-12 h-12 rounded-lg bg-[#424242]/50 hover:bg-[#424242]/70 border border-white/5 flex items-center justify-center transition-all duration-200"
-                      aria-label="Behance"
-                    >
-                      <svg
-                        width="20"
-                        height="20"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="white"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path d="M15 6h5M3 8h5.5a2.5 2.5 0 1 1 0 5H3V8zm0 5h5.5a2.5 2.5 0 1 1 0 5H3v-5z" />
-                        <path
-                          d="M16 13.5a3.5 3.5 0 1 0 3.5 3.5H16v-3.5z"
-                          fill="none"
-                        />
+                        <path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232" />
                       </svg>
                     </a>
                   </div>
@@ -341,7 +278,7 @@ const ContactUs = () => {
                   {/* Full Name */}
                   <div>
                     <label className="text-white-bg-cta text-base md:text-lg mb-2 block">
-                      Client Name
+                      Full Name
                     </label>
                     <input
                       type="text"
@@ -439,14 +376,19 @@ const ContactUs = () => {
                       <label className="text-white-bg-cta text-base md:text-lg mb-2 block">
                         Budget
                       </label>
-                      <input
-                        type="number"
-                        name="budget"
-                        placeholder="Budget"
-                        value={formData.budget}
-                        onChange={handleChange}
-                        className="w-full px-4 py-3 bg-[#3F3F3F] border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-orange-bg-cta transition-colors duration-200"
-                      />
+                      <div className="relative">
+                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-white pointer-events-none">
+                          $
+                        </span>
+                        <input
+                          type="number"
+                          name="budget"
+                          placeholder="Enter your budget"
+                          value={formData.budget}
+                          onChange={handleChange}
+                          className="w-full pl-8 pr-4 py-3 bg-[#3F3F3F] border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-orange-bg-cta transition-colors duration-200"
+                        />
+                      </div>
                     </div>
                   </div>
 
@@ -468,7 +410,7 @@ const ContactUs = () => {
                   {/* Message */}
                   <div>
                     <label className="text-white-bg-cta text-base md:text-lg mb-2 block">
-                      Client Name
+                      Message
                     </label>
                     <textarea
                       name="message"
