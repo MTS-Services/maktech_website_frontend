@@ -603,36 +603,9 @@ const CreateOrderForm = ({ onCancel }) => {
 // ─── Mobile order card ────────────────────────────────────────────────────────
 const OrderCard = ({ order, onView, onEdit, onDelete }) => (
   <article className='bg-white rounded-xl border border-gray-100 shadow-sm p-4'>
-    <div className='flex items-start justify-between gap-2 mb-3'>
-      <div>
-        <p className='text-base font-semibold text-gray-900'>
-          {order.orderId} — {order.client}
-        </p>
-        <p className='text-sm text-gray-500'>{order.service}</p>
-      </div>
-      <span
-        className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold shrink-0 ${getStatusStyle(order.status)}`}
-      >
-        {order.status}
-      </span>
-    </div>
-
-    <dl className='grid grid-cols-2 gap-y-2 gap-x-3 text-sm mb-3'>
-      <div>
-        <dt className='text-xs text-gray-400'>Start Date</dt>
-        <dd className='text-gray-700'>{order.startDate}</dd>
-      </div>
-      <div>
-        <dt className='text-xs text-gray-400'>Delivery Date</dt>
-        <dd className='text-gray-700'>{order.deliveryDate}</dd>
-      </div>
-      <div>
-        <dt className='text-xs text-gray-400'>Price</dt>
-        <dd className='text-gray-700 font-medium'>{order.price}</dd>
-      </div>
-    </dl>
-
-    <div className='flex justify-end'>
+    {/* Card header: Order ID + ActionMenu */}
+    <div className='flex items-center justify-between gap-2 mb-2'>
+      <p className='text-sm font-bold text-gray-900'>{order.orderId}</p>
       <ActionMenu
         order={order}
         onView={onView}
@@ -640,6 +613,53 @@ const OrderCard = ({ order, onView, onEdit, onDelete }) => (
         onDelete={onDelete}
       />
     </div>
+
+    {/* All table fields in 2-column grid */}
+    <dl className='grid grid-cols-2 gap-x-3 gap-y-3 text-sm'>
+      {/* Client — full width */}
+      <div className='col-span-2'>
+        <dt className='text-xs text-gray-400 mb-0.5'>Client</dt>
+        <dd className='text-gray-900 font-semibold leading-snug'>
+          {order.client}
+        </dd>
+      </div>
+
+      {/* Service — full width */}
+      <div className='col-span-2'>
+        <dt className='text-xs text-gray-400 mb-0.5'>Service</dt>
+        <dd className='text-gray-700 font-medium'>{order.service}</dd>
+      </div>
+
+      {/* Start Date */}
+      <div>
+        <dt className='text-xs text-gray-400 mb-0.5'>Start Date</dt>
+        <dd className='text-gray-700'>{order.startDate}</dd>
+      </div>
+
+      {/* Delivery Date */}
+      <div>
+        <dt className='text-xs text-gray-400 mb-0.5'>Delivery Date</dt>
+        <dd className='text-gray-700'>{order.deliveryDate}</dd>
+      </div>
+
+      {/* Price */}
+      <div>
+        <dt className='text-xs text-gray-400 mb-0.5'>Price</dt>
+        <dd className='text-gray-900 font-bold'>{order.price}</dd>
+      </div>
+
+      {/* Status */}
+      <div>
+        <dt className='text-xs text-gray-400 mb-0.5'>Status</dt>
+        <dd>
+          <span
+            className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold ${getStatusStyle(order.status)}`}
+          >
+            {order.status}
+          </span>
+        </dd>
+      </div>
+    </dl>
   </article>
 );
 
