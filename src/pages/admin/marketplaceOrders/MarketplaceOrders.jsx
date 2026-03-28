@@ -1239,10 +1239,14 @@ export default function MarketplaceOrders() {
   const rangeEnd = Math.min(page * PAGE_SIZE, orders.length);
   const handlePage = (p) => setPage(Math.max(1, Math.min(totalPages, p)));
 
-  const { inProgress, completed } = useMemo(
+  const { inProgress, completed, totalRevenue } = useMemo(
     () => ({
       inProgress: orders.filter((o) => o.opsStatus === 'In Progress').length,
       completed: orders.filter((o) => o.opsStatus === 'Completed').length,
+      totalRevenue: orders.reduce((sum, o) => {
+        const num = parseFloat(String(o.total ?? '').replace(/[^0-9.]/g, ''));
+        return sum + (isNaN(num) ? 0 : num);
+      }, 0),
     }),
     [orders],
   );
@@ -1377,11 +1381,22 @@ export default function MarketplaceOrders() {
         </div>
 
         {/* Stat Cards */}
-        <div className='grid grid-cols-1 sm:grid-cols-3 gap-5'>
+        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5'>
           {[
-            { label: 'Total Orders', value: orders.length },
-            { label: 'In Progress', value: inProgress },
-            { label: 'Completed', value: completed },
+            {
+              label: 'Total Orders',
+              value: orders.length,
+              prefix: '',
+              suffix: '',
+            },
+            { label: 'In Progress', value: inProgress, prefix: '', suffix: '' },
+            { label: 'Completed', value: completed, prefix: '', suffix: '' },
+            {
+              label: 'Total Revenue',
+              value: `$${totalRevenue.toLocaleString('en-US')}`,
+              prefix: '',
+              suffix: '',
+            },
           ].map(({ label, value }) => (
             <div
               key={label}
