@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   MdAdd,
   MdRemoveRedEye,
@@ -8,10 +8,12 @@ import {
   MdArrowBack,
   MdOpenInNew,
   MdKeyboardArrowDown,
+  MdMoreVert,
 } from 'react-icons/md';
 import { toast } from 'react-toastify';
 import AdminTable from '../../../components/AdminTable';
 import Pagination from '../../../components/Pagination';
+import ConfirmDeleteModal from '../../../components/ConfirmDeleteModal';
 import { getPageRange } from '../../../utils/helpers';
 
 // ─── Static order data ────────────────────────────────────────────────────────
@@ -23,7 +25,7 @@ const INITIAL_ORDERS = [
     service: 'Website Development',
     startDate: '2026-01-15',
     deliveryDate: '2026-02-15',
-    price: '৳85,000',
+    price: '$85,000',
     status: 'In progress',
     assignedTeam: 'Development Team A',
     notes: 'E-commerce website with payment gateway integration',
@@ -35,7 +37,7 @@ const INITIAL_ORDERS = [
     service: 'Digital Marketing',
     startDate: '2026-01-20',
     deliveryDate: '2026-02-20',
-    price: '৳45,000',
+    price: '$45,000',
     status: 'In progress',
     assignedTeam: 'Marketing Team B',
     notes: 'Focus on social media channels and email campaigns',
@@ -47,7 +49,7 @@ const INITIAL_ORDERS = [
     service: 'Mobile App Development',
     startDate: '2025-12-01',
     deliveryDate: '2026-01-15',
-    price: '৳1,50,000',
+    price: '$1,50,000',
     status: 'Completed',
     assignedTeam: 'Mobile Dev Team C',
     notes: 'Cross-platform app for iOS and Android with offline support',
@@ -59,7 +61,7 @@ const INITIAL_ORDERS = [
     service: 'SEO Optimization',
     startDate: '2026-01-25',
     deliveryDate: '2026-03-25',
-    price: '৳35,000',
+    price: '$35,000',
     status: 'Pending',
     assignedTeam: 'SEO & Analytics Team',
     notes: 'Improve organic rankings for top 20 target keywords',
@@ -71,7 +73,7 @@ const INITIAL_ORDERS = [
     service: 'E-commerce Development',
     startDate: '2026-02-01',
     deliveryDate: '2026-04-01',
-    price: '৳1,20,000',
+    price: '$1,20,000',
     status: 'Pending',
     assignedTeam: 'Development Team A',
     notes: 'Multi-vendor marketplace with Stripe and bKash integration',
@@ -83,7 +85,7 @@ const INITIAL_ORDERS = [
     service: 'Brand Identity Design',
     startDate: '2026-01-10',
     deliveryDate: '2026-02-10',
-    price: '৳25,000',
+    price: '$25,000',
     status: 'Completed',
     assignedTeam: 'Design Team D',
     notes: 'Logo, brand guidelines, business card, and stationery kit',
@@ -95,7 +97,7 @@ const INITIAL_ORDERS = [
     service: 'Content Management System',
     startDate: '2026-02-05',
     deliveryDate: '2026-04-05',
-    price: '৳70,000',
+    price: '$70,000',
     status: 'In progress',
     assignedTeam: 'Development Team B',
     notes: 'Headless CMS with custom admin panel and role-based access',
@@ -107,7 +109,7 @@ const INITIAL_ORDERS = [
     service: 'Social Media Campaign',
     startDate: '2026-02-10',
     deliveryDate: '2026-03-10',
-    price: '৳18,000',
+    price: '$18,000',
     status: 'Pending',
     assignedTeam: 'Marketing Team A',
     notes: '60-day campaign targeting Facebook and Instagram audiences',
@@ -119,7 +121,7 @@ const INITIAL_ORDERS = [
     service: 'Mobile App Development',
     startDate: '2026-01-05',
     deliveryDate: '2026-03-05',
-    price: '৳95,000',
+    price: '$95,000',
     status: 'In progress',
     assignedTeam: 'Mobile Dev Team C',
     notes: 'Fintech app with biometric authentication and transaction history',
@@ -131,7 +133,7 @@ const INITIAL_ORDERS = [
     service: 'Website Redesign',
     startDate: '2025-11-15',
     deliveryDate: '2026-01-15',
-    price: '৳55,000',
+    price: '$55,000',
     status: 'Completed',
     assignedTeam: 'Development Team A',
     notes:
@@ -163,6 +165,111 @@ const getStatusStyle = (status) =>
   STATUS_STYLES[status] ?? 'bg-gray-100 text-gray-600';
 
 const TD = 'px-5 py-3.5 text-sm text-gray-700 whitespace-nowrap';
+
+// ─── Kebab action menu ────────────────────────────────────────────────────────
+const DROPDOWN_W = 144;
+const DROPDOWN_H = 120;
+
+const ActionMenu = ({ order, onView, onEdit, onDelete }) => {
+  const [open, setOpen] = useState(false);
+  const [pos, setPos] = useState({ top: 0, left: 0, openUp: false });
+  const btnRef = useRef(null);
+
+  const handleToggle = () => {
+    if (!open && btnRef.current) {
+      const rect = btnRef.current.getBoundingClientRect();
+      const spaceBelow = window.innerHeight - rect.bottom;
+      const openUp = spaceBelow < DROPDOWN_H + 8;
+      setPos({
+        top: openUp ? rect.top - DROPDOWN_H - 4 : rect.bottom + 4,
+        left: Math.min(
+          rect.right - DROPDOWN_W,
+          window.innerWidth - DROPDOWN_W - 8,
+        ),
+        openUp,
+      });
+    }
+    setOpen((v) => !v);
+  };
+
+  useEffect(() => {
+    if (!open) return;
+    const close = () => setOpen(false);
+    window.addEventListener('scroll', close, true);
+    window.addEventListener('click', close);
+    return () => {
+      window.removeEventListener('scroll', close, true);
+      window.removeEventListener('click', close);
+    };
+  }, [open]);
+
+  return (
+    <div className='relative inline-block'>
+      <button
+        ref={btnRef}
+        type='button'
+        onClick={(e) => {
+          e.stopPropagation();
+          handleToggle();
+        }}
+        aria-label='Order actions'
+        aria-haspopup='true'
+        aria-expanded={open}
+        className='p-1.5 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-orange-50/40 transition-colors duration-150'
+      >
+        <MdMoreVert className='text-xl' />
+      </button>
+
+      {open && (
+        <div
+          onClick={(e) => e.stopPropagation()}
+          style={{
+            position: 'fixed',
+            top: pos.top,
+            left: pos.left,
+            width: DROPDOWN_W,
+            zIndex: 9999,
+          }}
+          className='bg-white rounded-xl shadow-lg border border-gray-100 py-1 overflow-hidden'
+        >
+          <button
+            type='button'
+            onClick={() => {
+              setOpen(false);
+              onView(order);
+            }}
+            className='w-full flex items-center gap-2.5 px-3.5 py-2 text-sm text-gray-700 hover:bg-orange-50/40 hover:text-gray-900 transition-colors duration-150'
+          >
+            <MdRemoveRedEye className='text-base shrink-0 text-orange-400' />
+            View
+          </button>
+          <button
+            type='button'
+            onClick={() => {
+              setOpen(false);
+              onEdit(order);
+            }}
+            className='w-full flex items-center gap-2.5 px-3.5 py-2 text-sm text-gray-700 hover:bg-orange-50/40 hover:text-gray-900 transition-colors duration-150'
+          >
+            <MdEdit className='text-base shrink-0 text-blue-400' />
+            Edit
+          </button>
+          <button
+            type='button'
+            onClick={() => {
+              setOpen(false);
+              onDelete(order.id);
+            }}
+            className='w-full flex items-center gap-2.5 px-3.5 py-2 text-sm text-red-500 hover:bg-red-50 transition-colors duration-150'
+          >
+            <MdDelete className='text-base shrink-0' />
+            Delete
+          </button>
+        </div>
+      )}
+    </div>
+  );
+};
 
 // Shared input / select / textarea class for the create-order form
 const INPUT_CLS =
@@ -525,30 +632,14 @@ const OrderCard = ({ order, onView, onEdit, onDelete }) => (
       </div>
     </dl>
 
-    <button
-      type='button'
-      onClick={() => onView(order)}
-      aria-label={`View order ${order.orderId}`}
-      className='p-1.5 rounded-lg text-orange-400 hover:bg-orange-50 transition-colors duration-150'
-    >
-      <MdRemoveRedEye className='text-lg' aria-hidden='true' />
-    </button>
-    <button
-      type='button'
-      onClick={() => onEdit(order)}
-      aria-label={`Edit order ${order.orderId}`}
-      className='p-1.5 rounded-lg text-blue-400 hover:bg-blue-50 transition-colors duration-150'
-    >
-      <MdEdit className='text-lg' aria-hidden='true' />
-    </button>
-    <button
-      type='button'
-      onClick={() => onDelete(order.id)}
-      aria-label={`Delete order ${order.orderId}`}
-      className='p-1.5 rounded-lg text-red-400 hover:bg-red-50 transition-colors duration-150'
-    >
-      <MdDelete className='text-lg' aria-hidden='true' />
-    </button>
+    <div className='flex justify-end'>
+      <ActionMenu
+        order={order}
+        onView={onView}
+        onEdit={onEdit}
+        onDelete={onDelete}
+      />
+    </div>
   </article>
 );
 
@@ -569,32 +660,12 @@ const OrderRow = ({ order, onView, onEdit, onDelete }) => (
       </span>
     </td>
     <td className='px-5 py-3.5'>
-      <div className='flex items-center gap-1'>
-        <button
-          type='button'
-          onClick={() => onView(order)}
-          aria-label={`View order ${order.orderId}`}
-          className='p-1.5 rounded-lg text-orange-400 hover:bg-orange-50 transition-colors duration-150'
-        >
-          <MdRemoveRedEye className='text-lg' aria-hidden='true' />
-        </button>
-        <button
-          type='button'
-          onClick={() => onEdit(order)}
-          aria-label={`Edit order ${order.orderId}`}
-          className='p-1.5 rounded-lg text-blue-400 hover:bg-blue-50 transition-colors duration-150'
-        >
-          <MdEdit className='text-lg' aria-hidden='true' />
-        </button>
-        <button
-          type='button'
-          onClick={() => onDelete(order.id)}
-          aria-label={`Delete order ${order.orderId}`}
-          className='p-1.5 rounded-lg text-red-400 hover:bg-red-50 transition-colors duration-150'
-        >
-          <MdDelete className='text-lg' aria-hidden='true' />
-        </button>
-      </div>
+      <ActionMenu
+        order={order}
+        onView={onView}
+        onEdit={onEdit}
+        onDelete={onDelete}
+      />
     </td>
   </tr>
 );
@@ -827,8 +898,16 @@ export default function Orders() {
   const [creatingOrder, setCreatingOrder] = useState(false);
   const [editingOrder, setEditingOrder] = useState(null);
 
+  const [deleteTarget, setDeleteTarget] = useState(null);
+
   const handleDelete = (id) => {
-    setOrders((prev) => prev.filter((o) => o.id !== id));
+    const order = orders.find((o) => o.id === id);
+    if (order) setDeleteTarget(order);
+  };
+
+  const confirmDelete = () => {
+    setOrders((prev) => prev.filter((o) => o.id !== deleteTarget.id));
+    setDeleteTarget(null);
     toast.success('Order deleted.');
   };
 
@@ -854,105 +933,119 @@ export default function Orders() {
     );
 
   return (
-    <div className='space-y-6 pb-8'>
-      {/* Page Header */}
-      <div className='flex flex-wrap items-start justify-between gap-4'>
-        <div>
-          <h1 className='text-2xl sm:text-3xl font-bold text-gray-900 leading-tight'>
-            Orders
-          </h1>
-          <p className='text-base text-gray-500 mt-1'>
-            Project &amp; revenue management
-          </p>
+    <>
+      <div className='space-y-6 pb-8'>
+        {/* Page Header */}
+        <div className='flex flex-wrap items-start justify-between gap-4'>
+          <div>
+            <h1 className='text-2xl sm:text-3xl font-bold text-gray-900 leading-tight'>
+              Orders
+            </h1>
+            <p className='text-base text-gray-500 mt-1'>
+              Project &amp; revenue management
+            </p>
+          </div>
+
+          <button
+            type='button'
+            onClick={() => setCreatingOrder(true)}
+            className='group inline-flex cursor-pointer items-center gap-2 overflow-hidden px-5 py-2.5 text-sm font-semibold text-white bg-orange-bg-cta rounded-lg hover:bg-[#e5501a] hover:shadow-[0_4px_14px_rgba(255,101,51,0.35)] transition-all duration-200 active:scale-[0.97]'
+          >
+            <MdAdd
+              className='text-lg shrink-0 transition-transform duration-300 ease-out group-hover:translate-x-1'
+              aria-hidden='true'
+            />
+            <span className='inline-block -translate-x-1 transition-transform duration-300 ease-out delay-100 group-hover:translate-x-0'>
+              Create New Order
+            </span>
+          </button>
         </div>
 
-        <button
-          type='button'
-          onClick={() => setCreatingOrder(true)}
-          className='group inline-flex cursor-pointer items-center gap-2 overflow-hidden px-5 py-2.5 text-sm font-semibold text-white bg-orange-bg-cta rounded-lg hover:bg-[#e5501a] hover:shadow-[0_4px_14px_rgba(255,101,51,0.35)] transition-all duration-200 active:scale-[0.97]'
-        >
-          <MdAdd
-            className='text-lg shrink-0 transition-transform duration-300 ease-out group-hover:translate-x-1'
-            aria-hidden='true'
-          />
-          <span className='inline-block -translate-x-1 transition-transform duration-300 ease-out delay-100 group-hover:translate-x-0'>
-            Create New Order
-          </span>
-        </button>
-      </div>
-
-      {/* Stat Cards */}
-      <div className='grid grid-cols-1 sm:grid-cols-3 gap-5'>
-        {[
-          { label: 'Total Orders', value: orders.length },
-          { label: 'In Progress', value: inProgress },
-          { label: 'Completed', value: completed },
-        ].map(({ label, value }) => (
-          <div
-            key={label}
-            className='bg-white rounded-xl border border-gray-100 shadow-sm p-6'
-          >
-            <p className='text-sm font-medium text-gray-500 mb-2'>{label}</p>
-            <p className='text-4xl font-bold text-gray-900'>{value}</p>
-          </div>
-        ))}
-      </div>
-
-      {/* Orders list — single card */}
-      <section
-        aria-label='Orders list'
-        className='bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden'
-      >
-        {/* Mobile: card list */}
-        <div className='sm:hidden p-4 space-y-3'>
-          {pageData.map((order) => (
-            <div key={order.id} role='listitem'>
-              <OrderCard
-                order={order}
-                onView={setViewingOrder}
-                onEdit={setEditingOrder}
-                onDelete={handleDelete}
-              />
+        {/* Stat Cards */}
+        <div className='grid grid-cols-1 sm:grid-cols-3 gap-5'>
+          {[
+            { label: 'Total Orders', value: orders.length },
+            { label: 'In Progress', value: inProgress },
+            { label: 'Completed', value: completed },
+          ].map(({ label, value }) => (
+            <div
+              key={label}
+              className='bg-white rounded-xl border border-gray-100 shadow-sm p-6'
+            >
+              <p className='text-sm font-medium text-gray-500 mb-2'>{label}</p>
+              <p className='text-4xl font-bold text-gray-900'>{value}</p>
             </div>
           ))}
         </div>
 
-        {/* Desktop: table */}
-        <div className='hidden sm:block overflow-x-auto'>
-          <AdminTable columns={ORDER_COLS} ariaLabel='Orders list'>
+        {/* Orders list — single card */}
+        <section
+          aria-label='Orders list'
+          className='bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden'
+        >
+          {/* Mobile: card list */}
+          <div className='sm:hidden p-4 space-y-3'>
             {pageData.map((order) => (
-              <OrderRow
-                key={order.id}
-                order={order}
-                onView={setViewingOrder}
-                onEdit={setEditingOrder}
-                onDelete={handleDelete}
-              />
+              <div key={order.id} role='listitem'>
+                <OrderCard
+                  order={order}
+                  onView={setViewingOrder}
+                  onEdit={setEditingOrder}
+                  onDelete={handleDelete}
+                />
+              </div>
             ))}
-          </AdminTable>
-        </div>
+          </div>
 
-        {/* Bottom bar */}
-        <div className='flex flex-col items-center gap-3 px-5 py-4 border-t border-gray-100 sm:flex-row sm:items-center sm:justify-between'>
-          <p className='text-sm text-gray-400 shrink-0'>
-            Showing{' '}
-            <span className='font-semibold text-gray-700'>
-              {rangeStart} to {rangeEnd}
-            </span>{' '}
-            of{' '}
-            <span className='font-semibold text-gray-700'>{orders.length}</span>{' '}
-            orders
-          </p>
-          <nav aria-label='Pagination'>
-            <Pagination
-              page={page}
-              totalPages={totalPages}
-              pageRange={pageRange}
-              onPage={handlePage}
-            />
-          </nav>
-        </div>
-      </section>
-    </div>
+          {/* Desktop: table */}
+          <div className='hidden sm:block overflow-x-auto'>
+            <AdminTable columns={ORDER_COLS} ariaLabel='Orders list'>
+              {pageData.map((order) => (
+                <OrderRow
+                  key={order.id}
+                  order={order}
+                  onView={setViewingOrder}
+                  onEdit={setEditingOrder}
+                  onDelete={handleDelete}
+                />
+              ))}
+            </AdminTable>
+          </div>
+
+          {/* Bottom bar */}
+          <div className='flex flex-col items-center gap-3 px-5 py-4 border-t border-gray-100 sm:flex-row sm:items-center sm:justify-between'>
+            <p className='text-sm text-gray-400 shrink-0'>
+              Showing{' '}
+              <span className='font-semibold text-gray-700'>
+                {rangeStart} to {rangeEnd}
+              </span>{' '}
+              of{' '}
+              <span className='font-semibold text-gray-700'>
+                {orders.length}
+              </span>{' '}
+              orders
+            </p>
+            <nav aria-label='Pagination'>
+              <Pagination
+                page={page}
+                totalPages={totalPages}
+                pageRange={pageRange}
+                onPage={handlePage}
+              />
+            </nav>
+          </div>
+        </section>
+      </div>
+
+      {deleteTarget && (
+        <ConfirmDeleteModal
+          title='Delete Order?'
+          description={`${deleteTarget.orderId} — ${deleteTarget.client}`}
+          hint='This action is permanent and cannot be undone.'
+          onConfirm={confirmDelete}
+          onCancel={() => setDeleteTarget(null)}
+        />
+      )}
+    </>
   );
 }
