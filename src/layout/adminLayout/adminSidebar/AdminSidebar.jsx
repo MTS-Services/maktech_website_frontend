@@ -145,15 +145,6 @@ const Sidebar = ({
         >
           <MdClose className='text-xl' />
         </button>
-        {/* Desktop close / collapse button */}
-        <button
-          type='button'
-          onClick={onDesktopClose}
-          className='hidden lg:flex items-center justify-center mt-0.5 p-1.5 -mr-1 rounded-md text-gray-500 hover:text-gray-900 hover:bg-orange-50/40 transition-colors'
-          aria-label='Collapse sidebar'
-        >
-          <MdDoubleArrow className='text-xl rotate-180' />
-        </button>
       </div>
 
       {/* Navigation */}
