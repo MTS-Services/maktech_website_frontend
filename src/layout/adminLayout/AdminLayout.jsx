@@ -6,6 +6,17 @@ import { MdMenu } from 'react-icons/md';
 const AdminLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [desktopOpen, setDesktopOpen] = useState(true);
+  const [isDesktop, setIsDesktop] = useState(
+    () => typeof window !== 'undefined' && window.innerWidth >= 1024,
+  );
+
+  // Track desktop breakpoint
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 1024px)');
+    const handler = (e) => setIsDesktop(e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
 
   // Close on Escape key (mobile drawer only)
   useEffect(() => {
@@ -52,7 +63,11 @@ const AdminLayout = () => {
           onClose={() => setSidebarOpen(false)}
           onDesktopClose={() => setDesktopOpen(false)}
           onAutoCollapse={() => setDesktopOpen(false)}
-          isCollapsed={!desktopOpen}
+          isCollapsed={
+            !desktopOpen &&
+            typeof window !== 'undefined' &&
+            window.innerWidth >= 1024
+          }
           onExpand={() => setDesktopOpen(true)}
         />
       </aside>
