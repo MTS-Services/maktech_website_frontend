@@ -256,14 +256,33 @@ const TABLE_COLS = [
 ];
 
 const STATUS_STYLES = {
+  // Current options
+  'Client Update': 'bg-amber-50 text-amber-700',
+  Delivered: 'bg-green-50 text-green-700',
+  Complete: 'bg-emerald-50 text-emerald-700',
+  NRA: 'bg-gray-100 text-gray-600',
+  WIP: 'bg-blue-50 text-blue-700',
+  Submitted: 'bg-indigo-50 text-indigo-700',
+  Revision: 'bg-orange-50 text-orange-700',
+  Cancelled: 'bg-red-50 text-red-600',
+  // Legacy (existing data)
   'In Progress': 'bg-blue-50 text-blue-700',
   Completed: 'bg-green-50 text-green-700',
   Pending: 'bg-amber-50 text-amber-700',
-  Cancelled: 'bg-red-50 text-red-600',
 };
 const getStatusStyle = (s) => STATUS_STYLES[s] ?? 'bg-gray-100 text-gray-600';
 
 const SALES_STATUS_STYLES = {
+  // Current options
+  WIP: 'bg-blue-50 text-blue-700',
+  Delivered: 'bg-green-50 text-green-700',
+  Complete: 'bg-emerald-50 text-emerald-700',
+  NRA: 'bg-gray-100 text-gray-600',
+  Submitted: 'bg-indigo-50 text-indigo-700',
+  Revision: 'bg-orange-50 text-orange-700',
+  'Client Update': 'bg-amber-50 text-amber-700',
+  Cancelled: 'bg-red-50 text-red-600',
+  // Legacy (existing data)
   Won: 'bg-green-50 text-green-700',
   Negotiating: 'bg-blue-50 text-blue-700',
   Lead: 'bg-purple-50 text-purple-700',
@@ -273,8 +292,26 @@ const SALES_STATUS_STYLES = {
 const getSalesStatusStyle = (s) =>
   SALES_STATUS_STYLES[s] ?? 'bg-gray-100 text-gray-600';
 
-const OPS_STATUS_OPTIONS = ['Pending', 'In Progress', 'Completed', 'Cancelled'];
-const SALES_STATUS_OPTIONS = ['Lead', 'Negotiating', 'Won', 'Lost', 'On Hold'];
+const OPS_STATUS_OPTIONS = [
+  'Client Update',
+  'Delivered',
+  'Complete',
+  'NRA',
+  'WIP',
+  'Submitted',
+  'Revision',
+  'Cancelled',
+];
+const SALES_STATUS_OPTIONS = [
+  'WIP',
+  'Delivered',
+  'Complete',
+  'NRA',
+  'Submitted',
+  'Revision',
+  'Client Update',
+  'Cancelled',
+];
 
 const DEPARTMENT_OPTIONS = [
   'UI/UX',
@@ -309,15 +346,24 @@ const getCountdown = (deliveryDate) => {
 };
 
 const TEAM_OPTIONS = [
-  'UI/UX',
-  'Graphics',
-  'Laravel',
-  'Flutter',
-  'Mern',
-  'WordPress',
-  'Marketing',
-  'Shopify',
-  'Wix',
+  'Fahim + Team',
+  'Masud Mia + Team',
+  'Shakil Team',
+  'Fluttter Team',
+  'MERN + Team',
+  'UI-UX Team',
+  'DM Team',
+  'Graphic Team',
+  'RMT IT',
+  'R2A IT',
+  'Helal Team',
+  'Uzzal Team',
+  'Shrity Team',
+  'Sohidul Team',
+  'Sagor Team DM',
+  'Eshan + Team',
+  'Shorif + Laravel',
+  'Al-Saas Team',
 ];
 
 const TD = 'px-5 py-3.5 text-sm text-gray-700 whitespace-nowrap';
@@ -340,7 +386,7 @@ const EMPTY_FORM = {
   orderId: '',
   date: '',
   account: '',
-  salesStatus: 'Lead',
+  salesStatus: '',
   leadingPerson: '',
   deliveryLastDate: '',
   sheetLink: '',
@@ -353,7 +399,7 @@ const EMPTY_FORM = {
   bonus: '',
   afterBounce: '',
   total: '',
-  opsStatus: 'Pending',
+  opsStatus: '',
   assignTeam: '',
 };
 
@@ -368,6 +414,11 @@ const SelectField = ({ id, name, value, onChange, options, required }) => (
       required={required}
       className={`${INPUT_CLS} appearance-none pr-10 cursor-pointer`}
     >
+      {required && (
+        <option value='' disabled>
+          — Select —
+        </option>
+      )}
       {!required && <option value=''>-- None --</option>}
       {options.map((o) => (
         <option key={o} value={o}>
@@ -392,8 +443,26 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
       ?.scrollTo({ top: 0, behavior: 'instant' });
   }, []);
 
-  const handleChange = (e) =>
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    if (name === 'orderAmount') {
+      const raw = parseFloat(value.replace(/[^0-9.]/g, ''));
+      setForm((prev) => ({
+        ...prev,
+        orderAmount: value,
+        afterFiverr: isNaN(raw) ? '' : String(Math.round(raw * 0.8)),
+      }));
+    } else if (name === 'bonus') {
+      const raw = parseFloat(value.replace(/[^0-9.]/g, ''));
+      setForm((prev) => ({
+        ...prev,
+        bonus: value,
+        afterBounce: isNaN(raw) ? '' : String(Math.round(raw * 0.8)),
+      }));
+    } else {
+      setForm((prev) => ({ ...prev, [name]: value }));
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -468,10 +537,10 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
               />
             </div>
 
-            {/* Order ID */}
+            {/* ID */}
             <div>
               <label htmlFor='mp-orderId' className={LABEL_CLS}>
-                Order ID{REQUIRED_STAR}
+                ID{REQUIRED_STAR}
               </label>
               <input
                 id='mp-orderId'
@@ -535,10 +604,10 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
               />
             </div>
 
-            {/* Delivery Last Date */}
+            {/* Delivery Date */}
             <div>
               <label htmlFor='mp-deliveryLastDate' className={LABEL_CLS}>
-                Delivery Last Date{REQUIRED_STAR}
+                Delivery Date{REQUIRED_STAR}
               </label>
               <input
                 id='mp-deliveryLastDate'
@@ -639,33 +708,48 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
               <label htmlFor='mp-orderAmount' className={LABEL_CLS}>
                 Order Amount{REQUIRED_STAR}
               </label>
-              <input
-                id='mp-orderAmount'
-                name='orderAmount'
-                type='text'
-                value={form.orderAmount}
-                onChange={handleChange}
-                autoComplete='off'
-                required
-                className={INPUT_CLS}
-              />
+              <div className='relative'>
+                <span className='absolute left-3.5 top-1/2 -translate-y-1/2 text-sm font-medium text-gray-500 pointer-events-none select-none'>
+                  $
+                </span>
+                <input
+                  id='mp-orderAmount'
+                  name='orderAmount'
+                  type='text'
+                  value={form.orderAmount}
+                  onChange={handleChange}
+                  autoComplete='off'
+                  required
+                  placeholder='0'
+                  className={`${INPUT_CLS} pl-7`}
+                />
+              </div>
             </div>
 
             {/* After Fiverr */}
             <div>
               <label htmlFor='mp-afterFiverr' className={LABEL_CLS}>
                 After Fiverr{REQUIRED_STAR}
+                <span className='ml-1.5 text-xs font-normal text-gray-400'>
+                  (20% cut)
+                </span>
               </label>
-              <input
-                id='mp-afterFiverr'
-                name='afterFiverr'
-                type='text'
-                value={form.afterFiverr}
-                onChange={handleChange}
-                autoComplete='off'
-                required
-                className={INPUT_CLS}
-              />
+              <div className='relative'>
+                <span className='absolute left-3.5 top-1/2 -translate-y-1/2 text-sm font-medium text-gray-500 pointer-events-none select-none'>
+                  $
+                </span>
+                <input
+                  id='mp-afterFiverr'
+                  name='afterFiverr'
+                  type='text'
+                  value={form.afterFiverr}
+                  onChange={handleChange}
+                  autoComplete='off'
+                  required
+                  placeholder='Auto-calculated'
+                  className={`${INPUT_CLS} pl-7 bg-gray-50`}
+                />
+              </div>
             </div>
 
             {/* Bonus */}
@@ -673,32 +757,46 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
               <label htmlFor='mp-bonus' className={LABEL_CLS}>
                 Bonus
               </label>
-              <input
-                id='mp-bonus'
-                name='bonus'
-                type='text'
-                value={form.bonus}
-                onChange={handleChange}
-                autoComplete='off'
-                className={INPUT_CLS}
-              />
+              <div className='relative'>
+                <span className='absolute left-3.5 top-1/2 -translate-y-1/2 text-sm font-medium text-gray-500 pointer-events-none select-none'>
+                  $
+                </span>
+                <input
+                  id='mp-bonus'
+                  name='bonus'
+                  type='text'
+                  value={form.bonus}
+                  onChange={handleChange}
+                  autoComplete='off'
+                  placeholder='0'
+                  className={`${INPUT_CLS} pl-7`}
+                />
+              </div>
             </div>
 
-            {/* After Bounce */}
+            {/* After Bonus */}
             <div>
               <label htmlFor='mp-afterBounce' className={LABEL_CLS}>
-                After Bounce{REQUIRED_STAR}
+                After Bonus
+                <span className='ml-1.5 text-xs font-normal text-gray-400'>
+                  (20% cut)
+                </span>
               </label>
-              <input
-                id='mp-afterBounce'
-                name='afterBounce'
-                type='text'
-                value={form.afterBounce}
-                onChange={handleChange}
-                autoComplete='off'
-                required
-                className={INPUT_CLS}
-              />
+              <div className='relative'>
+                <span className='absolute left-3.5 top-1/2 -translate-y-1/2 text-sm font-medium text-gray-500 pointer-events-none select-none'>
+                  $
+                </span>
+                <input
+                  id='mp-afterBounce'
+                  name='afterBounce'
+                  type='text'
+                  value={form.afterBounce}
+                  onChange={handleChange}
+                  autoComplete='off'
+                  placeholder='Auto-calculated'
+                  className={`${INPUT_CLS} pl-7 bg-gray-50`}
+                />
+              </div>
             </div>
 
             {/* Total */}
@@ -706,16 +804,22 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
               <label htmlFor='mp-total' className={LABEL_CLS}>
                 Total{REQUIRED_STAR}
               </label>
-              <input
-                id='mp-total'
-                name='total'
-                type='text'
-                value={form.total}
-                onChange={handleChange}
-                autoComplete='off'
-                required
-                className={INPUT_CLS}
-              />
+              <div className='relative'>
+                <span className='absolute left-3.5 top-1/2 -translate-y-1/2 text-sm font-medium text-gray-500 pointer-events-none select-none'>
+                  $
+                </span>
+                <input
+                  id='mp-total'
+                  name='total'
+                  type='text'
+                  value={form.total}
+                  onChange={handleChange}
+                  autoComplete='off'
+                  required
+                  placeholder='0'
+                  className={`${INPUT_CLS} pl-7`}
+                />
+              </div>
             </div>
 
             {/* Sales Status */}
@@ -748,10 +852,10 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
               />
             </div>
 
-            {/* Assign Team — full row */}
+            {/* Team — full row */}
             <div className='sm:col-span-2'>
               <label htmlFor='mp-assignTeam' className={LABEL_CLS}>
-                Assign Team{REQUIRED_STAR}
+                Team{REQUIRED_STAR}
               </label>
               <SelectField
                 id='mp-assignTeam'
@@ -921,7 +1025,7 @@ const OrderDetail = ({ order, onBack }) => {
               </dd>
             </div>
             <div>
-              <dt className='text-sm text-gray-400 mb-1'>After Bounce</dt>
+              <dt className='text-sm text-gray-400 mb-1'>After Bonus</dt>
               <dd className='text-base text-gray-800 font-medium'>
                 {order.afterBounce}
               </dd>
@@ -1239,10 +1343,14 @@ export default function MarketplaceOrders() {
   const rangeEnd = Math.min(page * PAGE_SIZE, orders.length);
   const handlePage = (p) => setPage(Math.max(1, Math.min(totalPages, p)));
 
-  const { inProgress, completed } = useMemo(
+  const { inProgress, completed, totalRevenue } = useMemo(
     () => ({
-      inProgress: orders.filter((o) => o.opsStatus === 'In Progress').length,
-      completed: orders.filter((o) => o.opsStatus === 'Completed').length,
+      inProgress: orders.filter((o) => o.opsStatus === 'WIP').length,
+      completed: orders.filter((o) => o.opsStatus === 'Delivered').length,
+      totalRevenue: orders.reduce((sum, o) => {
+        const num = parseFloat(String(o.total ?? '').replace(/[^0-9.]/g, ''));
+        return sum + (isNaN(num) ? 0 : num);
+      }, 0),
     }),
     [orders],
   );
@@ -1258,7 +1366,7 @@ export default function MarketplaceOrders() {
     const newOrder = {
       ...form,
       id: nextId.current++,
-      orderId: `#MP${nextId.current}`,
+      orderId: form.orderId.trim() || `#MP${nextId.current}`,
     };
     setOrders((prev) => [newOrder, ...prev]);
     setCreatingOrder(false);
@@ -1323,7 +1431,7 @@ export default function MarketplaceOrders() {
 
   return (
     <>
-      <div className='space-y-6 pb-8'>
+      <div className='space-y-6 pb-8 -mx-6 px-2 sm:-mx-8 sm:px-2 lg:-mx-10 lg:px-2'>
         {/* Page Header */}
         <div className='flex flex-wrap items-start justify-between gap-4'>
           <div>
@@ -1377,11 +1485,22 @@ export default function MarketplaceOrders() {
         </div>
 
         {/* Stat Cards */}
-        <div className='grid grid-cols-1 sm:grid-cols-3 gap-5'>
+        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5'>
           {[
-            { label: 'Total Orders', value: orders.length },
-            { label: 'In Progress', value: inProgress },
-            { label: 'Completed', value: completed },
+            {
+              label: 'Total Orders',
+              value: orders.length,
+              prefix: '',
+              suffix: '',
+            },
+            { label: 'In Progress', value: inProgress, prefix: '', suffix: '' },
+            { label: 'Delivered', value: completed, prefix: '', suffix: '' },
+            {
+              label: 'Total Revenue',
+              value: `$${totalRevenue.toLocaleString('en-US')}`,
+              prefix: '',
+              suffix: '',
+            },
           ].map(({ label, value }) => (
             <div
               key={label}
