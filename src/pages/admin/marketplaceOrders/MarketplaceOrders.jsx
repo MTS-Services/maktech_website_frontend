@@ -240,7 +240,7 @@ const PAGE_SIZE = 8;
 
 const TABLE_COLS = [
   { label: 'Department' },
-  { label: 'Order ID' },
+  { label: ' ID' },
   { label: 'Date' },
   { label: 'Account' },
   { label: 'Project Name' },
@@ -248,10 +248,10 @@ const TABLE_COLS = [
   { label: 'Sales Status' },
   { label: 'OPS Status' },
   { label: 'Team' },
-  { label: 'Delivery Last Date' },
+  { label: 'Delivery Date' },
   { label: 'Countdown' },
   { label: 'Sheet Link' },
-  { label: 'Total Amount' },
+  { label: 'Total' },
   { label: 'Actions' },
 ];
 
