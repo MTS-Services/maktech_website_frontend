@@ -1435,7 +1435,7 @@ export default function MarketplaceOrders() {
         </div>
 
         {/* Stat Cards */}
-        <div className='grid grid-cols-1 sm:grid-cols-3 gap-5'>
+        <div className='grid grid-cols-3 gap-5'>
           {[
             { label: 'Total Orders', value: orders.length },
             { label: 'In Progress', value: inProgress },

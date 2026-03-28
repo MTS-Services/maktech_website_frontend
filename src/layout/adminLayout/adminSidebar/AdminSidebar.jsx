@@ -87,7 +87,8 @@ const Sidebar = ({
               title={name}
               onClick={() => {
                 onClose();
-                if (autoCollapse && onAutoCollapse) onAutoCollapse();
+                if (autoCollapse && onAutoCollapse && window.innerWidth >= 1024)
+                  onAutoCollapse();
               }}
               className={({ isActive }) =>
                 `w-10 h-10 flex items-center justify-center rounded-lg transition-colors duration-200 ${
@@ -170,7 +171,12 @@ const Sidebar = ({
                 end={path === '/admin/dashboard'}
                 onClick={() => {
                   onClose();
-                  if (autoCollapse && onAutoCollapse) onAutoCollapse();
+                  if (
+                    autoCollapse &&
+                    onAutoCollapse &&
+                    window.innerWidth >= 1024
+                  )
+                    onAutoCollapse();
                 }}
                 className={getNavClass}
               >
