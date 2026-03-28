@@ -1431,7 +1431,7 @@ export default function MarketplaceOrders() {
 
   return (
     <>
-      <div className='space-y-6 pb-8'>
+      <div className='space-y-6 pb-8 -mx-6 px-2 sm:-mx-8 sm:px-2 lg:-mx-10 lg:px-2'>
         {/* Page Header */}
         <div className='flex flex-wrap items-start justify-between gap-4'>
           <div>
