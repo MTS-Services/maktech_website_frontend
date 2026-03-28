@@ -726,7 +726,7 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
             {/* After Bonus */}
             <div>
               <label htmlFor='mp-afterBounce' className={LABEL_CLS}>
-                After Bonus{REQUIRED_STAR}
+                After Bonus
                 <span className='ml-1.5 text-xs font-normal text-gray-400'>
                   (20% cut)
                 </span>
@@ -744,7 +744,6 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
                   autoComplete='off'
                   placeholder='Auto-calculated'
                   className={`${INPUT_CLS} pl-7 bg-gray-50`}
-                  required
                 />
               </div>
             </div>
