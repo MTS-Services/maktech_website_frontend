@@ -59,10 +59,122 @@ const Sidebar = ({
     setTimeout(() => navigate('/login'), 900);
   };
 
-  // ─── Icon-only collapsed strip ────────────────────────────────────
-  if (isCollapsed) {
-    return (
-      <div className='h-full w-full bg-white flex flex-col items-center border-r border-gray-100 py-3 gap-1'>
+  return (
+    <div className='relative h-full w-full bg-white border-r border-gray-100 overflow-hidden'>
+      {/* ── EXPANDED panel ────────────────────────────────────────── */}
+      <div
+        className={`absolute inset-0 flex flex-col transition-opacity duration-300 ease-in-out ${
+          isCollapsed ? 'opacity-0 pointer-events-none' : 'opacity-100'
+        }`}
+        aria-hidden={isCollapsed}
+      >
+        {/* Brand */}
+        <div className='flex items-start justify-between px-5 pt-5 pb-4 border-b border-gray-100 shrink-0'>
+          <div>
+            <img
+              src='/maktech_logo.png'
+              alt='Maktech'
+              width={120}
+              height={32}
+              fetchPriority='high'
+              className='h-8 w-auto object-contain'
+              onError={(e) => {
+                e.currentTarget.style.display = 'none';
+              }}
+            />
+            <p className='text-sm text-gray-400 mt-1.5'>Admin Dashboard</p>
+          </div>
+          <button
+            type='button'
+            onClick={onClose}
+            className='lg:hidden mt-0.5 p-1.5 -mr-1 rounded-md text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors'
+            aria-label='Close navigation'
+          >
+            <MdClose className='text-xl' />
+          </button>
+        </div>
+
+        {/* Navigation */}
+        <nav
+          className='flex-1 overflow-y-auto px-3 py-5'
+          aria-label='Main navigation'
+        >
+          <p className='px-3 mb-3 text-xs font-semibold text-gray-400 uppercase tracking-[0.08em]'>
+            Main Menu
+          </p>
+          <ul className='space-y-1.5' role='list'>
+            {NAV_ITEMS.map(({ name, path, icon: Icon, autoCollapse }) => (
+              <li key={path}>
+                <NavLink
+                  to={path}
+                  end={path === '/admin/dashboard'}
+                  onClick={() => {
+                    onClose();
+                    if (
+                      autoCollapse &&
+                      onAutoCollapse &&
+                      window.innerWidth >= 1024
+                    )
+                      onAutoCollapse();
+                  }}
+                  className={getNavClass}
+                >
+                  {({ isActive }) => (
+                    <>
+                      <Icon
+                        className={`shrink-0 text-xl transition-colors ${
+                          isActive
+                            ? 'text-orange-600'
+                            : 'text-gray-400 group-hover:text-gray-500'
+                        }`}
+                      />
+                      <span className='truncate flex-1'>{name}</span>
+                      <MdChevronRight
+                        className={`shrink-0 text-lg mr-0.5 text-orange-500 drop-shadow-[0_0_6px_#f97316] ${
+                          isActive ? 'animate-nav-arrow' : 'opacity-0'
+                        }`}
+                      />
+                    </>
+                  )}
+                </NavLink>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        {/* Footer */}
+        <div className='shrink-0 border-t border-gray-100 px-3 py-3 space-y-1.5'>
+          <div className='flex items-center gap-3 px-3 py-2.5 rounded-lg bg-gray-50'>
+            <div className='shrink-0 w-9 h-9 rounded-full bg-linear-to-br from-orange-400 to-orange-600 flex items-center justify-center text-white text-base font-bold select-none'>
+              M
+            </div>
+            <div className='min-w-0 flex-1'>
+              <p className='text-base font-semibold text-gray-900 leading-snug truncate'>
+                Maktech Admin
+              </p>
+              <p className='text-sm text-gray-400 leading-snug truncate'>
+                admin@maktech.com
+              </p>
+            </div>
+          </div>
+          <button
+            type='button'
+            onClick={handleLogout}
+            className={`${NAV_BASE} w-full text-gray-600 border-transparent hover:bg-red-50 hover:text-red-600 hover:shadow-[inset_3px_0_0_0_#ef4444]`}
+          >
+            <MdLogout className='shrink-0 text-xl text-gray-400 group-hover:text-red-500 transition-colors' />
+            <span>Sign Out</span>
+          </button>
+        </div>
+      </div>
+
+      {/* ── COLLAPSED icon strip ──────────────────────────────────── */}
+      <div
+        className={`absolute inset-0 flex flex-col items-center py-3 gap-1 transition-opacity duration-300 ease-in-out ${
+          isCollapsed ? 'opacity-100' : 'opacity-0 pointer-events-none'
+        }`}
+        aria-hidden={!isCollapsed}
+      >
         {/* Expand button */}
         <button
           type='button'
@@ -113,112 +225,6 @@ const Sidebar = ({
           className='mt-1 w-10 h-10 flex items-center justify-center rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 transition-colors duration-200 shrink-0'
         >
           <MdLogout className='text-xl' />
-        </button>
-      </div>
-    );
-  }
-
-  return (
-    <div className='h-full w-full bg-white flex flex-col border-r border-gray-100'>
-      {/* Brand */}
-      <div className='flex items-start justify-between px-5 pt-5 pb-4 border-b border-gray-100 shrink-0'>
-        <div>
-          <img
-            src='/maktech_logo.png'
-            alt='Maktech'
-            width={120}
-            height={32}
-            fetchPriority='high'
-            className='h-8 w-auto object-contain'
-            onError={(e) => {
-              e.currentTarget.style.display = 'none';
-            }}
-          />
-          <p className='text-sm text-gray-400 mt-1.5'>Admin Dashboard</p>
-        </div>
-        {/* Mobile close button */}
-        <button
-          type='button'
-          onClick={onClose}
-          className='lg:hidden mt-0.5 p-1.5 -mr-1 rounded-md text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors'
-          aria-label='Close navigation'
-        >
-          <MdClose className='text-xl' />
-        </button>
-      </div>
-
-      {/* Navigation */}
-      <nav
-        className='flex-1 overflow-y-auto px-3 py-5'
-        aria-label='Main navigation'
-      >
-        <p className='px-3 mb-3 text-xs font-semibold text-gray-400 uppercase tracking-[0.08em]'>
-          Main Menu
-        </p>
-        <ul className='space-y-1.5' role='list'>
-          {NAV_ITEMS.map(({ name, path, icon: Icon, autoCollapse }) => (
-            <li key={path}>
-              <NavLink
-                to={path}
-                end={path === '/admin/dashboard'}
-                onClick={() => {
-                  onClose();
-                  if (
-                    autoCollapse &&
-                    onAutoCollapse &&
-                    window.innerWidth >= 1024
-                  )
-                    onAutoCollapse();
-                }}
-                className={getNavClass}
-              >
-                {({ isActive }) => (
-                  <>
-                    <Icon
-                      className={`shrink-0 text-xl transition-colors ${
-                        isActive
-                          ? 'text-orange-600'
-                          : 'text-gray-400 group-hover:text-gray-500'
-                      }`}
-                    />
-                    <span className='truncate flex-1'>{name}</span>
-                    {/* animate-nav-arrow re-fires the keyframe on every active entry */}
-                    <MdChevronRight
-                      className={`shrink-0 text-lg mr-0.5 text-orange-500 drop-shadow-[0_0_6px_#f97316] ${
-                        isActive ? 'animate-nav-arrow' : 'opacity-0'
-                      }`}
-                    />
-                  </>
-                )}
-              </NavLink>
-            </li>
-          ))}
-        </ul>
-      </nav>
-
-      {/* Footer */}
-      <div className='shrink-0 border-t border-gray-100 px-3 py-3 space-y-1.5'>
-        <div className='flex items-center gap-3 px-3 py-2.5 rounded-lg bg-gray-50'>
-          <div className='shrink-0 w-9 h-9 rounded-full bg-linear-to-br from-orange-400 to-orange-600 flex items-center justify-center text-white text-base font-bold select-none'>
-            M
-          </div>
-          <div className='min-w-0 flex-1'>
-            <p className='text-base font-semibold text-gray-900 leading-snug truncate'>
-              Maktech Admin
-            </p>
-            <p className='text-sm text-gray-400 leading-snug truncate'>
-              admin@maktech.com
-            </p>
-          </div>
-        </div>
-
-        <button
-          type='button'
-          onClick={handleLogout}
-          className={`${NAV_BASE} w-full text-gray-600 border-transparent hover:bg-red-50 hover:text-red-600 hover:shadow-[inset_3px_0_0_0_#ef4444]`}
-        >
-          <MdLogout className='shrink-0 text-xl text-gray-400 group-hover:text-red-500 transition-colors' />
-          <span>Sign Out</span>
         </button>
       </div>
     </div>
