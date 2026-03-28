@@ -1100,124 +1100,66 @@ const ActionMenu = ({ order, onView, onEdit, onDelete }) => {
 };
 
 // ─── Mobile card ──────────────────────────────────────────────────────────────
-const OrderCard = ({ order, onView, onEdit, onDelete }) => {
-  const countdown = getCountdown(order.deliveryLastDate);
-  return (
-    <article className='bg-white rounded-xl border border-gray-100 shadow-sm p-4'>
-      {/* Header: Order ID + Actions */}
-      <div className='flex items-center justify-between gap-2 mb-4'>
-        <p className='text-sm font-bold text-gray-900'>{order.orderId}</p>
-        <ActionMenu
-          order={order}
-          onView={onView}
-          onEdit={onEdit}
-          onDelete={onDelete}
-        />
+const OrderCard = ({ order, onView, onEdit, onDelete }) => (
+  <article className='bg-white rounded-xl border border-gray-100 shadow-sm p-4'>
+    {/* Header: Order ID + Actions */}
+    <div className='flex items-center justify-between gap-2 mb-2'>
+      <p className='text-sm font-bold text-gray-900'>{order.orderId}</p>
+      <ActionMenu
+        order={order}
+        onView={onView}
+        onEdit={onEdit}
+        onDelete={onDelete}
+      />
+    </div>
+
+    <dl className='grid grid-cols-2 gap-x-3 gap-y-3 text-sm'>
+      {/* Project Name — full width */}
+      <div className='col-span-2'>
+        <dt className='text-xs text-gray-400 mb-0.5'>Project Name</dt>
+        <dd className='text-gray-900 font-semibold leading-snug'>
+          {order.projectName}
+        </dd>
       </div>
 
-      <dl className='grid grid-cols-2 gap-x-4 gap-y-3 text-sm'>
-        {/* 1 Department */}
-        <div>
-          <dt className='text-xs text-gray-400 mb-0.5'>Department</dt>
-          <dd className='text-gray-700'>{order.department || '—'}</dd>
-        </div>
+      {/* Client Name — full width */}
+      <div className='col-span-2'>
+        <dt className='text-xs text-gray-400 mb-0.5'>Client Name</dt>
+        <dd className='text-gray-700 font-medium'>{order.clientName}</dd>
+      </div>
 
-        {/* 2 Date */}
-        <div>
-          <dt className='text-xs text-gray-400 mb-0.5'>Date</dt>
-          <dd className='text-gray-700'>{order.date}</dd>
-        </div>
+      {/* Date */}
+      <div>
+        <dt className='text-xs text-gray-400 mb-0.5'>Date</dt>
+        <dd className='text-gray-700'>{order.date || '—'}</dd>
+      </div>
 
-        {/* 3 Account */}
-        <div>
-          <dt className='text-xs text-gray-400 mb-0.5'>Account</dt>
-          <dd className='text-gray-700'>{order.account}</dd>
-        </div>
+      {/* Delivery Last Date */}
+      <div>
+        <dt className='text-xs text-gray-400 mb-0.5'>Delivery Date</dt>
+        <dd className='text-gray-700'>{order.deliveryLastDate || '—'}</dd>
+      </div>
 
-        {/* 4 Project Name — full width */}
-        <div className='col-span-2'>
-          <dt className='text-xs text-gray-400 mb-0.5'>Project Name</dt>
-          <dd className='text-gray-900 font-semibold leading-snug'>
-            {order.projectName}
-          </dd>
-        </div>
+      {/* Total */}
+      <div>
+        <dt className='text-xs text-gray-400 mb-0.5'>Total</dt>
+        <dd className='text-gray-900 font-bold'>{order.total || '—'}</dd>
+      </div>
 
-        {/* 5 Client Name */}
-        <div className='col-span-2'>
-          <dt className='text-xs text-gray-400 mb-0.5'>Client Name</dt>
-          <dd className='text-gray-700 font-medium'>{order.clientName}</dd>
-        </div>
-
-        {/* 6 Sales Status */}
-        <div>
-          <dt className='text-xs text-gray-400 mb-0.5'>Sales Status</dt>
-          <dd>
-            <span
-              className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold ${getSalesStatusStyle(order.salesStatus)}`}
-            >
-              {order.salesStatus || '—'}
-            </span>
-          </dd>
-        </div>
-
-        {/* 7 OPS Status */}
-        <div>
-          <dt className='text-xs text-gray-400 mb-0.5'>OPS Status</dt>
-          <dd>
-            <span
-              className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold ${getStatusStyle(order.opsStatus)}`}
-            >
-              {order.opsStatus}
-            </span>
-          </dd>
-        </div>
-
-        {/* 8 Team */}
-        <div className='col-span-2'>
-          <dt className='text-xs text-gray-400 mb-0.5'>Team</dt>
-          <dd className='text-gray-700'>{order.assignTeam || '—'}</dd>
-        </div>
-
-        {/* 9 Delivery Last Date */}
-        <div>
-          <dt className='text-xs text-gray-400 mb-0.5'>Delivery Last Date</dt>
-          <dd className='text-gray-700'>{order.deliveryLastDate}</dd>
-        </div>
-
-        {/* 10 Countdown */}
-        <div>
-          <dt className='text-xs text-gray-400 mb-0.5'>Countdown</dt>
-          <dd className={`font-semibold ${countdown.cls}`}>{countdown.text}</dd>
-        </div>
-
-        {/* 11 Sheet Link */}
-        <div>
-          <dt className='text-xs text-gray-400 mb-0.5'>Sheet Link</dt>
-          <dd>
-            {order.sheetLink ? (
-              <a
-                href={order.sheetLink}
-                target='_blank'
-                rel='noreferrer noopener'
-                className='text-blue-500 hover:underline text-xs'
-              >
-                Open Sheet
-              </a>
-            ) : (
-              '—'
-            )}
-          </dd>
-        </div>
-
-        {/* 12 Total Amount */}
-        <div>
-          <dt className='text-xs text-gray-400 mb-0.5'>Total Amount</dt>
-          <dd className='text-gray-900 font-bold'>{order.total}</dd>
-        </div>
-      </dl>
-    </article>
-  );
-};
+      {/* OPS Status */}
+      <div>
+        <dt className='text-xs text-gray-400 mb-0.5'>Status</dt>
+        <dd>
+          <span
+            className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold ${getStatusStyle(order.opsStatus)}`}
+          >
+            {order.opsStatus}
+          </span>
+        </dd>
+      </div>
+    </dl>
+  </article>
+);
 
 // ─── Desktop table row ────────────────────────────────────────────────────────
 const OrderRow = ({ order, onView, onEdit, onDelete }) => {
@@ -1435,7 +1377,7 @@ export default function MarketplaceOrders() {
         </div>
 
         {/* Stat Cards */}
-        <div className='grid grid-cols-3 gap-5'>
+        <div className='grid grid-cols-1 sm:grid-cols-3 gap-5'>
           {[
             { label: 'Total Orders', value: orders.length },
             { label: 'In Progress', value: inProgress },
