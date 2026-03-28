@@ -1355,7 +1355,7 @@ export default function MarketplaceOrders() {
                 aria-hidden='true'
               />
               <span className='inline-block -translate-x-1 transition-transform duration-300 ease-out delay-100 group-hover:translate-x-0'>
-                Upload CSV
+                Upload XL
               </span>
             </button>
 
