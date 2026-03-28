@@ -63,11 +63,7 @@ const AdminLayout = () => {
           onClose={() => setSidebarOpen(false)}
           onDesktopClose={() => setDesktopOpen(false)}
           onAutoCollapse={() => setDesktopOpen(false)}
-          isCollapsed={
-            !desktopOpen &&
-            typeof window !== 'undefined' &&
-            window.innerWidth >= 1024
-          }
+          isCollapsed={isDesktop && !desktopOpen}
           onExpand={() => setDesktopOpen(true)}
         />
       </aside>
