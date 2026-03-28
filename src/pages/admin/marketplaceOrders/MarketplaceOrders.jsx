@@ -392,8 +392,19 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
       ?.scrollTo({ top: 0, behavior: 'instant' });
   }, []);
 
-  const handleChange = (e) =>
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    if (name === 'orderAmount') {
+      const raw = parseFloat(value.replace(/[^0-9.]/g, ''));
+      setForm((prev) => ({
+        ...prev,
+        orderAmount: value,
+        afterFiverr: isNaN(raw) ? '' : String(Math.round(raw * 0.8)),
+      }));
+    } else {
+      setForm((prev) => ({ ...prev, [name]: value }));
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -422,7 +433,7 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
             {/* Department */}
             <div>
               <label htmlFor='mp-department' className={LABEL_CLS}>
-                Department{REQUIRED_STAR}
+                Department
               </label>
               <SelectField
                 id='mp-department'
@@ -430,14 +441,14 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
                 value={form.department}
                 onChange={handleChange}
                 options={DEPARTMENT_OPTIONS}
-                required
+                required={false}
               />
             </div>
 
             {/* Project Name */}
             <div>
               <label htmlFor='mp-projectName' className={LABEL_CLS}>
-                Project Name{REQUIRED_STAR}
+                Project Name
               </label>
               <input
                 id='mp-projectName'
@@ -446,7 +457,6 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
                 value={form.projectName}
                 onChange={handleChange}
                 autoComplete='off'
-                required
                 className={INPUT_CLS}
               />
             </div>
@@ -454,7 +464,7 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
             {/* Client Name */}
             <div>
               <label htmlFor='mp-clientName' className={LABEL_CLS}>
-                Client Name{REQUIRED_STAR}
+                Client Name
               </label>
               <input
                 id='mp-clientName'
@@ -463,15 +473,14 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
                 value={form.clientName}
                 onChange={handleChange}
                 autoComplete='name'
-                required
                 className={INPUT_CLS}
               />
             </div>
 
-            {/* Order ID */}
+            {/* ID */}
             <div>
               <label htmlFor='mp-orderId' className={LABEL_CLS}>
-                Order ID{REQUIRED_STAR}
+                ID
               </label>
               <input
                 id='mp-orderId'
@@ -480,7 +489,6 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
                 value={form.orderId}
                 onChange={handleChange}
                 autoComplete='off'
-                required
                 className={INPUT_CLS}
               />
             </div>
@@ -488,7 +496,7 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
             {/* Date */}
             <div>
               <label htmlFor='mp-date' className={LABEL_CLS}>
-                Date{REQUIRED_STAR}
+                Date
               </label>
               <input
                 id='mp-date'
@@ -496,7 +504,6 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
                 type='date'
                 value={form.date}
                 onChange={handleChange}
-                required
                 className={INPUT_CLS}
               />
             </div>
@@ -504,7 +511,7 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
             {/* Account */}
             <div>
               <label htmlFor='mp-account' className={LABEL_CLS}>
-                Account{REQUIRED_STAR}
+                Account
               </label>
               <input
                 id='mp-account'
@@ -513,7 +520,6 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
                 value={form.account}
                 onChange={handleChange}
                 autoComplete='off'
-                required
                 className={INPUT_CLS}
               />
             </div>
@@ -521,7 +527,7 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
             {/* Leading Person */}
             <div>
               <label htmlFor='mp-leadingPerson' className={LABEL_CLS}>
-                Leading Person{REQUIRED_STAR}
+                Leading Person
               </label>
               <input
                 id='mp-leadingPerson'
@@ -530,15 +536,14 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
                 value={form.leadingPerson}
                 onChange={handleChange}
                 autoComplete='off'
-                required
                 className={INPUT_CLS}
               />
             </div>
 
-            {/* Delivery Last Date */}
+            {/* Delivery Date */}
             <div>
               <label htmlFor='mp-deliveryLastDate' className={LABEL_CLS}>
-                Delivery Last Date{REQUIRED_STAR}
+                Delivery Date
               </label>
               <input
                 id='mp-deliveryLastDate'
@@ -546,7 +551,6 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
                 type='date'
                 value={form.deliveryLastDate}
                 onChange={handleChange}
-                required
                 className={INPUT_CLS}
               />
             </div>
@@ -570,7 +574,7 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
             {/* Ordered By */}
             <div>
               <label htmlFor='mp-orderedBy' className={LABEL_CLS}>
-                Ordered By{REQUIRED_STAR}
+                Ordered By
               </label>
               <input
                 id='mp-orderedBy'
@@ -579,7 +583,6 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
                 value={form.orderedBy}
                 onChange={handleChange}
                 autoComplete='off'
-                required
                 className={INPUT_CLS}
               />
             </div>
@@ -587,7 +590,7 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
             {/* Table Leader */}
             <div>
               <label htmlFor='mp-tableLeader' className={LABEL_CLS}>
-                Table Leader{REQUIRED_STAR}
+                Table Leader
               </label>
               <input
                 id='mp-tableLeader'
@@ -596,7 +599,6 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
                 value={form.tableLeader}
                 onChange={handleChange}
                 autoComplete='off'
-                required
                 className={INPUT_CLS}
               />
             </div>
@@ -639,33 +641,48 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
               <label htmlFor='mp-orderAmount' className={LABEL_CLS}>
                 Order Amount{REQUIRED_STAR}
               </label>
-              <input
-                id='mp-orderAmount'
-                name='orderAmount'
-                type='text'
-                value={form.orderAmount}
-                onChange={handleChange}
-                autoComplete='off'
-                required
-                className={INPUT_CLS}
-              />
+              <div className='relative'>
+                <span className='absolute left-3.5 top-1/2 -translate-y-1/2 text-sm font-medium text-gray-500 pointer-events-none select-none'>
+                  $
+                </span>
+                <input
+                  id='mp-orderAmount'
+                  name='orderAmount'
+                  type='text'
+                  value={form.orderAmount}
+                  onChange={handleChange}
+                  autoComplete='off'
+                  required
+                  placeholder='0'
+                  className={`${INPUT_CLS} pl-7`}
+                />
+              </div>
             </div>
 
             {/* After Fiverr */}
             <div>
               <label htmlFor='mp-afterFiverr' className={LABEL_CLS}>
                 After Fiverr{REQUIRED_STAR}
+                <span className='ml-1.5 text-xs font-normal text-gray-400'>
+                  (20% cut)
+                </span>
               </label>
-              <input
-                id='mp-afterFiverr'
-                name='afterFiverr'
-                type='text'
-                value={form.afterFiverr}
-                onChange={handleChange}
-                autoComplete='off'
-                required
-                className={INPUT_CLS}
-              />
+              <div className='relative'>
+                <span className='absolute left-3.5 top-1/2 -translate-y-1/2 text-sm font-medium text-gray-500 pointer-events-none select-none'>
+                  $
+                </span>
+                <input
+                  id='mp-afterFiverr'
+                  name='afterFiverr'
+                  type='text'
+                  value={form.afterFiverr}
+                  onChange={handleChange}
+                  autoComplete='off'
+                  required
+                  placeholder='Auto-calculated'
+                  className={`${INPUT_CLS} pl-7 bg-gray-50`}
+                />
+              </div>
             </div>
 
             {/* Bonus */}
@@ -673,55 +690,71 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
               <label htmlFor='mp-bonus' className={LABEL_CLS}>
                 Bonus
               </label>
-              <input
-                id='mp-bonus'
-                name='bonus'
-                type='text'
-                value={form.bonus}
-                onChange={handleChange}
-                autoComplete='off'
-                className={INPUT_CLS}
-              />
+              <div className='relative'>
+                <span className='absolute left-3.5 top-1/2 -translate-y-1/2 text-sm font-medium text-gray-500 pointer-events-none select-none'>
+                  $
+                </span>
+                <input
+                  id='mp-bonus'
+                  name='bonus'
+                  type='text'
+                  value={form.bonus}
+                  onChange={handleChange}
+                  autoComplete='off'
+                  placeholder='0'
+                  className={`${INPUT_CLS} pl-7`}
+                />
+              </div>
             </div>
 
             {/* After Bounce */}
             <div>
               <label htmlFor='mp-afterBounce' className={LABEL_CLS}>
-                After Bounce{REQUIRED_STAR}
+                After Bounce
               </label>
-              <input
-                id='mp-afterBounce'
-                name='afterBounce'
-                type='text'
-                value={form.afterBounce}
-                onChange={handleChange}
-                autoComplete='off'
-                required
-                className={INPUT_CLS}
-              />
+              <div className='relative'>
+                <span className='absolute left-3.5 top-1/2 -translate-y-1/2 text-sm font-medium text-gray-500 pointer-events-none select-none'>
+                  $
+                </span>
+                <input
+                  id='mp-afterBounce'
+                  name='afterBounce'
+                  type='text'
+                  value={form.afterBounce}
+                  onChange={handleChange}
+                  autoComplete='off'
+                  placeholder='0'
+                  className={`${INPUT_CLS} pl-7`}
+                />
+              </div>
             </div>
 
             {/* Total */}
             <div>
               <label htmlFor='mp-total' className={LABEL_CLS}>
-                Total{REQUIRED_STAR}
+                Total
               </label>
-              <input
-                id='mp-total'
-                name='total'
-                type='text'
-                value={form.total}
-                onChange={handleChange}
-                autoComplete='off'
-                required
-                className={INPUT_CLS}
-              />
+              <div className='relative'>
+                <span className='absolute left-3.5 top-1/2 -translate-y-1/2 text-sm font-medium text-gray-500 pointer-events-none select-none'>
+                  $
+                </span>
+                <input
+                  id='mp-total'
+                  name='total'
+                  type='text'
+                  value={form.total}
+                  onChange={handleChange}
+                  autoComplete='off'
+                  placeholder='0'
+                  className={`${INPUT_CLS} pl-7`}
+                />
+              </div>
             </div>
 
             {/* Sales Status */}
             <div>
               <label htmlFor='mp-salesStatus' className={LABEL_CLS}>
-                Sales Status{REQUIRED_STAR}
+                Sales Status
               </label>
               <SelectField
                 id='mp-salesStatus'
@@ -729,14 +762,14 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
                 value={form.salesStatus}
                 onChange={handleChange}
                 options={SALES_STATUS_OPTIONS}
-                required
+                required={false}
               />
             </div>
 
             {/* OPS Status */}
             <div>
               <label htmlFor='mp-opsStatus' className={LABEL_CLS}>
-                OPS Status{REQUIRED_STAR}
+                OPS Status
               </label>
               <SelectField
                 id='mp-opsStatus'
@@ -744,14 +777,14 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
                 value={form.opsStatus}
                 onChange={handleChange}
                 options={OPS_STATUS_OPTIONS}
-                required
+                required={false}
               />
             </div>
 
-            {/* Assign Team — full row */}
+            {/* Team — full row */}
             <div className='sm:col-span-2'>
               <label htmlFor='mp-assignTeam' className={LABEL_CLS}>
-                Assign Team{REQUIRED_STAR}
+                Team
               </label>
               <SelectField
                 id='mp-assignTeam'
@@ -759,7 +792,7 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
                 value={form.assignTeam}
                 onChange={handleChange}
                 options={TEAM_OPTIONS}
-                required
+                required={false}
               />
             </div>
           </div>
