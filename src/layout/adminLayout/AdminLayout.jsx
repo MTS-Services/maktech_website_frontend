@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import Sidebar from './adminSidebar/AdminSidebar';
 import { MdMenu } from 'react-icons/md';
-import { RxDoubleArrowRight } from 'react-icons/rx';
 
 const AdminLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -46,31 +45,17 @@ const AdminLayout = () => {
           fixed inset-y-0 left-0 z-30 w-72 transform transition-all duration-300 ease-in-out
           lg:relative lg:z-auto lg:shrink-0
           ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
-          ${
-            desktopOpen
-              ? 'lg:translate-x-0 lg:w-72'
-              : 'lg:translate-x-0 lg:w-0 lg:overflow-hidden'
-          }
+          ${desktopOpen ? 'lg:translate-x-0 lg:w-72' : 'lg:translate-x-0 lg:w-16'}
         `}
       >
         <Sidebar
           onClose={() => setSidebarOpen(false)}
           onDesktopClose={() => setDesktopOpen(false)}
           onAutoCollapse={() => setDesktopOpen(false)}
+          isCollapsed={!desktopOpen}
+          onExpand={() => setDesktopOpen(true)}
         />
       </aside>
-
-      {/* ── Desktop floating expand button — visible only when sidebar is collapsed ── */}
-      {!desktopOpen && (
-        <button
-          type='button'
-          onClick={() => setDesktopOpen(true)}
-          aria-label='Expand sidebar'
-          className='hidden lg:flex items-center justify-center fixed top-4 left-4 z-20 w-9 h-9 rounded-lg bg-white border border-gray-200 shadow-sm text-gray-600 hover:bg-gray-50 hover:text-gray-900 hover:shadow-md transition-all duration-200'
-        >
-          <RxDoubleArrowRight className='text-[18px]' />
-        </button>
-      )}
 
       {/* ── Main content ── */}
       <main className='flex-1 flex flex-col min-w-0 overflow-hidden'>

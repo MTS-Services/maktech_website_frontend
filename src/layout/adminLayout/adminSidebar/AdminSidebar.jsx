@@ -14,7 +14,7 @@ import {
   MdClose,
   MdChevronRight,
 } from 'react-icons/md';
-import { RxDoubleArrowLeft } from 'react-icons/rx';
+import { RxDoubleArrowLeft, RxDoubleArrowRight } from 'react-icons/rx';
 
 const NAV_ITEMS = [
   { name: 'Dashboard', path: '/admin/dashboard', icon: MdDashboard },
@@ -44,13 +44,76 @@ const NAV_INACTIVE =
 const getNavClass = ({ isActive }) =>
   `${NAV_BASE} ${isActive ? NAV_ACTIVE : NAV_INACTIVE}`;
 
-const Sidebar = ({ onClose, onDesktopClose, onAutoCollapse }) => {
+const Sidebar = ({
+  onClose,
+  onDesktopClose,
+  onAutoCollapse,
+  isCollapsed,
+  onExpand,
+}) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
     toast.success('Signed out successfully');
     setTimeout(() => navigate('/login'), 900);
   };
+
+  // ─── Icon-only collapsed strip ────────────────────────────────────
+  if (isCollapsed) {
+    return (
+      <div className='h-full w-full bg-white flex flex-col items-center border-r border-gray-100 py-3 gap-1'>
+        {/* Expand button */}
+        <button
+          type='button'
+          onClick={onExpand}
+          title='Expand sidebar'
+          aria-label='Expand sidebar'
+          className='w-10 h-10 flex items-center justify-center rounded-lg text-gray-500 hover:text-gray-800 hover:bg-gray-100 transition-colors duration-200 mb-2 shrink-0'
+        >
+          <RxDoubleArrowRight className='text-xl' />
+        </button>
+
+        {/* Nav icons */}
+        <nav
+          className='flex-1 flex flex-col items-center gap-1 w-full px-2 overflow-y-auto'
+          aria-label='Main navigation'
+        >
+          {NAV_ITEMS.map(({ name, path, icon: Icon, autoCollapse }) => (
+            <NavLink
+              key={path}
+              to={path}
+              end={path === '/admin/dashboard'}
+              title={name}
+              onClick={() => {
+                onClose();
+                if (autoCollapse && onAutoCollapse) onAutoCollapse();
+              }}
+              className={({ isActive }) =>
+                `w-10 h-10 flex items-center justify-center rounded-lg transition-colors duration-200 ${
+                  isActive
+                    ? 'bg-orange-100 text-orange-600'
+                    : 'text-gray-400 hover:text-gray-700 hover:bg-gray-50'
+                }`
+              }
+            >
+              <Icon className='text-xl' aria-hidden='true' />
+            </NavLink>
+          ))}
+        </nav>
+
+        {/* Logout */}
+        <button
+          type='button'
+          onClick={handleLogout}
+          title='Sign Out'
+          aria-label='Sign Out'
+          className='mt-1 w-10 h-10 flex items-center justify-center rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 transition-colors duration-200 shrink-0'
+        >
+          <MdLogout className='text-xl' />
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className='h-full w-full bg-white flex flex-col border-r border-gray-100'>
