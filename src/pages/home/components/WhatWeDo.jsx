@@ -6,142 +6,92 @@ const services = [
     title: "UI/UX Design",
     description: "Interfaces Designed to Influence Behavior",
     link: "/services/ui-ux",
-    icon: (
-      <svg
-        className="w-32 h-32"
-        viewBox="0 0 48 48"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.5"
-      >
-        <rect x="12" y="12" width="24" height="24" />
-        <line x1="24" y1="12" x2="24" y2="36" />
-        <line x1="12" y1="24" x2="36" y2="24" />
-      </svg>
-    ),
   },
   {
     id: 2,
     title: "MERN STACK Development",
     description: "Web Infrastructure That Supports Real Growth",
     link: "/services/mern",
-    icon: (
-      <svg
-        className="w-32 h-32"
-        viewBox="0 0 48 48"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.5"
-      >
-        <rect x="12" y="12" width="24" height="24" />
-        <line x1="24" y1="12" x2="24" y2="36" />
-        <line x1="12" y1="24" x2="36" y2="24" />
-      </svg>
-    ),
   },
   {
     id: 3,
     title: "Flutter App Development",
     description: "Applications Built for Practical, Everyday Use",
     link: "/services/flutter",
-    icon: (
-      <svg
-        className="w-32 h-32"
-        viewBox="0 0 48 48"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.5"
-      >
-        <rect x="12" y="12" width="24" height="24" />
-        <line x1="24" y1="12" x2="24" y2="36" />
-        <line x1="12" y1="24" x2="36" y2="24" />
-      </svg>
-    ),
   },
   {
     id: 4,
     title: "eCommerce Development",
     description: "Commerce Platforms Designed Around Revenue Logic",
     link: "/services/shopify",
-    icon: (
-      <svg
-        className="w-32 h-32"
-        viewBox="0 0 48 48"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.5"
-      >
-        <rect x="12" y="12" width="24" height="24" />
-        <line x1="24" y1="12" x2="24" y2="36" />
-        <line x1="12" y1="24" x2="36" y2="24" />
-      </svg>
-    ),
   },
   {
     id: 5,
     title: "Digital Marketing",
     description: "Marketing Linked Directly to Business Outcomes",
     link: "/services/digital-marketing",
-    icon: (
-      <svg
-        className="w-32 h-32"
-        viewBox="0 0 48 48"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.5"
-      >
-        <rect x="12" y="12" width="24" height="24" />
-        <line x1="24" y1="12" x2="24" y2="36" />
-        <line x1="12" y1="24" x2="36" y2="24" />
-      </svg>
-    ),
   },
 ];
 
 const ServiceCard = ({ service }) => {
   return (
-    <div className="bg-[#1a1a1a] border border-[#101515] rounded-lg p-8 hover:bg-orange-bg-cta transition-all duration-300 group h-full flex flex-col justify-between overflow-hidden hover:shadow-xl hover:shadow-orange-bg-cta/20">
-      {/* Icon */}
-      <div className="mb-6 relative h-28 w-28">
+    <div className="group rounded-lg border border-white/10 bg-[#101515] p-6 backdrop-blur-sm transition-all duration-300 hover:border-orange-bg-cta hover:bg-orange-bg-cta md:p-8">
+      {/* Icon with hover effect */}
+      <div className="mb-6 relative h-16 w-16">
         {/* Default Icon - visible when not hovering */}
-        <div className="absolute inset-0 text-white opacity-80 transition-all duration-500 ease-out group-hover:opacity-0 group-hover:scale-75 group-hover:rotate-12">
-          {service.icon}
+        <div className="absolute inset-0 text-white/60 opacity-80 transition-all duration-500 ease-out group-hover:opacity-0 group-hover:scale-75 group-hover:rotate-12">
+          <svg
+            width="64"
+            height="64"
+            viewBox="0 0 32 32"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.5"
+          >
+            <rect x="4" y="4" width="10" height="10" />
+            <rect x="18" y="4" width="10" height="10" />
+            <rect x="4" y="18" width="10" height="10" />
+            <rect x="18" y="18" width="10" height="10" />
+          </svg>
         </div>
         {/* Hover Icon - visible when hovering */}
         <div className="absolute inset-0 opacity-0 scale-75 -rotate-12 transition-all duration-500 ease-out group-hover:opacity-100 group-hover:scale-80 group-hover:rotate-0">
           <img 
             src="/services_image/service/Frame 2147225682.svg" 
             alt="" 
-            className="w-20 h-20 drop-shadow-lg"
+            className="w-16 h-16 drop-shadow-lg"
           />
         </div>
       </div>
 
       {/* Title */}
-      <h3 className="text-gray-bg-primary text-xl xl:text-2xl font-semibold mb-3 transition-transform duration-300 group-hover:translate-x-1">
+      <h3 className="mb-3 text-lg font-semibold text-white group-hover:text-white transition-colors md:text-xl">
         {service.title}
       </h3>
 
       {/* Description */}
-      <p className="text-gray-400 text-sm mb-6 leading-relaxed transition-all duration-300 group-hover:text-gray-bg-primary group-hover:translate-x-1">
+      <p className="mb-6 text-sm text-white/60 group-hover:text-white/90 leading-relaxed transition-colors md:text-base">
         {service.description}
       </p>
 
-      {/* Read More Button */}
-      <Link to={service.link} className="flex cursor-pointer items-center gap-2 text-orange-bg-cta text-sm xl:text-base font-semibold hover:gap-3 transition-all duration-300 group-hover:text-gray-bg-primary transform group-hover:translate-x-1">
+      {/* Read More Link */}
+      <Link
+        to={service.link}
+        className="inline-flex items-center gap-2 text-orange-bg-cta group-hover:text-white font-medium transition-all duration-200 hover:gap-3 group"
+      >
         Read More
         <svg
-          width="14"
-          height="14"
-          viewBox="0 0 24 24"
+          width="16"
+          height="16"
+          viewBox="0 0 16 16"
           fill="none"
           stroke="currentColor"
-          strokeWidth="2.5"
+          strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className="transition-transform duration-300 group-hover:translate-x-1"
+          className="transition-transform group-hover:translate-x-1"
         >
-          <path d="M5 12h14M12 5l7 7-7 7" />
+          <path d="M3 8h10M9 4l4 4-4 4" />
         </svg>
       </Link>
     </div>
@@ -219,7 +169,7 @@ const WhatWeDo = () => {
 
         {/* Services Grid */}
         {/* Mobile: stacked | Tablet: 2 columns | Desktop: 3 columns */}
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 auto-rows-fr">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {services.map((service) => (
             <ServiceCard key={service.id} service={service} />
           ))}
