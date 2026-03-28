@@ -44,7 +44,7 @@ const FAQItem = ({ faq, isOpen, onToggle }) => (
         {faq.question}
       </span>
       <div
-        className={`shrink-0 transition-transform duration-300 ${isOpen ? 'rotate-180' : 'rotate-0'}`}
+        className={`shrink-0 transition-transform duration-300 ${isOpen ? 'rotate-0' : 'rotate-180'}`}
       >
         <svg
           width='20'
