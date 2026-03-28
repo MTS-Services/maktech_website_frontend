@@ -247,13 +247,13 @@ const ContactUs = () => {
                       href="https://wa.me/8801897669233"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-14 h-14 rounded-lg text-white bg-orange-bg-cta border border-white/5 flex items-center justify-center transition-all duration-200 hover:scale-110"
+                      className="w-10 h-10 rounded-lg text-white  bg-[#3a3a3a] hover:bg-orange-bg-cta border border-white/5 flex items-center justify-center transition-all duration-200"
                       aria-label="WhatsApp"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        width="32"
-                        height="32"
+                        width="20"
+                        height="20"
                         fill="currentColor"
                         viewBox="0 0 16 16"
                       >
