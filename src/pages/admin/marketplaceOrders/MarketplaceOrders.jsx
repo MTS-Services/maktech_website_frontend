@@ -256,14 +256,33 @@ const TABLE_COLS = [
 ];
 
 const STATUS_STYLES = {
+  // Current options
+  'Client Update': 'bg-amber-50 text-amber-700',
+  Delivered: 'bg-green-50 text-green-700',
+  Complete: 'bg-emerald-50 text-emerald-700',
+  NRA: 'bg-gray-100 text-gray-600',
+  WIP: 'bg-blue-50 text-blue-700',
+  Submitted: 'bg-indigo-50 text-indigo-700',
+  Revision: 'bg-orange-50 text-orange-700',
+  Cancelled: 'bg-red-50 text-red-600',
+  // Legacy (existing data)
   'In Progress': 'bg-blue-50 text-blue-700',
   Completed: 'bg-green-50 text-green-700',
   Pending: 'bg-amber-50 text-amber-700',
-  Cancelled: 'bg-red-50 text-red-600',
 };
 const getStatusStyle = (s) => STATUS_STYLES[s] ?? 'bg-gray-100 text-gray-600';
 
 const SALES_STATUS_STYLES = {
+  // Current options
+  WIP: 'bg-blue-50 text-blue-700',
+  Delivered: 'bg-green-50 text-green-700',
+  Complete: 'bg-emerald-50 text-emerald-700',
+  NRA: 'bg-gray-100 text-gray-600',
+  Submitted: 'bg-indigo-50 text-indigo-700',
+  Revision: 'bg-orange-50 text-orange-700',
+  'Client Update': 'bg-amber-50 text-amber-700',
+  Cancelled: 'bg-red-50 text-red-600',
+  // Legacy (existing data)
   Won: 'bg-green-50 text-green-700',
   Negotiating: 'bg-blue-50 text-blue-700',
   Lead: 'bg-purple-50 text-purple-700',
@@ -273,8 +292,26 @@ const SALES_STATUS_STYLES = {
 const getSalesStatusStyle = (s) =>
   SALES_STATUS_STYLES[s] ?? 'bg-gray-100 text-gray-600';
 
-const OPS_STATUS_OPTIONS = ['Pending', 'In Progress', 'Completed', 'Cancelled'];
-const SALES_STATUS_OPTIONS = ['Lead', 'Negotiating', 'Won', 'Lost', 'On Hold'];
+const OPS_STATUS_OPTIONS = [
+  'Client Update',
+  'Delivered',
+  'Complete',
+  'NRA',
+  'WIP',
+  'Submitted',
+  'Revision',
+  'Cancelled',
+];
+const SALES_STATUS_OPTIONS = [
+  'WIP',
+  'Delivered',
+  'Complete',
+  'NRA',
+  'Submitted',
+  'Revision',
+  'Client Update',
+  'Cancelled',
+];
 
 const DEPARTMENT_OPTIONS = [
   'UI/UX',
@@ -309,15 +346,24 @@ const getCountdown = (deliveryDate) => {
 };
 
 const TEAM_OPTIONS = [
-  'UI/UX',
-  'Graphics',
-  'Laravel',
-  'Flutter',
-  'Mern',
-  'WordPress',
-  'Marketing',
-  'Shopify',
-  'Wix',
+  'Fahim + Team',
+  'Masud Mia + Team',
+  'Shakil Team',
+  'Fluttter Team',
+  'MERN + Team',
+  'UI-UX Team',
+  'DM Team',
+  'Graphic Team',
+  'RMT IT',
+  'R2A IT',
+  'Helal Team',
+  'Uzzal Team',
+  'Shrity Team',
+  'Sohidul Team',
+  'Sagor Team DM',
+  'Eshan + Team',
+  'Shorif + Laravel',
+  'Al-Saas Team',
 ];
 
 const TD = 'px-5 py-3.5 text-sm text-gray-700 whitespace-nowrap';
@@ -340,7 +386,7 @@ const EMPTY_FORM = {
   orderId: '',
   date: '',
   account: '',
-  salesStatus: 'Lead',
+  salesStatus: '',
   leadingPerson: '',
   deliveryLastDate: '',
   sheetLink: '',
@@ -353,7 +399,7 @@ const EMPTY_FORM = {
   bonus: '',
   afterBounce: '',
   total: '',
-  opsStatus: 'Pending',
+  opsStatus: '',
   assignTeam: '',
 };
 
@@ -368,6 +414,11 @@ const SelectField = ({ id, name, value, onChange, options, required }) => (
       required={required}
       className={`${INPUT_CLS} appearance-none pr-10 cursor-pointer`}
     >
+      {required && (
+        <option value='' disabled>
+          — Select —
+        </option>
+      )}
       {!required && <option value=''>-- None --</option>}
       {options.map((o) => (
         <option key={o} value={o}>
@@ -1294,8 +1345,8 @@ export default function MarketplaceOrders() {
 
   const { inProgress, completed, totalRevenue } = useMemo(
     () => ({
-      inProgress: orders.filter((o) => o.opsStatus === 'In Progress').length,
-      completed: orders.filter((o) => o.opsStatus === 'Completed').length,
+      inProgress: orders.filter((o) => o.opsStatus === 'WIP').length,
+      completed: orders.filter((o) => o.opsStatus === 'Delivered').length,
       totalRevenue: orders.reduce((sum, o) => {
         const num = parseFloat(String(o.total ?? '').replace(/[^0-9.]/g, ''));
         return sum + (isNaN(num) ? 0 : num);
