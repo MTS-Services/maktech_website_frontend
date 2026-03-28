@@ -912,10 +912,14 @@ export default function Orders() {
   const [orders, setOrders] = useState(INITIAL_ORDERS);
 
   // Derive stat counts from data — never store derived state
-  const { inProgress, completed } = useMemo(
+  const { inProgress, completed, totalRevenue } = useMemo(
     () => ({
       inProgress: orders.filter((o) => o.status === 'In progress').length,
       completed: orders.filter((o) => o.status === 'Completed').length,
+      totalRevenue: orders.reduce((sum, o) => {
+        const num = parseFloat(String(o.price ?? '').replace(/[^0-9.]/g, ''));
+        return sum + (isNaN(num) ? 0 : num);
+      }, 0),
     }),
     [orders],
   );
@@ -1002,11 +1006,15 @@ export default function Orders() {
         </div>
 
         {/* Stat Cards */}
-        <div className='grid grid-cols-1 sm:grid-cols-3 gap-5'>
+        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5'>
           {[
             { label: 'Total Orders', value: orders.length },
             { label: 'In Progress', value: inProgress },
-            { label: 'Completed', value: completed },
+            { label: 'Delivered', value: completed },
+            {
+              label: 'Total Revenue',
+              value: `$${totalRevenue.toLocaleString('en-US')}`,
+            },
           ].map(({ label, value }) => (
             <div
               key={label}
