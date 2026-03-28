@@ -13,8 +13,9 @@ import {
   MdLogout,
   MdClose,
   MdChevronRight,
+  MdDoubleArrow,
 } from 'react-icons/md';
-import { RxDoubleArrowLeft, RxDoubleArrowRight } from 'react-icons/rx';
+import { RxDoubleArrowRight } from 'react-icons/rx';
 
 const NAV_ITEMS = [
   { name: 'Dashboard', path: '/admin/dashboard', icon: MdDashboard },
@@ -70,7 +71,7 @@ const Sidebar = ({
           aria-label='Expand sidebar'
           className='w-10 h-10 flex items-center justify-center rounded-lg text-gray-500 hover:text-gray-800 hover:bg-orange-50/40 transition-colors duration-200 mb-2 shrink-0'
         >
-          <RxDoubleArrowRight className='text-xl' />
+          <MdDoubleArrow className='text-xl' />
         </button>
 
         {/* Nav icons */}
@@ -149,7 +150,7 @@ const Sidebar = ({
           className='hidden lg:flex items-center justify-center mt-0.5 p-1.5 -mr-1 rounded-md text-gray-500 hover:text-gray-900 hover:bg-orange-50/40 transition-colors'
           aria-label='Collapse sidebar'
         >
-          <RxDoubleArrowLeft className='text-xl' />
+          <MdDoubleArrow className='text-xl rotate-180' />
         </button>
       </div>
 
