@@ -417,12 +417,12 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
       <div className='bg-white rounded-xl border border-gray-100 shadow-sm p-6 sm:p-8'>
         <h1 className='text-xl font-bold text-gray-900 mb-6'>{title}</h1>
 
-        <form onSubmit={handleSubmit} noValidate>
+        <form onSubmit={handleSubmit}>
           <div className='grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4 mb-4'>
             {/* Department */}
             <div>
               <label htmlFor='mp-department' className={LABEL_CLS}>
-                Department
+                Department{REQUIRED_STAR}
               </label>
               <SelectField
                 id='mp-department'
@@ -430,7 +430,7 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
                 value={form.department}
                 onChange={handleChange}
                 options={DEPARTMENT_OPTIONS}
-                required={false}
+                required
               />
             </div>
 
@@ -454,7 +454,7 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
             {/* Client Name */}
             <div>
               <label htmlFor='mp-clientName' className={LABEL_CLS}>
-                Client Name
+                Client Name{REQUIRED_STAR}
               </label>
               <input
                 id='mp-clientName'
@@ -463,6 +463,7 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
                 value={form.clientName}
                 onChange={handleChange}
                 autoComplete='name'
+                required
                 className={INPUT_CLS}
               />
             </div>
@@ -470,7 +471,7 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
             {/* Order ID */}
             <div>
               <label htmlFor='mp-orderId' className={LABEL_CLS}>
-                Order ID
+                Order ID{REQUIRED_STAR}
               </label>
               <input
                 id='mp-orderId'
@@ -479,6 +480,7 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
                 value={form.orderId}
                 onChange={handleChange}
                 autoComplete='off'
+                required
                 className={INPUT_CLS}
               />
             </div>
@@ -486,7 +488,7 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
             {/* Date */}
             <div>
               <label htmlFor='mp-date' className={LABEL_CLS}>
-                Date
+                Date{REQUIRED_STAR}
               </label>
               <input
                 id='mp-date'
@@ -494,6 +496,7 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
                 type='date'
                 value={form.date}
                 onChange={handleChange}
+                required
                 className={INPUT_CLS}
               />
             </div>
@@ -501,7 +504,7 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
             {/* Account */}
             <div>
               <label htmlFor='mp-account' className={LABEL_CLS}>
-                Account
+                Account{REQUIRED_STAR}
               </label>
               <input
                 id='mp-account'
@@ -510,6 +513,7 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
                 value={form.account}
                 onChange={handleChange}
                 autoComplete='off'
+                required
                 className={INPUT_CLS}
               />
             </div>
@@ -517,7 +521,7 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
             {/* Leading Person */}
             <div>
               <label htmlFor='mp-leadingPerson' className={LABEL_CLS}>
-                Leading Person
+                Leading Person{REQUIRED_STAR}
               </label>
               <input
                 id='mp-leadingPerson'
@@ -526,6 +530,7 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
                 value={form.leadingPerson}
                 onChange={handleChange}
                 autoComplete='off'
+                required
                 className={INPUT_CLS}
               />
             </div>
@@ -533,7 +538,7 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
             {/* Delivery Last Date */}
             <div>
               <label htmlFor='mp-deliveryLastDate' className={LABEL_CLS}>
-                Delivery Last Date
+                Delivery Last Date{REQUIRED_STAR}
               </label>
               <input
                 id='mp-deliveryLastDate'
@@ -541,6 +546,7 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
                 type='date'
                 value={form.deliveryLastDate}
                 onChange={handleChange}
+                required
                 className={INPUT_CLS}
               />
             </div>
@@ -564,7 +570,7 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
             {/* Ordered By */}
             <div>
               <label htmlFor='mp-orderedBy' className={LABEL_CLS}>
-                Ordered By
+                Ordered By{REQUIRED_STAR}
               </label>
               <input
                 id='mp-orderedBy'
@@ -573,6 +579,7 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
                 value={form.orderedBy}
                 onChange={handleChange}
                 autoComplete='off'
+                required
                 className={INPUT_CLS}
               />
             </div>
@@ -580,7 +587,7 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
             {/* Table Leader */}
             <div>
               <label htmlFor='mp-tableLeader' className={LABEL_CLS}>
-                Table Leader
+                Table Leader{REQUIRED_STAR}
               </label>
               <input
                 id='mp-tableLeader'
@@ -589,6 +596,7 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
                 value={form.tableLeader}
                 onChange={handleChange}
                 autoComplete='off'
+                required
                 className={INPUT_CLS}
               />
             </div>
@@ -629,7 +637,7 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
             {/* Order Amount */}
             <div>
               <label htmlFor='mp-orderAmount' className={LABEL_CLS}>
-                Order Amount
+                Order Amount{REQUIRED_STAR}
               </label>
               <input
                 id='mp-orderAmount'
@@ -638,6 +646,7 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
                 value={form.orderAmount}
                 onChange={handleChange}
                 autoComplete='off'
+                required
                 className={INPUT_CLS}
               />
             </div>
@@ -645,7 +654,7 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
             {/* After Fiverr */}
             <div>
               <label htmlFor='mp-afterFiverr' className={LABEL_CLS}>
-                After Fiverr
+                After Fiverr{REQUIRED_STAR}
               </label>
               <input
                 id='mp-afterFiverr'
@@ -654,6 +663,7 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
                 value={form.afterFiverr}
                 onChange={handleChange}
                 autoComplete='off'
+                required
                 className={INPUT_CLS}
               />
             </div>
@@ -677,7 +687,7 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
             {/* After Bounce */}
             <div>
               <label htmlFor='mp-afterBounce' className={LABEL_CLS}>
-                After Bounce
+                After Bounce{REQUIRED_STAR}
               </label>
               <input
                 id='mp-afterBounce'
@@ -686,6 +696,7 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
                 value={form.afterBounce}
                 onChange={handleChange}
                 autoComplete='off'
+                required
                 className={INPUT_CLS}
               />
             </div>
@@ -693,7 +704,7 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
             {/* Total */}
             <div>
               <label htmlFor='mp-total' className={LABEL_CLS}>
-                Total
+                Total{REQUIRED_STAR}
               </label>
               <input
                 id='mp-total'
@@ -702,6 +713,7 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
                 value={form.total}
                 onChange={handleChange}
                 autoComplete='off'
+                required
                 className={INPUT_CLS}
               />
             </div>
@@ -709,7 +721,7 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
             {/* Sales Status */}
             <div>
               <label htmlFor='mp-salesStatus' className={LABEL_CLS}>
-                Sales Status
+                Sales Status{REQUIRED_STAR}
               </label>
               <SelectField
                 id='mp-salesStatus'
@@ -724,7 +736,7 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
             {/* OPS Status */}
             <div>
               <label htmlFor='mp-opsStatus' className={LABEL_CLS}>
-                OPS Status
+                OPS Status{REQUIRED_STAR}
               </label>
               <SelectField
                 id='mp-opsStatus'
@@ -739,7 +751,7 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
             {/* Assign Team — full row */}
             <div className='sm:col-span-2'>
               <label htmlFor='mp-assignTeam' className={LABEL_CLS}>
-                Assign Team
+                Assign Team{REQUIRED_STAR}
               </label>
               <SelectField
                 id='mp-assignTeam'
@@ -747,7 +759,7 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
                 value={form.assignTeam}
                 onChange={handleChange}
                 options={TEAM_OPTIONS}
-                required={false}
+                required
               />
             </div>
           </div>
