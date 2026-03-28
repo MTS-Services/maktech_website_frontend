@@ -87,8 +87,9 @@ const Sidebar = ({
               title={name}
               onClick={() => {
                 onClose();
-                if (autoCollapse && onAutoCollapse && window.innerWidth >= 1024)
-                  onAutoCollapse();
+                if (window.innerWidth >= 1024) {
+                  if (!autoCollapse && onExpand) onExpand();
+                }
               }}
               className={({ isActive }) =>
                 `w-10 h-10 flex items-center justify-center rounded-lg transition-colors duration-200 ${
