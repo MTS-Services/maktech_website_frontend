@@ -174,23 +174,42 @@ const ActionMenu = ({ order, onView, onEdit, onDelete }) => {
   const [open, setOpen] = useState(false);
   const [pos, setPos] = useState({ top: 0, left: 0, openUp: false });
   const btnRef = useRef(null);
+  const menuId = useRef(`order-menu-${order.orderId}`);
 
   const handleToggle = () => {
-    if (!open && btnRef.current) {
-      const rect = btnRef.current.getBoundingClientRect();
-      const spaceBelow = window.innerHeight - rect.bottom;
-      const openUp = spaceBelow < DROPDOWN_H + 8;
-      setPos({
-        top: openUp ? rect.top - DROPDOWN_H - 4 : rect.bottom + 4,
-        left: Math.min(
-          rect.right - DROPDOWN_W,
-          window.innerWidth - DROPDOWN_W - 8,
-        ),
-        openUp,
-      });
+    if (!open) {
+      // Close every other open ActionMenu before opening this one
+      window.dispatchEvent(
+        new CustomEvent('orders:close-menus', {
+          detail: { except: menuId.current },
+        }),
+      );
+      if (btnRef.current) {
+        const rect = btnRef.current.getBoundingClientRect();
+        const spaceBelow = window.innerHeight - rect.bottom;
+        const openUp = spaceBelow < DROPDOWN_H + 8;
+        setPos({
+          top: openUp ? rect.top - DROPDOWN_H - 4 : rect.bottom + 4,
+          left: Math.min(
+            rect.right - DROPDOWN_W,
+            window.innerWidth - DROPDOWN_W - 8,
+          ),
+          openUp,
+        });
+      }
     }
     setOpen((v) => !v);
   };
+
+  // Listen for close-all events from sibling menus
+  useEffect(() => {
+    const handleCloseOthers = (e) => {
+      if (e.detail.except !== menuId.current) setOpen(false);
+    };
+    window.addEventListener('orders:close-menus', handleCloseOthers);
+    return () =>
+      window.removeEventListener('orders:close-menus', handleCloseOthers);
+  }, []);
 
   useEffect(() => {
     if (!open) return;
