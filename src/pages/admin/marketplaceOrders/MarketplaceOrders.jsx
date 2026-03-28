@@ -1366,7 +1366,7 @@ export default function MarketplaceOrders() {
     const newOrder = {
       ...form,
       id: nextId.current++,
-      orderId: `#MP${nextId.current}`,
+      orderId: form.orderId.trim() || `#MP${nextId.current}`,
     };
     setOrders((prev) => [newOrder, ...prev]);
     setCreatingOrder(false);
