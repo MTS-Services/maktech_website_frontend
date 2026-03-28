@@ -161,9 +161,6 @@ const PricingCard = ({ pkg, onEdit }) => (
         <span className='text-4xl font-bold tracking-tight text-gray-900 leading-none'>
           {formatPrice(pkg.price)}
         </span>
-        <span className='text-sm text-gray-400 mb-0.5'>
-          {pkg.period.replace('/', 'per ')}
-        </span>
       </div>
     </div>
 
