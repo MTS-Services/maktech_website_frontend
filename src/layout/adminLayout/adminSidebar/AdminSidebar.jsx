@@ -14,6 +14,7 @@ import {
   MdClose,
   MdChevronRight,
 } from 'react-icons/md';
+import { RxDoubleArrowLeft } from 'react-icons/rx';
 
 const NAV_ITEMS = [
   { name: 'Dashboard', path: '/admin/dashboard', icon: MdDashboard },
@@ -24,6 +25,7 @@ const NAV_ITEMS = [
     name: 'Marketplace Orders',
     path: '/admin/marketplace-orders',
     icon: MdStorefront,
+    autoCollapse: true,
   },
   { name: 'Case Studies', path: '/admin/case-studies', icon: MdWork },
   { name: 'Blog', path: '/admin/blog', icon: MdArticle },
@@ -42,7 +44,7 @@ const NAV_INACTIVE =
 const getNavClass = ({ isActive }) =>
   `${NAV_BASE} ${isActive ? NAV_ACTIVE : NAV_INACTIVE}`;
 
-const Sidebar = ({ onClose, onDesktopClose }) => {
+const Sidebar = ({ onClose, onDesktopClose, onAutoCollapse }) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -84,7 +86,7 @@ const Sidebar = ({ onClose, onDesktopClose }) => {
           className='hidden lg:flex items-center justify-center mt-0.5 p-1.5 -mr-1 rounded-md text-gray-500 hover:text-gray-800 hover:bg-gray-100 transition-colors'
           aria-label='Collapse sidebar'
         >
-          <MdClose className='text-xl' />
+          <RxDoubleArrowLeft className='text-xl' />
         </button>
       </div>
 
@@ -97,12 +99,15 @@ const Sidebar = ({ onClose, onDesktopClose }) => {
           Main Menu
         </p>
         <ul className='space-y-1.5' role='list'>
-          {NAV_ITEMS.map(({ name, path, icon: Icon }) => (
+          {NAV_ITEMS.map(({ name, path, icon: Icon, autoCollapse }) => (
             <li key={path}>
               <NavLink
                 to={path}
                 end={path === '/admin/dashboard'}
-                onClick={onClose}
+                onClick={() => {
+                  onClose();
+                  if (autoCollapse && onAutoCollapse) onAutoCollapse();
+                }}
                 className={getNavClass}
               >
                 {({ isActive }) => (

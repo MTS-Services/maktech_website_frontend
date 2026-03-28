@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import Sidebar from './adminSidebar/AdminSidebar';
 import { MdMenu } from 'react-icons/md';
+import { RxDoubleArrowRight } from 'react-icons/rx';
 
 const AdminLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -55,6 +56,7 @@ const AdminLayout = () => {
         <Sidebar
           onClose={() => setSidebarOpen(false)}
           onDesktopClose={() => setDesktopOpen(false)}
+          onAutoCollapse={() => setDesktopOpen(false)}
         />
       </aside>
 
@@ -66,7 +68,7 @@ const AdminLayout = () => {
           aria-label='Expand sidebar'
           className='hidden lg:flex items-center justify-center fixed top-4 left-4 z-20 w-9 h-9 rounded-lg bg-white border border-gray-200 shadow-sm text-gray-600 hover:bg-gray-50 hover:text-gray-900 hover:shadow-md transition-all duration-200'
         >
-          <MdMenu className='text-[18px]' />
+          <RxDoubleArrowRight className='text-[18px]' />
         </button>
       )}
 
