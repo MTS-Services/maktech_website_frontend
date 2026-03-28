@@ -401,6 +401,13 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
         orderAmount: value,
         afterFiverr: isNaN(raw) ? '' : String(Math.round(raw * 0.8)),
       }));
+    } else if (name === 'bonus') {
+      const raw = parseFloat(value.replace(/[^0-9.]/g, ''));
+      setForm((prev) => ({
+        ...prev,
+        bonus: value,
+        afterBounce: isNaN(raw) ? '' : String(Math.round(raw * 0.8)),
+      }));
     } else {
       setForm((prev) => ({ ...prev, [name]: value }));
     }
@@ -707,10 +714,13 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
               </div>
             </div>
 
-            {/* After Bounce */}
+            {/* After Bonus */}
             <div>
               <label htmlFor='mp-afterBounce' className={LABEL_CLS}>
-                After Bounce
+                After Bonus
+                <span className='ml-1.5 text-xs font-normal text-gray-400'>
+                  (20% cut)
+                </span>
               </label>
               <div className='relative'>
                 <span className='absolute left-3.5 top-1/2 -translate-y-1/2 text-sm font-medium text-gray-500 pointer-events-none select-none'>
@@ -723,8 +733,8 @@ const OrderForm = ({ initial, title, submitLabel, onSubmit, onCancel }) => {
                   value={form.afterBounce}
                   onChange={handleChange}
                   autoComplete='off'
-                  placeholder='0'
-                  className={`${INPUT_CLS} pl-7`}
+                  placeholder='Auto-calculated'
+                  className={`${INPUT_CLS} pl-7 bg-gray-50`}
                 />
               </div>
             </div>
@@ -954,7 +964,7 @@ const OrderDetail = ({ order, onBack }) => {
               </dd>
             </div>
             <div>
-              <dt className='text-sm text-gray-400 mb-1'>After Bounce</dt>
+              <dt className='text-sm text-gray-400 mb-1'>After Bonus</dt>
               <dd className='text-base text-gray-800 font-medium'>
                 {order.afterBounce}
               </dd>
@@ -1423,7 +1433,7 @@ export default function MarketplaceOrders() {
               suffix: '',
             },
             { label: 'In Progress', value: inProgress, prefix: '', suffix: '' },
-            { label: 'Completed', value: completed, prefix: '', suffix: '' },
+            { label: 'Delivered', value: completed, prefix: '', suffix: '' },
             {
               label: 'Total Revenue',
               value: `$${totalRevenue.toLocaleString('en-US')}`,
