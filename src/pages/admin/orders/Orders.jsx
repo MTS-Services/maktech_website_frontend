@@ -273,6 +273,7 @@ const ActionMenu = ({ order, onView, onEdit, onDelete }) => {
             <MdEdit className='text-base shrink-0 text-blue-400' />
             Edit
           </button>
+          <div className='border-t border-gray-100 my-1' />
           <button
             type='button'
             onClick={() => {
