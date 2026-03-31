@@ -12,7 +12,7 @@ const LeadershipProfile = ({
   const paragraphs = Array.isArray(description) ? description : [description];
 
   const imageBlock = (
-    <div className='relative mx-auto w-full max-w-130 overflow-hidden rounded-4xl bg-[#1a0f08] aspect-[0.9] ring-1 ring-orange-bg-cta/30'>
+    <div className='relative mx-auto w-full max-w-130 overflow-hidden rounded-4xl bg-[#1a0f08] aspect-[0.9] ring-1 ring-orange-bg-cta/20'>
       <img
         src={image}
         alt={imageAlt || name}
