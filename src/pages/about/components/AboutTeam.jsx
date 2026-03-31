@@ -11,7 +11,6 @@ const OWNERS = [
     name: 'Nasrin Akter Pinky',
     role: 'Director, HR & Admin',
     photo: '/pinkey.png',
-    badge: 'Co-Founder',
   },
 ];
 
@@ -44,11 +43,13 @@ const OwnerCard = ({ name, role, photo, badge, index }) => (
     className='group relative rounded-2xl overflow-hidden aspect-3/4 cursor-default transition-transform duration-500 hover:-translate-y-2 ring-1 ring-orange-bg-cta/45 hover:ring-orange-bg-cta/80'
   >
     {/* Badge */}
-    <div className='absolute top-4 right-4 z-20'>
-      <span className='text-[10px] font-semibold uppercase tracking-[0.16em] text-orange-bg-cta border border-orange-bg-cta/50 rounded-full px-2.5 py-0.5 bg-black/40 backdrop-blur-sm'>
-        {badge}
-      </span>
-    </div>
+    {badge && (
+      <div className='absolute top-4 right-4 z-20'>
+        <span className='text-[10px] font-semibold uppercase tracking-[0.16em] text-orange-bg-cta border border-orange-bg-cta/50 rounded-full px-2.5 py-0.5 bg-black/40 backdrop-blur-sm'>
+          {badge}
+        </span>
+      </div>
+    )}
 
     <img
       src={photo}
