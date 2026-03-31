@@ -8,8 +8,8 @@ const OWNERS = [
     badge: 'CEO',
   },
   {
-    name: 'Nasrin Akther Pinkey',
-    role: 'Executive Officer, Finance & Account',
+    name: 'Nasrin Akter Pinky',
+    role: 'Director, HR & Admin',
     photo: '/pinkey.png',
     badge: 'Co-Founder',
   },
