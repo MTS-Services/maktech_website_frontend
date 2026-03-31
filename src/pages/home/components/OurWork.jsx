@@ -17,8 +17,41 @@ const projects = [
 const OurWork = () => {
   const containerRef = useRef(null);
   const cardsRef = useRef([]);
+  const mobileImagesRef = useRef([]);
 
   useGSAP(() => {
+    // Mobile animations
+    if (window.innerWidth < 1024) {
+      const firstImage = mobileImagesRef.current[0];
+      if (firstImage) {
+        const firstImageHeight = firstImage.offsetHeight;
+        const overlapDistance = firstImageHeight * 0.25; // 25% overlap
+        
+        mobileImagesRef.current.forEach((img, index) => {
+          if (index > 0) { // Skip the first image
+            gsap.fromTo(img,
+              {
+                y: 100,
+                opacity: 0.5,
+              },
+              {
+                y: -overlapDistance,
+                opacity: 1,
+                scrollTrigger: {
+                  trigger: containerRef.current,
+                  start: "top 50%",
+                  end: "center 30%",
+                  scrub: 1,
+                },
+              }
+            );
+          }
+        });
+      }
+      return; // Skip desktop animations on mobile
+    }
+
+    // Desktop animations
     cardsRef.current.forEach((card, index) => {
       // 1. Shake animation when card enters view
       // gsap.fromTo(card, 
@@ -174,7 +207,90 @@ const OurWork = () => {
           </p>
         </div>
 
-        <div className="flex flex-col items-center w-full relative">
+        {/* Mobile Layout */}
+        <div className="flex flex-col items-center w-full relative lg:hidden">
+          <div className="w-full mb-4">
+            <Link
+              to={`/case-study/${projects[0].slug}`}
+              ref={(el) => (mobileImagesRef.current[0] = el)}
+              className="relative rounded-2xl overflow-hidden group cursor-pointer block"
+            >
+              <div className="w-full bg-[#1c1614] aspect-[4/3]">
+                <img
+                  src={projects[0].coverImage}
+                  alt={projects[0].title}
+                  className="w-full h-full object-cover transition-transform duration-500"
+                />
+              </div>
+
+              <div
+                className="absolute bottom-0 left-0 right-0 px-4 py-4 flex flex-col gap-1.5"
+                style={{
+                  background:
+                    "linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.5) 60%, transparent 100%)",
+                }}
+              >
+                <h3 className="text-white font-semibold text-base leading-snug">
+                  {projects[0].title}
+                </h3>
+                <div className="flex flex-wrap gap-1.5">
+                  {projects[0].tags.slice(0, 2).map((tag) => (
+                    <span
+                      key={tag}
+                      className="text-xs font-medium text-white/80 bg-white/10 border border-white/15 px-2 py-0.5 rounded-full backdrop-blur-sm"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </Link>
+          </div>
+
+          <div className="flex gap-4 w-full">
+            {projects.slice(1).map((project, index) => (
+              <Link
+                key={project.id}
+                to={`/case-study/${project.slug}`}
+                ref={(el) => (mobileImagesRef.current[index + 1] = el)}
+                className="relative rounded-2xl overflow-hidden group cursor-pointer w-[48%]"
+              >
+                <div className="w-full bg-[#1c1614] aspect-[3/4]">
+                  <img
+                    src={project.coverImage}
+                    alt={project.title}
+                    className="w-full h-full object-cover transition-transform duration-500"
+                  />
+                </div>
+
+                <div
+                  className="absolute bottom-0 left-0 right-0 px-4 py-4 flex flex-col gap-1.5"
+                  style={{
+                    background:
+                      "linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.5) 60%, transparent 100%)",
+                  }}
+                >
+                  <h3 className="text-white font-semibold text-base leading-snug">
+                    {project.title}
+                  </h3>
+                  <div className="flex flex-wrap gap-1.5">
+                    {project.tags.slice(0, 2).map((tag) => (
+                      <span
+                        key={tag}
+                        className="text-xs font-medium text-white/80 bg-white/10 border border-white/15 px-2 py-0.5 rounded-full backdrop-blur-sm"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        {/* Desktop Layout */}
+        <div className="hidden lg:flex flex-col items-center w-full relative">
           {projects.map((project, index) => (
             <Link
               key={project.id}
