@@ -45,7 +45,7 @@ const LEADERS = [
   },
 
   {
-    orientation: 'image-left',
+    orientation: 'image-right',
     headline: 'Growth-Oriented Sales & Business Strategist',
     description: [
       'Mukabber Hossain is responsible for spearheading sales initiatives and cultivating new business opportunities. His strategic insights into market trends, customer needs, and competitive positioning enable the company to expand its reach and strengthen client relationships.',
@@ -58,7 +58,7 @@ const LEADERS = [
     imageAlt: 'Portrait of Mukabber Hossain',
   },
   {
-    orientation: 'image-right',
+    orientation: 'image-left',
     headline: 'Operational Excellence & Process Optimization Expert',
     description: [
       'Md. Firoj Mia oversees all operational functions, ensuring that processes are efficient, scalable, and aligned with organizational goals. He brings a wealth of experience in streamlining operations, optimizing resources, and implementing best practices across departments.',
