@@ -1,4 +1,5 @@
 import { useState } from "react";
+import CustomSelect from "./CustomSelect";
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({
@@ -326,51 +327,24 @@ const ContactUs = () => {
                       <label className="text-white-bg-cta text-base md:text-lg mb-2 block">
                         Service
                       </label>
-                      <select
+                      <CustomSelect
                         name="service"
                         value={formData.service}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 bg-[#3F3F3F] border border-white/10 rounded-lg text-white focus:outline-none focus:border-orange-bg-cta transition-colors duration-200 appearance-none cursor-pointer"
-                        style={{
-                          backgroundImage: `url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")`,
-                          backgroundRepeat: "no-repeat",
-                          backgroundPosition: "right 1rem center",
-                        }}
-                      >
-                        <option value="" disabled>
-                          Service
-                        </option>
-                        <option value="ui-ux" className="text-white">
-                          UI/UX Design
-                        </option>
-                        <option value="mern" className="text-white">
-                          MERN Stack Development
-                        </option>
-                        <option value="application" className="text-white">
-                          Application Development
-                        </option>
-                        <option value="ecommerce" className="text-white">
-                          E-Commerce Development
-                        </option>
-                        <option value="marketing" className="text-white">
-                          Digital Marketing
-                        </option>
-                        <option value="wordpress" className="text-white">
-                          WordPress Development
-                        </option>
-                        <option value="shopify" className="text-white">
-                          Shopify Development
-                        </option>
-                        <option value="wix" className="text-white">
-                          WIX Development
-                        </option>
-                        <option value="graphic" className="text-white">
-                          Graphic Design
-                        </option>
-                        <option value="other" className="text-white">
-                          Other
-                        </option>
-                      </select>
+                        placeholder="Service"
+                        options={[
+                          { value: "ui-ux", label: "UI/UX Design" },
+                          { value: "mern", label: "MERN Stack Development" },
+                          { value: "application", label: "Application Development" },
+                          { value: "ecommerce", label: "E-Commerce Development" },
+                          { value: "marketing", label: "Digital Marketing" },
+                          { value: "wordpress", label: "WordPress Development" },
+                          { value: "shopify", label: "Shopify Development" },
+                          { value: "wix", label: "WIX Development" },
+                          { value: "graphic", label: "Graphic Design" },
+                          { value: "other", label: "Other" },
+                        ]}
+                      />
                     </div>
                     <div>
                       <label className="text-white-bg-cta text-base md:text-lg mb-2 block">

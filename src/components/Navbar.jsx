@@ -166,6 +166,15 @@ const Navbar = () => {
     handleNavigate();
   };
 
+  const handleCompanyLinkClick = (event) => {
+    if (isMobile) {
+      event.preventDefault();
+      setIsCompanyMegaOpen((prev) => !prev);
+      setIsServicesMegaOpen(false);
+      return;
+    }
+  };
+
   return (
     <nav
       className="fixed z-[1000] flex w-full items-center justify-between gap-0 bg-[rgba(28,28,28,0.95)] px-5 py-4 shadow-[0_2px_8px_rgba(0,0,0,0.3)] transition-all duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] [backdrop-filter:blur(18px)] xl:w-[60%] xl:max-w-[1200px] xl:rounded-full xl:border xl:border-white/8 xl:bg-[rgba(28,28,28,0.82)] xl:px-5 xl:py-2.5 xl:shadow-[0_8px_32px_rgba(0,0,0,0.45),inset_0_0_0_1px_rgba(255,255,255,0.04)] 2xl:gap-2.5 2xl:px-[22px]"
@@ -194,20 +203,13 @@ const Navbar = () => {
 
       {/* Navigation Links */}
       <div
-        className="absolute left-0 right-0 top-full flex flex-col gap-0 overflow-hidden border-t border-white/6 bg-[rgba(28,28,28,0.98)] px-0 py-0 opacity-0 transition-all duration-300 [backdrop-filter:blur(18px)] xl:static xl:flex-row xl:items-center xl:justify-between xl:gap-0 xl:overflow-visible xl:border-none xl:bg-transparent xl:p-0 xl:opacity-100 xl:[backdrop-filter:none]"
-        style={
-          isMobile
-            ? {
-              maxHeight: menuOpen ? "620px" : "0px",
-              opacity: menuOpen ? 1 : 0,
-              pointerEvents: menuOpen ? "auto" : "none",
-              padding: menuOpen ? "16px 20px" : "0 20px",
-            }
-            : {
-              maxHeight: "none",
-              pointerEvents: "auto",
-            }
-        }
+        className={`absolute left-0 right-0 top-full flex flex-col gap-0 overflow-hidden border-t border-white/6 bg-[rgba(28,28,28,0.98)] px-5 transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] [backdrop-filter:blur(18px)] xl:static xl:flex-row xl:items-center xl:justify-between xl:gap-0 xl:overflow-visible xl:border-none xl:bg-transparent xl:p-0 xl:opacity-100 xl:[backdrop-filter:none] ${
+          menuOpen && isMobile
+            ? "max-h-[800px] py-4 opacity-100 pointer-events-auto"
+            : isMobile
+            ? "max-h-0 py-0 opacity-0 pointer-events-none"
+            : "opacity-100 pointer-events-auto"
+        }`}
       >
         {navLinks.map((link) => (
           link.to === "/services" ? (
@@ -229,7 +231,7 @@ const Navbar = () => {
               >
                 {link.label}
                 <svg
-                  className={`shrink-0 opacity-60 transition duration-200 ${isServicesMegaOpen ? "rotate-180 opacity-100" : ""}`}
+                  className={`shrink-0 opacity-60 transition-all duration-300 ease-out ${isServicesMegaOpen ? "rotate-180 opacity-100" : "rotate-0"}`}
                   width="10"
                   height="10"
                   viewBox="0 0 10 10"
@@ -306,9 +308,9 @@ const Navbar = () => {
               </div>
 
               <div
-                className={`xl:hidden overflow-hidden transition-all duration-300 ${isServicesMegaOpen
-                    ? "mt-2 max-h-[320px] opacity-100"
-                    : "max-h-0 opacity-0"
+                className={`xl:hidden overflow-hidden transition-all duration-400 ease-[cubic-bezier(0.4,0,0.2,1)] ${isServicesMegaOpen
+                    ? "mt-2 max-h-[400px] opacity-100"
+                    : "mt-0 max-h-0 opacity-0"
                   }`}
               >
                 <div className="space-y-1 rounded-md border border-white/10 bg-white/5 p-2">
@@ -344,11 +346,12 @@ const Navbar = () => {
               <button
                 type="button"
                 className={`${navItemBaseClass} w-full justify-between xl:w-auto border-none bg-transparent text-left`}
+                onClick={handleCompanyLinkClick}
                 style={{ transitionDelay: isMobile && menuOpen ? "150ms" : "0ms" }}
               >
                 {link.label}
                 <svg
-                  className={`shrink-0 opacity-60 transition duration-200 ${isCompanyMegaOpen ? "rotate-180 opacity-100" : ""}`}
+                  className={`shrink-0 opacity-60 transition-all duration-300 ease-out ${isCompanyMegaOpen ? "rotate-180 opacity-100" : "rotate-0"}`}
                   width="10"
                   height="10"
                   viewBox="0 0 10 10"
@@ -389,9 +392,9 @@ const Navbar = () => {
               </div>
 
               <div
-                className={`xl:hidden overflow-hidden transition-all duration-300 ${isCompanyMegaOpen
-                    ? "mt-2 max-h-[220px] opacity-100"
-                    : "max-h-0 opacity-0"
+                className={`xl:hidden overflow-hidden transition-all duration-400 ease-[cubic-bezier(0.4,0,0.2,1)] ${isCompanyMegaOpen
+                    ? "mt-2 max-h-[300px] opacity-100"
+                    : "mt-0 max-h-0 opacity-0"
                   }`}
               >
                 <div className="space-y-1 rounded-md border border-white/10 bg-white/5 p-2">
@@ -421,9 +424,13 @@ const Navbar = () => {
         {/* CTA inside dropdown for mobile/tablet */}
         <NavLink
           to="/contact"
-          className="mt-3 inline-flex w-full items-center justify-center rounded-full border border-white/10 bg-orange-bg-cta px-4 py-3 text-[15px] font-semibold text-white no-underline transition duration-200 hover:bg-[#d14608] active:scale-[0.97] xl:hidden"
+          className="mt-3 inline-flex w-full items-center justify-center rounded-full border border-white/10 bg-orange-bg-cta px-4 py-3 text-[15px] font-semibold text-white no-underline transition-all duration-200 hover:bg-[#d14608] active:scale-[0.97] xl:hidden"
           onClick={() => setMenuOpen(false)}
-          style={{ transitionDelay: isMobile && menuOpen ? "350ms" : "0ms" }}
+          style={{ 
+            transitionDelay: isMobile && menuOpen ? "200ms" : "0ms",
+            opacity: menuOpen ? 1 : 0,
+            transform: menuOpen ? "translateY(0)" : "translateY(-10px)"
+          }}
         >
           Let&apos;s Talk
         </NavLink>
