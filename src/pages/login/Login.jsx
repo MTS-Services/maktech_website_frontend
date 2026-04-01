@@ -12,8 +12,8 @@ const LINE_POSITIONS = [12, 30, 50, 68, 88];
 
 const Login = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('admin@test.com');
+  const [password, setPassword] = useState('123');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -106,9 +106,9 @@ const Login = () => {
 
           {/* Heading */}
           <h2 className='text-3xl xl:text-4xl 2xl:text-[46px] font-medium leading-tight tracking-tight'>
-            <span style={{ color: '#2F2F2F' }}>Welcome </span>
-            <span style={{ color: '#6e6e6e' }}>Back </span>
-            <span style={{ color: '#BFBDBD' }}>to</span>
+            <span style={{ color: '#ffffff' }}>Welcome </span>
+            <span style={{ color: '#BFBDBD' }}>Back </span>
+            <span style={{ color: '#AAAAAA' }}>to</span>
             <br />
             <span style={{ color: '#ffffff' }}>MakTech </span>
             <span style={{ color: '#ff6533' }}>Dashboard</span>
@@ -121,7 +121,7 @@ const Login = () => {
         </div>
 
         {/* Copyright */}
-        <div className='relative z-10 text-[#444] text-sm'>
+        <div className='relative z-10 text-[#AAAAAA] text-sm'>
           © 2024 MakTech. All rights reserved.
         </div>
       </div>
@@ -333,7 +333,7 @@ const Login = () => {
           </div>
 
           {/* Mobile copyright */}
-          <p className='xl:hidden text-center text-[#444] text-sm mt-8'>
+          <p className='xl:hidden text-center text-[#AAAAAA] text-sm mt-8'>
             © 2024 MakTech. All rights reserved.
           </p>
         </div>
