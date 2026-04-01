@@ -36,10 +36,26 @@ const Banner = () => {
       <div
         className={
           isMobile
-            ? "w-full px-5 z-10 pt-20 pb-8"
+            ? "w-full px-5 z-10 pt-20 pb-8 flex flex-col items-center"
             : "w-full max-w-[70%] mx-auto px-6 md:px-12 lg:px-24 z-10 md:mt-55 lg:mt-52 xl:mt-42.5 2xl:mt-35"
         }
       >
+        {/* Infinity Image - only on mobile */}
+        {isMobile && (
+          <div
+            className={`w-full flex justify-center mb-8 transition-all duration-500 ease-out ${
+              visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
+            }`}
+            style={{ transitionDelay: "100ms" }}
+          >
+            <img
+              src="/Infinity.png"
+              alt="Infinity"
+              className="w-[300px] h-auto"
+            />
+          </div>
+        )}
+
         {/* Logo - only on desktop */}
         {!isMobile && (
           <div
@@ -60,41 +76,31 @@ const Banner = () => {
         <h1
           className={`relative font-bold mb-9 max-w-[1080px] transition-all duration-500 ease-out ${
             isMobile
-              ? "text-[22px] leading-[1.35] text-white"
+              ? "text-[22px] leading-[1.35] text-white text-center"
               : "text-white 2xl:leading-[1.1] text-2xl md:text-[26px] lg:text-[33px] xl:text-[48px] 2xl:text-[64px] tracking-[0.5px] delay-250 xl:-ml-5 2xl:ml-0"
           } ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"}`}
+          style={{ transitionDelay: isMobile ? "250ms" : undefined }}
         >
-          {isMobile ? (
-            <>
-              {/* Sketch annotation decorations */}
-              <img
-                src="/Sketch-annotation.svg"
-                alt=""
-                aria-hidden="true"
-                className="pointer-events-none absolute select-none"
-                style={{
-                  top: "-80%",
-                  right: "-5%",
-                  width: "180px",
-                  height: "auto",
-                  opacity: 0.9,
-                }}
-              />
-              We design, develop, and launch high performance{" "}
-              <span className="text-[#676767]">
-                software that turns ideas into impact.
-              </span>
-            </>
-          ) : (
-            <>
-              Full-Stack IT Solutions That Drive
-              <br />
-              Business Growth at{" "}
-              <span className="relative inline-block text-[#676767]">
-                Every Stage
-              </span>
-            </>
-          )}
+          {/* {isMobile && (
+            <img
+              src="/Sketch-annotation.svg"
+              alt=""
+              aria-hidden="true"
+              className="pointer-events-none absolute select-none"
+              style={{
+                top: "-80%",
+                right: "-5%",
+                width: "180px",
+                height: "auto",
+                opacity: 0.9,
+              }}
+            />
+          )} */}
+          Full-Stack IT Solutions That Drive
+          Business Growth at{" "}
+          <span className="relative inline-block text-[#676767]">
+            Every Stage
+          </span>
         </h1>
 
         {/* CTA Button */}
@@ -102,7 +108,7 @@ const Banner = () => {
           to="/contact"
           className={`group flex items-center justify-center gap-3 rounded-full font-semibold cursor-pointer text-white transition-all duration-500 ease-out hover:-translate-y-0.5 active:scale-95 ${
             isMobile
-              ? "w-full text-base py-1"
+              ? "w-full text-base py-1 mx-auto"
               : "w-fit text-lg xl:-ml-5 2xl:ml-0"
           } ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"}`}
           style={{
