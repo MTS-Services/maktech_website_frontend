@@ -136,7 +136,7 @@ const Login = () => {
         </div>
 
         {/* ── Right Form Panel ── */}
-        <div className='w-full xl:w-1/2 flex flex-col items-center justify-center py-20 xl:pl-12 2xl:pl-16'>
+        <div className='w-full xl:w-1/2 flex flex-col items-center justify-center min-h-screen xl:min-h-0 py-20 xl:py-12 xl:pl-12 2xl:pl-16'>
           {/* Mobile logo */}
           <div className='xl:hidden mb-10 self-start'>
             <img
