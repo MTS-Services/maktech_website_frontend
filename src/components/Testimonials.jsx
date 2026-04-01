@@ -267,7 +267,7 @@ const Testimonials = ({ className = '' }) => {
 
     // Exact pixel width of one set — includes gap, sub-pixel, everything
     const singleSetWidth = track.scrollWidth / 2;
-    const speed = isMobile ? 2.5 : 2.5;
+    const speed = isMobile ? 1 : 1;
 
     const animate = () => {
       if (!pausedRef.current) {

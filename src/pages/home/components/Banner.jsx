@@ -19,8 +19,8 @@ const Banner = () => {
 
   return (
     <div
-      className={`relative w-full flex items-start justify-center ${
-        isMobile ? "" : "h-screen"
+      className={`relative w-full flex justify-center ${
+        isMobile ? "items-center h-screen" : "items-start h-screen"
       }`}
       style={
         !isMobile

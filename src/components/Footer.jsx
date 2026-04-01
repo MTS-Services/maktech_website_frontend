@@ -388,7 +388,7 @@ const Footer = () => {
                 "linear-gradient(180deg, rgba(18,18,18,1) 0%, rgba(20,20,20,0.98) 52%, rgba(22,22,22,0.78) 72%, rgba(255,101,51,0.20) 90%, rgba(255,101,51,0.45) 100%)",
             }}
           /> */}
-          <div className='absolute inset-x-0 -bottom-28 h-[120%] pointer-events-none bg-[radial-gradient(95%_115%_at_50%_100%,rgba(255,101,51,0.70)_0%,rgba(255,101,51,0.70)_38%,rgba(255,101,51,0.10)_62%,rgba(255,101,51,0)_82%)]' />
+          <div className='absolute inset-x-0 -bottom-28 h-[120%] pointer-events-none bg-[radial-gradient(100%_100%_at_50%_100%,rgba(255,101,51,0.70)_0%,rgba(255,101,51,0.70)_38%,rgba(255,101,51,0.10)_62%,rgba(255,101,51,0)_82%)]' />
 
           {/* Animated Brand Text at Top of Copyright Section */}
           <div
@@ -403,7 +403,7 @@ const Footer = () => {
           {/* Mobile Brand Text */}
           <div
             ref={mobileBrandRef}
-            className='md:hidden absolute inset-x-0 top-6 z-10 flex justify-center pointer-events-none will-change-transform'
+            className='md:hidden absolute inset-x-0 top-12 z-10 flex justify-center pointer-events-none will-change-transform'
           >
             <p className='select-none leading-none text-[62px] font-extrabold tracking-[0.06em] text-orange-bg-cta/40'>
               maktech
