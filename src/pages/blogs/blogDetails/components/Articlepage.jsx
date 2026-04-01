@@ -23,7 +23,7 @@ const ArticleUI = () => {
             {/* Header Image Section */}
             <div className="relative w-full  max-w-360 overflow-hidden  mx-auto">
                 <img
-                    src="/Desktop.jpg"
+                    src="/Desktop.webp"
                     alt=""
                     className="w-full h-full object-cover object-center"
                 />

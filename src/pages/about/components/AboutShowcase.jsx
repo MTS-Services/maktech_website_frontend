@@ -18,7 +18,7 @@ const AboutShowcase = () => (
           <div className='flex gap-4 xl:gap-5 lg:h-[48%] items-start'>
             <div className='w-[34%] aspect-3/4 lg:aspect-auto lg:h-[102%] shrink-0 rounded-2xl overflow-hidden relative z-10 -mt-14 lg:-mt-23'>
               <img
-                src='/about1.png'
+                src='/about1.webp'
                 alt='Maktech team member'
                 width={280}
                 height={370}
@@ -94,7 +94,7 @@ const AboutShowcase = () => (
           {/* Office workspace photo */}
           <div className='w-full flex-1  rounded-[20px] overflow-visible relative'>
             <img
-              src='/about3.png'
+              src='/about3.webp'
               alt='Maktech team collaborating in a modern workspace'
               width={600}
               height={400}
@@ -109,7 +109,7 @@ const AboutShowcase = () => (
           {/* Geometric cubes + title */}
           <div className='h-48 sm:h-56 lg:h-[30%] overflow-hidden rounded-2xl relative mt-4 lg:mt-0'>
             <img
-              src='/about4.png'
+              src='/about4.webp'
               alt='Designing digital systems for sustainable growth'
               width={400}
               height={200}
@@ -143,7 +143,7 @@ const AboutShowcase = () => (
               {/* Reviewer */}
               <div className='flex items-center gap-3 mt-4'>
                 <img
-                  src='/about5.png'
+                  src='/about5.webp'
                   alt='Product Manager at SaaS Startup'
                   width={40}
                   height={40}

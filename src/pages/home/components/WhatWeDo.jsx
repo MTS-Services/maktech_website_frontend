@@ -153,7 +153,7 @@ const WhatWeDo = () => {
             <span className="relative inline-block bg-linear-to-r from-white to-[#999999] bg-clip-text text-transparent">
               Solutions
               <img
-                src="/Vector 511.png"
+                src="/Vector 511.webp"
                 alt=""
                 aria-hidden="true"
                 className="absolute bottom-1 left-0 w-full pointer-events-none"

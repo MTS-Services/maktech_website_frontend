@@ -83,7 +83,7 @@ const AdminLayout = () => {
             <MdMenu className='text-xl' />
           </button>
           <img
-            src='/maktech_logo.png'
+            src='/maktech_logo.webp'
             alt='Maktech'
             width={120}
             height={28}

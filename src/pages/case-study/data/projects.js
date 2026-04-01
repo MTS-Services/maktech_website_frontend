@@ -1,14 +1,14 @@
 // Shared project data — used by CaseStudyGrid (cards) and CaseStudyDetailPage (detail view)
 // High-quality images from Unsplash
-const imgUiux1 = "/uiux1.png";
-const imgUiux2 = "/uiux2.png";
-const imgUiux3 = "/uiux3.png";
-const imgUiux4 = "/uiux5.png";
+const imgUiux1 = "/uiux1.webp";
+const imgUiux2 = "/uiux2.webp";
+const imgUiux3 = "/uiux3.webp";
+const imgUiux4 = "/uiux5.webp";
 
-const imgMern1 = "/mern1.jpg";
-const imgMern2 = "/mern2.jpg";
-const imgMern3 = "/mern3.jpg";
-const imgMern4 = "/mern4.jpg";
+const imgMern1 = "/mern1.webp";
+const imgMern2 = "/mern2.webp";
+const imgMern3 = "/mern3.webp";
+const imgMern4 = "/mern4.webp";
 
 const imgLaravel1 =
   "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=1200&q=80";

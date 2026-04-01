@@ -14,7 +14,7 @@ const LEADERS = [
     name: 'Mohammad Alamgir Kabir',
     role: 'Chief Executive Officer',
     company: 'MAKTECH',
-    image: '/our_work/Frame 2147226428.png',
+    image: '/our_work/Frame 2147226428.webp',
     imageAlt: 'Portrait of Mohammad Alamgir Kabir',
   },
   {
@@ -27,7 +27,7 @@ const LEADERS = [
     name: 'Nasrin Akter Pinky',
     role: 'Director, HR & Admin',
     company: 'MAKTECH',
-    image: '/pinkey4.png',
+    image: '/pinkey4.webp',
     imageAlt: 'Portrait of Nasrin Akter Pinky',
   },
   {
@@ -40,7 +40,7 @@ const LEADERS = [
     name: 'Toufique Ahmed Akash',
     role: 'Director, Finance',
     company: 'MAKTECH',
-    image: '/our_work/Frame 2147226428 (3).png',
+    image: '/our_work/Frame 2147226428 (3).webp',
     imageAlt: 'Portrait of Toufique Ahmed Akash',
   },
 
@@ -54,7 +54,7 @@ const LEADERS = [
     name: 'Mukabber Hossain',
     role: 'Director, Sales & Business Development',
     company: 'MAKTECH',
-    image: '/our_work/Frame 2147226428 (2).png',
+    image: '/our_work/Frame 2147226428 (2).webp',
     imageAlt: 'Portrait of Mukabber Hossain',
   },
   {
@@ -67,7 +67,7 @@ const LEADERS = [
     name: 'Md. Firoj Mia',
     role: 'Director, Operations',
     company: 'MAKTECH',
-    image: '/our_work/Frame 2147226428 (1).png',
+    image: '/our_work/Frame 2147226428 (1).webp',
     imageAlt: 'Portrait of Md. Firoj Mia',
   },
 ];

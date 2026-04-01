@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-const bgImage = "/home_banner_bg.png";
+const bgImage = "/home_banner_bg.webp";
 
 const Banner = () => {
   const [visible, setVisible] = useState(false);
@@ -49,7 +49,7 @@ const Banner = () => {
             style={{ transitionDelay: "100ms" }}
           >
             <img
-              src="/Infinity.png"
+              src="/Infinity.webp"
               alt="Infinity"
               className="w-[300px] h-auto"
             />
@@ -65,7 +65,7 @@ const Banner = () => {
             style={{ transitionDelay: "100ms" }}
           >
             <img
-              src="/maktech_logo_white.png"
+              src="/maktech_logo_white.webp"
               alt="maktech logo"
               className="h-6 w-auto"
             />

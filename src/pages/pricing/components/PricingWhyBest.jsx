@@ -63,7 +63,7 @@ const PricingWhyBest = () => (
     animatedLines={true}
     animateCards={true}
     backgroundStyle='dark'
-    backgroundImages={{ blob: '/why_choice_us/Group_1261154808.png' }}
+    backgroundImages={{ blob: '/why_choice_us/Group_1261154808.webp' }}
   />
 );
 

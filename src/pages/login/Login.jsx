@@ -88,7 +88,7 @@ const Login = () => {
           {/* Logo */}
           <div>
             <img
-              src='/maktech_logo_white.png'
+              src='/maktech_logo_white.webp'
               alt='MakTech'
               className='h-7 w-auto'
             />
@@ -140,7 +140,7 @@ const Login = () => {
           {/* Mobile logo */}
           <div className='xl:hidden mb-10'>
             <img
-              src='/maktech_logo_white.png'
+              src='/maktech_logo_white.webp'
               alt='MakTech'
               className='h-7 w-auto'
             />

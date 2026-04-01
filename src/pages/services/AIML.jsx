@@ -32,7 +32,7 @@ const AIML = () => {
           "Analytics dashboards and human-in-the-loop tooling",
           "Post-launch monitoring, drift detection, and retraining cycles",
         ]}
-        imageSrc="/services_image/Rectangle 6393.jpg"
+        imageSrc="/services_image/Rectangle 6393.webp"
         imageAlt="AI and machine learning workspace"
         ctaText="View Case Studies"
         ctaLink="/case-study"
@@ -47,37 +47,37 @@ const AIML = () => {
             title: "Discovery & Feasibility",
             description:
               "Identify high-ROI AI use cases, define data needs, and map success metrics before a single line of code.",
-            image: "/services_image/uiUx/image_1.jpg",
+            image: "/services_image/uiUx/image_1.webp",
           },
           {
             title: "Data Pipelines",
             description:
               "Ingest, clean, and label data with reproducible pipelines and quality checks to keep models reliable.",
-            image: "/services_image/uiUx/image_2.jpg",
+            image: "/services_image/uiUx/image_2.webp",
           },
           {
             title: "Model Development",
             description:
               "Train and evaluate models (LLMs, CV, tabular) with tight feedback loops to prove value quickly.",
-            image: "/services_image/uiUx/image_3.jpg",
+            image: "/services_image/uiUx/image_3.webp",
           },
           {
             title: "MLOps & Deployment",
             description:
               "Ship inference services with CI/CD, observability, and rollback plans so production stays stable.",
-            image: "/services_image/uiUx/image_4.jpg",
+            image: "/services_image/uiUx/image_4.webp",
           },
           {
             title: "Human-in-the-Loop",
             description:
               "Build review tools and guardrails to keep humans in control where accuracy and safety matter most.",
-            image: "/services_image/uiUx/image_5.jpg",
+            image: "/services_image/uiUx/image_5.webp",
           },
           {
             title: "Monitoring & Iteration",
             description:
               "Track drift, performance, and costs; retrain and fine-tune so the system improves over time.",
-            image: "/services_image/uiUx/image_6.jpg",
+            image: "/services_image/uiUx/image_6.webp",
           },
         ]}
         pricingCtaText="View Our Pricing"

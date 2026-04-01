@@ -24,7 +24,7 @@ const LogoItem = () => (
     }}
   >
     <img
-      src="/Diagonal/maktech_logo.png"
+      src="/Diagonal/maktech_logo.webp"
       alt="maktech logo"
       style={{
         width: "100px",

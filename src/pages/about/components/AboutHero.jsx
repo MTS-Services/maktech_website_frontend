@@ -17,7 +17,7 @@ const AboutHero = () => (
       <span className='relative inline-block'>
         Growth
         <img
-          src='/Vector 511.png'
+          src='/Vector 511.webp'
           alt=''
           aria-hidden='true'
           fetchPriority='low'

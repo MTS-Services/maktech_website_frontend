@@ -32,7 +32,7 @@ const SASProduct = () => {
           "Performance tuning, governance, and security",
           "Adoption playbooks, training, and documentation",
         ]}
-        imageSrc="/services_image/Rectangle 6393.jpg"
+        imageSrc="/services_image/Rectangle 6393.webp"
         imageAlt="Analytics dashboard visualization"
         ctaText="View Case Studies"
         ctaLink="/case-study"
@@ -47,37 +47,37 @@ const SASProduct = () => {
             title: "Product Strategy",
             description:
               "Define audiences, KPIs, and data sources; blueprint the roadmap so every dashboard answers a real question.",
-            image: "/services_image/uiUx/image_1.jpg",
+            image: "/services_image/uiUx/image_1.webp",
           },
           {
             title: "Data Foundations",
             description:
               "Model datasets, set up ETL/ELT, and harden data quality with validation so reports stay trustworthy.",
-            image: "/services_image/uiUx/image_2.jpg",
+            image: "/services_image/uiUx/image_2.webp",
           },
           {
             title: "Dashboard UX",
             description:
               "Design role-based dashboards with crisp visuals, guided drilldowns, and accessible narratives for every user type.",
-            image: "/services_image/uiUx/image_3.jpg",
+            image: "/services_image/uiUx/image_3.webp",
           },
           {
             title: "Automation & Alerts",
             description:
               "Schedule refreshes, trigger alerts, and automate report distribution so insights reach the right people fast.",
-            image: "/services_image/uiUx/image_4.jpg",
+            image: "/services_image/uiUx/image_4.webp",
           },
           {
             title: "Integrations",
             description:
               "Connect SAS outputs with CRMs, data warehouses, and downstream apps via secure APIs and connectors.",
-            image: "/services_image/uiUx/image_5.jpg",
+            image: "/services_image/uiUx/image_5.webp",
           },
           {
             title: "Enablement & Support",
             description:
               "Training, documentation, and ongoing support to drive adoption, refine KPIs, and keep quality high over time.",
-            image: "/services_image/uiUx/image_6.jpg",
+            image: "/services_image/uiUx/image_6.webp",
           },
         ]}
         pricingCtaText="View Our Pricing"

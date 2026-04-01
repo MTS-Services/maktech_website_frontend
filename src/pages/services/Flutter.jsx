@@ -32,7 +32,7 @@ const Flutter = () => {
           "Push Notifications, Deep Linking & Offline Support",
           "Play Store & App Store Deployment & Launch",
         ]}
-        imageSrc="/services_image/flutter/william-hook-9e9PD9blAto-unsplash.jpg"
+        imageSrc="/services_image/flutter/william-hook-9e9PD9blAto-unsplash.webp"
         imageAlt="Flutter app showcase"
         ctaText="View Case Studies"
         ctaLink="/case-study"
@@ -46,37 +46,37 @@ const Flutter = () => {
             title: "Cross-Platform Apps",
             description:
               "We build high-performance applications that run seamlessly on both iOS and Android using a single, efficient codebase.",
-            image: "/services_image/uiUx/image_1.jpg",
+            image: "/services_image/uiUx/image_1.webp",
           },
           {
             title: "Custom Widget Dev",
             description:
               "Specialized, reusable Flutter widgets for unique UI and highly interactive, functional experiences.",
-            image: "/services_image/uiUx/image_2.jpg",
+            image: "/services_image/uiUx/image_2.webp",
           },
           {
             title: "Firebase Integration",
             description:
               "Robust backend solutions with Firebase: real-time databases, cloud storage, and secure auth.",
-            image: "/services_image/uiUx/image_3.jpg",
+            image: "/services_image/uiUx/image_3.webp",
           },
           {
             title: "State Management",
             description:
               "Advanced architectures like Bloc, Provider, or Riverpod to keep your app fast and scalable under heavy load.",
-            image: "/services_image/uiUx/image_4.jpg",
+            image: "/services_image/uiUx/image_4.webp",
           },
           {
             title: "App Optimization",
             description:
               "Performance audits to improve 60fps animations, reduce app size, and speed up execution.",
-            image: "/services_image/uiUx/image_5.jpg",
+            image: "/services_image/uiUx/image_5.webp",
           },
           {
             title: "API & Third-Party",
             description:
               "Secure RESTful APIs and third-party integrations like payments, maps, auth, and social logins.",
-            image: "/services_image/uiUx/image_6.jpg",
+            image: "/services_image/uiUx/image_6.webp",
           },
         ]}
         pricingCtaText="View Our Pricing"

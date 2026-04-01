@@ -60,7 +60,7 @@ const AboutSection = () => {
           {/* Image Side */}
           <div className="w-full xl:w-[45%] shrink-0">
             <img
-              src="/alvaro-reyes-LXx1hwmp67E-unsplash.jpg"
+              src="/alvaro-reyes-LXx1hwmp67E-unsplash.webp"
               alt="Team working in office"
               className="w-full h-auto object-cover rounded-sm"
             />
@@ -93,7 +93,7 @@ const AboutSection = () => {
               >
                 Partner
                 <img
-                  src="/Vector 511.png"
+                  src="/Vector 511.webp"
                   alt=""
                   aria-hidden="true"
                   className="absolute bottom-1 xl:bottom-2 left-0 w-full pointer-events-none"

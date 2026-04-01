@@ -135,7 +135,7 @@ const Footer = () => {
             <div className='bg-[#2a2a2a] border border-white/10 rounded-2xl p-6'>
               <div className='flex items-center gap-2 mb-6'>
                 <img
-                  src='/maktech_logo_white.png'
+                  src='/maktech_logo_white.webp'
                   alt='maktech logo'
                   className='h-6 w-auto'
                 />
@@ -253,7 +253,7 @@ const Footer = () => {
           <div className='bg-[#2a2a2a] border border-white/10 rounded-2xl p-5 mb-4'>
             <div className='flex items-center gap-2 mb-4'>
               <img
-                src='/maktech_logo_white.png'
+                src='/maktech_logo_white.webp'
                 alt='maktech logo'
                 className='h-6 w-auto'
               />

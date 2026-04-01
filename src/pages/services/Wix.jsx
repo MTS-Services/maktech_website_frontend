@@ -32,7 +32,7 @@ const Wix = () => {
           "SEO Setup, Speed Tuning & Mobile Optimization",
           "Launch Preparation, Training & Ongoing Maintenance",
         ]}
-        imageSrc="/services_image/wix/harshit-katiyar-5sLNGV2EFRM-unsplash.jpg"
+        imageSrc="/services_image/wix/harshit-katiyar-5sLNGV2EFRM-unsplash.webp"
         imageAlt="Wix development screen"
         ctaText="View Case Studies"
         ctaLink="/case-study"
@@ -46,37 +46,37 @@ const Wix = () => {
             title: "Velo Advanced Coding",
             description:
               "We use Velo by Wix to write custom JavaScript, enabling complex web applications and dynamic interactions beyond standard templates.",
-            image: "/services_image/uiUx/image_1.jpg",
+            image: "/services_image/uiUx/image_1.webp",
           },
           {
             title: "Custom Database Design",
             description:
               "Architect internal collections/databases for large content, enabling dynamic pages and sophisticated filtering systems.",
-            image: "/services_image/uiUx/image_2.jpg",
+            image: "/services_image/uiUx/image_2.webp",
           },
           {
             title: "E-commerce Solutions",
             description:
               "High-performance online stores with custom product builders, secure payments, and automated tax/shipping calculations.",
-            image: "/services_image/uiUx/image_3.jpg",
+            image: "/services_image/uiUx/image_3.webp",
           },
           {
             title: "Booking & Reservations",
             description:
               "Advanced Wix Bookings systems with custom scheduling logic, staff management, and automated client notifications.",
-            image: "/services_image/uiUx/image_4.jpg",
+            image: "/services_image/uiUx/image_4.webp",
           },
           {
             title: "Third-Party API Sync",
             description:
               "Connect Wix sites to external tools like CRM, marketing automation, and accounting software via custom API integrations.",
-            image: "/services_image/uiUx/image_5.jpg",
+            image: "/services_image/uiUx/image_5.webp",
           },
           {
             title: "Performance Tuning",
             description:
               "Optimize page speed by managing heavy assets, streamlining Wix code, and meeting Google Core Web Vitals standards.",
-            image: "/services_image/uiUx/image_6.jpg",
+            image: "/services_image/uiUx/image_6.webp",
           },
         ]}
         pricingCtaText="View Our Pricing"

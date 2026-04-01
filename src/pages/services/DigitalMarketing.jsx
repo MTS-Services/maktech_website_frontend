@@ -32,7 +32,7 @@ const DigitalMarketing = () => {
           "Email Marketing Campaigns & Automation Flows",
           "Performance Tracking, Reporting & Continuous Optimization",
         ]}
-        imageSrc="/services_image/digital/myriam-jessier-eveI7MOcSmw-unsplash.jpg"
+        imageSrc="/services_image/digital/myriam-jessier-eveI7MOcSmw-unsplash.webp"
         imageAlt="Digital marketing analytics"
         ctaText="View Case Studies"
         ctaLink="/case-study"
@@ -46,37 +46,37 @@ const DigitalMarketing = () => {
             title: "Search Engine Optimization",
             description:
               "Advanced on-page and technical SEO to improve organic rankings, high-quality traffic, and search visibility.",
-            image: "/services_image/uiUx/image_1.jpg",
+            image: "/services_image/uiUx/image_1.webp",
           },
           {
             title: "Pay-Per-Click Advertising",
             description:
               "High-performance Google Ads and paid social campaigns optimized for maximum ROI through precise keyword targeting and bid management.",
-            image: "/services_image/uiUx/image_2.jpg",
+            image: "/services_image/uiUx/image_2.webp",
           },
           {
             title: "Social Media Strategy",
             description:
               "Data-driven social media plans across LinkedIn, Instagram, and Facebook to build brand authority and community engagement.",
-            image: "/services_image/uiUx/image_3.jpg",
+            image: "/services_image/uiUx/image_3.webp",
           },
           {
             title: "Content Marketing",
             description:
               "High-value content that educates and converts—blogs, whitepapers, newsletters—tailored to your audience segments.",
-            image: "/services_image/uiUx/image_4.jpg",
+            image: "/services_image/uiUx/image_4.webp",
           },
           {
             title: "Email Automation",
             description:
               "Automated email workflows and drip campaigns that nurture leads through the sales funnel and increase retention.",
-            image: "/services_image/uiUx/image_5.jpg",
+            image: "/services_image/uiUx/image_5.webp",
           },
           {
             title: "Analytics & Reporting",
             description:
               "Comprehensive performance tracking and transparent reports with key metrics and growth opportunities.",
-            image: "/services_image/uiUx/image_6.jpg",
+            image: "/services_image/uiUx/image_6.webp",
           },
         ]}
         pricingCtaText="View Our Pricing"
