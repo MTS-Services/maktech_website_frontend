@@ -215,7 +215,7 @@ const ApplyContact = () => {
                                             Expertise (Skills)
                                         </label>
                                         <div
-                                            className="h-13 rounded-xl flex items-center px-3 flex-wrap gap-2 overflow-hidden transition-all duration-200 hover:border-orange-bg-cta/60 group"
+                                            className="min-h-13 rounded-xl flex items-center px-3 py-2 flex-wrap gap-2 transition-all duration-200 hover:border-orange-bg-cta/60 group"
                                             style={{
                                                 backgroundColor: "rgba(66, 66, 66, 0.3)",
                                                 backdropFilter: "blur(20px)",

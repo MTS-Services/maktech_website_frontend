@@ -57,19 +57,13 @@ const LeadershipProfile = ({
 
   return (
     <div
-      className={`grid items-center gap-10 lg:gap-16 ${isImageLeft ? 'lg:grid-cols-[minmax(0,520px)_1fr]' : 'lg:grid-cols-[1fr_minmax(0,520px)]'}`}
+      className={`flex flex-col gap-10 lg:gap-16 lg:grid lg:items-center ${isImageLeft ? 'lg:grid-cols-[minmax(0,520px)_1fr]' : 'lg:grid-cols-[1fr_minmax(0,520px)]'}`}
     >
-      {isImageLeft ? (
-        <>
-          {imageBlock}
-          {textBlock}
-        </>
-      ) : (
-        <>
-          {textBlock}
-          {imageBlock}
-        </>
-      )}
+      {/* Image: always first on mobile, positioned by grid on desktop */}
+      <div className={!isImageLeft ? 'lg:order-2' : ''}>{imageBlock}</div>
+      
+      {/* Text: always second on mobile, positioned by grid on desktop */}
+      <div className={!isImageLeft ? 'lg:order-1' : ''}>{textBlock}</div>
     </div>
   );
 };
