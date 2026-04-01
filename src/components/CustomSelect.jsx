@@ -3,6 +3,7 @@ import { useState, useRef, useEffect } from "react";
 const CustomSelect = ({ value, onChange, options, placeholder, name }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const scrollContainerRef = useRef(null);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -15,6 +16,42 @@ const CustomSelect = ({ value, onChange, options, placeholder, name }) => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  // Prevent scroll propagation when scrolling inside dropdown
+  useEffect(() => {
+    const scrollContainer = scrollContainerRef.current;
+    if (!scrollContainer) return;
+
+    const handleWheel = (e) => {
+      const { scrollTop, scrollHeight, clientHeight } = scrollContainer;
+      const isAtTop = scrollTop === 0;
+      const isAtBottom = scrollTop + clientHeight >= scrollHeight;
+
+      // Prevent page scroll when:
+      // - Scrolling down and not at bottom
+      // - Scrolling up and not at top
+      if (
+        (e.deltaY < 0 && !isAtTop) ||
+        (e.deltaY > 0 && !isAtBottom)
+      ) {
+        e.stopPropagation();
+      }
+    };
+
+    const handleTouchMove = (e) => {
+      e.stopPropagation();
+    };
+
+    if (isOpen) {
+      scrollContainer.addEventListener("wheel", handleWheel, { passive: false });
+      scrollContainer.addEventListener("touchmove", handleTouchMove, { passive: false });
+    }
+
+    return () => {
+      scrollContainer.removeEventListener("wheel", handleWheel);
+      scrollContainer.removeEventListener("touchmove", handleTouchMove);
+    };
+  }, [isOpen]);
 
   const handleSelect = (optionValue) => {
     onChange({ target: { name, value: optionValue } });
@@ -62,7 +99,11 @@ const CustomSelect = ({ value, onChange, options, placeholder, name }) => {
             : "opacity-0 scale-y-95 max-h-0 pointer-events-none"
         }`}
       >
-        <div className="overflow-y-auto max-h-64 custom-scrollbar">
+        <div 
+          ref={scrollContainerRef}
+          className="overflow-y-auto max-h-64 custom-scrollbar"
+          style={{ overscrollBehavior: 'contain' }}
+        >
           {options.map((option) => (
             <button
               key={option.value}
