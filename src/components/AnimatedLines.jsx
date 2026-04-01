@@ -26,7 +26,7 @@ const AnimatedLines = () => {
       {linePositions.map((position, index) => (
         <div
           key={index}
-          className="absolute -top-15 bottom-0 w-px bg-gradient-to-b from-transparent via-gray-600/50 to-transparent"
+          className="absolute -top-15 bottom-0 w-px bg-linear-to-b from-transparent via-gray-600/50 to-transparent"
           style={{ left: `${position}%` }}
         >
           {/* Animated capsule/rectangular drop that moves down the line */}
