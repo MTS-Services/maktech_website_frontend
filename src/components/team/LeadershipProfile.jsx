@@ -63,7 +63,7 @@ const LeadershipProfile = ({
     >
       {/* Image: always first on mobile, positioned by grid on desktop */}
       <div className={!isImageLeft ? 'lg:order-2' : ''}>{imageBlock}</div>
-      
+
       {/* Text: always second on mobile, positioned by grid on desktop */}
       <div className={!isImageLeft ? 'lg:order-1' : ''}>{textBlock}</div>
     </div>

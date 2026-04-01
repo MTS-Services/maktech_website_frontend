@@ -124,7 +124,11 @@ const OurTeam = () => {
 
       <section className='mx-auto mt-8 flex container flex-col gap-20 pb-10 px-5 sm:mt-12 sm:px-8 lg:mt-16 lg:px-12'>
         {LEADERS.map((leader, index) => (
-          <LeadershipProfile key={leader.name} {...leader} priority={index === 0} />
+          <LeadershipProfile
+            key={leader.name}
+            {...leader}
+            priority={index === 0}
+          />
         ))}
       </section>
     </main>

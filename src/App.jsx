@@ -23,7 +23,7 @@ function App() {
     // Expose raw instance so AdminLayout can call lenis.stop() / lenis.start()
     setLenisInstance(lenis);
 
-    // One RAF loop drives both Lenis and GSAP — most efficient approach
+    // One RAF loop drives both Lenis and GSAP ï¿½ most efficient approach
     const rafCallback = (time) => lenis.raf(time * 1000);
     gsap.ticker.add(rafCallback);
     gsap.ticker.lagSmoothing(0);
@@ -64,15 +64,18 @@ function App() {
       <ScrollToTop />
       <AppRoutes />
       <ToastContainer
-        position="bottom-right"
+        position='bottom-right'
         autoClose={3000}
         hideProgressBar={false}
         newestOnTop
         closeOnClick
         pauseOnHover
         draggable
-        theme="light"
-        style={{ fontFamily: 'system-ui, -apple-system, sans-serif', fontSize: '14px' }}
+        theme='light'
+        style={{
+          fontFamily: 'system-ui, -apple-system, sans-serif',
+          fontSize: '14px',
+        }}
       />
     </Router>
   );
