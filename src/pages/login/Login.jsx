@@ -1,133 +1,311 @@
-/**
- * Demo Login Page Component
- * 
- * This is a demonstration login page that displays:
- * - Demo credentials prominently for testing
- * - Login form UI (non-functional for demo purposes)
- * - Navigation button to admin dashboard
- * 
- * Purpose:
- * This page serves as the entry point to the admin dashboard.
- * In production, this would include actual authentication logic.
- * 
- * Demo Credentials:
- * - Email: admin@test.com
- * - Password: 123
- */
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import {
+  MdOutlineEmail,
+  MdOutlineLock,
+  MdOutlineVisibility,
+  MdOutlineVisibilityOff,
+  MdArrowForward,
+} from 'react-icons/md';
 
-import { useNavigate } from 'react-router-dom'
-import { MdLogin } from 'react-icons/md'
+const LINE_POSITIONS = [12, 30, 50, 68, 88];
 
 const Login = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const [email, setEmail] = useState('admin@test.com');
+  const [password, setPassword] = useState('123');
+  const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  /**
-   * Handle demo login navigation
-   * In production, this would validate credentials and authenticate
-   */
-  const handleLogin = () => {
-    // Navigate to admin dashboard
-    navigate('/admin/dashboard')
-  }
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setTimeout(() => {
+      navigate('/admin/dashboard');
+    }, 700);
+  };
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-gray-900 to-gray-700 flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
-        {/* Login Card */}
-        <div className="bg-white rounded-2xl shadow-2xl p-8">
-          {/* Header */}
-          <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-orange-bg-cta rounded-full mb-4">
-              <MdLogin className="text-3xl text-white" />
+    <div
+      className='min-h-screen relative overflow-hidden'
+      style={{ backgroundColor: '#1c1c1c' }}
+    >
+      {/* ── Full-page radial glow ── */}
+      <div
+        className='absolute inset-0 pointer-events-none z-0'
+        style={{
+          background:
+            'radial-gradient(ellipse 60% 80% at 20% 55%, rgba(255,101,51,0.10) 0%, transparent 60%), radial-gradient(ellipse 60% 60% at 80% 50%, rgba(255,101,51,0.06) 0%, transparent 55%)',
+        }}
+        aria-hidden='true'
+      />
+
+      {/* ── Full-page animated vertical lines ── */}
+      <div
+        className='absolute inset-0 pointer-events-none z-0'
+        aria-hidden='true'
+      >
+        {LINE_POSITIONS.map((pos, i) => (
+          <div
+            key={pos}
+            className='absolute top-0 bottom-0 w-px'
+            style={{
+              left: `${pos}%`,
+              background:
+                'linear-gradient(to bottom, transparent, rgba(255,255,255,0.055), transparent)',
+            }}
+          >
+            <div
+              className='absolute w-0.5 h-14 rounded-full animate-dropFall'
+              style={{
+                left: '50%',
+                transform: 'translateX(-50%)',
+                background:
+                  'linear-gradient(to bottom, rgba(255,255,255,0.04), #FF6533)',
+                animationDelay: `${i * 2}s`,
+                opacity: 0.55,
+              }}
+            />
+            <div
+              className='absolute w-0.5 h-10 rounded-full animate-dropFall'
+              style={{
+                left: '50%',
+                transform: 'translateX(-50%)',
+                background:
+                  'linear-gradient(to bottom, rgba(255,255,255,0.04), #FF6533)',
+                animationDelay: `${i * 2 + 4}s`,
+                opacity: 0.38,
+              }}
+            />
+          </div>
+        ))}
+      </div>
+
+      {/* ── Container ── */}
+      <div className='relative z-10 mx-auto w-full max-w-350 px-5 md:px-10 xl:px-16 2xl:px-20 min-h-screen flex xl:flex-row flex-col'>
+        {/* ── Left Branding Panel (desktop only) ── */}
+        <div className='hidden xl:flex xl:w-1/2 flex-col justify-between py-12 pr-12 2xl:pr-16'>
+          {/* Logo */}
+          <div>
+            <img
+              src='/maktech_logo_white.png'
+              alt='MakTech'
+              className='h-7 w-auto'
+            />
+          </div>
+
+          {/* Centre copy */}
+          <div className='flex flex-col gap-5 max-w-sm'>
+            {/* Badge */}
+            <div
+              className='inline-flex items-center gap-2 px-3 py-1.5 rounded-md w-fit'
+              style={{
+                backgroundColor: 'rgba(255,101,51,0.08)',
+                border: '1px solid rgba(255,101,51,0.22)',
+              }}
+            >
+              <span className='relative flex items-center justify-center w-3.5 h-3.5'>
+                <span className='absolute w-full h-full bg-orange-bg-cta rounded-full opacity-30' />
+                <span className='w-2 h-2 bg-orange-bg-cta rounded-full' />
+              </span>
+              <span className='text-sm font-medium text-[#AAAAAA]'>
+                Admin Portal
+              </span>
             </div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">
-              Admin Login
-            </h1>
-            <p className="text-gray-600">
-              MakTech Dashboard Access
+
+            {/* Heading */}
+            <h2 className='text-3xl xl:text-4xl 2xl:text-[46px] font-medium leading-tight tracking-tight'>
+              <span style={{ color: '#ffffff' }}>Welcome </span>
+              <span style={{ color: '#BFBDBD' }}>Back </span>
+              <span style={{ color: '#AAAAAA' }}>to</span>
+              <br />
+              <span style={{ color: '#ffffff' }}>MakTech </span>
+              <span style={{ color: '#ff6533' }}>Dashboard</span>
+            </h2>
+
+            <p className='text-[#AAAAAA] text-base 2xl:text-lg leading-relaxed'>
+              Manage projects, track leads, and oversee operations — all in one
+              powerful workspace.
             </p>
           </div>
 
-          {/* Demo Credentials Card */}
-          <div className="bg-orange-50 border-l-4 border-orange-bg-cta p-4 mb-6 rounded">
-            <div className="flex items-start">
-              <div className="shrink-0">
-                <svg className="h-5 w-5 text-orange-bg-cta" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                </svg>
+          {/* Copyright */}
+          <div className='text-[#AAAAAA] text-sm'>
+            © 2024 MakTech. All rights reserved.
+          </div>
+        </div>
+
+        {/* ── Right Form Panel ── */}
+        <div className='w-full xl:w-1/2 flex flex-col items-center justify-center min-h-screen xl:min-h-0 py-20 xl:py-12 xl:pl-12 2xl:pl-16'>
+          {/* Mobile logo */}
+          <div className='xl:hidden mb-10'>
+            <img
+              src='/maktech_logo_white.png'
+              alt='MakTech'
+              className='h-7 w-auto'
+            />
+          </div>
+
+          <div className='w-full max-w-110'>
+            {/* Card */}
+            <div
+              className='p-7 md:p-10'
+              style={{
+                backgroundColor: 'rgba(66, 66, 66, 0.18)',
+                backdropFilter: 'blur(22px)',
+                WebkitBackdropFilter: 'blur(22px)',
+                border: '1px solid rgba(255, 255, 255, 0.09)',
+              }}
+            >
+              {/* Card header */}
+              <div className='mb-7'>
+                <h1 className='text-2xl md:text-3xl font-bold text-white mb-1.5'>
+                  Sign In
+                </h1>
+                <p className='text-[#AAAAAA] text-base'>
+                  Enter your credentials to access the admin dashboard.
+                </p>
               </div>
-              <div className="ml-3">
-                <h3 className="text-sm font-medium text-orange-800 mb-2">
-                  Demo Credentials
-                </h3>
-                <div className="text-sm text-orange-700 space-y-1">
-                  <p><strong>Email:</strong> admin@test.com</p>
-                  <p><strong>Password:</strong> 123</p>
+
+              {/* Form */}
+              <form onSubmit={handleSubmit} className='space-y-4' noValidate>
+                {/* Email */}
+                <div>
+                  <label
+                    htmlFor='email'
+                    className='block text-sm font-medium text-[#AAAAAA] mb-2'
+                  >
+                    Email Address
+                  </label>
+                  <div className='relative'>
+                    <span className='absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-[#555]'>
+                      <MdOutlineEmail size={19} />
+                    </span>
+                    <input
+                      id='email'
+                      type='email'
+                      autoComplete='email'
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder='admin@test.com'
+                      className='w-full pl-10 pr-4 py-3 text-white placeholder-[#444] text-base focus:outline-none transition-colors duration-200'
+                      style={{
+                        backgroundColor: 'rgba(66,66,66,0.28)',
+                        border: '1px solid rgba(255,255,255,0.09)',
+                      }}
+                      onFocus={(e) => {
+                        e.currentTarget.style.borderColor =
+                          'rgba(255,101,51,0.55)';
+                      }}
+                      onBlur={(e) => {
+                        e.currentTarget.style.borderColor =
+                          'rgba(255,255,255,0.09)';
+                      }}
+                    />
+                  </div>
                 </div>
-              </div>
+
+                {/* Password */}
+                <div>
+                  <label
+                    htmlFor='password'
+                    className='block text-sm font-medium text-[#AAAAAA] mb-2'
+                  >
+                    Password
+                  </label>
+                  <div className='relative'>
+                    <span className='absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-[#555]'>
+                      <MdOutlineLock size={19} />
+                    </span>
+                    <input
+                      id='password'
+                      type={showPassword ? 'text' : 'password'}
+                      autoComplete='current-password'
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      placeholder='Enter your password'
+                      className='w-full pl-10 pr-11 py-3 text-white placeholder-[#444] text-base focus:outline-none transition-colors duration-200'
+                      style={{
+                        backgroundColor: 'rgba(66,66,66,0.28)',
+                        border: '1px solid rgba(255,255,255,0.09)',
+                      }}
+                      onFocus={(e) => {
+                        e.currentTarget.style.borderColor =
+                          'rgba(255,101,51,0.55)';
+                      }}
+                      onBlur={(e) => {
+                        e.currentTarget.style.borderColor =
+                          'rgba(255,255,255,0.09)';
+                      }}
+                    />
+                    <button
+                      type='button'
+                      onClick={() => setShowPassword((v) => !v)}
+                      className='absolute right-3.5 top-1/2 -translate-y-1/2 text-[#555] hover:text-[#AAAAAA] transition-colors duration-150'
+                      aria-label={
+                        showPassword ? 'Hide password' : 'Show password'
+                      }
+                    >
+                      {showPassword ? (
+                        <MdOutlineVisibilityOff size={19} />
+                      ) : (
+                        <MdOutlineVisibility size={19} />
+                      )}
+                    </button>
+                  </div>
+                </div>
+
+                {/* Submit */}
+                <button
+                  type='submit'
+                  disabled={isLoading}
+                  className='w-full mt-1 flex items-center justify-center gap-2.5 py-3.5 text-white font-semibold text-base transition-opacity duration-200 hover:opacity-90 active:scale-[0.99] disabled:opacity-60'
+                  style={{ backgroundColor: '#ff6533' }}
+                >
+                  {isLoading ? (
+                    <>
+                      <svg
+                        className='animate-spin h-4.5 w-4.5 shrink-0'
+                        viewBox='0 0 24 24'
+                        fill='none'
+                      >
+                        <circle
+                          className='opacity-25'
+                          cx='12'
+                          cy='12'
+                          r='10'
+                          stroke='currentColor'
+                          strokeWidth='4'
+                        />
+                        <path
+                          className='opacity-75'
+                          fill='currentColor'
+                          d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z'
+                        />
+                      </svg>
+                      Signing in…
+                    </>
+                  ) : (
+                    <>
+                      Sign In
+                      <MdArrowForward className='text-xl shrink-0' />
+                    </>
+                  )}
+                </button>
+              </form>
             </div>
-          </div>
 
-          {/* Login Form (Demo - Non-functional) */}
-          <div className="space-y-4 mb-6">
-            {/* Email Input */}
-            <div>
-              <label 
-                htmlFor="email" 
-                className="block text-sm font-medium text-gray-700 mb-2"
-              >
-                Email Address
-              </label>
-              <input
-                type="email"
-                id="email"
-                placeholder="admin@test.com"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-bg-cta focus:border-transparent transition-all"
-                defaultValue="admin@test.com"
-              />
-            </div>
-
-            {/* Password Input */}
-            <div>
-              <label 
-                htmlFor="password" 
-                className="block text-sm font-medium text-gray-700 mb-2"
-              >
-                Password
-              </label>
-              <input
-                type="password"
-                id="password"
-                placeholder="Enter password"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-bg-cta focus:border-transparent transition-all"
-                defaultValue="123"
-              />
-            </div>
-          </div>
-
-          {/* Continue to Login Button */}
-          <button
-            onClick={handleLogin}
-            className="w-full bg-orange-bg-cta text-white py-3 rounded-lg font-semibold hover:opacity-90 transition-all duration-200 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
-          >
-            <MdLogin className="text-xl" />
-            Continue to Login
-          </button>
-
-          {/* Additional Info */}
-          <div className="mt-6 text-center text-sm text-gray-500">
-            <p>This is a demo login page.</p>
-            <p className="mt-1">Click the button above to access the dashboard.</p>
+            {/* Mobile copyright */}
+            <p className='xl:hidden text-center text-[#AAAAAA] text-sm mt-8'>
+              © 2024 MakTech. All rights reserved.
+            </p>
           </div>
         </div>
-
-        {/* Footer */}
-        <div className="text-center mt-6 text-white text-sm">
-          <p>© 2024 MakTech. All rights reserved.</p>
-        </div>
+        {/* end right panel */}
       </div>
+      {/* end container */}
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;
