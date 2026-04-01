@@ -99,7 +99,7 @@ const ContactUs = () => {
 
           {/* Outer Wrapper Box */}
           <div
-            className="p-6 xl:p-8"
+            className="p-5 md:p-6 xl:p-8"
             style={{
               backgroundColor: "rgba(66, 66, 66, 0.2)",
               backdropFilter: "blur(20px)",
@@ -110,7 +110,7 @@ const ContactUs = () => {
             <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 xl:gap-8">
               {/* Left Side - Company Info Box */}
               <div
-                className="p-8 xl:p-10 "
+                className="p-3 md:p-8 xl:p-10 "
                 style={{
                   backgroundColor: "rgba(66, 66, 66, 0.2)",
                   backdropFilter: "blur(20px)",
@@ -267,7 +267,7 @@ const ContactUs = () => {
 
               {/* Right Side - Form Box */}
               <div
-                className="p-8 xl:p-10"
+                className="p-5 md:p-8 xl:p-10"
                 style={{
                   backgroundColor: "rgba(66, 66, 66, 0.2)",
                   backdropFilter: "blur(20px)",
