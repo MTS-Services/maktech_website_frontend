@@ -19,6 +19,19 @@ const LEADERS = [
   },
   {
     orientation: 'image-right',
+    headline: 'People-First Leader Championing Culture & Talent',
+    description: [
+      'Nasrin Akter Pinky leads the Human Resources and Administration functions with a strong focus on building a positive workplace culture, nurturing talent, and aligning people strategies with organizational goals. Her approach combines empathy with efficiency, ensuring every team member is empowered to perform at their best.',
+      'Her leadership in HR & Administration drives seamless internal operations, fosters employee engagement, and ensures the organization maintains the highest standards of professionalism and compliance.',
+    ],
+    name: 'Nasrin Akter Pinky',
+    role: 'Director, HR & Admin',
+    company: 'MAKTECH',
+    image: '/pinkey1.png',
+    imageAlt: 'Portrait of Nasrin Akter Pinky',
+  },
+  {
+    orientation: 'image-left',
     headline: 'Financial Strategist Ensuring Sustainable Growth',
     description: [
       'Toufique Ahmed Akash manages the company’s financial strategy, ensuring robust fiscal planning, reporting, and compliance. His expertise encompasses budgeting, financial analysis, and risk management, supporting informed decision-making at the executive level.',
@@ -32,7 +45,7 @@ const LEADERS = [
   },
 
   {
-    orientation: 'image-left',
+    orientation: 'image-right',
     headline: 'Growth-Oriented Sales & Business Strategist',
     description: [
       'Mukabber Hossain is responsible for spearheading sales initiatives and cultivating new business opportunities. His strategic insights into market trends, customer needs, and competitive positioning enable the company to expand its reach and strengthen client relationships.',
@@ -45,7 +58,7 @@ const LEADERS = [
     imageAlt: 'Portrait of Mukabber Hossain',
   },
   {
-    orientation: 'image-right',
+    orientation: 'image-left',
     headline: 'Operational Excellence & Process Optimization Expert',
     description: [
       'Md. Firoj Mia oversees all operational functions, ensuring that processes are efficient, scalable, and aligned with organizational goals. He brings a wealth of experience in streamlining operations, optimizing resources, and implementing best practices across departments.',
