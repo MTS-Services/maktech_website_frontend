@@ -92,7 +92,7 @@ const FeatureSection = ({
           aria-hidden='true'
           className='absolute inset-0 z-0 overflow-hidden pointer-events-none'
         >
-          {[12, 30, 50, 70, 88].map((pos, i) => (
+          {[12, 30, 50, 68,88].map((pos, i) => (
             <div
               key={i}
               className='absolute -top-15 bottom-0 w-px'
