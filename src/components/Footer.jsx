@@ -250,10 +250,10 @@ const Footer = () => {
         </div>
 
         {/* Mobile Footer Content (Accordion) */}
-        <div className='md:hidden relative z-10 px-4 py-8'>
+        <div className='md:hidden relative z-10 px-4 py-4'>
           {/* Logo & Social Card */}
-          <div className='bg-[#2a2a2a] border border-white/10 rounded-2xl p-6 mb-6'>
-            <div className='flex items-center gap-2 mb-6'>
+          <div className='bg-[#2a2a2a] border border-white/10 rounded-2xl p-5 mb-4'>
+            <div className='flex items-center gap-2 mb-4'>
               <img
                 src='/maktech_logo_white.png'
                 alt='maktech logo'
@@ -262,7 +262,7 @@ const Footer = () => {
             </div>
 
             {/* Social Media Icons */}
-            <div className='flex items-center gap-3 mb-6'>
+            <div className='flex items-center gap-3 mb-4'>
               <a
                 href='https://www.facebook.com/maktechgroup'
                 target='_blank'
@@ -312,7 +312,7 @@ const Footer = () => {
           <div className='border-b border-white/10'>
             <button
               onClick={() => toggleSection('quicklink')}
-              className='w-full flex items-center justify-between py-4 text-white text-base font-normal'
+              className='w-full flex items-center justify-between py-3 text-white text-base font-normal'
             >
               Quick Link
               <MdKeyboardArrowDown
@@ -322,7 +322,7 @@ const Footer = () => {
               />
             </button>
             {openSection === 'quicklink' && (
-              <div className='pb-4 space-y-3'>
+              <div className='pb-3 space-y-2'>
                 <NavLink
                   to='/about'
                   className='block text-gray-400 hover:text-white transition-colors duration-200 text-sm'
@@ -355,7 +355,7 @@ const Footer = () => {
           <div className='border-b border-white/10'>
             <button
               onClick={() => toggleSection('contacts')}
-              className='w-full flex items-center justify-between py-4 text-white text-base font-normal'
+              className='w-full flex items-center justify-between py-3 text-white text-base font-normal'
             >
               Contacts
               <MdKeyboardArrowDown
@@ -365,7 +365,7 @@ const Footer = () => {
               />
             </button>
             {openSection === 'contacts' && (
-              <div className='pb-4 space-y-3'>
+              <div className='pb-3 space-y-2'>
                 <p className='text-gray-400 text-sm italic'>
                   maktechgroup@gmail.com
                 </p>
@@ -379,7 +379,7 @@ const Footer = () => {
         </div>
 
         {/* Bottom Copyright Section with Orange Gradient */}
-        <div className='relative overflow-hidden h-72 md:h-100 '>
+        <div className='relative overflow-hidden h-56 md:h-100 '>
           {/* Dark-to-orange layered glow */}
           {/* <div
             className="absolute inset-0 pointer-events-none"
@@ -388,7 +388,7 @@ const Footer = () => {
                 "linear-gradient(180deg, rgba(18,18,18,1) 0%, rgba(20,20,20,0.98) 52%, rgba(22,22,22,0.78) 72%, rgba(255,101,51,0.20) 90%, rgba(255,101,51,0.45) 100%)",
             }}
           /> */}
-          <div className='absolute inset-x-0 -bottom-28 h-[120%] pointer-events-none bg-[radial-gradient(62%_115%_at_50%_100%,rgba(255,101,51,0.70)_0%,rgba(255,101,51,0.70)_38%,rgba(255,101,51,0.10)_62%,rgba(255,101,51,0)_82%)]' />
+          <div className='absolute inset-x-0 -bottom-28 h-[120%] pointer-events-none bg-[radial-gradient(95%_115%_at_50%_100%,rgba(255,101,51,0.70)_0%,rgba(255,101,51,0.70)_38%,rgba(255,101,51,0.10)_62%,rgba(255,101,51,0)_82%)]' />
 
           {/* Animated Brand Text at Top of Copyright Section */}
           <div
@@ -403,7 +403,7 @@ const Footer = () => {
           {/* Mobile Brand Text */}
           <div
             ref={mobileBrandRef}
-            className='md:hidden absolute inset-x-0 top-10 z-10 flex justify-center pointer-events-none will-change-transform'
+            className='md:hidden absolute inset-x-0 top-6 z-10 flex justify-center pointer-events-none will-change-transform'
           >
             <p className='select-none leading-none text-[62px] font-extrabold tracking-[0.06em] text-orange-bg-cta/40'>
               maktech

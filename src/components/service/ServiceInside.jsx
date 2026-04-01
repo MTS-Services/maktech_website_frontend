@@ -567,29 +567,34 @@ const ServiceInside = ({
   pricingCtaLink = "/pricing",
 }) => {
   return (
-    // No overflow-hidden on section — forces clip recalc on every scroll tick
-    <section className="relative text-white py-16 sm:py-20 md:py-24">
+    // Force GPU layer creation for entire section
+    <section 
+      className="relative text-white py-16 sm:py-20 md:py-24"
+      style={{ 
+        isolation: "isolate",
+        transform: "translateZ(0)",
+      }}
+    >
 
-      {/* Blobs in isolated overflow-hidden wrapper — scopes clipping
-          only to this div, not the entire section */}
+      {/* Simplified blobs with optimized rendering */}
       <div
         className="pointer-events-none absolute inset-0 overflow-hidden"
         aria-hidden="true"
       >
         <div
-          className="absolute -left-56 bottom-0 h-[520px] w-[520px] rounded-full opacity-20"
+          className="absolute -left-56 bottom-0 h-[520px] w-[520px] rounded-full opacity-15"
           style={{
-            background:
-              "radial-gradient(circle, rgba(255,101,51,0.6) 0%, rgba(255,101,51,0.3) 40%, transparent 70%)",
+            background: "radial-gradient(circle, rgba(255,101,51,0.8) 0%, transparent 70%)",
             transform: "translateZ(0)",
+            filter: "blur(80px)",
           }}
         />
         <div
-          className="absolute -right-56 top-0 h-[520px] w-[520px] rounded-full opacity-20"
+          className="absolute -right-56 top-0 h-[520px] w-[520px] rounded-full opacity-15"
           style={{
-            background:
-              "radial-gradient(circle, rgba(255,101,51,0.5) 0%, rgba(255,101,51,0.25) 40%, transparent 70%)",
+            background: "radial-gradient(circle, rgba(255,101,51,0.7) 0%, transparent 70%)",
             transform: "translateZ(0)",
+            filter: "blur(80px)",
           }}
         />
       </div>
@@ -623,40 +628,26 @@ const ServiceInside = ({
             </h2>
           </div>
 
-          {/* contain: layout paint — grid is isolated from page layout.
-              will-change: transform — promotes grid to its own GPU layer
-              BEFORE first scroll reaches it, so the compositor is ready. */}
+          {/* contain: layout — grid is isolated from page layout.
+              will-change: opacity forces GPU layer creation for ALL cards
+              immediately when section enters viewport, not incrementally. */}
           <div
             className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
             style={{
-              contain: "layout paint",
-              willChange: "transform",
+              contain: "layout",
+              willChange: "opacity",
             }}
           >
-            {cards.map((card, index) => (
+            {cards.map((card) => (
               <div
                 key={card.title}
                 className="flex flex-col gap-4 bg-black-bg rounded-lg p-4"
               >
-                {/* overflow:clip — clips image without creating a stacking
-                    context (unlike overflow:hidden which creates one per card,
-                    causing 6 stacking contexts to composite simultaneously) */}
+                {/* Image container with static GPU layer */}
                 <div
-                  className="w-full h-[224px] bg-[#2a2a2a]"
-                  style={{
-                    borderRadius: "8px",
-                    overflow: "clip",
-                  }}
+                  className="w-full h-[224px] bg-[#2a2a2a] rounded-lg overflow-hidden"
                 >
-                  {/* ALL images use loading="eager" — lazy loading was
-                      triggering network fetch exactly when Lenis scrolled
-                      into this section, colliding with the scroll animation.
-                      fetchpriority="high" for above-fold cards (0-2) so they
-                      download first. fetchpriority="low" for below-fold cards
-                      (3-5) so they download silently in the background without
-                      competing with critical resources, but are ready before
-                      the user scrolls down. decoding="async" keeps image
-                      decode off the main thread for all cards. */}
+                  {/* Optimized image loading - all eager, pre-decoded */}
                   <img
                     src={card.image}
                     alt={card.title}
@@ -664,8 +655,11 @@ const ServiceInside = ({
                     width="392"
                     height="224"
                     loading="eager"
-                    decoding="async"
-                    fetchPriority={index < 3 ? "high" : "low"}
+                    decoding="sync"
+                    style={{ 
+                      imageRendering: "auto",
+                      transform: "translateZ(0)",
+                    }}
                   />
                 </div>
                 <div className="flex flex-col gap-2">

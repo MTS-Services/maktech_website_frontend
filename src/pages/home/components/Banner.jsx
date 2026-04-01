@@ -108,7 +108,7 @@ const Banner = () => {
           to="/contact"
           className={`group flex items-center justify-center gap-3 rounded-full font-semibold cursor-pointer text-white transition-all duration-500 ease-out hover:-translate-y-0.5 active:scale-95 ${
             isMobile
-              ? "w-full text-base py-1 mx-auto"
+              ? "w-[65%] text-base py-1 mx-auto"
               : "w-fit text-lg xl:-ml-5 2xl:ml-0"
           } ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"}`}
           style={{
