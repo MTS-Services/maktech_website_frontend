@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import {
   MdOutlineEmail,
   MdOutlineLock,
@@ -12,6 +12,7 @@ const LINE_POSITIONS = [12, 30, 50, 68, 88];
 
 const Login = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [email, setEmail] = useState('admin@test.com');
   const [password, setPassword] = useState('123');
   const [showPassword, setShowPassword] = useState(false);
@@ -20,8 +21,14 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsLoading(true);
+    // Simulated async auth — replace with a real API call to your auth endpoint.
+    // On success the server should set an httpOnly cookie; the localStorage token
+    // here is a placeholder until a real backend is integrated.
     setTimeout(() => {
-      navigate('/admin/dashboard');
+      localStorage.setItem('authToken', `session-${Date.now()}`);
+      // Redirect back to the page the user originally tried to access, or dashboard
+      const destination = location.state?.from ?? '/admin/dashboard';
+      navigate(destination, { replace: true });
     }, 700);
   };
 

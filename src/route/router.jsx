@@ -2,6 +2,8 @@ import { lazy, Suspense } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import AdminLayout from '../layout/adminLayout/AdminLayout';
 import PublicLayout from '../layout/publicLayout/PublicLayout';
+import ProtectedRoute from '../components/ProtectedRoute';
+import PageLoader from '../components/PageLoader';
 const Home = lazy(() => import('../pages/home/Home'));
 const About = lazy(() => import('../pages/about/About'));
 const OurTeam = lazy(() => import('../pages/ourTeam/OurTeam'));
@@ -52,7 +54,7 @@ const CaseStudyDetailPage = lazy(
   () => import('../pages/case-study/CaseStudyDetailPage'),
 );
 const AppRoutes = () => (
-  <Suspense fallback={null}>
+  <Suspense fallback={<PageLoader />}>
     <Routes>
       {/* Public Routes - with shared Navbar */}
       <Route element={<PublicLayout />}>
@@ -95,7 +97,14 @@ const AppRoutes = () => (
       </Route>
       <Route path='/login' element={<Login />} />
 
-      <Route path='/admin' element={<AdminLayout />}>
+      <Route
+        path='/admin'
+        element={
+          <ProtectedRoute>
+            <AdminLayout />
+          </ProtectedRoute>
+        }
+      >
         <Route index element={<Navigate to='/admin/dashboard' replace />} />
         <Route path='dashboard' element={<Dashboard />} />
         <Route path='emails' element={<Emails />} />
