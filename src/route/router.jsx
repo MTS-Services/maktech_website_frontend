@@ -2,12 +2,12 @@ import { lazy, Suspense } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import AdminLayout from '../layout/adminLayout/AdminLayout';
 import PublicLayout from '../layout/publicLayout/PublicLayout';
-import Home from '../pages/home/Home';
-import About from '../pages/about/About';
-import OurTeam from '../pages/ourTeam/OurTeam';
-import Career from '../pages/career/Career';
-import ApplyJobs from '../pages/career/ApplyJobs';
-import Contact from '../pages/contact/Contact';
+const Home = lazy(() => import('../pages/home/Home'));
+const About = lazy(() => import('../pages/about/About'));
+const OurTeam = lazy(() => import('../pages/ourTeam/OurTeam'));
+const Career = lazy(() => import('../pages/career/Career'));
+const ApplyJobs = lazy(() => import('../pages/career/ApplyJobs'));
+const Contact = lazy(() => import('../pages/contact/Contact'));
 // Lazy-loaded routes — each page is its own chunk, only parsed when visited
 const Login = lazy(() => import('../pages/login/Login'));
 const Dashboard = lazy(() => import('../pages/admin/dashboard/Dashboard'));
