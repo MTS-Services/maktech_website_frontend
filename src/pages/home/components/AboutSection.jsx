@@ -12,7 +12,7 @@ const AboutSection = () => {
   ];
 
   return (
-    <section className='hidden xl:block w-full bg-white text-black py-28 relative z-10 overflow-hidden'>
+    <section className='w-full bg-white text-black py-12 xl:py-28 relative z-10 overflow-hidden'>
       <div className='pointer-events-none absolute inset-0 z-0'>
         {linePositions.map((position, index) => (
           <div
@@ -46,9 +46,9 @@ const AboutSection = () => {
 
       <div className='container mx-auto px-5 xl:px-8 2xl:px-12 relative z-10'>
         {/* Top Content (Image + Text) */}
-        <div className='flex items-center gap-12 xl:gap-20 mb-16'>
+        <div className='flex flex-col xl:flex-row items-center gap-8 xl:gap-20 mb-12 xl:mb-16'>
           {/* Image Side */}
-          <div className='w-[45%] shrink-0'>
+          <div className='w-full xl:w-[45%] shrink-0'>
             <img
               src='/alvaro-reyes-LXx1hwmp67E-unsplash.jpg'
               alt='Team working in office'
@@ -57,20 +57,20 @@ const AboutSection = () => {
           </div>
 
           {/* Text Side */}
-          <div className='flex-1 flex flex-col items-start 2xl:gap-2'>
+          <div className='flex-1 flex flex-col items-start gap-3 xl:gap-0 2xl:gap-2 w-full'>
             {/* Badge */}
             <div className='flex items-center gap-2 bg-[#f0ddd8] px-3 py-1.5 border border-[#e5cac3] rounded-md'>
               <div className='relative flex items-center justify-center w-3.5 h-3.5'>
                 <span className='absolute w-full h-full bg-orange-bg-cta rounded-full opacity-30'></span>
                 <span className='w-2 h-2 bg-orange-bg-cta rounded-full'></span>
               </div>
-              <span className='text-xl font-medium text-[#555555]'>
+              <span className='text-base xl:text-xl font-medium text-[#555555]'>
                 Who We are
               </span>
             </div>
 
             {/* Heading */}
-            <h2 className='text-2xl xl:text-4xl 2xl:text-5xl font-medium leading-tight tracking-tight'>
+            <h2 className='text-xl xl:text-4xl 2xl:text-5xl font-medium leading-tight tracking-tight'>
               <span style={{ color: '#2F2F2F' }}>More </span>
               <span style={{ color: '#6e6e6e' }}>Than a </span>
               <span style={{ color: '#BFBDBD' }}>Team We&apos;re</span>
@@ -86,13 +86,13 @@ const AboutSection = () => {
                   src='/Vector 511.png'
                   alt=''
                   aria-hidden='true'
-                  className='absolute bottom-2 left-0 w-full pointer-events-none'
+                  className='absolute bottom-1 xl:bottom-2 left-0 w-full pointer-events-none'
                 />
               </span>
             </h2>
 
             {/* Paragraph */}
-            <p className='text-[#676767] xl:text-lg 2xl:text-[22px] leading-relaxed max-w-xl'>
+            <p className='text-[#676767] text-base xl:text-lg 2xl:text-[22px] leading-relaxed max-w-xl'>
               A group of designers, developers, and problem-solvers focused on
               long-term digital success. A group of designers, developers,
             </p>
@@ -126,13 +126,13 @@ const AboutSection = () => {
         </div>
 
         {/* Bottom Stats */}
-        <div className='grid grid-cols-4 gap-4'>
+        <div className='grid grid-cols-2 xl:grid-cols-4 gap-6 xl:gap-4'>
           {stats.map((stat, idx) => (
             <div key={idx} className='flex flex-col gap-1'>
-              <h3 className='text-4xl xl:text-5xl font-bold text-(--color-white-bg-font) tracking-tight'>
+              <h3 className='text-3xl xl:text-5xl font-bold text-(--color-white-bg-font) tracking-tight'>
                 <AnimatedCounter target={stat.target} suffix={stat.suffix} />
               </h3>
-              <p className='text-[#666666] text-lg font-medium mt-1'>
+              <p className='text-[#666666] text-base xl:text-lg font-medium mt-1'>
                 {stat.label}
               </p>
             </div>
