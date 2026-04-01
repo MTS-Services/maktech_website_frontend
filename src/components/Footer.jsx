@@ -80,29 +80,27 @@ const Footer = () => {
           {[12, 30, 50, 68, 88].map((pos, i) => (
             <div
               key={pos}
-              className='absolute top-0 bottom-0 w-px bg-linear-to-b from-transparent via-gray-600/50 to-transparent'
+              className='absolute top-0 bottom-0 w-px bg-linear-to-b from-transparent via-white/5 to-transparent'
               style={{ left: `${pos}%` }}
             >
               <div
-                className='absolute w-0.5 h-12 rounded-full opacity-70'
+                className='absolute w-0.5 h-12 rounded-full opacity-40 animate-dropFall'
                 style={{
                   left: '50%',
                   transform: 'translateX(-50%)',
-                  background: 'linear-gradient(to bottom, #1C1C1C, #FF6533)',
-                  animation: `dropFall 8s linear infinite`,
+                  background:
+                    'linear-gradient(to bottom, rgba(255,255,255,0.1), rgba(255,101,51,0.5))',
                   animationDelay: `${i * 2}s`,
-                  animationFillMode: 'backwards',
                 }}
               />
               <div
-                className='absolute w-0.5 h-10 rounded-full opacity-50'
+                className='absolute w-0.5 h-10 rounded-full opacity-30 animate-dropFall'
                 style={{
                   left: '50%',
                   transform: 'translateX(-50%)',
-                  background: 'linear-gradient(to bottom, #1C1C1C, #FF6533)',
-                  animation: `dropFall 8s linear infinite`,
+                  background:
+                    'linear-gradient(to bottom, rgba(255,255,255,0.1), rgba(255,101,51,0.5))',
                   animationDelay: `${i * 2 + 4}s`,
-                  animationFillMode: 'backwards',
                 }}
               />
             </div>

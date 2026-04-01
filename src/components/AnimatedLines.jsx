@@ -36,6 +36,7 @@ const AnimatedLines = () => {
               left: '50%',
               background: 'linear-gradient(to bottom, #1C1C1C, #FF6533)',
               animationDelay: `${index * 2}s`,
+              animationDuration: '10s',
             }}
           />
           {/* Second capsule with different timing */}
@@ -45,6 +46,7 @@ const AnimatedLines = () => {
               left: '50%',
               background: 'linear-gradient(to bottom, #1C1C1C, #FF6533)',
               animationDelay: `${index * 2 + 4}s`,
+              animationDuration: '10s',
             }}
           />
         </div>
