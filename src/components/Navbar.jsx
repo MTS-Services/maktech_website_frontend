@@ -308,10 +308,13 @@ const Navbar = () => {
               </div>
 
               <div
-                className={`xl:hidden overflow-hidden transition-all duration-400 ease-[cubic-bezier(0.4,0,0.2,1)] ${isServicesMegaOpen
+                className={`xl:hidden overflow-y-auto custom-scrollbar transition-all duration-400 ease-[cubic-bezier(0.4,0,0.2,1)] ${isServicesMegaOpen
                     ? "mt-2 max-h-[400px] opacity-100"
                     : "mt-0 max-h-0 opacity-0"
                   }`}
+                onWheel={(e) => e.stopPropagation()}
+                onTouchMove={(e) => e.stopPropagation()}
+                style={{ overscrollBehavior: "contain" }}
               >
                 <div className="space-y-1 rounded-md border border-white/10 bg-white/5 p-2">
                   <NavLink
@@ -392,10 +395,13 @@ const Navbar = () => {
               </div>
 
               <div
-                className={`xl:hidden overflow-hidden transition-all duration-400 ease-[cubic-bezier(0.4,0,0.2,1)] ${isCompanyMegaOpen
+                className={`xl:hidden overflow-y-auto custom-scrollbar transition-all duration-400 ease-[cubic-bezier(0.4,0,0.2,1)] ${isCompanyMegaOpen
                     ? "mt-2 max-h-[300px] opacity-100"
                     : "mt-0 max-h-0 opacity-0"
                   }`}
+                onWheel={(e) => e.stopPropagation()}
+                onTouchMove={(e) => e.stopPropagation()}
+                style={{ overscrollBehavior: "contain" }}
               >
                 <div className="space-y-1 rounded-md border border-white/10 bg-white/5 p-2">
                   {companyMegaItems.map((item) => (

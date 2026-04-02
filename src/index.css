@@ -67,18 +67,18 @@ code {
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(255, 101, 51, 0.6);
+  background: #ff6533;
   border-radius: 3px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 101, 51, 0.8);
+  background: #e55a2b;
 }
 
 /* Firefox scrollbar */
 .custom-scrollbar {
   scrollbar-width: thin;
-  scrollbar-color: rgba(255, 101, 51, 0.6) rgba(255, 255, 255, 0.05);
+  scrollbar-color: #ff6533 rgba(255, 255, 255, 0.05);
 }
 
 /* ===== Diagonal Marquee Animations ===== */

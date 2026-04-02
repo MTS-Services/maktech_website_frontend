@@ -11,6 +11,8 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   useEffect(() => {
+    // LENIS SMOOTH SCROLL DISABLED - Uncomment to re-enable
+    /*
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -52,6 +54,7 @@ function App() {
       setLenisInstance(null);
       setSmoothScrollInstance(null);
     };
+    */
   }, []);
 
   return (
