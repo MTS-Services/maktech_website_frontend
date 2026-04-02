@@ -1,17 +1,17 @@
 // Shared project data — used by CaseStudyGrid (cards) and CaseStudyDetailPage (detail view)
 // High-quality images from Unsplash
-const imgUiux1 = "/uiux1.webp";
+const imgUiux1 = "/our_work/p6.jpg";
 const imgUiux2 = "/uiux2.webp";
 const imgUiux3 = "/uiux3.webp";
 const imgUiux4 = "/uiux5.webp";
 
-const imgMern1 = "/mern1.webp";
+const imgMern1 = "/our_work/p3.jpg";
 const imgMern2 = "/mern2.webp";
 const imgMern3 = "/mern3.webp";
 const imgMern4 = "/mern4.webp";
 
 const imgLaravel1 =
-  "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=1200&q=80";
+  "/our_work/p5.jpg";
 const imgLaravel2 =
   "https://images.unsplash.com/photo-1587620962725-abab7fe55159?w=1200&q=80";
 const imgLaravel3 =
@@ -20,7 +20,7 @@ const imgLaravel4 =
   "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=1200&q=80";
 
 const imgFlutter1 =
-  "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=1200&q=80";
+  "/our_work/p4.jpg";
 const imgFlutter2 =
   "https://images.unsplash.com/photo-1551650975-87deedd944c3?w=1200&q=80";
 const imgFlutter3 =
@@ -49,7 +49,7 @@ const imgDigital3 =
   "https://images.unsplash.com/photo-1557838923-2985c318be48?w=1200&q=80";
 
 const imgAi1 =
-  "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200&q=80";
+  "/our_work/p2.jpg";
 const imgAi2 =
   "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=1200&q=80";
 const imgAi3 =

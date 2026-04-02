@@ -1,4 +1,6 @@
-import { useRef } from "react";
+
+
+  import { useRef } from "react";
 import { Link } from "react-router-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -7,141 +9,179 @@ import { ALL_PROJECTS } from "../../case-study/data/projects";
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Select featured projects: 1 UI/UX, 1 MERN, 1 Laravel
 const projects = [
-  ALL_PROJECTS.find(p => p.primaryCategory === 'UI/UX'), // First UI/UX project
-  ALL_PROJECTS.find(p => p.primaryCategory === 'MERN'), // First MERN project
-  ALL_PROJECTS.find(p => p.primaryCategory === 'CMS'), // First CMS project
-].filter(Boolean); // Remove any null values
+  ALL_PROJECTS.find((p) => p.primaryCategory === "AI"),
+  ALL_PROJECTS.find((p) => p.primaryCategory === "MERN"),
+  ALL_PROJECTS.find((p) => p.primaryCategory === "Flutter"),
+  ALL_PROJECTS.find((p) => p.primaryCategory === "Laravel"),
+  ALL_PROJECTS.find((p) => p.primaryCategory === "UI/UX"),
+].filter(Boolean);
 
 const OurWork = () => {
   const containerRef = useRef(null);
   const cardsRef = useRef([]);
   const mobileImagesRef = useRef([]);
 
-  useGSAP(() => {
-    // Mobile animations
-    if (window.innerWidth < 1024) {
-      const firstImage = mobileImagesRef.current[0];
-      if (firstImage) {
-        const firstImageHeight = firstImage.offsetHeight;
-        const overlapDistance = firstImageHeight * 0.25; // 25% overlap
-        
-        mobileImagesRef.current.forEach((img, index) => {
-          if (index > 0) { // Skip the first image
-            gsap.fromTo(img,
-              {
-                y: 100,
-                opacity: 0.5,
-              },
-              {
-                y: -overlapDistance,
-                opacity: 1,
-                scrollTrigger: {
-                  trigger: containerRef.current,
-                  start: "top 50%",
-                  end: "center 30%",
-                  scrub: 1,
-                },
-              }
-            );
+  const mobileRowRefs = useRef([]);
+  useGSAP(
+    () => {
+      // ── MOBILE ANIMATIONS ──────────────────────────────────────────────
+        if (window.innerWidth < 1024) {
+          const firstImage = mobileImagesRef.current[0];
+          if (firstImage) {
+            const firstImageHeight = firstImage.offsetHeight;
+            const overlapDistance = firstImageHeight * 0.25; // 25% overlap
+
+            // Arrange mobile cards into rows and create a single timeline
+            // per row so left+right cards move together and stay aligned.
+            const rows = 2; // we have 4 remaining projects -> 2 rows
+            for (let i = 0; i < rows; i++) {
+              const leftIdx = 1 + i * 2;
+              const rightIdx = leftIdx + 1;
+              const leftEl = mobileImagesRef.current[leftIdx];
+              const rightEl = mobileImagesRef.current[rightIdx];
+              const rowEl = mobileRowRefs.current[i];
+              if (!rowEl) continue;
+
+              const moveUp = Math.min(100, 40 + i * 20);
+              gsap.fromTo(
+                [leftEl, rightEl],
+                { y: 80, opacity: 0.6 },
+                {
+                  y: -moveUp,
+                  opacity: 1,
+                  ease: 'none',
+                  scrollTrigger: {
+                    trigger: rowEl,
+                    start: 'top 90%',
+                    end: 'bottom 20%',
+                    scrub: true,
+                  },
+                }
+              );
+            }
           }
-        });
+          return; // Skip desktop animations on mobile
       }
-      return; // Skip desktop animations on mobile
-    }
 
-    // Desktop animations
-    cardsRef.current.forEach((card, index) => {
-      // 1. Shake animation when card enters view
-      // gsap.fromTo(card, 
-      //   {
-      //     x: 0,
-      //     rotation: 0,
-      //   },
-      //   {
-      //     x: -8,
-      //     rotation: -1,
-      //     duration: 0.1,
-      //     ease: "power2.inOut",
-      //     scrollTrigger: {
-      //       trigger: card,
-      //       start: "top 80%",
-      //       end: "top 8%",
-      //       toggleActions: "play none none none",
-      //     },
-      //     onComplete: () => {
-      //       gsap.to(card, {
-      //         x: 8,
-      //         rotation: 1,
-      //         duration: 0.1,
-      //         yoyo: true,
-      //         repeat: 3,
-      //         ease: "power2.inOut",
-      //         onComplete: () => {
-      //           gsap.to(card, {
-      //             x: 0,
-      //             rotation: 0,
-      //             duration: 0.1,
-      //             ease: "power2.out"
-      //           });
-      //         }
-      //       });
-      //     }
-      //   }
-      // );
+      // ── DESKTOP ANIMATIONS ─────────────────────────────────────────────
 
-      // 2. Pin animation
-      ScrollTrigger.create({
-        trigger: card,
-        start: "top 8%",
-        endTrigger: containerRef.current,
-        end: `bottom bottom`,
-        pin: true,
-        pinSpacing: false,
+      // Step 1: Set every card to a clean initial state BEFORE any ScrollTrigger
+      cardsRef.current.forEach((card) => {
+        gsap.set(card, {
+          rotation: 0,
+          scale: 1,
+          y: 0,
+          opacity: 1,
+          transformOrigin: "top center",
+        });
       });
 
-      // 3. Rotate the incoming card from right to center (skip first card)
-      if (index > 0) {
-        gsap.fromTo(card,
-          {
-            rotation: 10, // Starts tilted to the right
-            scale: 0.95, // Starts slightly smaller
-            transformOrigin: "top center",
-          },
-          {
-            rotation: 0, // Rotates to center
-            scale: 1,    // Scales to full size
-            transformOrigin: "top center",
-            scrollTrigger: {
-              trigger: card,
-              start: "top 80%", // Starts when card enters the screen
-              end: "top 8%",    // Ends when card hits its pinned position
-              scrub: true,      // Smooth scroll-linked animation
-            },
-          }
-        );
-      }
+      // Step 2: Pin each card
+      cardsRef.current.forEach((card) => {
+        ScrollTrigger.create({
+          trigger: card,
+          start: "top 8%",
+          endTrigger: containerRef.current,
+          end: "bottom bottom",
+          pin: true,
+          pinSpacing: false,
+        });
+      });
 
-      // 4. Rotate previous card to the left when this card scrolls up
-      if (index > 0) {
-        gsap.to(cardsRef.current[index - 1], {
-          rotation: -5, // Adjust degrees for more/less tilt
-          scale: 0.96,  // Shrinks slightly for a 3D depth effect
-          transformOrigin: "top center", // Rotates from the pinned top
+      // Step 3: Entrance animations — each card's timeline drives BOTH
+      // the incoming card AND the previous card simultaneously.
+      // No overwrite, no immediateRender flags — scrub handles both directions.
+      cardsRef.current.forEach((card, index) => {
+        if (index === 0) return; // First card has no entrance animation
+
+        const prevCard = cardsRef.current[index - 1];
+        const incomingStartRotation = index % 2 === 0 ? -10 : 10;
+        const prevTargetRotation = index % 2 === 0 ? 5 : -5;
+
+        const tl = gsap.timeline({
           scrollTrigger: {
             trigger: card,
-            start: "top 80%", // Starts when the NEW card enters the screen
-            end: "top 8%",    // Ends when the NEW card hits its pinned position
-            scrub: true,      // Smoothly links the rotation to your scroll wheel
+            start: "top 80%",
+            end: "top 8%",
+            scrub: 1,
+            // NO overwrite, NO anticipatePin here
           },
         });
+
+        // Previous card tilts away
+        if (prevCard) {
+          tl.fromTo(
+            prevCard,
+            {
+              rotation: 0,
+              scale: 1,
+              transformOrigin: "top center",
+            },
+            {
+              rotation: prevTargetRotation,
+              scale: 0.96,
+              transformOrigin: "top center",
+              ease: "none",
+            },
+            0,
+          );
+        }
+
+        // Current card slides in from the side
+        tl.fromTo(
+          card,
+          {
+            rotation: incomingStartRotation,
+            scale: 0.95,
+            transformOrigin: "top center",
+          },
+          {
+            rotation: 0,
+            scale: 1,
+            transformOrigin: "top center",
+            ease: "none",
+          },
+          0,
+        );
+      });
+
+      // Step 4: Exit animation — last card pinned, previous cards fade up cleanly.
+      // Using fromTo so scroll-up reverses perfectly back to the stacked state.
+      const lastCard = cardsRef.current[cardsRef.current.length - 1];
+      const prevCards = cardsRef.current.slice(0, -1);
+
+      if (lastCard && prevCards.length > 0) {
+        // Each card gets its OWN ScrollTrigger so reverse is independent
+        prevCards.forEach((card, i) => {
+          gsap.fromTo(
+            card,
+            {
+              y: 0,
+              opacity: 1,
+              scale: 0.96, // already tilted state from entrance
+            },
+            {
+              y: -50,
+              opacity: 0,
+              scale: 0.9,
+              ease: "power2.inOut",
+              scrollTrigger: {
+                trigger: lastCard,
+                start: "top 9%",
+                end: `+=${250 + i * 40}`, // stagger by offset, not gsap stagger
+                scrub: 1,
+              },
+            },
+          );
+        });
       }
-    });
-  }, { scope: containerRef }); 
+    },
+    { scope: containerRef },
+  );
 
   return (
-    <section className="w-full text-white py-4 xl:pt-20 2xl:pt-24 relative overflow-x-clip ">
+    <section className="w-full text-white py-4 xl:pt-20 2xl:pt-24 relative overflow-x-clip">
       <div
         aria-hidden="true"
         className="pointer-events-none absolute hidden xl:block"
@@ -157,9 +197,12 @@ const OurWork = () => {
           zIndex: 0,
         }}
       />
-      
-      <div className="container mx-auto px-5 xl:px-8 2xl:px-12 relative z-10" ref={containerRef}>
-        
+
+      <div
+        className="container mx-auto px-5 xl:px-8 2xl:px-12 relative z-10"
+        ref={containerRef}
+      >
+        {/* ── SECTION HEADER ── */}
         <div className="mb-12 xl:mb-16 flex flex-col items-center text-center">
           <div
             className="flex items-center gap-2 px-3 py-1.5 rounded-md w-fit mb-6"
@@ -177,13 +220,11 @@ const OurWork = () => {
                   background:
                     "radial-gradient(circle at 35% 30%, rgba(255,101,51,0.95), rgba(255,101,51,0.6) 40%, rgba(255,101,51,0.25) 70%)",
                 }}
-              ></span>
+              />
               <span
                 className="w-2 h-2 rounded-full"
-                style={{
-                  background: "linear-gradient(180deg, #ff8a5a, #ff6533)",
-                }}
-              ></span>
+                style={{ background: "linear-gradient(180deg, #ff8a5a, #ff6533)" }}
+              />
             </div>
             <span className="text-base font-medium text-white">Our Work</span>
           </div>
@@ -207,7 +248,7 @@ const OurWork = () => {
           </p>
         </div>
 
-        {/* Mobile Layout */}
+        {/* ── MOBILE LAYOUT ── */}
         <div className="flex flex-col items-center w-full relative lg:hidden">
           <div className="w-full mb-4">
             <Link
@@ -222,7 +263,6 @@ const OurWork = () => {
                   className="w-full h-full object-cover transition-transform duration-500"
                 />
               </div>
-
               <div
                 className="absolute bottom-0 left-0 right-0 px-4 py-4 flex flex-col gap-1.5"
                 style={{
@@ -247,68 +287,88 @@ const OurWork = () => {
             </Link>
           </div>
 
-          <div className="flex gap-4 w-full">
-            {projects.slice(1).map((project, index) => (
-              <Link
-                key={project.id}
-                to={`/case-study/${project.slug}`}
-                ref={(el) => (mobileImagesRef.current[index + 1] = el)}
-                className="relative rounded-2xl overflow-hidden group cursor-pointer w-[48%]"
-              >
-                <div className="w-full bg-[#1c1614] aspect-[3/4]">
-                  <img
-                    src={project.coverImage}
-                    alt={project.title}
-                    className="w-full h-full object-cover transition-transform duration-500"
-                  />
-                </div>
-
+          {/* Two rows with synchronized left/right cards so they stay aligned */}
+          <div className="flex flex-col gap-4 w-full">
+            {[0, 1].map((rowIdx) => {
+              const left = projects[1 + rowIdx * 2];
+              const right = projects[1 + rowIdx * 2 + 1];
+              const leftRefIndex = 1 + rowIdx * 2;
+              const rightRefIndex = leftRefIndex + 1;
+              return (
                 <div
-                  className="absolute bottom-0 left-0 right-0 px-4 py-4 flex flex-col gap-1.5"
-                  style={{
-                    background:
-                      "linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.5) 60%, transparent 100%)",
-                  }}
+                  key={`row-${rowIdx}`}
+                  ref={(el) => (mobileRowRefs.current[rowIdx] = el)}
+                  className="flex gap-4 w-full items-start"
                 >
-                  <h3 className="text-white font-semibold text-base leading-snug">
-                    {project.title}
-                  </h3>
-                  <div className="flex flex-wrap gap-1.5">
-                    {project.tags.slice(0, 2).map((tag) => (
-                      <span
-                        key={tag}
-                        className="text-xs font-medium text-white/80 bg-white/10 border border-white/15 px-2 py-0.5 rounded-full backdrop-blur-sm"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
+                  <Link
+                    className="relative rounded-2xl overflow-hidden group cursor-pointer w-1/2 h-56"
+                    to={`/case-study/${left?.slug}`}
+                    ref={(el) => (mobileImagesRef.current[leftRefIndex] = el)}
+                  >
+                    <div className="w-full h-full bg-[#1c1614]">
+                      <img
+                        src={left?.coverImage}
+                        alt={left?.title}
+                        className="w-full h-full object-cover object-top transition-transform duration-500"
+                      />
+                    </div>
+                    <div className="absolute bottom-0 left-0 right-0 px-4 py-4 flex flex-col gap-1.5" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.5) 60%, transparent 100%)" }}>
+                      <h3 className="text-white font-semibold text-base leading-snug">{left?.title}</h3>
+                      <div className="flex flex-wrap gap-1.5">
+                        {left?.tags.slice(0, 2).map((tag) => (
+                          <span key={tag} className="text-xs font-medium text-white/80 bg-white/10 border border-white/15 px-2 py-0.5 rounded-full backdrop-blur-sm">{tag}</span>
+                        ))}
+                      </div>
+                    </div>
+                  </Link>
+
+                  <Link
+                    className="relative rounded-2xl overflow-hidden group cursor-pointer w-1/2 h-56"
+                    to={`/case-study/${right?.slug}`}
+                    ref={(el) => (mobileImagesRef.current[rightRefIndex] = el)}
+                  >
+                    <div className="w-full h-full bg-[#1c1614]">
+                      <img
+                        src={right?.coverImage}
+                        alt={right?.title}
+                        className="w-full h-full object-cover object-top transition-transform duration-500"
+                      />
+                    </div>
+                    <div className="absolute bottom-0 left-0 right-0 px-4 py-4 flex flex-col gap-1.5" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.5) 60%, transparent 100%)" }}>
+                      <h3 className="text-white font-semibold text-base leading-snug">{right?.title}</h3>
+                      <div className="flex flex-wrap gap-1.5">
+                        {right?.tags.slice(0, 2).map((tag) => (
+                          <span key={tag} className="text-xs font-medium text-white/80 bg-white/10 border border-white/15 px-2 py-0.5 rounded-full backdrop-blur-sm">{tag}</span>
+                        ))}
+                      </div>
+                    </div>
+                  </Link>
                 </div>
-              </Link>
-            ))}
+              );
+            })}
           </div>
         </div>
 
-        {/* Desktop Layout */}
+        {/* ── DESKTOP LAYOUT ── */}
         <div className="hidden lg:flex flex-col items-center w-full relative">
           {projects.map((project, index) => (
             <Link
               key={project.id}
               to={`/case-study/${project.slug}`}
               ref={(el) => (cardsRef.current[index] = el)}
-              className={`w-full max-w-6xl relative rounded-lg overflow-hidden group cursor-pointer  ${
-                index === projects.length - 1 ? "mb-0" : "mb-[50vh]"
+              className={`w-full max-w-6xl relative rounded-lg overflow-hidden group cursor-pointer ${
+                index === projects.length - 1 ? "mb-[15vh]" : "mb-[50vh]"
               }`}
               style={{
                 zIndex: index + 10,
-                top: `${index * 10}px`
+                top: `${index * 10}px`,
               }}
             >
               <div className="aspect-[4/3] md:aspect-[16/10] w-full bg-[#1c1614]">
                 <img
                   src={project.coverImage}
                   alt={project.title}
-                  className="w-full h-full object-cover transition-transform duration-500 "
+                  className="w-full h-full object-cover transition-transform duration-500"
                 />
               </div>
 
@@ -337,13 +397,10 @@ const OurWork = () => {
           ))}
         </div>
 
-        <div className="w-full h-[0vh] mt-[10vh] flex flex-col items-center justify-center text-center px-4">
-        </div>
-
+        <div className="w-full h-[0vh] mt-[0vh]" />
       </div>
     </section>
   );
 };
 
 export default OurWork;
-
