@@ -15,8 +15,7 @@ const NotFound = () => {
         <div
           className='w-full h-full bg-center bg-no-repeat bg-cover'
           style={{
-            backgroundImage:
-              "url('https://cdn.dribbble.com/users/285475/screenshots/2083086/dribbble_1.gif')",
+            backgroundImage: "url('404.gif')",
           }}
         />
 
