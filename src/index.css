@@ -1,5 +1,12 @@
 @import 'tailwindcss';
 
+/* Poppins font class for maktech branding */
+.maktech-font {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 800;
+  font-optical-sizing: auto;
+}
+
 @theme {
   --color-primary-bg: #1e293b;
   --color-primary-text: #f8fafc;
