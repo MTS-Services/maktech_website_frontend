@@ -42,7 +42,6 @@ const ServiceGraphicDesign = lazy(
 const ServiceWordPress = lazy(() => import('../pages/services/WordPress'));
 const ServiceAIML = lazy(() => import('../pages/services/AIML'));
 const ServiceSASProduct = lazy(() => import('../pages/services/SASProduct'));
-const ComingSoon = lazy(() => import('../pages/ComingSoon'));
 const NotFound = lazy(() => import('../pages/NotFound'));
 const Blogs = lazy(() => import('../pages/blogs/Blogs'));
 const BlogDetails = lazy(
@@ -85,7 +84,6 @@ const AppRoutes = () => (
           path='/services/sas-product'
           element={<ServiceSASProduct />}
         ></Route>
-        {/* <Route path="/company" element={<ComingSoon />} /> */}
         <Route path='/contact' element={<Contact />} />
         <Route path='/career' element={<Career />} />
         <Route path='/apply-jobs' element={<ApplyJobs />} />
