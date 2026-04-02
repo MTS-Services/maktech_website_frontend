@@ -1,7 +1,3 @@
-/**
- * PricingPlans — Tabbed pricing cards section.
- * Tabs filter plans by service category; Standard plan is highlighted.
- */
 import { useState, useId } from 'react';
 import { FaCheck } from 'react-icons/fa';
 

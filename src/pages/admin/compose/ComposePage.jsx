@@ -11,7 +11,6 @@ export default function ComposePage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // TODO: wire to send email API
   };
 
   return (

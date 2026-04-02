@@ -1,10 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 
-/**
- * Counts up to `target` once the element enters the viewport.
- * Uses easeOutQuart for a natural deceleration feel.
- * Properly cancels the rAF loop on unmount to prevent memory leaks.
- */
 const AnimatedCounter = ({
   target,
   duration = 2000,

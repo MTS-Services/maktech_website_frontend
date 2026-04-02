@@ -1,7 +1,3 @@
-/**
- * GSAP-based Smooth Scroll Manager
- * Provides smooth scrolling functionality using GSAP animations
- */
 
 let smoothScrollInstance = null;
 

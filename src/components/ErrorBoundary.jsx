@@ -11,12 +11,9 @@ class ErrorBoundary extends Component {
   }
 
   componentDidCatch(error, info) {
-    // Only log in development — never surface stack traces to production consoles
     if (import.meta.env.DEV) {
       console.error('[ErrorBoundary]', error, info.componentStack);
     }
-    // TODO: report to Sentry/Datadog in production
-    // reportError(error, info);
   }
 
   render() {

@@ -1,17 +1,3 @@
-/**
- * Products Redux Slice
- * 
- * This file defines the products slice of the Redux store using createSlice.
- * It manages all product-related state including loading states, data, and errors.
- * 
- * State Structure:
- * - items: Array of product objects
- * - selectedProduct: Single product object (for detail views)
- * - loading: Boolean indicating if any async operation is in progress
- * - error: String containing error message if operation failed
- * 
- * This slice uses extraReducers to handle async thunk actions from productsAPI.js
- */
 
 import { createSlice } from '@reduxjs/toolkit'
 import {
@@ -22,9 +8,6 @@ import {
   deleteProduct
 } from './productsAPI'
 
-/**
- * Initial state for products slice
- */
 const initialState = {
   items: [],              // Array to store all products
   selectedProduct: null,  // Currently selected/viewed product
@@ -32,54 +15,25 @@ const initialState = {
   error: null,           // Error message if operation fails
 }
 
-/**
- * Products Slice
- * 
- * Creates a slice with reducers and automatically generates action creators.
- * The extraReducers handle all async thunk lifecycle actions (pending, fulfilled, rejected).
- */
 const productsSlice = createSlice({
   name: 'products',
   initialState,
   
-  /**
-   * Synchronous Reducers
-   * 
-   * These are standard reducers for synchronous state updates.
-   * Action creators are automatically generated for each reducer.
-   */
-  reducers: {
-    /**
-     * Clear all products from state
-     */
-    clearProducts: (state) => {
+    reducers: {
+        clearProducts: (state) => {
       state.items = []
     },
     
-    /**
-     * Clear the selected product
-     */
-    clearSelectedProduct: (state) => {
+        clearSelectedProduct: (state) => {
       state.selectedProduct = null
     },
     
-    /**
-     * Clear any error messages
-     */
-    clearError: (state) => {
+        clearError: (state) => {
       state.error = null
     },
   },
   
-  /**
-   * Extra Reducers for Async Thunks
-   * 
-   * These handle the lifecycle of async operations:
-   * - pending: Operation started (set loading, clear errors)
-   * - fulfilled: Operation succeeded (update data, clear loading)
-   * - rejected: Operation failed (set error, clear loading)
-   */
-  extraReducers: (builder) => {
+    extraReducers: (builder) => {
     builder
       // ============================================
       // FETCH ALL PRODUCTS
@@ -174,27 +128,11 @@ const productsSlice = createSlice({
   },
 })
 
-/**
- * Export action creators
- * These are automatically generated from the reducers object
- */
 export const { clearProducts, clearSelectedProduct, clearError } = productsSlice.actions
 
-/**
- * Selectors
- * 
- * These functions extract specific pieces of state.
- * They can be used with useSelector in components.
- * 
- * Example usage:
- * const products = useSelector(selectAllProducts)
- */
 export const selectAllProducts = (state) => state.products.items
 export const selectSelectedProduct = (state) => state.products.selectedProduct
 export const selectProductsLoading = (state) => state.products.loading
 export const selectProductsError = (state) => state.products.error
 
-/**
- * Export the reducer to be included in the store
- */
 export default productsSlice.reducer

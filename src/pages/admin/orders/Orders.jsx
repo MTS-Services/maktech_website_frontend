@@ -440,7 +440,6 @@ const CreateOrderForm = ({ onCancel }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // TODO: wire to create order API
     toast.success('Order created & payment link generated!');
     onCancel();
   };

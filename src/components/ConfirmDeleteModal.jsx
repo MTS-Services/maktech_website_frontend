@@ -1,25 +1,3 @@
-/**
- * ConfirmDeleteModal — reusable animated delete-confirmation dialog.
- *
- * Usage:
- *   <ConfirmDeleteModal
- *     title="Delete Order?"
- *     description="#MP1 — E-commerce Store Setup"
- *     hint="This action is permanent and cannot be undone."
- *     confirmLabel="Yes, Delete"          // optional, default shown below
- *     onConfirm={() => doDelete()}
- *     onCancel={() => setTarget(null)}
- *   />
- *
- * Props:
- *   title        {string}   — Modal heading
- *   description  {string}   — Subtitle / item identifier
- *   hint         {string}   — Small warning text below description (optional)
- *   confirmLabel {string}   — Text for the confirm button (default: "Yes, Delete")
- *   onConfirm    {function} — Called after exit animation completes
- *   onCancel     {function} — Called after exit animation completes (backdrop click or Cancel)
- */
-
 import { useEffect, useState } from 'react';
 import { MdDelete } from 'react-icons/md';
 

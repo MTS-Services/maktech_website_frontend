@@ -69,7 +69,6 @@ const CORE_VALUES = [
 
 // ─── Sub-components ────────────────────────────────────────────────────────────
 
-/** Orange dot + label — used in the narrow left column of every row */
 const RowLabel = ({ children }) => (
   <div className='flex items-start gap-2.5 pt-12 lg:pt-14'>
     <span

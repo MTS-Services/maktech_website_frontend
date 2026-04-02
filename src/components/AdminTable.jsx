@@ -1,13 +1,3 @@
-/**
- * AdminTable — reusable table shell for all admin data tables.
- * Renders a consistent thead (bg-gray-50, xs uppercase headers) and wraps
- * tbody rows passed as children. Outer card + overflow-x-auto stays in the
- * consuming page so each page can pair it with mobile cards or a bottom bar.
- *
- * @param {Array<{ label: string, align?: 'left' | 'right' }>} columns
- * @param {string} ariaLabel — accessible table caption
- * @param {ReactNode} children — tbody <tr> elements
- */
 const AdminTable = ({ columns, ariaLabel, children }) => (
   <table className='w-full' aria-label={ariaLabel}>
     <thead className='bg-gray-50 border-b border-gray-100'>

@@ -276,7 +276,6 @@ const EMPTY_LEAD = {
 // ─── Add New Lead form ────────────────────────────────────────────────────────
 const AddLeadForm = ({ onCancel }) => {
   const handleSubmit = () => {
-    // TODO: wire to create lead API
     toast.success('Lead added successfully!');
     onCancel();
   };
@@ -294,7 +293,6 @@ const AddLeadForm = ({ onCancel }) => {
 // ─── Edit Lead form ───────────────────────────────────────────────────────────
 const EditLeadForm = ({ lead, onCancel }) => {
   const handleSubmit = () => {
-    // TODO: wire to update lead API
     toast.success('Lead updated successfully!');
     onCancel();
   };

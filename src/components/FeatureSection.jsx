@@ -1,21 +1,3 @@
-/**
- * FeatureSection - Reusable two-column feature section
- *
- * Used by:
- * - Home page: WhyChooseUs
- * - Services page: WhoWeAre
- *
- * Props:
- * - badge: { text: string, icon?: JSX }
- * - heading: string
- * - subheading?: string (optional, for multi-line)
- * - description: string[]
- * - ctaText: string
- * - ctaLink: string
- * - features: Array<{ id, title, description, icon }>
- * - backgroundStyle?: 'dark' | 'light' (default: 'dark')
- */
-
 import { Link } from "react-router-dom";
 
 const FeatureCard = ({

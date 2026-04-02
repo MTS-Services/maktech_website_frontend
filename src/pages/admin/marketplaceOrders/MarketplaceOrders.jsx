@@ -1397,7 +1397,6 @@ export default function MarketplaceOrders() {
   const handleCsvUpload = (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    // TODO: parse CSV and merge into orders state via API
     toast.info(`CSV "${file.name}" uploaded — wiring to API pending.`);
     e.target.value = '';
   };

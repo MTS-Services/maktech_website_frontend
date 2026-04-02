@@ -18,14 +18,7 @@ const ChevronIcon = () => (
   </svg>
 );
 
-/**
- * Breadcrumb component
- * - Simple usage:  <Breadcrumb label="Pricing" />  → Home › Pricing
- * - Multi-level:   <Breadcrumb crumbs={[{label:'Case Studies',href:'/case-study'},{label:'Laravel'},{label:'Project Name'}]} />
- *                  → Home › Case Studies › Laravel › Project Name
- */
 const Breadcrumb = ({ label, crumbs }) => {
-  // Build items array: always start with Home
   const items = crumbs ? crumbs : [{ label, href: undefined }];
 
   return (

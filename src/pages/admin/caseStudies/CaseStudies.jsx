@@ -93,7 +93,6 @@ const CreateCaseStudyForm = ({ onCancel }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // TODO: wire to create case study API
     toast.success('Case study created successfully!');
     onCancel();
   };
@@ -275,7 +274,6 @@ const EditCaseStudyForm = ({ study, onCancel }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // TODO: wire to update case study API
     toast.success('Case study updated successfully!');
     onCancel();
   };

@@ -4,21 +4,6 @@ const SITE_NAME = 'MakTech';
 const SITE_URL = import.meta.env.VITE_SITE_URL ?? 'https://maktech.io';
 const DEFAULT_OG_IMAGE = `${SITE_URL}/maktech_logo.webp`;
 
-/**
- * usePageMeta — dynamically updates <title>, <meta name="description">,
- * and Open Graph/Twitter Card tags on each public page.
- *
- * Call at the top of any public page component:
- *
- *   usePageMeta({
- *     title: 'Home',
- *     description: 'MakTech builds scalable digital products...',
- *     canonicalPath: '/',
- *   });
- *
- * Requires the static OG placeholder tags in index.html to already exist
- * (added in the index.html update). React overwrites their `content` on mount.
- */
 export const usePageMeta = ({
   title,
   description = '',

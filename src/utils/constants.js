@@ -1,14 +1,4 @@
-/**
- * Application Constants
- * 
- * This file contains all constant values used throughout the application.
- * Centralizing constants makes them easy to maintain and update.
- */
 
-/**
- * API Endpoints
- * Base paths for different API resources
- */
 export const API_ENDPOINTS = {
   PRODUCTS: '/products',
   USERS: '/users',
@@ -16,10 +6,6 @@ export const API_ENDPOINTS = {
   AUTH: '/auth',
 }
 
-/**
- * Application Routes
- * All route paths used in React Router
- */
 export const ROUTES = {
   // Public routes
   HOME: '/',
@@ -38,10 +24,6 @@ export const ROUTES = {
   ADMIN_PRICING: '/admin/pricing',
 }
 
-/**
- * Local Storage Keys
- * Keys used for localStorage operations
- */
 export const STORAGE_KEYS = {
   AUTH_TOKEN: 'authToken',
   USER_DATA: 'userData',
@@ -49,10 +31,6 @@ export const STORAGE_KEYS = {
   LANGUAGE: 'language',
 }
 
-/**
- * API Status Codes
- * Common HTTP status codes
- */
 export const HTTP_STATUS = {
   OK: 200,
   CREATED: 201,
@@ -63,18 +41,12 @@ export const HTTP_STATUS = {
   INTERNAL_SERVER_ERROR: 500,
 }
 
-/**
- * Pagination Defaults
- */
 export const PAGINATION = {
   DEFAULT_PAGE: 1,
   DEFAULT_PAGE_SIZE: 10,
   PAGE_SIZE_OPTIONS: [10, 20, 50, 100],
 }
 
-/**
- * Date Formats
- */
 export const DATE_FORMATS = {
   SHORT: 'MM/DD/YYYY',
   LONG: 'MMMM DD, YYYY',
@@ -82,9 +54,6 @@ export const DATE_FORMATS = {
   ISO: 'YYYY-MM-DD',
 }
 
-/**
- * Validation Rules
- */
 export const VALIDATION = {
   EMAIL_REGEX: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
   PASSWORD_MIN_LENGTH: 8,
@@ -92,19 +61,12 @@ export const VALIDATION = {
   PHONE_REGEX: /^[\d\s\-+()]+$/,
 }
 
-/**
- * Theme Colors
- * Matches Tailwind configuration
- */
 export const THEME_COLORS = {
   PRIMARY_BG: '#1e293b',
   PRIMARY_TEXT: '#f8fafc',
   PRIMARY_HOVER: '#334155',
 }
 
-/**
- * Error Messages
- */
 export const ERROR_MESSAGES = {
   NETWORK_ERROR: 'Network error. Please check your connection.',
   GENERIC_ERROR: 'Something went wrong. Please try again.',
@@ -113,9 +75,6 @@ export const ERROR_MESSAGES = {
   VALIDATION_ERROR: 'Please check your input and try again.',
 }
 
-/**
- * Success Messages
- */
 export const SUCCESS_MESSAGES = {
   SAVE_SUCCESS: 'Changes saved successfully!',
   DELETE_SUCCESS: 'Item deleted successfully!',
