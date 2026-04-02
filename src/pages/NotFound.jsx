@@ -1,33 +1,43 @@
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 
 const NotFound = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white p-6">
-      <div className="max-w-2xl w-full text-center">
-        <h1 className="text-6xl font-bold text-gray-900 mb-4">404</h1>
-        <h2 className="text-2xl font-semibold text-gray-800 mb-2">Page Not Found</h2>
-        <p className="text-gray-600 mb-6">We couldn't find the page you're looking for.</p>
+    <div className='h-screen w-full flex flex-col items-center justify-center bg-white overflow-hidden'>
+      <div className='w-full max-w-xl text-center px-6 flex flex-col items-center justify-center flex-1'>
+        {/* Animated 404 text */}
+        <h1 className='notfound-404 text-8xl font-black leading-none select-none mb-2'>
+          404
+        </h1>
 
-        <div className="flex items-center justify-center gap-3">
-          <button
-            onClick={() => navigate('/login')}
-            className="px-4 py-2 bg-orange-bg-cta text-white rounded-lg font-medium shadow-sm hover:opacity-90 transition"
-          >
-            Go to Login
-          </button>
+        {/* 404 GIF */}
+        <div
+          className='w-full h-64 bg-center bg-no-repeat bg-contain'
+          style={{
+            backgroundImage:
+              "url('https://cdn.dribbble.com/users/285475/screenshots/2083086/dribbble_1.gif')",
+          }}
+        />
 
+        {/* Content */}
+        <div className='flex flex-col items-center gap-4'>
+          <h3 className='text-3xl font-bold text-white-bg-font'>
+            Look like you&apos;re lost
+          </h3>
+          <p className='text-base text-gray-500 leading-relaxed'>
+            The page you are looking for is not available!
+          </p>
           <button
-            onClick={() => navigate('/admin/dashboard')}
-            className="px-4 py-2 border border-gray-200 rounded-lg text-gray-700 hover:bg-gray-50 transition"
+            onClick={() => navigate('/')}
+            className='mt-2 px-8 py-3 bg-orange-bg-cta text-white text-base font-semibold rounded-xl hover:opacity-90 active:scale-95 transition-all duration-150 cursor-pointer'
           >
-            Go to Dashboard
+            Go to Home
           </button>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default NotFound
+export default NotFound;
