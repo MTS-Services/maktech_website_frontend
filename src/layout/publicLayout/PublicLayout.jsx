@@ -95,7 +95,7 @@ const PublicLayout = () => {
           >
             <div
               className="h-full w-full bg-cover bg-left-top opacity-95"
-              style={{ backgroundImage: "url(/common_banner_bg.png)" }}
+              style={{ backgroundImage: "url(/common_banner_bg.webp)" }}
             />
           </div>
 
@@ -107,7 +107,7 @@ const PublicLayout = () => {
           >
             <div
               className="h-full w-full bg-cover bg-right-top opacity-95"
-              style={{ backgroundImage: "url(/common_banner_bg.png)" }}
+              style={{ backgroundImage: "url(/common_banner_bg.webp)" }}
             />
           </div>
         </>

@@ -58,7 +58,7 @@ const ServiceCaseStudyCard = () => {
                 {/* Placeholder for case study image */}
                 <div className='mt-8 aspect-video rounded-lg bg-linear-to-br from-orange-400 to-orange-600 overflow-hidden'>
                   <img
-                    src='/services_image/Rectangle 6393.jpg'
+                    src='/services_image/Rectangle 6393.webp'
                     alt='Website & CMS Development case study'
                     className='h-full w-full object-cover'
                   />

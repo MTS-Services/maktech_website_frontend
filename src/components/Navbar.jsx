@@ -195,7 +195,7 @@ const Navbar = () => {
       {/* Logo */}
       <NavLink to="/" className="mr-1 flex items-center no-underline">
         <img
-          src="/maktech_logo_white.png"
+          src="/maktech_logo_white.webp"
           alt="maktech logo"
           className="h-6 w-auto xl:h-5.5 2xl:h-6"
         />

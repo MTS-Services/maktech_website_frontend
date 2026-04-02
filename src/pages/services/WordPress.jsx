@@ -32,7 +32,7 @@ const WordPress = () => {
           "Speed Optimization, SEO & Security Hardening",
           "Migration, Maintenance & Ongoing Support",
         ]}
-        imageSrc="/services_image/Rectangle 6393.jpg"
+        imageSrc="/services_image/Rectangle 6393.webp"
         imageAlt="WordPress development graphic"
         ctaText="View Case Studies"
         ctaLink="/case-study"
@@ -47,37 +47,37 @@ const WordPress = () => {
             title: "Discovery & Planning",
             description:
               "Understanding your goals, audience, and content needs to define a clear site structure, feature roadmap, and development strategy before any work begins.",
-            image: "/services_image/uiUx/image_1.jpg",
+            image: "/services_image/uiUx/image_1.webp",
           },
           {
             title: "Custom Theme Development",
             description:
               "Building fully custom WordPress themes from scratch—pixel-perfect, mobile-responsive, and aligned with your brand identity without relying on bloated page builders.",
-            image: "/services_image/uiUx/image_2.jpg",
+            image: "/services_image/uiUx/image_2.webp",
           },
           {
             title: "Plugin Development & Integration",
             description:
               "Creating custom plugins or integrating third-party tools to extend your site's functionality, automate workflows, and connect seamlessly with your existing tech stack.",
-            image: "/services_image/uiUx/image_3.jpg",
+            image: "/services_image/uiUx/image_3.webp",
           },
           {
             title: "WooCommerce & E-commerce",
             description:
               "Setting up and customizing WooCommerce stores with optimized product pages, secure payment gateways, and conversion-focused checkout experiences.",
-            image: "/services_image/uiUx/image_4.jpg",
+            image: "/services_image/uiUx/image_4.webp",
           },
           {
             title: "Performance & Security",
             description:
               "Optimizing site speed, implementing caching strategies, hardening security layers, and ensuring your WordPress site stays fast, safe, and fully protected at all times.",
-            image: "/services_image/uiUx/image_5.jpg",
+            image: "/services_image/uiUx/image_5.webp",
           },
           {
             title: "Launch & Ongoing Support",
             description:
               "Handling deployment, DNS configuration, post-launch testing, and providing continuous maintenance so your site runs smoothly long after go-live.",
-            image: "/services_image/uiUx/image_6.jpg",
+            image: "/services_image/uiUx/image_6.webp",
           },
         ]}
         pricingCtaText="View Our Pricing"

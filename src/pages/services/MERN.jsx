@@ -32,7 +32,7 @@ const MERN = () => {
           "JWT Authentication & Role-Based Access Control",
           "Cloud Deployment, CI/CD & Scalability Setup",
         ]}
-        imageSrc="/services_image/mern/fotis-fotopoulos-DuHKoV44prg-unsplash.jpg"
+        imageSrc="/services_image/mern/fotis-fotopoulos-DuHKoV44prg-unsplash.webp"
         imageAlt="MERN development screens"
         ctaText="View Case Studies"
         ctaLink="/case-study"
@@ -46,37 +46,37 @@ const MERN = () => {
             title: "Discovery & Planning",
             description:
               "Analyzing requirements, defining system architecture, and mapping data models aligned to business goals and long-term growth.",
-            image: "/services_image/uiUx/image_1.jpg",
+            image: "/services_image/uiUx/image_1.webp",
           },
           {
             title: "Database Design",
             description:
               "Designing efficient MongoDB schemas, indexes, and relationships for fast queries, reliable data integrity, and scalable throughput.",
-            image: "/services_image/uiUx/image_2.jpg",
+            image: "/services_image/uiUx/image_2.webp",
           },
           {
             title: "API Development",
             description:
               "Building secure, well-structured REST APIs with Express, handling business logic, middleware, authentication, and third-party integrations.",
-            image: "/services_image/uiUx/image_3.jpg",
+            image: "/services_image/uiUx/image_3.webp",
           },
           {
             title: "Frontend Development",
             description:
               "Crafting dynamic, component-driven React interfaces with clean state management, reusable UI systems, and smooth user experiences.",
-            image: "/services_image/uiUx/image_4.jpg",
+            image: "/services_image/uiUx/image_4.webp",
           },
           {
             title: "Backend Engineering",
             description:
               "Optimizing Node.js server logic, managing async operations, and ensuring performance and reliability under high traffic loads.",
-            image: "/services_image/uiUx/image_5.jpg",
+            image: "/services_image/uiUx/image_5.webp",
           },
           {
             title: "Deployment & Support",
             description:
               "Configuring cloud infrastructure, CI/CD pipelines, monitoring, and ongoing maintenance to keep your product performant and secure.",
-            image: "/services_image/uiUx/image_6.jpg",
+            image: "/services_image/uiUx/image_6.webp",
           },
         ]}
         pricingCtaText="View Our Pricing"

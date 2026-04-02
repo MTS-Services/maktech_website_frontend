@@ -12,14 +12,37 @@
     />
     <meta
       name="description"
-      content="MakTech Admin Dashboard — manage emails, leads, orders, case studies, blog, jobs and pricing."
+      content="MakTech builds scalable digital products — web apps, mobile apps, SaaS, and e-commerce solutions for ambitious businesses."
     />
-    <meta name="theme-color" content="#ffffff" />
+    <meta name="theme-color" content="#1c1c1c" />
+
+    <!-- Open Graph (Facebook, LinkedIn, WhatsApp, Slack) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="MakTech" />
+    <meta property="og:title" content="MakTech" />
+    <meta
+      property="og:description"
+      content="MakTech builds scalable digital products — web apps, mobile apps, SaaS, and e-commerce solutions for ambitious businesses."
+    />
+    <meta property="og:image" content="/maktech_logo.webp" />
+    <meta property="og:url" content="https://maktech.io" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="MakTech" />
+    <meta
+      name="twitter:description"
+      content="MakTech builds scalable digital products — web apps, mobile apps, SaaS, and e-commerce solutions for ambitious businesses."
+    />
+    <meta name="twitter:image" content="/maktech_logo.webp" />
+
+    <!-- Canonical (updated dynamically per page via usePageMeta hook) -->
+    <link rel="canonical" href="https://maktech.io/" />
     <!-- Logo preloaded before JS runs — cache-warm when React renders it → LCP improvement -->
     <link
       rel="preload"
       as="image"
-      href="/maktech_logo.png"
+      href="/maktech_logo.webp"
       fetchpriority="high"
     />
     <style>
@@ -38,7 +61,7 @@
         z-index: 9999;
       }
     </style>
-    <title>MakTech Admin Dashboard</title>
+    <title>MakTech</title>
   </head>
   <body class="bg-black-bg">
     <!-- Root div where React application will mount -->
@@ -49,7 +72,7 @@
     -->
     <div id="app-shell" aria-hidden="true">
       <img
-        src="/maktech_logo.png"
+        src="/maktech_logo.webp"
         alt=""
         width="120"
         height="32"

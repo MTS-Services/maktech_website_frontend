@@ -31,7 +31,7 @@ const Laravel = () => {
           "Admin Panel Development with Filament or Nova",
           "Server Configuration, Deployment & Ongoing Support",
         ]}
-        imageSrc="/services_image/laravel/mohammad-rahmani-Y5yxdx2a4PI-unsplash.jpg"
+        imageSrc="/services_image/laravel/mohammad-rahmani-Y5yxdx2a4PI-unsplash.webp"
         imageAlt="Laravel backend development"
         ctaText="View Case Studies"
         ctaLink="/case-study"
@@ -45,37 +45,37 @@ const Laravel = () => {
             title: "Custom Web Apps",
             description:
               "We build robust, secure, and enterprise-grade web applications tailored to your business logic using the world's leading PHP framework.",
-            image: "/services_image/uiUx/image_1.jpg",
+            image: "/services_image/uiUx/image_1.webp",
           },
           {
             title: "Restful API Development",
             description:
               "We create scalable RESTful APIs that ensure seamless data communication between your web app and mobile platforms.",
-            image: "/services_image/uiUx/image_2.jpg",
+            image: "/services_image/uiUx/image_2.webp",
           },
           {
             title: "E-commerce Solutions",
             description:
               "High-performance online stores with secure payments, smooth user journeys, and maximized digital sales.",
-            image: "/services_image/uiUx/image_3.jpg",
+            image: "/services_image/uiUx/image_3.webp",
           },
           {
             title: "CRM & Dashboard",
             description:
               "Custom admin panels and CRM systems to manage data efficiently with real-time analytics.",
-            image: "/services_image/uiUx/image_4.jpg",
+            image: "/services_image/uiUx/image_4.webp",
           },
           {
             title: "Extension & Integration",
             description:
               "Extend platforms with custom Laravel packages and integrate third-party services like AWS, Stripe, or Twilio.",
-            image: "/services_image/uiUx/image_5.jpg",
+            image: "/services_image/uiUx/image_5.webp",
           },
           {
             title: "Migration & Upgradation",
             description:
               "Migrate legacy PHP systems to Laravel or upgrade your current app to the latest version for better security and speed.",
-            image: "/services_image/uiUx/image_6.jpg",
+            image: "/services_image/uiUx/image_6.webp",
           },
         ]}
         pricingCtaText="View Our Pricing"

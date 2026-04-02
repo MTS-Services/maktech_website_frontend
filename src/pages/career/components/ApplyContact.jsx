@@ -43,7 +43,7 @@ const ApplyContact = () => {
             <div
                 className="absolute inset-0 z-0"
                 style={{
-                    backgroundImage: "url(/contact/Frame 2147226071.png)",
+                    backgroundImage: "url(/contact/Frame 2147226071.webp)",
                     backgroundSize: "cover",
                     backgroundPosition: "center",
                     backgroundRepeat: "no-repeat",

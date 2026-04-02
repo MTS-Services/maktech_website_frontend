@@ -7,6 +7,7 @@ const LeadershipProfile = ({
   company = '',
   image,
   imageAlt,
+  priority = false,
 }) => {
   const isImageLeft = orientation === 'image-left';
   const paragraphs = Array.isArray(description) ? description : [description];
@@ -17,7 +18,8 @@ const LeadershipProfile = ({
         src={image}
         alt={imageAlt || name}
         className='h-full w-full object-cover'
-        loading='lazy'
+        loading={priority ? 'eager' : 'lazy'}
+        fetchPriority={priority ? 'high' : 'auto'}
       />
       {/* Orange glow overlay — matches the warm gradient baked into the frame PNGs */}
       <div
@@ -61,7 +63,7 @@ const LeadershipProfile = ({
     >
       {/* Image: always first on mobile, positioned by grid on desktop */}
       <div className={!isImageLeft ? 'lg:order-2' : ''}>{imageBlock}</div>
-      
+
       {/* Text: always second on mobile, positioned by grid on desktop */}
       <div className={!isImageLeft ? 'lg:order-1' : ''}>{textBlock}</div>
     </div>

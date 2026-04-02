@@ -4,13 +4,13 @@ const OWNERS = [
   {
     name: 'Mohammad Alamgir Kabir',
     role: 'Chief Executive Officer',
-    photo: '/sir.png',
+    photo: '/sir.webp',
     badge: 'CEO',
   },
   {
     name: 'Nasrin Akter Pinky',
     role: 'Director, HR & Admin',
-    photo: '/pinkey2.png',
+    photo: '/pinkey2.webp',
   },
 ];
 
@@ -18,17 +18,17 @@ const DIRECTORS = [
   {
     name: 'Toufiq Ahmed Akash',
     role: 'Director, Finance',
-    photo: '/toufiq.png',
+    photo: '/toufiq.webp',
   },
   {
     name: 'Mukabber Hossain',
     role: 'Director, Sales & Business Development',
-    photo: '/mukabber.png',
+    photo: '/mukabber.webp',
   },
   {
     name: 'Md. Firoj Mia',
     role: 'Director, Operations',
-    photo: '/firoj.png',
+    photo: '/firoj.webp',
   },
 ];
 

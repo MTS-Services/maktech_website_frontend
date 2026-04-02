@@ -9,7 +9,7 @@ const BlogHeroCard = () => {
         {/* Left Side: Image Container */}
         <div className="relative group overflow-hidden rounded-lg shadow-2xl h-full">
           <img
-            src="/Rectangle.png"
+            src="/Rectangle.webp"
             alt="Developer working on web system"
             className="w-full h-88 object-cover"
           />

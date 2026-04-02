@@ -193,7 +193,7 @@ const OurWork = () => {
             <span className="relative inline-block">
               Real Results.
               <img
-                src="/Vector 511.png"
+                src="/Vector 511.webp"
                 alt=""
                 aria-hidden="true"
                 className="absolute bottom-1 left-0 w-full pointer-events-none"

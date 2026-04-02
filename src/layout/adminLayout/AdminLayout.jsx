@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import Sidebar from './adminSidebar/AdminSidebar';
 import { MdMenu } from 'react-icons/md';
+import { getLenisInstance } from '../../utils/lenisManager';
 
 const AdminLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -9,6 +10,13 @@ const AdminLayout = () => {
   const [isDesktop, setIsDesktop] = useState(
     () => typeof window !== 'undefined' && window.innerWidth >= 1024,
   );
+
+  // Stop Lenis smooth scroll on admin — window never scrolls here
+  useEffect(() => {
+    const lenis = getLenisInstance();
+    lenis?.stop();
+    return () => lenis?.start();
+  }, []);
 
   // Track desktop breakpoint
   useEffect(() => {
@@ -83,7 +91,7 @@ const AdminLayout = () => {
             <MdMenu className='text-xl' />
           </button>
           <img
-            src='/maktech_logo.png'
+            src='/maktech_logo.webp'
             alt='Maktech'
             width={120}
             height={28}

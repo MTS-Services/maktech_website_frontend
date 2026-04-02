@@ -582,7 +582,7 @@ const ServiceInside = ({
         aria-hidden="true"
       >
         <div
-          className="absolute -left-56 bottom-0 h-[520px] w-[520px] rounded-full opacity-15"
+          className="absolute -left-56 bottom-0 h-130 w-130 rounded-full opacity-15"
           style={{
             background: "radial-gradient(circle, rgba(255,101,51,0.8) 0%, transparent 70%)",
             transform: "translateZ(0)",
@@ -590,7 +590,7 @@ const ServiceInside = ({
           }}
         />
         <div
-          className="absolute -right-56 top-0 h-[520px] w-[520px] rounded-full opacity-15"
+          className="absolute -right-56 top-0 h-130 w-130 rounded-full opacity-15"
           style={{
             background: "radial-gradient(circle, rgba(255,101,51,0.7) 0%, transparent 70%)",
             transform: "translateZ(0)",
@@ -612,7 +612,7 @@ const ServiceInside = ({
             >
               <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#623a2c] p-1.25">
                 <span
-                  className="h-[18px] w-[18px] rounded-full"
+                  className="h-4.5 w-4.5 rounded-full"
                   style={{
                     background:
                       "radial-gradient(ellipse 86.93% 86.93% at 14.58% 10.42%, #ffbea9 0%, #fa6332 100%)",
@@ -645,7 +645,7 @@ const ServiceInside = ({
               >
                 {/* Image container with static GPU layer */}
                 <div
-                  className="w-full h-[224px] bg-[#2a2a2a] rounded-lg overflow-hidden"
+                  className="w-full h-56 bg-[#2a2a2a] rounded-lg overflow-hidden"
                 >
                   {/* Optimized image loading - all eager, pre-decoded */}
                   <img
@@ -663,7 +663,7 @@ const ServiceInside = ({
                   />
                 </div>
                 <div className="flex flex-col gap-2">
-                  <h3 className="text-xl text-[#e3e3e3] font-medium">
+                  <h3 className="text-xl text-gray-bg-primary font-medium">
                     {card.title}
                   </h3>
                   <p className="text-base text-[#bebebe] leading-relaxed">
@@ -676,7 +676,7 @@ const ServiceInside = ({
 
           <Link
             to={pricingCtaLink}
-            className="inline-flex items-center gap-3 rounded-lg bg-[#ff6533] px-6 py-3 text-base font-medium text-white shadow-md transition-transform duration-200 hover:-translate-y-0.5 self-start"
+            className="inline-flex items-center gap-3 rounded-lg bg-orange-bg-cta px-6 py-3 text-base font-medium text-white shadow-md transition-transform duration-200 hover:-translate-y-0.5 self-start"
           >
             {pricingCtaText}
             <span className="flex h-6 w-6 items-center justify-center">

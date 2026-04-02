@@ -19,9 +19,17 @@ export default defineConfig({
     },
   },
   build: {
+    target: 'es2017',
+    chunkSizeWarningLimit: 600,
     rollupOptions: {
       output: {
         manualChunks(id) {
+          if (
+            id.includes('node_modules/gsap') ||
+            id.includes('node_modules/lenis')
+          ) {
+            return 'vendor-animation';
+          }
           if (
             id.includes('node_modules/react-router-dom') ||
             id.includes('node_modules/react-router/') ||

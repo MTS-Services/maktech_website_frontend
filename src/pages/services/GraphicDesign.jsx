@@ -32,7 +32,7 @@ const GraphicDesign = () => {
           "Pitch Deck, Presentation & Report Design",
           "Brand Consistency Audit & Asset Management",
         ]}
-        imageSrc="/services_image/graphicDesign/emily-bernal-BM3U_D2lygo-unsplash.jpg"
+        imageSrc="/services_image/graphicDesign/emily-bernal-BM3U_D2lygo-unsplash.webp"
         imageAlt="Graphic design workspace"
         ctaText="View Case Studies"
         ctaLink="/case-study"
@@ -47,37 +47,37 @@ const GraphicDesign = () => {
             title: "Memorable Logos",
             description:
               "We design a unique logo that stands out and stays clear on everything from business cards to billboards.",
-            image: "/services_image/uiUx/image_1.jpg",
+            image: "/services_image/uiUx/image_1.webp",
           },
           {
             title: "Professional Look",
             description:
               "We choose the right fonts and colors that make your business look established and trustworthy.",
-            image: "/services_image/uiUx/image_2.jpg",
+            image: "/services_image/uiUx/image_2.webp",
           },
           {
             title: "Brand Rules",
             description:
               'We give you a simple "Cheat Sheet" so anyone on your team can keep your brand looking consistent.',
-            image: "/services_image/uiUx/image_3.jpg",
+            image: "/services_image/uiUx/image_3.webp",
           },
           {
             title: "Ready-to-Use Files",
             description:
               "You get every file format you need for print, web, and social media without the headache.",
-            image: "/services_image/uiUx/image_4.jpg",
+            image: "/services_image/uiUx/image_4.webp",
           },
           {
             title: "Custom Graphics",
             description:
               "We create icons and patterns that belong only to you, making your brand instantly recognizable.",
-            image: "/services_image/uiUx/image_5.jpg",
+            image: "/services_image/uiUx/image_5.webp",
           },
           {
             title: "Marketing Materials",
             description:
               "From flyers to digital decks, we make sure all your business materials look premium.",
-            image: "/services_image/uiUx/image_6.jpg",
+            image: "/services_image/uiUx/image_6.webp",
           },
         ]}
         pricingCtaText="View Our Pricing"

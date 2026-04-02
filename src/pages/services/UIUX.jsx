@@ -31,7 +31,7 @@ const UIUX = () => {
           "Usability Testing & Iterative Refinement",
           "Developer-Ready Design Documentation",
         ]}
-        imageSrc="/services_image/uiUx/studio-republic-fotKKqWNMQ4-unsplash.jpg"
+        imageSrc="/services_image/uiUx/studio-republic-fotKKqWNMQ4-unsplash.webp"
         imageAlt="UI/UX design collaboration"
         ctaText="View Case Studies"
         ctaLink="/case-study"
@@ -55,37 +55,37 @@ const UIUX = () => {
             title: "Research",
             description:
               "Conducting in-depth user and market research to uncover behavioral patterns, identify core pain points, and translate insights into actionable design opportunities.",
-            image: "/services_image/uiUx/image_1.jpg",
+            image: "/services_image/uiUx/image_1.webp",
           },
           {
             title: "Strategy",
             description:
               "Defining product vision, aligning business objectives with user needs, and building a clear experience roadmap that guides every design decision.",
-            image: "/services_image/uiUx/image_2.jpg",
+            image: "/services_image/uiUx/image_2.webp",
           },
           {
             title: "Ideation",
             description:
               "Exploring creative concepts, mapping user journeys, and transforming complex problems into intuitive and engaging interaction solutions.",
-            image: "/services_image/uiUx/image_3.jpg",
+            image: "/services_image/uiUx/image_3.webp",
           },
           {
             title: "Wireframes",
             description:
               "Developing structured layouts and interaction flows that prioritize usability, clarity, and seamless navigation across all touchpoints.",
-            image: "/services_image/uiUx/image_4.jpg",
+            image: "/services_image/uiUx/image_4.webp",
           },
           {
             title: "Visual Design",
             description:
               "Crafting cohesive visual systems through typography, color, spacing, and components to create a compelling and consistent brand experience.",
-            image: "/services_image/uiUx/image_5.jpg",
+            image: "/services_image/uiUx/image_5.webp",
           },
           {
             title: "Testing",
             description:
               "Evaluating usability through real user feedback, analyzing interaction data, and iterating strategically to refine and optimize the overall experience.",
-            image: "/services_image/uiUx/image_6.jpg",
+            image: "/services_image/uiUx/image_6.webp",
           },
         ]}
         pricingCtaText="View Our Pricing"
