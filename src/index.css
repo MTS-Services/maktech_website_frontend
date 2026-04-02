@@ -81,6 +81,79 @@ code {
   scrollbar-color: #ff6533 rgba(255, 255, 255, 0.05);
 }
 
+/* ── PageLoader animations ──────────────────────────────────── */
+@keyframes loader-bar {
+  0% {
+    transform: scaleX(0);
+  }
+  20% {
+    transform: scaleX(0.25);
+  }
+  60% {
+    transform: scaleX(0.72);
+  }
+  100% {
+    transform: scaleX(0.92);
+  }
+}
+
+@keyframes loader-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes loader-dot-pulse {
+  0%,
+  80%,
+  100% {
+    transform: scale(0.45);
+    opacity: 0.2;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes loader-glow-breathe {
+  0%,
+  100% {
+    opacity: 0.06;
+  }
+  50% {
+    opacity: 0.14;
+  }
+}
+
+.loader-bar {
+  transform-origin: left;
+  animation: loader-bar 3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.loader-content {
+  animation: loader-fade-up 0.65s cubic-bezier(0.4, 0, 0.2, 1) 0.1s both;
+}
+
+.loader-dot {
+  animation: loader-dot-pulse 1.4s ease-in-out infinite;
+}
+.loader-dot:nth-child(2) {
+  animation-delay: 0.16s;
+}
+.loader-dot:nth-child(3) {
+  animation-delay: 0.32s;
+}
+
+.loader-glow {
+  animation: loader-glow-breathe 2.8s ease-in-out infinite;
+}
+
 /* ===== Diagonal Marquee Animations ===== */
 @keyframes marquee-left {
   0% {
