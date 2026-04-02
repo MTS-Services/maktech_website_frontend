@@ -31,20 +31,20 @@ const AnimatedLines = () => {
         >
           {/* Animated capsule/rectangular drop that moves down the line */}
           <div
-            className="absolute w-0.5 h-12 rounded-full opacity-30 animate-dropFall"
+            className="absolute w-[2.5px] h-12 rounded-full opacity-70 animate-dropFall"
             style={{
               left: '50%',
-              background: 'linear-gradient(to bottom, rgba(255,255,255,0.05), rgba(255,101,51,0.3))',
+              background: 'linear-gradient(to bottom, #1C1C1C, #FF6533)',
               animationDelay: `${index * 2}s`,
               animationDuration: '10s',
             }}
           />
           {/* Second capsule with different timing */}
           <div
-            className="absolute w-0.5 h-10 rounded-full opacity-20 animate-dropFall"
+            className="absolute w-[2.5px] h-10 rounded-full opacity-50 animate-dropFall"
             style={{
               left: '50%',
-              background: 'linear-gradient(to bottom, rgba(255,255,255,0.05), rgba(255,101,51,0.3))',
+              background: 'linear-gradient(to bottom, #1C1C1C, #FF6533)',
               animationDelay: `${index * 2 + 4}s`,
               animationDuration: '10s',
             }}

@@ -41,7 +41,10 @@ const blogs = [
 ];
 
 const BlogCard = ({ blog }) => (
-  <div className=" cursor-pointer overflow-hidden h-full flex flex-col">
+  <Link
+    to="/blogs/details"
+    className="cursor-pointer overflow-hidden h-full flex flex-col transition-transform duration-300 hover:-translate-y-1"
+  >
     <img src={blog.img} alt={blog.title} className="w-full h-66 object-cover " />
 
     {/* Title Section */}
@@ -56,14 +59,13 @@ const BlogCard = ({ blog }) => (
       <p className="text-base text-[#BEBEBE] leading-relaxed mb-3 flex-1">
         {blog.desc}
       </p>
-      <Link
-        to="/blogs/details"
-        className="inline-flex items-center gap-1 text-base text-[#ccc] font-medium  underline"
+      <div
+        className="inline-flex items-center gap-1 text-base text-[#ccc] font-medium underline"
       >
         Read More <FaArrowRight size={13} />
-      </Link>
+      </div>
     </div>
-  </div>
+  </Link>
 );
 
 export default function BlogSection() {

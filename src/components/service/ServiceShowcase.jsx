@@ -192,29 +192,31 @@ const ServiceShowcase = ({
         {linePositions.map((position, index) => (
           <div
             key={index}
-            className="absolute -top-15 bottom-0 w-px bg-linear-to-b from-transparent via-black/20 to-transparent"
+            className="absolute -top-15 bottom-0 w-px bg-linear-to-b from-transparent via-black/5 to-transparent"
             style={{ left: `${position}%` }}
           >
             <div
-              className="absolute w-0.5 h-12 rounded-full opacity-60 animate-dropFall"
+              className="absolute w-[2.5px] h-12 rounded-full opacity-50 animate-dropFall"
               style={{
                 left: "50%",
                 transform: "translateX(-50%)",
                 willChange: "transform",
                 background:
-                  "linear-gradient(to bottom, rgba(255,255,255,0.1), #FF6533)",
+                  "linear-gradient(to bottom, rgba(255,101,51,0.2), #FF6533)",
                 animationDelay: `${index * 2}s`,
+                animationDuration: "10s",
               }}
             />
             <div
-              className="absolute w-0.5 h-10 rounded-full opacity-45 animate-dropFall"
+              className="absolute w-[2.5px] h-10 rounded-full opacity-40 animate-dropFall"
               style={{
                 left: "50%",
                 transform: "translateX(-50%)",
                 willChange: "transform",
                 background:
-                  "linear-gradient(to bottom, rgba(255,255,255,0.1), #FF6533)",
+                  "linear-gradient(to bottom, rgba(255,101,51,0.2), #FF6533)",
                 animationDelay: `${index * 2 + 4}s`,
+                animationDuration: "10s",
               }}
             />
           </div>

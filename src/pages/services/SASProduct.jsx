@@ -11,7 +11,7 @@ const SASProduct = () => {
         breadcrumbs={[
           { label: "Home", href: "/" },
           { label: "Services", href: "/services" },
-          { label: "SAS Product" },
+          { label: "Saas Product" },
         ]}
         title="Analytics Products That Teams Actually Use"
         description="We design and build SAS-based analytics products that turn data into decisions—clean UX, reliable pipelines, and clear stories."
@@ -22,7 +22,7 @@ const SASProduct = () => {
       <ServiceShowcase
         badgeText="What We Build"
         title="We deliver analytics experiences that blend sharp data with simple, trustworthy UI."
-        description="Our SAS Product engagements typically include:"
+        description="Our Saas Product engagements typically include:"
         bullets={[
           "Stakeholder discovery and KPI definition",
           "Data modeling, ETL/ELT, and quality checks",
@@ -40,8 +40,8 @@ const SASProduct = () => {
       />
 
       <ServiceInside
-        badgeText="Inside SAS Product"
-        servicesTitle="Our SAS Product services"
+        badgeText="Inside Saas Product"
+        servicesTitle="Our Saas Product services"
         cards={[
           {
             title: "Product Strategy",

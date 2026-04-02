@@ -21,7 +21,7 @@ const servicesMegaItems = [
   { title: "WordPress", path: "/services/wordpress", slug: "wordpress" },
   { title: "Digital Marketing", path: "/services/digital-marketing", slug: "digital-marketing" },
   { title: "AI/ML", path: "/services/ai-ml", slug: "ai-ml" },
-  { title: "SAS Product", path: "/services/sas-product", slug: "sas-product" },
+  { title: "SaaS Product", path: "/services/sas-product", slug: "sas-product" },
 ];
 
 const companyMegaItems = [

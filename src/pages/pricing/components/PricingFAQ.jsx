@@ -124,23 +124,23 @@ const PricingFAQ = () => {
           }}
         >
           <div
-            className="absolute w-px rounded-full"
+            className="absolute w-[2.5px] h-12 rounded-full opacity-70 animate-dropFall"
             style={{
-              height: "80px",
+              left: '50%',
               background:
-                "linear-gradient(to bottom, transparent, rgba(255,101,51,0.4), transparent)",
-              animation: "lineDrop 6s linear infinite",
-              animationDelay: `${i * 1.2}s`,
+                "linear-gradient(to bottom, rgba(255,101,51,0.2), #FF6533)",
+              animationDelay: `${i * 2}s`,
+              animationDuration: '10s',
             }}
           />
           <div
-            className="absolute w-px rounded-full"
+            className="absolute w-[2.5px] h-10 rounded-full opacity-50 animate-dropFall"
             style={{
-              height: "50px",
+              left: '50%',
               background:
-                "linear-gradient(to bottom, transparent, rgba(255,101,51,0.25), transparent)",
-              animation: "lineDrop 6s linear infinite",
-              animationDelay: `${i * 1.2 + 3}s`,
+                "linear-gradient(to bottom, rgba(255,101,51,0.2), #FF6533)",
+              animationDelay: `${i * 2 + 4}s`,
+              animationDuration: '10s',
             }}
           />
         </div>
