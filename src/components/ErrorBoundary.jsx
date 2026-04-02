@@ -1,19 +1,5 @@
 import { Component } from 'react';
 
-/**
- * ErrorBoundary — catches any uncaught render error in the subtree.
- *
- * Usage:
- *   <ErrorBoundary>
- *     <App />
- *   </ErrorBoundary>
- *
- * Optional custom fallback:
- *   <ErrorBoundary fallback={<MyErrorPage />}>...</ErrorBoundary>
- *
- * In production, replace the componentDidCatch body with a call to your
- * error monitoring service (Sentry, Datadog, etc.).
- */
 class ErrorBoundary extends Component {
   constructor(props) {
     super(props);
