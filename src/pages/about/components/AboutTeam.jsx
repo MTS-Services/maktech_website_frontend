@@ -10,7 +10,7 @@ const OWNERS = [
   {
     name: 'Nasrin Akter Pinky',
     role: 'Director, HR & Admin',
-    photo: '/pinkey2.webp',
+    photo: '/pinkey5.webp',
   },
 ];
 
