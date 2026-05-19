@@ -206,8 +206,20 @@
 
 @media (max-width:960px) {
   .floating-card { display:none!important; }
+  .p-card-wrap, .w-card-wrap, .d-card-wrap { padding:1.2rem 1rem; }
+  .p-ico { font-size:1.8rem; }
+  .cert-card-wrap { padding:2rem; }
 }
 
 @media (max-width:600px) {
   .floating-card { display:none!important; }
+  .mk-btn { padding:10px 16px!important; font-size:.85rem!important; }
+  .p-card-wrap, .w-card-wrap, .d-card-wrap { padding:1rem .8rem; }
+  .p-ico { font-size:1.6rem; }
+  .h-badge { font-size:9px; }
+  .h-cell { padding:1rem .8rem; }
+  .h-cell > div:first-child { font-size:1.6rem!important; }
+  .cert-card-wrap { padding:1.5rem; }
+  .mk-tag { font-size:9px; }
+  .corp-ws-wrap { margin-bottom:.5rem; }
 }

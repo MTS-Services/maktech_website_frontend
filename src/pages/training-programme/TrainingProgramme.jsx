@@ -265,23 +265,23 @@ function About({ isMobile }) {
   ];
   return (
     <>
-      <section className="about-bg" style={{ background: "var(--w2)", padding: "8rem 0", position: "relative", overflow: "hidden" }}>
+      <section className="about-bg" style={{ background: "var(--w2)", padding: isMobile ? "3.5rem 0" : "8rem 0", position: "relative", overflow: "hidden" }}>
         <div className={`w-full mx-auto ${
           isMobile
             ? "px-5"
             : "max-w-[70%] px-6 md:px-12 lg:px-24"
         }`}>
           <div className="mk-tag on-light mk-reveal-left">About the Programme</div>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "5rem", alignItems: "start", marginTop: "3.5rem" }} className="responsive-grid-1">
+          <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: isMobile ? "2.5rem" : "5rem", alignItems: "start", marginTop: isMobile ? "2rem" : "3.5rem" }} className="responsive-grid-1">
             <div className="mk-reveal-left">
-              <h2 style={{ fontFamily: "var(--fh)", fontSize: "clamp(1.9rem,3.2vw,2.7rem)", fontWeight: 700, lineHeight: 1.1, letterSpacing: "-.035em", color: "var(--td)" }}>
+              <h2 style={{ fontFamily: "var(--fh)", fontSize: isMobile ? "clamp(1.4rem,2.5vw,1.9rem)" : "clamp(1.9rem,3.2vw,2.7rem)", fontWeight: 700, lineHeight: 1.1, letterSpacing: "-.035em", color: "var(--td)" }}>
                 Trained by the Company That<br />
                 <span style={{ color: "var(--ora-d)" }}>Builds the Systems</span><br />
                 Others Learn About.
               </h2>
             </div>
             <div className="mk-reveal-right">
-              <div style={{ fontSize: ".95rem", color: "var(--td2)", lineHeight: 1.88, fontWeight: 300 }}>
+              <div style={{ fontSize: isMobile ? ".9rem" : ".95rem", color: "var(--td2)", lineHeight: 1.88, fontWeight: 300 }}>
                 <p>Maktech Group is a full stack IT company — not a training centre that added education as a side offering. We deliver end-to-end technology solutions including web development, app development, UI/UX design, SEO, Google Ads, AI automation, HR management systems, and digital marketing to clients across international markets.</p>
                 <p style={{ marginTop: "1.1rem" }}>Our training division was established because the gap between formal education and what the IT industry actually demands is real and costly to careers. We address it the same way we address every problem: by building something grounded, structured, and built to produce results.</p>
                 <p style={{ marginTop: "1.1rem" }}>Every programme is designed by professionals actively delivering in the field. Every module reflects our current delivery standards. You are not learning from a syllabus — you are learning from the work itself.</p>
@@ -322,24 +322,24 @@ const programmes = [
 function Programmes({ isMobile }) {
   return (
     <>
-      <section id="programmes" className="prog-shimmer" style={{ background: "var(--b2)", padding: "8rem 0", position: "relative", overflow: "hidden" }}>
+      <section id="programmes" className="prog-shimmer" style={{ background: "var(--b2)", padding: isMobile ? "3.5rem 0" : "8rem 0", position: "relative", overflow: "hidden" }}>
         <div className={`w-full mx-auto ${
           isMobile
             ? "px-5"
             : "max-w-[70%] px-6 md:px-12 lg:px-24"
         }`}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "3rem", alignItems: "end", marginBottom: "3.5rem" }}>
+          <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: isMobile ? "2rem" : "3rem", alignItems: "end", marginBottom: isMobile ? "2rem" : "3.5rem" }}>
             <div>
               <div className="mk-tag mk-reveal-left">Programmes Offered</div>
-              <h2 className="mk-reveal-left" style={{ fontFamily: "var(--fh)", fontSize: "clamp(1.9rem,3.2vw,2.7rem)", fontWeight: 700, lineHeight: 1.1, letterSpacing: "-.035em", color: "var(--t1)" }}>
+              <h2 className="mk-reveal-left" style={{ fontFamily: "var(--fh)", fontSize: isMobile ? "clamp(1.4rem,2.5vw,1.9rem)" : "clamp(1.9rem,3.2vw,2.7rem)", fontWeight: 700, lineHeight: 1.1, letterSpacing: "-.035em", color: "var(--t1)" }}>
                 Ten Programmes.<br /><span style={{ color: "var(--ora)" }}>One Standard</span> of Delivery.
               </h2>
             </div>
-            <p className="mk-reveal-right" style={{ fontSize: ".975rem", fontWeight: 300, lineHeight: 1.84, maxWidth: "540px", color: "var(--t2)" }}>
+            <p className="mk-reveal-right" style={{ fontSize: isMobile ? ".9rem" : ".975rem", fontWeight: 300, lineHeight: 1.84, maxWidth: "540px", color: "var(--t2)" }}>
               Each programme is structured around applied, project-based learning — connected directly to the tools, workflows, and standards used inside Maktech's own IT delivery teams.
             </p>
           </div>
-          <div className="mk-stagger" style={{ display: "grid", gridTemplateColumns: "repeat(5,1fr)", gap: "1px", background: "var(--bdr)", border: "1px solid var(--bdr)", borderRadius: "18px", overflow: "hidden" }}>
+          <div className="mk-stagger" style={{ display: "grid", gridTemplateColumns: isMobile ? "repeat(2,1fr)" : "repeat(5,1fr)", gap: "1px", background: "var(--bdr)", border: "1px solid var(--bdr)", borderRadius: "18px", overflow: "hidden" }}>
             {programmes.map((p) => (
               <div className="p-card-wrap" key={p.idx}>
                 <div className="p-top" />
@@ -374,20 +374,20 @@ const whyCards = [
 function Why({ isMobile }) {
   return (
     <>
-      <section id="why" style={{ background: "var(--b3)", padding: "8rem 0", position: "relative", overflow: "hidden" }}>
+      <section id="why" style={{ background: "var(--b3)", padding: isMobile ? "3.5rem 0" : "8rem 0", position: "relative", overflow: "hidden" }}>
         <div className={`w-full mx-auto ${
           isMobile
             ? "px-5"
             : "max-w-[70%] px-6 md:px-12 lg:px-24"
         }`}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "3rem", alignItems: "end", marginBottom: "3.5rem" }}>
+          <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: isMobile ? "2rem" : "3rem", alignItems: "end", marginBottom: isMobile ? "2rem" : "3.5rem" }}>
             <div>
               <div className="mk-tag mk-reveal-left">Why Maktech Training</div>
-              <h2 className="mk-reveal-left" style={{ fontFamily: "var(--fh)", fontSize: "clamp(1.9rem,3.2vw,2.7rem)", fontWeight: 700, lineHeight: 1.1, letterSpacing: "-.035em", color: "var(--t1)" }}>
+              <h2 className="mk-reveal-left" style={{ fontFamily: "var(--fh)", fontSize: isMobile ? "clamp(1.4rem,2.5vw,1.9rem)" : "clamp(1.9rem,3.2vw,2.7rem)", fontWeight: 700, lineHeight: 1.1, letterSpacing: "-.035em", color: "var(--t1)" }}>
                 What Sets This Apart From<br /><span style={{ color: "var(--ora)" }}>Any Other Institute.</span>
               </h2>
             </div>
-            <p className="mk-reveal-right" style={{ fontSize: ".975rem", fontWeight: 300, lineHeight: 1.84, maxWidth: "540px", color: "var(--t2)" }}>
+            <p className="mk-reveal-right" style={{ fontSize: isMobile ? ".9rem" : ".975rem", fontWeight: 300, lineHeight: 1.84, maxWidth: "540px", color: "var(--t2)" }}>
               Maktech is a full stack IT company first. The training division is an extension of live commercial operations — not a standalone school. That distinction defines every module's quality and relevance.
             </p>
           </div>
@@ -418,15 +418,15 @@ const whoCards = [
 function WhoFor({ isMobile }) {
   return (
     <>
-      <section style={{ background: "var(--b1)", padding: "8rem 0", position: "relative", overflow: "hidden" }}>
+      <section style={{ background: "var(--b1)", padding: isMobile ? "3.5rem 0" : "8rem 0", position: "relative", overflow: "hidden" }}>
         <div className={`w-full mx-auto ${
           isMobile
             ? "px-5"
             : "max-w-[70%] px-6 md:px-12 lg:px-24"
         }`}>
           <div className="mk-tag mk-reveal-left">Who This Is For</div>
-          <div style={{ maxWidth: "600px", marginBottom: "3.5rem" }}>
-            <h2 className="mk-reveal" style={{ fontFamily: "var(--fh)", fontSize: "clamp(1.9rem,3.2vw,2.7rem)", fontWeight: 700, lineHeight: 1.1, letterSpacing: "-.035em", color: "var(--t1)", marginBottom: ".75rem" }}>
+          <div style={{ maxWidth: "600px", marginBottom: isMobile ? "2rem" : "3.5rem" }}>
+            <h2 className="mk-reveal" style={{ fontFamily: "var(--fh)", fontSize: isMobile ? "clamp(1.4rem,2.5vw,1.9rem)" : "clamp(1.9rem,3.2vw,2.7rem)", fontWeight: 700, lineHeight: 1.1, letterSpacing: "-.035em", color: "var(--t1)", marginBottom: ".75rem" }}>
               One Programme. <span style={{ color: "var(--ora)" }}>Five Types of Learner.</span>
             </h2>
             <p className="mk-reveal" style={{ fontSize: ".975rem", fontWeight: 300, lineHeight: 1.84, color: "var(--t2)" }}>
@@ -460,14 +460,14 @@ const outcomes = [
 function Outcomes({ isMobile }) {
   return (
     <>
-      <section style={{ background: "var(--w3)", padding: "8rem 0" }}>
+      <section style={{ background: "var(--w3)", padding: isMobile ? "3.5rem 0" : "8rem 0" }}>
         <div className={`w-full mx-auto ${
           isMobile
             ? "px-5"
             : "max-w-[70%] px-6 md:px-12 lg:px-24"
         }`}>
           <div className="mk-tag on-light mk-reveal-left">Programme Outcomes</div>
-          <div style={{ display: "grid", gridTemplateColumns: "5fr 7fr", gap: "6rem", marginTop: "3.5rem", alignItems: "start" }}>
+          <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "5fr 7fr", gap: isMobile ? "2rem" : "6rem", marginTop: isMobile ? "2rem" : "3.5rem", alignItems: "start" }}>
             <div className="mk-reveal-left" style={{ position: "sticky", top: "86px" }}>
               <h2 style={{ fontFamily: "var(--fh)", fontSize: "clamp(1.6rem,2.8vw,2.3rem)", fontWeight: 800, color: "var(--td)", letterSpacing: "-.04em", lineHeight: 1.15, marginBottom: "1rem" }}>
                 What You<br /><span style={{ color: "var(--ora-d)" }}>Leave With.</span>
@@ -506,14 +506,14 @@ const certPoints = [
 function Certification({ isMobile }) {
   return (
     <>
-      <section id="certification" style={{ background: "var(--b3)", padding: "8rem 0", position: "relative", overflow: "hidden" }}>
+      <section id="certification" style={{ background: "var(--b3)", padding: isMobile ? "3.5rem 0" : "8rem 0", position: "relative", overflow: "hidden" }}>
         <div className={`w-full mx-auto ${
           isMobile
             ? "px-5"
             : "max-w-[70%] px-6 md:px-12 lg:px-24"
         }`}>
           <div className="mk-tag mk-reveal-left">Certification &amp; Authority</div>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "5rem", marginTop: "3.5rem", alignItems: "center" }}>
+          <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: isMobile ? "2rem" : "5rem", marginTop: isMobile ? "2rem" : "3.5rem", alignItems: "center" }}>
             <div className="cert-card-wrap mk-reveal-scale">
               <div className="cert-seal-wrap">
                 <div className="cert-inner">Maktech<br />Group<br />Certified</div>
@@ -560,14 +560,14 @@ const corpFeatures = [
 function Corporate({ isMobile }) {
   return (
     <>
-      <section id="corporate" style={{ background: "var(--b2)", padding: "8rem 0" }}>
+      <section id="corporate" style={{ background: "var(--b2)", padding: isMobile ? "3.5rem 0" : "8rem 0" }}>
         <div className={`w-full mx-auto ${
           isMobile
             ? "px-5"
             : "max-w-[70%] px-6 md:px-12 lg:px-24"
         }`}>
           <div className="mk-tag mk-reveal-left">Corporate Training</div>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "5rem", marginTop: "3.5rem", alignItems: "start" }}>
+          <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: isMobile ? "2rem" : "4rem", marginTop: isMobile ? "2rem" : "3.5rem" }}>
             <div className="mk-reveal-left">
               <h2 style={{ fontFamily: "var(--fh)", fontSize: "clamp(1.9rem,3.2vw,2.7rem)", fontWeight: 700, lineHeight: 1.1, letterSpacing: "-.035em", color: "var(--t1)", marginBottom: "1.2rem" }}>
                 Upskill Your Team to<br /><span style={{ color: "var(--ora)" }}>Full Stack IT Company</span><br />Standard.
@@ -602,27 +602,31 @@ function Corporate({ isMobile }) {
 
 function CTA({ isMobile }) {
   return (
-    <section id="cta" style={{ background: "var(--b0)", padding: "10rem 0", textAlign: "center", position: "relative", overflow: "hidden" }}>
+    <section id="cta" style={{ background: "var(--b0)", padding: isMobile ? "4rem 0" : "10rem 0", textAlign: "center", position: "relative", overflow: "hidden" }}>
       {[1,2,3,4].map((i) => <div className="cta-ring" key={i} />)}
       <div style={{ position: "absolute", bottom: "-400px", left: "50%", transform: "translateX(-50%)", width: "800px", height: "800px", borderRadius: "50%", pointerEvents: "none", background: "radial-gradient(ellipse,rgba(255,122,47,.08) 0%,transparent 65%)" }} />
       <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(circle,rgba(255,122,47,.12) 1px,transparent 1px)", backgroundSize: "34px 34px", maskImage: "radial-gradient(ellipse 75% 80% at 50% 50%,black 0%,transparent 100%)", WebkitMaskImage: "radial-gradient(ellipse 75% 80% at 50% 50%,black 0%,transparent 100%)" }} />
-      <div className={`w-full mx-auto ${\n          isMobile\n            ? "px-5"\n            : "max-w-[70%] px-6 md:px-12 lg:px-24"\n        }`} style={{ position: "relative", zIndex: 2 }}>
-        <div className="mk-reveal" style={{ display: "inline-flex", alignItems: "center", gap: "10px", fontFamily: "var(--fm)", fontSize: "10.5px", fontWeight: 500, color: "var(--ora)", letterSpacing: ".14em", textTransform: "uppercase", marginBottom: "1.75rem" }}>
+      <div className={`w-full mx-auto ${
+          isMobile
+            ? "px-5"
+            : "max-w-[70%] px-6 md:px-12 lg:px-24"
+        }`} style={{ position: "relative", zIndex: 2 }}>
+        <div className="mk-reveal" style={{ display: "inline-flex", alignItems: "center", gap: "10px", fontFamily: "var(--fm)", fontSize: isMobile ? "9px" : "10.5px", fontWeight: 500, color: "var(--ora)", letterSpacing: ".14em", textTransform: "uppercase", marginBottom: isMobile ? "1rem" : "1.75rem" }}>
           <span style={{ display: "block", width: "36px", height: "1px", background: "rgba(255,122,47,.4)" }} />
           Begin Your Transformation
           <span style={{ display: "block", width: "36px", height: "1px", background: "rgba(255,122,47,.4)" }} />
         </div>
-        <h2 className="mk-reveal" style={{ fontFamily: "var(--fh)", fontSize: "clamp(2.4rem,5vw,4.2rem)", fontWeight: 800, letterSpacing: "-.05em", lineHeight: 1.08, color: "var(--t1)", maxWidth: "700px", margin: "0 auto 1.2rem" }}>
+        <h2 className="mk-reveal" style={{ fontFamily: "var(--fh)", fontSize: isMobile ? "clamp(1.8rem,4vw,2.4rem)" : "clamp(2.4rem,5vw,4.2rem)", fontWeight: 800, letterSpacing: "-.05em", lineHeight: 1.08, color: "var(--t1)", maxWidth: "700px", margin: "0 auto 1.2rem" }}>
           The Knowledge Is Here.<br />The <span style={{ color: "var(--ora)" }}>Next Move</span> Is Yours.
         </h2>
-        <p className="mk-reveal" style={{ fontSize: "1rem", color: "var(--t2)", maxWidth: "490px", margin: "0 auto 2.8rem", fontWeight: 300, lineHeight: 1.84 }}>
+        <p className="mk-reveal" style={{ fontSize: isMobile ? ".9rem" : "1rem", color: "var(--t2)", maxWidth: "490px", margin: "0 auto 2.8rem", fontWeight: 300, lineHeight: 1.84 }}>
           Whether you are launching a career, building a freelancing practice, growing a business, or developing a team — the first step is a conversation. Book your free consultation with the Maktech training team today.
         </p>
-        <div className="mk-reveal" style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
-          <a className="mk-btn mk-btn-solid mag-btn" href="https://maktechgroup.com/" target="_blank" rel="noreferrer">Book a Free Consultation</a>
-          <a className="mk-btn mk-btn-od mag-btn" href="https://maktechgroup.com/" target="_blank" rel="noreferrer">Visit Maktech Group</a>
+        <div className="mk-reveal" style={{ display: "flex", gap: isMobile ? ".6rem" : "1rem", justifyContent: "center", flexWrap: "wrap" }}>
+          <a className="mk-btn mk-btn-solid mag-btn" href="https://maktechgroup.com/" target="_blank" rel="noreferrer" style={{ fontSize: isMobile ? ".9rem" : "1rem" }}>Book a Free Consultation</a>
+          <a className="mk-btn mk-btn-od mag-btn" href="https://maktechgroup.com/" target="_blank" rel="noreferrer" style={{ fontSize: isMobile ? ".9rem" : "1rem" }}>Visit Maktech Group</a>
         </div>
-        <p className="mk-reveal" style={{ marginTop: "1.5rem", fontSize: ".8rem", color: "var(--t3)", letterSpacing: ".02em", fontWeight: 300 }}>No obligation. No sales pressure. A professional conversation about your goals and the right programme for you.</p>
+        <p className="mk-reveal" style={{ marginTop: "1.5rem", fontSize: isMobile ? ".75rem" : ".8rem", color: "var(--t3)", letterSpacing: ".02em", fontWeight: 300 }}>No obligation. No sales pressure. A professional conversation about your goals and the right programme for you.</p>
       </div>
     </section>
   );
