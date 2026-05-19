@@ -206,6 +206,7 @@
 
 @media (max-width:960px) {
   .floating-card { display:none!important; }
+  .h-badge { margin-top:1rem; }
   .p-card-wrap, .w-card-wrap, .d-card-wrap, .wo-card-wrap { padding:1.2rem 1rem; }
   .p-ico, .wo-ico { font-size:1.8rem; }
   .cert-card-wrap { padding:2rem; }
@@ -220,7 +221,7 @@
   .p-ico, .wo-ico { font-size:1.6rem; }
   .p-card-wrap h3 { font-size:.8rem; }
   .p-card-wrap p { font-size:.75rem; }
-  .h-badge { font-size:9px; }
+  .h-badge { font-size:9px; margin-top:2rem; }
   .h-cell { padding:1rem .8rem; }
   .h-cell > div:first-child { font-size:1.6rem!important; }
   .cert-card-wrap { padding:1.5rem; }

@@ -233,7 +233,7 @@ function Hero({ canvasRef, isMobile }) {
             <a className="mk-btn mk-btn-od mag-btn" href="#programmes">Explore Programmes</a>
           </div>
 
-          <div className="h-strip" style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: "1px", marginTop: "5rem", background: "var(--bdr)", border: "1px solid var(--bdr)", borderRadius: "14px", overflow: "hidden", opacity: 0, transform: "translateY(28px)", animation: "fadeUp .9s 1.5s var(--ease-out) forwards" }}>
+          <div className="h-strip" style={{ display: "grid", gridTemplateColumns: isMobile ? "repeat(2,1fr)" : "repeat(4,1fr)", gap: "1px", marginTop: "5rem", background: "var(--bdr)", border: "1px solid var(--bdr)", borderRadius: "14px", overflow: "hidden", opacity: 0, transform: "translateY(28px)", animation: "fadeUp .9s 1.5s var(--ease-out) forwards" }}>
             {[
               { val: null, count: 6, suffix: "+", label: "Years IT Experience" },
               { val: null, count: 10, suffix: "", label: "Training Programmes" },
