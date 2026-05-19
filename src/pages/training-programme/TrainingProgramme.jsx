@@ -1,5 +1,5 @@
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import './TrainingProgramme.css';
 
 /* ─── Helpers ─── */
@@ -196,7 +196,7 @@ function useTiltCards() {
 
 /* ─── Section Components ─── */
 
-function Hero({ canvasRef }) {
+function Hero({ canvasRef, isMobile }) {
   return (
     <>
       <section style={{ minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", position: "relative", overflow: "hidden", background: "var(--b0)" }}>
@@ -212,7 +212,11 @@ function Hero({ canvasRef }) {
           </div>
         </div>
 
-        <div style={{ position: "relative", zIndex: 2, padding: "5.5rem 2rem 6rem", maxWidth: "70%", margin: "0 auto", width: "100%" }}>
+        <div className={`relative z-10 w-full mx-auto ${
+          isMobile
+            ? "px-5 py-12"
+            : "max-w-[70%] px-6 md:px-12 lg:px-24 py-24"
+        }`} style={{ position: "relative", zIndex: 2 }}>
           <div className="h-badge"><span className="h-dot" /> Training &amp; Programme Division — Maktech Group</div>
 
           <h1 className="h-h1-wrap" style={{ fontFamily: "var(--fh)", fontSize: "clamp(2.8rem,5.5vw,5rem)", fontWeight: 800, lineHeight: 1.05, letterSpacing: "-.05em", color: "var(--t1)", maxWidth: "900px", marginBottom: "1.5rem" }}>
@@ -252,7 +256,7 @@ function Hero({ canvasRef }) {
   );
 }
 
-function About() {
+function About({ isMobile }) {
   const aboutCards = [
     { idx: "01", title: "Built by an Active IT Company", desc: "Programmes are designed and led by Maktech professionals currently delivering real IT and digital solutions — not educators working from dated course material." },
     { idx: "02", title: "Live Project Execution — Not Simulation", desc: "Every learner works on real projects throughout the programme, building a portfolio of tangible, demonstrable outputs that carry weight with employers and clients." },
@@ -262,7 +266,11 @@ function About() {
   return (
     <>
       <section className="about-bg" style={{ background: "var(--w2)", padding: "8rem 0", position: "relative", overflow: "hidden" }}>
-        <div style={{ maxWidth: "70%", margin: "0 auto", padding: "0 2rem" }}>
+        <div className={`w-full mx-auto ${
+          isMobile
+            ? "px-5"
+            : "max-w-[70%] px-6 md:px-12 lg:px-24"
+        }`}>
           <div className="mk-tag on-light mk-reveal-left">About the Programme</div>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "5rem", alignItems: "start", marginTop: "3.5rem" }} className="responsive-grid-1">
             <div className="mk-reveal-left">
@@ -311,11 +319,15 @@ const programmes = [
   { idx: "10", ico: "🏭", title: "Industrial Attachment", desc: "Supervised attachment programme embedding students and fresh graduates inside Maktech Group's active delivery environment — first-hand exposure to professional IT and digital operations in a live commercial setting.", tags: ["Live Environment", "Mentored", "Portfolio Output", "Certificate"] },
 ];
 
-function Programmes() {
+function Programmes({ isMobile }) {
   return (
     <>
       <section id="programmes" className="prog-shimmer" style={{ background: "var(--b2)", padding: "8rem 0", position: "relative", overflow: "hidden" }}>
-        <div style={{ maxWidth: "70%", margin: "0 auto", padding: "0 2rem" }}>
+        <div className={`w-full mx-auto ${
+          isMobile
+            ? "px-5"
+            : "max-w-[70%] px-6 md:px-12 lg:px-24"
+        }`}>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "3rem", alignItems: "end", marginBottom: "3.5rem" }}>
             <div>
               <div className="mk-tag mk-reveal-left">Programmes Offered</div>
@@ -359,11 +371,15 @@ const whyCards = [
   { num: "06 / Career", title: "Active Career Placement Support", body: "Portfolio review, professional profile optimisation, job-readiness coaching, and access to the Maktech professional network — structured support for digital and IT employment outcomes." },
 ];
 
-function Why() {
+function Why({ isMobile }) {
   return (
     <>
       <section id="why" style={{ background: "var(--b3)", padding: "8rem 0", position: "relative", overflow: "hidden" }}>
-        <div style={{ maxWidth: "70%", margin: "0 auto", padding: "0 2rem" }}>
+        <div className={`w-full mx-auto ${
+          isMobile
+            ? "px-5"
+            : "max-w-[70%] px-6 md:px-12 lg:px-24"
+        }`}>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "3rem", alignItems: "end", marginBottom: "3.5rem" }}>
             <div>
               <div className="mk-tag mk-reveal-left">Why Maktech Training</div>
@@ -399,11 +415,15 @@ const whoCards = [
   { ico: "🏢", role: "Corporate Teams", desc: "Upskill marketing, commercial, and technology teams with workshops aligned to your organisation's digital maturity goals and business priorities." },
 ];
 
-function WhoFor() {
+function WhoFor({ isMobile }) {
   return (
     <>
       <section style={{ background: "var(--b1)", padding: "8rem 0", position: "relative", overflow: "hidden" }}>
-        <div style={{ maxWidth: "70%", margin: "0 auto", padding: "0 2rem" }}>
+        <div className={`w-full mx-auto ${
+          isMobile
+            ? "px-5"
+            : "max-w-[70%] px-6 md:px-12 lg:px-24"
+        }`}>
           <div className="mk-tag mk-reveal-left">Who This Is For</div>
           <div style={{ maxWidth: "600px", marginBottom: "3.5rem" }}>
             <h2 className="mk-reveal" style={{ fontFamily: "var(--fh)", fontSize: "clamp(1.9rem,3.2vw,2.7rem)", fontWeight: 700, lineHeight: 1.1, letterSpacing: "-.035em", color: "var(--t1)", marginBottom: ".75rem" }}>
@@ -437,11 +457,15 @@ const outcomes = [
   { n: "O — 05", title: "Industry-Level Professional Understanding", body: "A practitioner-level view of how the IT and digital industry operates — how companies structure delivery, how clients are served, and how senior professionals think and make decisions." },
 ];
 
-function Outcomes() {
+function Outcomes({ isMobile }) {
   return (
     <>
       <section style={{ background: "var(--w3)", padding: "8rem 0" }}>
-        <div style={{ maxWidth: "70%", margin: "0 auto", padding: "0 2rem" }}>
+        <div className={`w-full mx-auto ${
+          isMobile
+            ? "px-5"
+            : "max-w-[70%] px-6 md:px-12 lg:px-24"
+        }`}>
           <div className="mk-tag on-light mk-reveal-left">Programme Outcomes</div>
           <div style={{ display: "grid", gridTemplateColumns: "5fr 7fr", gap: "6rem", marginTop: "3.5rem", alignItems: "start" }}>
             <div className="mk-reveal-left" style={{ position: "sticky", top: "86px" }}>
@@ -479,11 +503,15 @@ const certPoints = [
   { title: "LinkedIn-Ready Professional Credential", body: "Graduates receive guidance on presenting their Maktech certification and project portfolio to maximise professional visibility with employers and potential clients." },
 ];
 
-function Certification() {
+function Certification({ isMobile }) {
   return (
     <>
       <section id="certification" style={{ background: "var(--b3)", padding: "8rem 0", position: "relative", overflow: "hidden" }}>
-        <div style={{ maxWidth: "70%", margin: "0 auto", padding: "0 2rem" }}>
+        <div className={`w-full mx-auto ${
+          isMobile
+            ? "px-5"
+            : "max-w-[70%] px-6 md:px-12 lg:px-24"
+        }`}>
           <div className="mk-tag mk-reveal-left">Certification &amp; Authority</div>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "5rem", marginTop: "3.5rem", alignItems: "center" }}>
             <div className="cert-card-wrap mk-reveal-scale">
@@ -529,11 +557,15 @@ const corpFeatures = [
   "Fully on-site, remote, or hybrid delivery formats supported",
 ];
 
-function Corporate() {
+function Corporate({ isMobile }) {
   return (
     <>
       <section id="corporate" style={{ background: "var(--b2)", padding: "8rem 0" }}>
-        <div style={{ maxWidth: "70%", margin: "0 auto", padding: "0 2rem" }}>
+        <div className={`w-full mx-auto ${
+          isMobile
+            ? "px-5"
+            : "max-w-[70%] px-6 md:px-12 lg:px-24"
+        }`}>
           <div className="mk-tag mk-reveal-left">Corporate Training</div>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "5rem", marginTop: "3.5rem", alignItems: "start" }}>
             <div className="mk-reveal-left">
@@ -568,13 +600,13 @@ function Corporate() {
   );
 }
 
-function CTA() {
+function CTA({ isMobile }) {
   return (
     <section id="cta" style={{ background: "var(--b0)", padding: "10rem 0", textAlign: "center", position: "relative", overflow: "hidden" }}>
       {[1,2,3,4].map((i) => <div className="cta-ring" key={i} />)}
       <div style={{ position: "absolute", bottom: "-400px", left: "50%", transform: "translateX(-50%)", width: "800px", height: "800px", borderRadius: "50%", pointerEvents: "none", background: "radial-gradient(ellipse,rgba(255,122,47,.08) 0%,transparent 65%)" }} />
       <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(circle,rgba(255,122,47,.12) 1px,transparent 1px)", backgroundSize: "34px 34px", maskImage: "radial-gradient(ellipse 75% 80% at 50% 50%,black 0%,transparent 100%)", WebkitMaskImage: "radial-gradient(ellipse 75% 80% at 50% 50%,black 0%,transparent 100%)" }} />
-      <div style={{ maxWidth: "70%", margin: "0 auto", padding: "0 2rem", position: "relative", zIndex: 2 }}>
+      <div className={`w-full mx-auto ${\n          isMobile\n            ? "px-5"\n            : "max-w-[70%] px-6 md:px-12 lg:px-24"\n        }`} style={{ position: "relative", zIndex: 2 }}>
         <div className="mk-reveal" style={{ display: "inline-flex", alignItems: "center", gap: "10px", fontFamily: "var(--fm)", fontSize: "10.5px", fontWeight: 500, color: "var(--ora)", letterSpacing: ".14em", textTransform: "uppercase", marginBottom: "1.75rem" }}>
           <span style={{ display: "block", width: "36px", height: "1px", background: "rgba(255,122,47,.4)" }} />
           Begin Your Transformation
@@ -599,6 +631,14 @@ function CTA() {
 /* ─── Root Component ─── */
 export default function MaktechTraining() {
   const canvasRef = useRef(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 1280);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   useReveal();
   useCounter();
@@ -613,15 +653,15 @@ export default function MaktechTraining() {
       {/* Progress bar */}
       <div id="mk-progress" />
 
-      <Hero canvasRef={canvasRef} />
-      <About />
-      <Programmes />
-      <Why />
-      <WhoFor />
-      <Outcomes />
-      <Certification />
-      <Corporate />
-      <CTA />
+      <Hero canvasRef={canvasRef} isMobile={isMobile} />
+      <About isMobile={isMobile} />
+      <Programmes isMobile={isMobile} />
+      <Why isMobile={isMobile} />
+      <WhoFor isMobile={isMobile} />
+      <Outcomes isMobile={isMobile} />
+      <Certification isMobile={isMobile} />
+      <Corporate isMobile={isMobile} />
+      <CTA isMobile={isMobile} />
     </div>
   );
 }
