@@ -339,7 +339,7 @@ function Programmes({ isMobile }) {
               Each programme is structured around applied, project-based learning — connected directly to the tools, workflows, and standards used inside Maktech's own IT delivery teams.
             </p>
           </div>
-          <div className="mk-stagger" style={{ display: "grid", gridTemplateColumns: isMobile ? "repeat(2,1fr)" : "repeat(5,1fr)", gap: "1px", background: "var(--bdr)", border: "1px solid var(--bdr)", borderRadius: "18px", overflow: "hidden" }}>
+          <div className="mk-stagger" style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(5,1fr)", gap: "1px", background: "var(--bdr)", border: "1px solid var(--bdr)", borderRadius: "18px", overflow: "hidden" }}>
             {programmes.map((p) => (
               <div className="p-card-wrap" key={p.idx}>
                 <div className="p-top" />
@@ -391,7 +391,7 @@ function Why({ isMobile }) {
               Maktech is a full stack IT company first. The training division is an extension of live commercial operations — not a standalone school. That distinction defines every module's quality and relevance.
             </p>
           </div>
-          <div className="mk-stagger" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: "1.25rem" }}>
+          <div className="mk-stagger" style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(3,1fr)", gap: isMobile ? ".8rem" : "1.25rem" }}>
             {whyCards.map((c) => (
               <div className="w-card-wrap" key={c.num}>
                 <div style={{ fontFamily: "var(--fm)", fontSize: "10.5px", color: "var(--ora)", fontWeight: 500, marginBottom: ".9rem" }}>{c.num}</div>
@@ -433,7 +433,7 @@ function WhoFor({ isMobile }) {
               Designed to meet each learner at their current position and take them to a clearly defined professional outcome.
             </p>
           </div>
-          <div className="mk-stagger" style={{ display: "grid", gridTemplateColumns: "repeat(5,1fr)", gap: "1px", background: "var(--bdr)", border: "1px solid var(--bdr)", borderRadius: "18px", overflow: "hidden" }}>
+          <div className="mk-stagger" style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(5,1fr)", gap: "1px", background: "var(--bdr)", border: "1px solid var(--bdr)", borderRadius: "18px", overflow: "hidden" }}>
             {whoCards.map((c) => (
               <div className="wo-card-wrap" key={c.role}>
                 <div className="wo-ico">{c.ico}</div>
@@ -569,10 +569,10 @@ function Corporate({ isMobile }) {
           <div className="mk-tag mk-reveal-left">Corporate Training</div>
           <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: isMobile ? "2rem" : "4rem", marginTop: isMobile ? "2rem" : "3.5rem" }}>
             <div className="mk-reveal-left">
-              <h2 style={{ fontFamily: "var(--fh)", fontSize: "clamp(1.9rem,3.2vw,2.7rem)", fontWeight: 700, lineHeight: 1.1, letterSpacing: "-.035em", color: "var(--t1)", marginBottom: "1.2rem" }}>
+              <h2 style={{ fontFamily: "var(--fh)", fontSize: isMobile ? "clamp(1.4rem,2.5vw,1.9rem)" : "clamp(1.9rem,3.2vw,2.7rem)", fontWeight: 700, lineHeight: 1.1, letterSpacing: "-.035em", color: "var(--t1)", marginBottom: "1.2rem" }}>
                 Upskill Your Team to<br /><span style={{ color: "var(--ora)" }}>Full Stack IT Company</span><br />Standard.
               </h2>
-              <p style={{ fontSize: ".95rem", color: "var(--t2)", lineHeight: 1.84, fontWeight: 300, marginBottom: "1rem" }}>Maktech offers bespoke corporate training engagements — scoped around your organisation's capability level, strategic objectives, and the outcomes you need to achieve. We do not deliver generic off-the-shelf programmes.</p>
+              <p style={{ fontSize: isMobile ? ".9rem" : ".95rem", color: "var(--t2)", lineHeight: 1.84, fontWeight: 300, marginBottom: "1rem" }}>Maktech offers bespoke corporate training engagements — scoped around your organisation's capability level, strategic objectives, and the outcomes you need to achieve. We do not deliver generic off-the-shelf programmes.</p>
               <p style={{ fontSize: ".95rem", color: "var(--t2)", lineHeight: 1.84, fontWeight: 300, marginBottom: "1rem" }}>Each engagement begins with a capability assessment and brief. We then design and deliver a structured workshop programme — on-site or remote — built directly around your team's needs.</p>
               <div style={{ display: "flex", flexDirection: "column", gap: ".65rem", margin: "1.5rem 0 2.5rem" }}>
                 {corpFeatures.map((f) => <div className="corp-f-item" key={f}>{f}</div>)}
