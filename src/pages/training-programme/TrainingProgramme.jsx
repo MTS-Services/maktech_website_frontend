@@ -212,7 +212,7 @@ function Hero({ canvasRef }) {
           </div>
         </div>
 
-        <div style={{ position: "relative", zIndex: 2, padding: "5.5rem 2rem 6rem", maxWidth: "1120px", margin: "0 auto", width: "100%" }}>
+        <div style={{ position: "relative", zIndex: 2, padding: "5.5rem 2rem 6rem", maxWidth: "70%", margin: "0 auto", width: "100%" }}>
           <div className="h-badge"><span className="h-dot" /> Training &amp; Programme Division — Maktech Group</div>
 
           <h1 className="h-h1-wrap" style={{ fontFamily: "var(--fh)", fontSize: "clamp(2.8rem,5.5vw,5rem)", fontWeight: 800, lineHeight: 1.05, letterSpacing: "-.05em", color: "var(--t1)", maxWidth: "900px", marginBottom: "1.5rem" }}>
@@ -262,7 +262,7 @@ function About() {
   return (
     <>
       <section className="about-bg" style={{ background: "var(--w2)", padding: "8rem 0", position: "relative", overflow: "hidden" }}>
-        <div style={{ maxWidth: "1120px", margin: "0 auto", padding: "0 2rem" }}>
+        <div style={{ maxWidth: "70%", margin: "0 auto", padding: "0 2rem" }}>
           <div className="mk-tag on-light mk-reveal-left">About the Programme</div>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "5rem", alignItems: "start", marginTop: "3.5rem" }} className="responsive-grid-1">
             <div className="mk-reveal-left">
@@ -315,7 +315,7 @@ function Programmes() {
   return (
     <>
       <section id="programmes" className="prog-shimmer" style={{ background: "var(--b2)", padding: "8rem 0", position: "relative", overflow: "hidden" }}>
-        <div style={{ maxWidth: "1120px", margin: "0 auto", padding: "0 2rem" }}>
+        <div style={{ maxWidth: "70%", margin: "0 auto", padding: "0 2rem" }}>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "3rem", alignItems: "end", marginBottom: "3.5rem" }}>
             <div>
               <div className="mk-tag mk-reveal-left">Programmes Offered</div>
@@ -363,7 +363,7 @@ function Why() {
   return (
     <>
       <section id="why" style={{ background: "var(--b3)", padding: "8rem 0", position: "relative", overflow: "hidden" }}>
-        <div style={{ maxWidth: "1120px", margin: "0 auto", padding: "0 2rem" }}>
+        <div style={{ maxWidth: "70%", margin: "0 auto", padding: "0 2rem" }}>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "3rem", alignItems: "end", marginBottom: "3.5rem" }}>
             <div>
               <div className="mk-tag mk-reveal-left">Why Maktech Training</div>
@@ -403,7 +403,7 @@ function WhoFor() {
   return (
     <>
       <section style={{ background: "var(--b1)", padding: "8rem 0", position: "relative", overflow: "hidden" }}>
-        <div style={{ maxWidth: "1120px", margin: "0 auto", padding: "0 2rem" }}>
+        <div style={{ maxWidth: "70%", margin: "0 auto", padding: "0 2rem" }}>
           <div className="mk-tag mk-reveal-left">Who This Is For</div>
           <div style={{ maxWidth: "600px", marginBottom: "3.5rem" }}>
             <h2 className="mk-reveal" style={{ fontFamily: "var(--fh)", fontSize: "clamp(1.9rem,3.2vw,2.7rem)", fontWeight: 700, lineHeight: 1.1, letterSpacing: "-.035em", color: "var(--t1)", marginBottom: ".75rem" }}>
@@ -441,7 +441,7 @@ function Outcomes() {
   return (
     <>
       <section style={{ background: "var(--w3)", padding: "8rem 0" }}>
-        <div style={{ maxWidth: "1120px", margin: "0 auto", padding: "0 2rem" }}>
+        <div style={{ maxWidth: "70%", margin: "0 auto", padding: "0 2rem" }}>
           <div className="mk-tag on-light mk-reveal-left">Programme Outcomes</div>
           <div style={{ display: "grid", gridTemplateColumns: "5fr 7fr", gap: "6rem", marginTop: "3.5rem", alignItems: "start" }}>
             <div className="mk-reveal-left" style={{ position: "sticky", top: "86px" }}>
@@ -483,7 +483,7 @@ function Certification() {
   return (
     <>
       <section id="certification" style={{ background: "var(--b3)", padding: "8rem 0", position: "relative", overflow: "hidden" }}>
-        <div style={{ maxWidth: "1120px", margin: "0 auto", padding: "0 2rem" }}>
+        <div style={{ maxWidth: "70%", margin: "0 auto", padding: "0 2rem" }}>
           <div className="mk-tag mk-reveal-left">Certification &amp; Authority</div>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "5rem", marginTop: "3.5rem", alignItems: "center" }}>
             <div className="cert-card-wrap mk-reveal-scale">
@@ -533,7 +533,7 @@ function Corporate() {
   return (
     <>
       <section id="corporate" style={{ background: "var(--b2)", padding: "8rem 0" }}>
-        <div style={{ maxWidth: "1120px", margin: "0 auto", padding: "0 2rem" }}>
+        <div style={{ maxWidth: "70%", margin: "0 auto", padding: "0 2rem" }}>
           <div className="mk-tag mk-reveal-left">Corporate Training</div>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "5rem", marginTop: "3.5rem", alignItems: "start" }}>
             <div className="mk-reveal-left">
@@ -574,7 +574,7 @@ function CTA() {
       {[1,2,3,4].map((i) => <div className="cta-ring" key={i} />)}
       <div style={{ position: "absolute", bottom: "-400px", left: "50%", transform: "translateX(-50%)", width: "800px", height: "800px", borderRadius: "50%", pointerEvents: "none", background: "radial-gradient(ellipse,rgba(255,122,47,.08) 0%,transparent 65%)" }} />
       <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(circle,rgba(255,122,47,.12) 1px,transparent 1px)", backgroundSize: "34px 34px", maskImage: "radial-gradient(ellipse 75% 80% at 50% 50%,black 0%,transparent 100%)", WebkitMaskImage: "radial-gradient(ellipse 75% 80% at 50% 50%,black 0%,transparent 100%)" }} />
-      <div style={{ maxWidth: "1120px", margin: "0 auto", padding: "0 2rem", position: "relative", zIndex: 2 }}>
+      <div style={{ maxWidth: "70%", margin: "0 auto", padding: "0 2rem", position: "relative", zIndex: 2 }}>
         <div className="mk-reveal" style={{ display: "inline-flex", alignItems: "center", gap: "10px", fontFamily: "var(--fm)", fontSize: "10.5px", fontWeight: 500, color: "var(--ora)", letterSpacing: ".14em", textTransform: "uppercase", marginBottom: "1.75rem" }}>
           <span style={{ display: "block", width: "36px", height: "1px", background: "rgba(255,122,47,.4)" }} />
           Begin Your Transformation
