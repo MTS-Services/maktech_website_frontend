@@ -52,6 +52,9 @@ const PublicCaseStudy = lazy(() => import('../pages/case-study/CaseStudy'));
 const CaseStudyDetailPage = lazy(
   () => import('../pages/case-study/CaseStudyDetailPage'),
 );
+const TrainingProgramme = lazy(
+  () => import('../pages/training-programme/TrainingProgramme'),
+);
 const AppRoutes = () => (
   <Suspense fallback={<PageLoader />}>
     <Routes>
@@ -92,6 +95,7 @@ const AppRoutes = () => (
         <Route path='/pricing' element={<PublicPricing />} />
         <Route path='/case-study' element={<PublicCaseStudy />} />
         <Route path='/case-study/:slug' element={<CaseStudyDetailPage />} />
+        <Route path='/training-programme' element={<TrainingProgramme />} />
       </Route>
       <Route path='/login' element={<Login />} />
 
