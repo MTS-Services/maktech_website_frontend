@@ -1,5 +1,6 @@
 
 import { useEffect, useRef, useState } from "react";
+import gsap from "gsap";
 import './TrainingProgramme.css';
 
 /* ─── Helpers ─── */
@@ -101,7 +102,7 @@ function useParticleCanvas(canvasRef) {
       draw() {
         ctx.save();
         ctx.globalAlpha = this.opacity * (1 - this.life / this.maxLife);
-        ctx.fillStyle = "#FF7A2F";
+        ctx.fillStyle = "#ff6533";
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx.fill();
@@ -119,7 +120,7 @@ function useParticleCanvas(canvasRef) {
           if (dist < 100) {
             ctx.save();
             ctx.globalAlpha = (1 - dist / 100) * 0.06;
-            ctx.strokeStyle = "#FF7A2F";
+            ctx.strokeStyle = "#ff6533";
             ctx.lineWidth = 0.5;
             ctx.beginPath();
             ctx.moveTo(particles[a].x, particles[a].y);
@@ -194,12 +195,86 @@ function useTiltCards() {
   }, []);
 }
 
+function useBannerAnimations(leftRef, rightRef) {
+  useEffect(() => {
+    gsap.set(leftRef.current, { x: -window.innerWidth });
+    gsap.set(rightRef.current, { x: window.innerWidth });
+    
+    gsap.to(leftRef.current, {
+      x: 0,
+      duration: 1.4,
+      ease: "power2.out",
+      delay: 0.3,
+    });
+    gsap.to(rightRef.current, {
+      x: 0,
+      duration: 1.4,
+      ease: "power2.out",
+      delay: 0.3,
+    });
+  }, [leftRef, rightRef]);
+}
+
 /* ─── Section Components ─── */
 
 function Hero({ canvasRef, isMobile }) {
+  const leftBannerRef = useRef(null);
+  const rightBannerRef = useRef(null);
+  useBannerAnimations(leftBannerRef, rightBannerRef);
+  
   return (
     <>
       <section style={{ minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", position: "relative", overflow: "hidden", background: "var(--b0)" }}>
+        {/* Left Banner Background */}
+        <div
+          ref={leftBannerRef}
+          className="pointer-events-none absolute left-0 top-0 h-[920px] w-[45%] hidden md:block"
+          aria-hidden="true"
+        >
+          <div
+            className="h-full w-full bg-cover bg-left-top opacity-95"
+            style={{ backgroundImage: "url(/common_banner_bg.webp)" }}
+          />
+        </div>
+
+        {/* Right Banner Background */}
+        <div
+          ref={rightBannerRef}
+          className="pointer-events-none absolute right-0 top-0 h-[920px] w-[45%] hidden md:block"
+          aria-hidden="true"
+        >
+          <div
+            className="h-full w-full bg-cover bg-right-top opacity-95"
+            style={{ backgroundImage: "url(/common_banner_bg.webp)" }}
+          />
+        </div>
+
+        {/* Water Drop Animation */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden z-0" aria-hidden="true">
+          {[12, 30, 50, 68, 88].map((pos, idx) => (
+            <div key={idx} className="absolute -top-15 bottom-0 w-px bg-linear-to-b from-transparent via-gray-600/10 to-transparent" style={{ left: `${pos}%` }}>
+              <div
+                className="absolute w-[2.5px] h-12 rounded-full opacity-70 animate-dropFall"
+                style={{
+                  left: "50%",
+                  background: "linear-gradient(to bottom, #1C1C1C, #FF6533)",
+                  animationDelay: `${idx * 2}s`,
+                  animationDuration: "10s",
+                }}
+              />
+              <div
+                className="absolute w-[2.5px] h-10 rounded-full opacity-50 animate-dropFall"
+                style={{
+                  left: "50%",
+                  background: "linear-gradient(to bottom, #1C1C1C, #FF6533)",
+                  animationDelay: `${idx * 2 + 4}s`,
+                  animationDuration: "10s",
+                }}
+              />
+            </div>
+          ))}
+        </div>
+
         <canvas ref={canvasRef} id="hero-canvas" style={{ position: "absolute", inset: 0, zIndex: 0, opacity: 0.7 }} />
         <div className="hero-grid" />
         <div className="orb orb-1" /><div className="orb orb-2" /><div className="orb orb-3" />
@@ -217,7 +292,7 @@ function Hero({ canvasRef, isMobile }) {
             ? "px-5 py-12"
             : "max-w-[70%] px-6 md:px-12 lg:px-24 py-24"
         }`} style={{ position: "relative", zIndex: 2 }}>
-          <div className="h-badge"><span className="h-dot" /> Training &amp; Programme Division — Maktech Group</div>
+          <div className="h-badge" style={{ cursor: "pointer", fontSize: isMobile ? "14px" : "16px" }}><span className="h-dot" /> Training &amp; Programme Division — Maktech Group</div>
 
           <h1 className="h-h1-wrap" style={{ fontFamily: "var(--fh)", fontSize: "clamp(2.8rem,5.5vw,5rem)", fontWeight: 800, lineHeight: 1.05, letterSpacing: "-.05em", color: "var(--t1)", maxWidth: "900px", marginBottom: "1.5rem" }}>
             <span className="line"><span className="line-inner">Real Skills. Built Inside a</span></span>
@@ -229,8 +304,8 @@ function Hero({ canvasRef, isMobile }) {
           </p>
 
           <div style={{ display: "flex", gap: ".9rem", flexWrap: "wrap", opacity: 0, transform: "translateY(20px)", animation: "fadeUp .9s 1.2s var(--ease-out) forwards" }}>
-            <a className="mk-btn mk-btn-solid mag-btn" href="#cta">Book a Free Consultation</a>
-            <a className="mk-btn mk-btn-od mag-btn" href="#programmes">Explore Programmes</a>
+            <a className="mk-btn mk-btn-solid mag-btn" href="#cta" style={{ cursor: "pointer" }}>Book a Free Consultation</a>
+            <a className="mk-btn mk-btn-od mag-btn" href="#programmes" style={{ cursor: "pointer" }}>Explore Programmes</a>
           </div>
 
           <div className="h-strip" style={{ display: "grid", gridTemplateColumns: isMobile ? "repeat(2,1fr)" : "repeat(4,1fr)", gap: "1px", marginTop: "5rem", background: "var(--bdr)", border: "1px solid var(--bdr)", borderRadius: "14px", overflow: "hidden", opacity: 0, transform: "translateY(28px)", animation: "fadeUp .9s 1.5s var(--ease-out) forwards" }}>
@@ -266,12 +341,37 @@ function About({ isMobile }) {
   return (
     <>
       <section className="about-bg" style={{ background: "var(--w2)", padding: isMobile ? "3.5rem 0" : "8rem 0", position: "relative", overflow: "hidden" }}>
+        {/* Water Drop Animation */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden z-0" aria-hidden="true">
+          {[12, 30, 50, 68, 88].map((pos, idx) => (
+            <div key={idx} className="absolute -top-15 bottom-0 w-px bg-linear-to-b from-transparent via-gray-600/10 to-transparent" style={{ left: `${pos}%` }}>
+              <div
+                className="absolute w-[2.5px] h-12 rounded-full opacity-70 animate-dropFall"
+                style={{
+                  left: "50%",
+                  background: "linear-gradient(to bottom, #F5F5F5, #FF6533)",
+                  animationDelay: `${idx * 2}s`,
+                  animationDuration: "10s",
+                }}
+              />
+              <div
+                className="absolute w-[2.5px] h-10 rounded-full opacity-50 animate-dropFall"
+                style={{
+                  left: "50%",
+                  background: "linear-gradient(to bottom, #F5F5F5, #FF6533)",
+                  animationDelay: `${idx * 2 + 4}s`,
+                  animationDuration: "10s",
+                }}
+              />
+            </div>
+          ))}
+        </div>
         <div className={`w-full mx-auto ${
           isMobile
             ? "px-5"
             : "max-w-[70%] px-6 md:px-12 lg:px-24"
         }`}>
-          <div className="mk-tag on-light mk-reveal-left">About the Programme</div>
+          <div className="mk-tag on-light mk-reveal-left" style={{ fontSize: isMobile ? "14px" : "16px" }}>About the Programme</div>
           <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: isMobile ? "2.5rem" : "5rem", alignItems: "start", marginTop: isMobile ? "2rem" : "3.5rem" }} className="responsive-grid-1">
             <div className="mk-reveal-left">
               <h2 style={{ fontFamily: "var(--fh)", fontSize: isMobile ? "clamp(1.4rem,2.5vw,1.9rem)" : "clamp(1.9rem,3.2vw,2.7rem)", fontWeight: 700, lineHeight: 1.1, letterSpacing: "-.035em", color: "var(--td)" }}>
@@ -307,22 +407,47 @@ function About({ isMobile }) {
 }
 
 const programmes = [
-  { idx: "01", ico: "🔍", title: "Search Engine Optimisation (SEO)", desc: "Technical and strategic organic search — on-page structure, technical auditing, authority building, keyword architecture, and AI-Enhanced Optimisation (AEO). Learners work on live websites with tracked ranking outcomes.", tags: ["Technical SEO", "Link Building", "AEO", "Analytics"] },
-  { idx: "02", ico: "📊", title: "Google Ads & Paid Media", desc: "Account-manager-level paid search training — campaign architecture, bidding strategy, audience targeting, conversion tracking, and return optimisation. Live ad account management included throughout.", tags: ["Search & Display", "Conversion", "Budget Strategy"] },
-  { idx: "03", ico: "💻", title: "Web Development & CMS Design", desc: "Structured programme covering HTML, CSS, responsive design, and professional CMS development — including theme customisation, plugin management, and performance optimisation. Learners deploy a full working website.", tags: ["HTML / CSS", "CMS", "Performance", "UX"] },
-  { idx: "04", ico: "🚀", title: "Digital Marketing Masterclass", desc: "Full-stack view of modern digital marketing — integrating SEO, paid media, content strategy, social channels, email, and analytics into a unified growth system. For those directing the full digital function.", tags: ["Multi-Channel", "Strategy", "AI Tools", "Analytics"] },
-  { idx: "05", ico: "🤝", title: "Freelancing & Client Acquisition", desc: "The business infrastructure behind the skill — positioning, pricing, proposals, client communication, and marketplace strategy across Upwork, Fiverr, and LinkedIn. Start earning from completion day one.", tags: ["Business Setup", "Client Management", "Income Strategy"] },
-  { idx: "06", ico: "📱", title: "Apps Development", desc: "Comprehensive mobile and web application development — from concept and architecture to UI implementation, API integration, and deployment. Learners build and publish a fully functional application end-to-end.", tags: ["Mobile Apps", "Web Apps", "API", "Deployment"] },
-  { idx: "07", ico: "🎨", title: "UI/UX & Graphics Design", desc: "Practitioner-led design programme covering user interface, user experience principles, wireframing, prototyping, and professional graphics production. Learners build a complete design portfolio using industry-standard tools.", tags: ["Figma", "Prototyping", "Brand Design", "UX Research"] },
-  { idx: "08", ico: "🤖", title: "AI Automation", desc: "Forward-focused programme covering AI tools, workflow automation, intelligent marketing systems, and practical machine learning applications for business. Learn how Maktech deploys AI in live commercial operations today.", tags: ["AI Tools", "Automation", "Prompt Engineering"] },
-  { idx: "09", ico: "🏢", title: "Corporate Skill Development", desc: "Bespoke workshops for teams and organisations — digital marketing capability, AI adoption, and data-informed decision-making. Fully scoped to your objectives and delivered on-site or remotely.", tags: ["Custom Scoped", "Team Delivery", "On-site / Remote"] },
-  { idx: "10", ico: "🏭", title: "Industrial Attachment", desc: "Supervised attachment programme embedding students and fresh graduates inside Maktech Group's active delivery environment — first-hand exposure to professional IT and digital operations in a live commercial setting.", tags: ["Live Environment", "Mentored", "Portfolio Output", "Certificate"] },
+  { idx: "01", ico: "🔍", title: "Search Engine Optimisation (SEO)", desc: "Technical and strategic organic search — on-page structure, technical auditing, authority building, keyword architecture, and AI-Enhanced Optimisation (AEO). Learners work on live websites with tracked ranking outcomes.", tags: ["Technical SEO", "Link Building", "AEO", "Analytics"] }, // Magnifying glass - search/investigation
+  { idx: "02", ico: "📊", title: "Google Ads & Paid Media", desc: "Account-manager-level paid search training — campaign architecture, bidding strategy, audience targeting, conversion tracking, and return optimisation. Live ad account management included throughout.", tags: ["Search & Display", "Conversion", "Budget Strategy"] }, // Bar chart - analytics/data
+  { idx: "03", ico: "💻", title: "Web Development & CMS Design", desc: "Structured programme covering HTML, CSS, responsive design, and professional CMS development — including theme customisation, plugin management, and performance optimisation. Learners deploy a full working website.", tags: ["HTML / CSS", "CMS", "Performance", "UX"] }, // Laptop - web development
+  { idx: "04", ico: "🚀", title: "Digital Marketing Masterclass", desc: "Full-stack view of modern digital marketing — integrating SEO, paid media, content strategy, social channels, email, and analytics into a unified growth system. For those directing the full digital function.", tags: ["Multi-Channel", "Strategy", "AI Tools", "Analytics"] }, // Rocket - launch/growth
+  { idx: "05", ico: "🤝", title: "Freelancing & Client Acquisition", desc: "The business infrastructure behind the skill — positioning, pricing, proposals, client communication, and marketplace strategy across Upwork, Fiverr, and LinkedIn. Start earning from completion day one.", tags: ["Business Setup", "Client Management", "Income Strategy"] }, // Handshake - partnership/client relations
+  { idx: "06", ico: "📱", title: "Apps Development", desc: "Comprehensive mobile and web application development — from concept and architecture to UI implementation, API integration, and deployment. Learners build and publish a fully functional application end-to-end.", tags: ["Mobile Apps", "Web Apps", "API", "Deployment"] }, // Mobile phone - app development
+  { idx: "07", ico: "🎨", title: "UI/UX & Graphics Design", desc: "Practitioner-led design programme covering user interface, user experience principles, wireframing, prototyping, and professional graphics production. Learners build a complete design portfolio using industry-standard tools.", tags: ["Figma", "Prototyping", "Brand Design", "UX Research"] }, // Palette - design/creativity
+  { idx: "08", ico: "🤖", title: "AI Automation", desc: "Forward-focused programme covering AI tools, workflow automation, intelligent marketing systems, and practical machine learning applications for business. Learn how Maktech deploys AI in live commercial operations today.", tags: ["AI Tools", "Automation", "Prompt Engineering"] }, // Robot - artificial intelligence/automation
+  { idx: "09", ico: "🏢", title: "Corporate Skill Development", desc: "Bespoke workshops for teams and organisations — digital marketing capability, AI adoption, and data-informed decision-making. Fully scoped to your objectives and delivered on-site or remotely.", tags: ["Custom Scoped", "Team Delivery", "On-site / Remote"] }, // Building - corporate/enterprise
+  { idx: "10", ico: "🏭", title: "Industrial Attachment", desc: "Supervised attachment programme embedding students and fresh graduates inside Maktech Group's active delivery environment — first-hand exposure to professional IT and digital operations in a live commercial setting.", tags: ["Live Environment", "Mentored", "Portfolio Output", "Certificate"] }, // Factory - industrial/live operations
 ];
 
 function Programmes({ isMobile }) {
   return (
     <>
       <section id="programmes" className="prog-shimmer" style={{ background: "var(--b2)", padding: isMobile ? "3.5rem 0" : "8rem 0", position: "relative", overflow: "hidden" }}>
+        {/* Water Drop Animation */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden z-0" aria-hidden="true">
+          {[12, 30, 50, 68, 88].map((pos, idx) => (
+            <div key={idx} className="absolute -top-15 bottom-0 w-px bg-linear-to-b from-transparent via-gray-600/10 to-transparent" style={{ left: `${pos}%` }}>
+              <div
+                className="absolute w-[2.5px] h-12 rounded-full opacity-70 animate-dropFall"
+                style={{
+                  left: "50%",
+                  background: "linear-gradient(to bottom, #2f2f2f, #FF6533)",
+                  animationDelay: `${idx * 2}s`,
+                  animationDuration: "10s",
+                }}
+              />
+              <div
+                className="absolute w-[2.5px] h-10 rounded-full opacity-50 animate-dropFall"
+                style={{
+                  left: "50%",
+                  background: "linear-gradient(to bottom, #2f2f2f, #FF6533)",
+                  animationDelay: `${idx * 2 + 4}s`,
+                  animationDuration: "10s",
+                }}
+              />
+            </div>
+          ))}
+        </div>
         <div className={`w-full mx-auto ${
           isMobile
             ? "px-5"
@@ -330,7 +455,7 @@ function Programmes({ isMobile }) {
         }`}>
           <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: isMobile ? "2rem" : "3rem", alignItems: "end", marginBottom: isMobile ? "2rem" : "3.5rem" }}>
             <div>
-              <div className="mk-tag mk-reveal-left">Programmes Offered</div>
+              <div className="mk-tag mk-reveal-left" style={{ fontSize: isMobile ? "14px" : "16px" }}>Programmes Offered</div>
               <h2 className="mk-reveal-left" style={{ fontFamily: "var(--fh)", fontSize: isMobile ? "clamp(1.4rem,2.5vw,1.9rem)" : "clamp(1.9rem,3.2vw,2.7rem)", fontWeight: 700, lineHeight: 1.1, letterSpacing: "-.035em", color: "var(--t1)" }}>
                 Ten Programmes.<br /><span style={{ color: "var(--ora)" }}>One Standard</span> of Delivery.
               </h2>
@@ -344,12 +469,12 @@ function Programmes({ isMobile }) {
               <div className="p-card-wrap" key={p.idx}>
                 <div className="p-top" />
                 <div style={{ fontFamily: "var(--fm)", fontSize: "10px", color: "var(--t3)", textTransform: "uppercase", letterSpacing: ".14em", marginBottom: ".9rem" }}>Programme / {p.idx}</div>
-                <div className="p-ico">{p.ico}</div>
+                {/* <div className="p-ico">{p.ico}</div> */}
                 <h3 style={{ fontFamily: "var(--fh)", fontSize: ".95rem", fontWeight: 700, color: "var(--t1)", lineHeight: 1.26, marginBottom: ".55rem", letterSpacing: "-.02em" }}>{p.title}</h3>
                 <p style={{ fontSize: ".82rem", color: "var(--t2)", lineHeight: 1.74, fontWeight: 300, marginBottom: "1.1rem" }}>{p.desc}</p>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: ".35rem" }}>
                   {p.tags.map((t) => (
-                    <span key={t} style={{ fontFamily: "var(--fm)", fontSize: "8.5px", letterSpacing: ".09em", textTransform: "uppercase", color: "var(--ora)", background: "var(--ora-dim)", border: "1px solid rgba(255,122,47,.2)", padding: ".18rem .5rem", borderRadius: "100px" }}>{t}</span>
+                    <span key={t} style={{ fontFamily: "var(--fm)", fontSize: "8.5px", letterSpacing: ".09em", textTransform: "uppercase", color: "var(--ora)", background: "var(--ora-dim)", border: "1px solid rgba(255,101,51,.2)", padding: ".18rem .5rem", borderRadius: "100px" }}>{t}</span>
                   ))}
                 </div>
               </div>
@@ -375,6 +500,31 @@ function Why({ isMobile }) {
   return (
     <>
       <section id="why" style={{ background: "var(--b3)", padding: isMobile ? "3.5rem 0" : "8rem 0", position: "relative", overflow: "hidden" }}>
+        {/* Water Drop Animation */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden z-0" aria-hidden="true">
+          {[12, 30, 50, 68, 88].map((pos, idx) => (
+            <div key={idx} className="absolute -top-15 bottom-0 w-px bg-linear-to-b from-transparent via-gray-600/10 to-transparent" style={{ left: `${pos}%` }}>
+              <div
+                className="absolute w-[2.5px] h-12 rounded-full opacity-70 animate-dropFall"
+                style={{
+                  left: "50%",
+                  background: "linear-gradient(to bottom, #3a3a3a, #FF6533)",
+                  animationDelay: `${idx * 2}s`,
+                  animationDuration: "10s",
+                }}
+              />
+              <div
+                className="absolute w-[2.5px] h-10 rounded-full opacity-50 animate-dropFall"
+                style={{
+                  left: "50%",
+                  background: "linear-gradient(to bottom, #3a3a3a, #FF6533)",
+                  animationDelay: `${idx * 2 + 4}s`,
+                  animationDuration: "10s",
+                }}
+              />
+            </div>
+          ))}
+        </div>
         <div className={`w-full mx-auto ${
           isMobile
             ? "px-5"
@@ -382,7 +532,7 @@ function Why({ isMobile }) {
         }`}>
           <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: isMobile ? "2rem" : "3rem", alignItems: "end", marginBottom: isMobile ? "2rem" : "3.5rem" }}>
             <div>
-              <div className="mk-tag mk-reveal-left">Why Maktech Training</div>
+              <div className="mk-tag mk-reveal-left" style={{ fontSize: isMobile ? "14px" : "16px" }}>Why Maktech Training</div>
               <h2 className="mk-reveal-left" style={{ fontFamily: "var(--fh)", fontSize: isMobile ? "clamp(1.4rem,2.5vw,1.9rem)" : "clamp(1.9rem,3.2vw,2.7rem)", fontWeight: 700, lineHeight: 1.1, letterSpacing: "-.035em", color: "var(--t1)" }}>
                 What Sets This Apart From<br /><span style={{ color: "var(--ora)" }}>Any Other Institute.</span>
               </h2>
@@ -419,12 +569,37 @@ function WhoFor({ isMobile }) {
   return (
     <>
       <section style={{ background: "var(--b1)", padding: isMobile ? "3.5rem 0" : "8rem 0", position: "relative", overflow: "hidden" }}>
+        {/* Water Drop Animation */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden z-0" aria-hidden="true">
+          {[12, 30, 50, 68, 88].map((pos, idx) => (
+            <div key={idx} className="absolute -top-15 bottom-0 w-px bg-linear-to-b from-transparent via-gray-600/10 to-transparent" style={{ left: `${pos}%` }}>
+              <div
+                className="absolute w-[2.5px] h-12 rounded-full opacity-70 animate-dropFall"
+                style={{
+                  left: "50%",
+                  background: "linear-gradient(to bottom, #1C1C1C, #FF6533)",
+                  animationDelay: `${idx * 2}s`,
+                  animationDuration: "10s",
+                }}
+              />
+              <div
+                className="absolute w-[2.5px] h-10 rounded-full opacity-50 animate-dropFall"
+                style={{
+                  left: "50%",
+                  background: "linear-gradient(to bottom, #1C1C1C, #FF6533)",
+                  animationDelay: `${idx * 2 + 4}s`,
+                  animationDuration: "10s",
+                }}
+              />
+            </div>
+          ))}
+        </div>
         <div className={`w-full mx-auto ${
           isMobile
             ? "px-5"
             : "max-w-[70%] px-6 md:px-12 lg:px-24"
         }`}>
-          <div className="mk-tag mk-reveal-left">Who This Is For</div>
+          <div className="mk-tag mk-reveal-left" style={{ fontSize: isMobile ? "14px" : "16px" }}>Who This Is For</div>
           <div style={{ maxWidth: "600px", marginBottom: isMobile ? "2rem" : "3.5rem" }}>
             <h2 className="mk-reveal" style={{ fontFamily: "var(--fh)", fontSize: isMobile ? "clamp(1.4rem,2.5vw,1.9rem)" : "clamp(1.9rem,3.2vw,2.7rem)", fontWeight: 700, lineHeight: 1.1, letterSpacing: "-.035em", color: "var(--t1)", marginBottom: ".75rem" }}>
               One Programme. <span style={{ color: "var(--ora)" }}>Five Types of Learner.</span>
@@ -460,13 +635,38 @@ const outcomes = [
 function Outcomes({ isMobile }) {
   return (
     <>
-      <section style={{ background: "var(--w3)", padding: isMobile ? "3.5rem 0" : "8rem 0" }}>
+      <section style={{ background: "var(--w3)", padding: isMobile ? "3.5rem 0" : "8rem 0", position: "relative", overflow: "hidden" }}>
+        {/* Water Drop Animation */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden z-0" aria-hidden="true">
+          {[12, 30, 50, 68, 88].map((pos, idx) => (
+            <div key={idx} className="absolute -top-15 bottom-0 w-px bg-linear-to-b from-transparent via-gray-600/10 to-transparent" style={{ left: `${pos}%` }}>
+              <div
+                className="absolute w-[2.5px] h-12 rounded-full opacity-70 animate-dropFall"
+                style={{
+                  left: "50%",
+                  background: "linear-gradient(to bottom, #252525, #FF6533)",
+                  animationDelay: `${idx * 2}s`,
+                  animationDuration: "10s",
+                }}
+              />
+              <div
+                className="absolute w-[2.5px] h-10 rounded-full opacity-50 animate-dropFall"
+                style={{
+                  left: "50%",
+                  background: "linear-gradient(to bottom, #252525, #FF6533)",
+                  animationDelay: `${idx * 2 + 4}s`,
+                  animationDuration: "10s",
+                }}
+              />
+            </div>
+          ))}
+        </div>
         <div className={`w-full mx-auto ${
           isMobile
             ? "px-5"
             : "max-w-[70%] px-6 md:px-12 lg:px-24"
         }`}>
-          <div className="mk-tag on-light mk-reveal-left">Programme Outcomes</div>
+          <div className="mk-tag on-light mk-reveal-left" style={{ fontSize: isMobile ? "14px" : "16px" }}>Programme Outcomes</div>
           <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "5fr 7fr", gap: isMobile ? "2rem" : "6rem", marginTop: isMobile ? "2rem" : "3.5rem", alignItems: "start" }}>
             <div className="mk-reveal-left" style={{ position: "sticky", top: "86px" }}>
               <h2 style={{ fontFamily: "var(--fh)", fontSize: "clamp(1.6rem,2.8vw,2.3rem)", fontWeight: 800, color: "var(--td)", letterSpacing: "-.04em", lineHeight: 1.15, marginBottom: "1rem" }}>
@@ -507,12 +707,37 @@ function Certification({ isMobile }) {
   return (
     <>
       <section id="certification" style={{ background: "var(--b3)", padding: isMobile ? "3.5rem 0" : "8rem 0", position: "relative", overflow: "hidden" }}>
+        {/* Water Drop Animation */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden z-0" aria-hidden="true">
+          {[12, 30, 50, 68, 88].map((pos, idx) => (
+            <div key={idx} className="absolute -top-15 bottom-0 w-px bg-linear-to-b from-transparent via-gray-600/10 to-transparent" style={{ left: `${pos}%` }}>
+              <div
+                className="absolute w-[2.5px] h-12 rounded-full opacity-70 animate-dropFall"
+                style={{
+                  left: "50%",
+                  background: "linear-gradient(to bottom, #3a3a3a, #FF6533)",
+                  animationDelay: `${idx * 2}s`,
+                  animationDuration: "10s",
+                }}
+              />
+              <div
+                className="absolute w-[2.5px] h-10 rounded-full opacity-50 animate-dropFall"
+                style={{
+                  left: "50%",
+                  background: "linear-gradient(to bottom, #3a3a3a, #FF6533)",
+                  animationDelay: `${idx * 2 + 4}s`,
+                  animationDuration: "10s",
+                }}
+              />
+            </div>
+          ))}
+        </div>
         <div className={`w-full mx-auto ${
           isMobile
             ? "px-5"
             : "max-w-[70%] px-6 md:px-12 lg:px-24"
         }`}>
-          <div className="mk-tag mk-reveal-left">Certification &amp; Authority</div>
+          <div className="mk-tag mk-reveal-left" style={{ fontSize: isMobile ? "14px" : "16px" }}>Certification &amp; Authority</div>
           <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: isMobile ? "2rem" : "5rem", marginTop: isMobile ? "2rem" : "3.5rem", alignItems: "center" }}>
             <div className="cert-card-wrap mk-reveal-scale">
               <div className="cert-seal-wrap">
@@ -560,13 +785,38 @@ const corpFeatures = [
 function Corporate({ isMobile }) {
   return (
     <>
-      <section id="corporate" style={{ background: "var(--b2)", padding: isMobile ? "3.5rem 0" : "8rem 0" }}>
+      <section id="corporate" style={{ background: "var(--b2)", padding: isMobile ? "3.5rem 0" : "8rem 0", position: "relative", overflow: "hidden" }}>
+        {/* Water Drop Animation */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden z-0" aria-hidden="true">
+          {[12, 30, 50, 68, 88].map((pos, idx) => (
+            <div key={idx} className="absolute -top-15 bottom-0 w-px bg-linear-to-b from-transparent via-gray-600/10 to-transparent" style={{ left: `${pos}%` }}>
+              <div
+                className="absolute w-[2.5px] h-12 rounded-full opacity-70 animate-dropFall"
+                style={{
+                  left: "50%",
+                  background: "linear-gradient(to bottom, #2f2f2f, #FF6533)",
+                  animationDelay: `${idx * 2}s`,
+                  animationDuration: "10s",
+                }}
+              />
+              <div
+                className="absolute w-[2.5px] h-10 rounded-full opacity-50 animate-dropFall"
+                style={{
+                  left: "50%",
+                  background: "linear-gradient(to bottom, #2f2f2f, #FF6533)",
+                  animationDelay: `${idx * 2 + 4}s`,
+                  animationDuration: "10s",
+                }}
+              />
+            </div>
+          ))}
+        </div>
         <div className={`w-full mx-auto ${
           isMobile
             ? "px-5"
             : "max-w-[70%] px-6 md:px-12 lg:px-24"
         }`}>
-          <div className="mk-tag mk-reveal-left">Corporate Training</div>
+          <div className="mk-tag mk-reveal-left" style={{ fontSize: isMobile ? "14px" : "16px" }}>Corporate Training</div>
           <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: isMobile ? "2rem" : "4rem", marginTop: isMobile ? "2rem" : "3.5rem" }}>
             <div className="mk-reveal-left">
               <h2 style={{ fontFamily: "var(--fh)", fontSize: isMobile ? "clamp(1.4rem,2.5vw,1.9rem)" : "clamp(1.9rem,3.2vw,2.7rem)", fontWeight: 700, lineHeight: 1.1, letterSpacing: "-.035em", color: "var(--t1)", marginBottom: "1.2rem" }}>
@@ -604,17 +854,42 @@ function CTA({ isMobile }) {
   return (
     <section id="cta" style={{ background: "var(--b0)", padding: isMobile ? "4rem 0" : "10rem 0", textAlign: "center", position: "relative", overflow: "hidden" }}>
       {[1,2,3,4].map((i) => <div className="cta-ring" key={i} />)}
-      <div style={{ position: "absolute", bottom: "-400px", left: "50%", transform: "translateX(-50%)", width: "800px", height: "800px", borderRadius: "50%", pointerEvents: "none", background: "radial-gradient(ellipse,rgba(255,122,47,.08) 0%,transparent 65%)" }} />
-      <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(circle,rgba(255,122,47,.12) 1px,transparent 1px)", backgroundSize: "34px 34px", maskImage: "radial-gradient(ellipse 75% 80% at 50% 50%,black 0%,transparent 100%)", WebkitMaskImage: "radial-gradient(ellipse 75% 80% at 50% 50%,black 0%,transparent 100%)" }} />
+      <div style={{ position: "absolute", bottom: "-400px", left: "50%", transform: "translateX(-50%)", width: "800px", height: "800px", borderRadius: "50%", pointerEvents: "none", background: "radial-gradient(ellipse,rgba(255,101,51,.08) 0%,transparent 65%)" }} />
+      <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(circle,rgba(255,101,51,.12) 1px,transparent 1px)", backgroundSize: "34px 34px", maskImage: "radial-gradient(ellipse 75% 80% at 50% 50%,black 0%,transparent 100%)", WebkitMaskImage: "radial-gradient(ellipse 75% 80% at 50% 50%,black 0%,transparent 100%)" }} />
+      {/* Water Drop Animation */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden z-0" aria-hidden="true">
+        {[12, 30, 50, 68, 88].map((pos, idx) => (
+          <div key={idx} className="absolute -top-15 bottom-0 w-px bg-linear-to-b from-transparent via-gray-600/10 to-transparent" style={{ left: `${pos}%` }}>
+            <div
+              className="absolute w-[2.5px] h-12 rounded-full opacity-70 animate-dropFall"
+              style={{
+                left: "50%",
+                background: "linear-gradient(to bottom, #1C1C1C, #FF6533)",
+                animationDelay: `${idx * 2}s`,
+                animationDuration: "10s",
+              }}
+            />
+            <div
+              className="absolute w-[2.5px] h-10 rounded-full opacity-50 animate-dropFall"
+              style={{
+                left: "50%",
+                background: "linear-gradient(to bottom, #1C1C1C, #FF6533)",
+                animationDelay: `${idx * 2 + 4}s`,
+                animationDuration: "10s",
+              }}
+            />
+          </div>
+        ))}
+      </div>
       <div className={`w-full mx-auto ${
           isMobile
             ? "px-5"
             : "max-w-[70%] px-6 md:px-12 lg:px-24"
         }`} style={{ position: "relative", zIndex: 2 }}>
-        <div className="mk-reveal" style={{ display: "inline-flex", alignItems: "center", gap: "10px", fontFamily: "var(--fm)", fontSize: isMobile ? "9px" : "10.5px", fontWeight: 500, color: "var(--ora)", letterSpacing: ".14em", textTransform: "uppercase", marginBottom: isMobile ? "1rem" : "1.75rem" }}>
-          <span style={{ display: "block", width: "36px", height: "1px", background: "rgba(255,122,47,.4)" }} />
+        <div className="mk-reveal" style={{ display: "inline-flex", alignItems: "center", gap: "10px", fontFamily: "var(--fm)", fontSize: isMobile ? "14px" : "16px", fontWeight: 500, color: "var(--ora)", letterSpacing: ".14em", textTransform: "uppercase", marginBottom: isMobile ? "1rem" : "1.75rem", cursor: "pointer" }}>
+          <span style={{ display: "block", width: "36px", height: "1px", background: "rgba(255,101,51,.4)" }} />
           Begin Your Transformation
-          <span style={{ display: "block", width: "36px", height: "1px", background: "rgba(255,122,47,.4)" }} />
+          <span style={{ display: "block", width: "36px", height: "1px", background: "rgba(255,101,51,.4)" }} />
         </div>
         <h2 className="mk-reveal" style={{ fontFamily: "var(--fh)", fontSize: isMobile ? "clamp(1.8rem,4vw,2.4rem)" : "clamp(2.4rem,5vw,4.2rem)", fontWeight: 800, letterSpacing: "-.05em", lineHeight: 1.08, color: "var(--t1)", maxWidth: "700px", margin: "0 auto 1.2rem" }}>
           The Knowledge Is Here.<br />The <span style={{ color: "var(--ora)" }}>Next Move</span> Is Yours.
@@ -623,8 +898,8 @@ function CTA({ isMobile }) {
           Whether you are launching a career, building a freelancing practice, growing a business, or developing a team — the first step is a conversation. Book your free consultation with the Maktech training team today.
         </p>
         <div className="mk-reveal" style={{ display: "flex", gap: isMobile ? ".6rem" : "1rem", justifyContent: "center", flexWrap: "wrap" }}>
-          <a className="mk-btn mk-btn-solid mag-btn" href="https://maktechgroup.com/" target="_blank" rel="noreferrer" style={{ fontSize: isMobile ? ".9rem" : "1rem" }}>Book a Free Consultation</a>
-          <a className="mk-btn mk-btn-od mag-btn" href="https://maktechgroup.com/" target="_blank" rel="noreferrer" style={{ fontSize: isMobile ? ".9rem" : "1rem" }}>Visit Maktech Group</a>
+          <a className="mk-btn mk-btn-solid mag-btn" href="https://maktechgroup.com/" target="_blank" rel="noreferrer" style={{ fontSize: isMobile ? ".9rem" : "1rem", cursor: "pointer" }}>Book a Free Consultation</a>
+          <a className="mk-btn mk-btn-od mag-btn" href="https://maktechgroup.com/" target="_blank" rel="noreferrer" style={{ fontSize: isMobile ? ".9rem" : "1rem", cursor: "pointer" }}>Visit Maktech Group</a>
         </div>
         <p className="mk-reveal" style={{ marginTop: "1.5rem", fontSize: isMobile ? ".75rem" : ".8rem", color: "var(--t3)", letterSpacing: ".02em", fontWeight: 300 }}>No obligation. No sales pressure. A professional conversation about your goals and the right programme for you.</p>
       </div>
