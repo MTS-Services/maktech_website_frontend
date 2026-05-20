@@ -294,13 +294,13 @@ function Hero({ canvasRef, isMobile }) {
         }`} style={{ position: "relative", zIndex: 2 }}>
           <div className="h-badge" style={{ cursor: "pointer", fontSize: isMobile ? "14px" : "16px" }}><span className="h-dot" /> Training &amp; Programme Division — Maktech Group</div>
 
-          <h1 className="h-h1-wrap" style={{ fontFamily: "var(--fh)", fontSize: "clamp(2.8rem,5.5vw,5rem)", fontWeight: 800, lineHeight: 1.05, letterSpacing: "-.05em", color: "var(--t1)", maxWidth: "900px", marginBottom: "1.5rem" }}>
+          <h1 className="h-h1-wrap" style={{ fontFamily: "var(--fh)", fontSize: isMobile ? "22px" : "clamp(3rem, 6.25vw - 2rem, 4rem)", fontWeight: 800, lineHeight: isMobile ? 1.35 : 1.05, letterSpacing: "-.05em", color: "var(--t1)", maxWidth: "900px", marginBottom: "1.5rem" }}>
             <span className="line"><span className="line-inner">Real Skills. Built Inside a</span></span>
             <span className="line"><span className="line-inner h-hi-underline shimmer-text">Full Stack IT Company.</span></span>
           </h1>
 
           <p style={{ fontSize: "1.1rem", fontWeight: 300, color: "var(--t2)", maxWidth: "580px", lineHeight: 1.84, marginBottom: "2.5rem", opacity: 0, transform: "translateY(20px)", animation: "fadeUp .9s 1s var(--ease-out) forwards" }}>
-            Maktech Group is a full stack IT company with 6+ years of active delivery across international markets. Our training division is an extension of live work — not a separate school. Every programme is built from what we actually do every day.
+            Maktech Group is a full stack IT company with 6+ years of active delivery across international markets. Our training division is an extension of live work not a separate school. Every programme is built from what we actually do every day.
           </p>
 
           <div style={{ display: "flex", gap: ".9rem", flexWrap: "wrap", opacity: 0, transform: "translateY(20px)", animation: "fadeUp .9s 1.2s var(--ease-out) forwards" }}>
@@ -312,7 +312,7 @@ function Hero({ canvasRef, isMobile }) {
             {[
               { val: null, count: 6, suffix: "+", label: "Years IT Experience" },
               { val: null, count: 10, suffix: "", label: "Training Programmes" },
-              { val: "Live", label: "Project-Based Learning" },
+              { val: "Live", label: "Project Based Learning" },
               { val: null, count: 5, suffix: "", label: "Learner Profiles Served" },
             ].map((c, i) => (
               <div className="h-cell" key={i}>
@@ -334,9 +334,9 @@ function Hero({ canvasRef, isMobile }) {
 function About({ isMobile }) {
   const aboutCards = [
     { idx: "01", title: "Built by an Active IT Company", desc: "Programmes are designed and led by Maktech professionals currently delivering real IT and digital solutions — not educators working from dated course material." },
-    { idx: "02", title: "Live Project Execution — Not Simulation", desc: "Every learner works on real projects throughout the programme, building a portfolio of tangible, demonstrable outputs that carry weight with employers and clients." },
-    { idx: "03", title: "Industry-Grade Tools & AI Systems", desc: "Training uses the exact platforms, AI tools, and delivery frameworks Maktech applies to commercial client work across its full-stack technology service lines." },
-    { idx: "04", title: "Outcome-First Curriculum Design", desc: "Every programme is scoped backward from a defined professional outcome — job readiness, freelancing income, or business growth — not forward from a content list." },
+    { idx: "02", title: "Live Project Execution Not Simulation", desc: "Every learner works on real projects throughout the programme, building a portfolio of tangible, demonstrable outputs that carry weight with employers and clients." },
+    { idx: "03", title: "Industry Grade Tools & AI Systems", desc: "Training uses the exact platforms, AI tools, and delivery frameworks Maktech applies to commercial client work across its full stack technology service lines." },
+    { idx: "04", title: "Outcome First Curriculum Design", desc: "Every programme is scoped backward from a defined professional outcome job readiness, freelancing income, or business growth — not forward from a content list." },
   ];
   return (
     <>
@@ -371,7 +371,7 @@ function About({ isMobile }) {
             ? "px-5"
             : "max-w-[70%] px-6 md:px-12 lg:px-24"
         }`}>
-          <div className="mk-tag on-light mk-reveal-left" style={{ fontSize: isMobile ? "14px" : "16px" }}>About the Programme</div>
+          <div className="mk-tag-box mk-reveal-left" style={{ fontSize: "18px" }}>About the Programme</div>
           <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: isMobile ? "2.5rem" : "5rem", alignItems: "start", marginTop: isMobile ? "2rem" : "3.5rem" }} className="responsive-grid-1">
             <div className="mk-reveal-left">
               <h2 style={{ fontFamily: "var(--fh)", fontSize: isMobile ? "clamp(1.4rem,2.5vw,1.9rem)" : "clamp(1.9rem,3.2vw,2.7rem)", fontWeight: 700, lineHeight: 1.1, letterSpacing: "-.035em", color: "var(--td)" }}>
@@ -381,10 +381,10 @@ function About({ isMobile }) {
               </h2>
             </div>
             <div className="mk-reveal-right">
-              <div style={{ fontSize: isMobile ? ".9rem" : ".95rem", color: "var(--td2)", lineHeight: 1.88, fontWeight: 300 }}>
-                <p>Maktech Group is a full stack IT company — not a training centre that added education as a side offering. We deliver end-to-end technology solutions including web development, app development, UI/UX design, SEO, Google Ads, AI automation, HR management systems, and digital marketing to clients across international markets.</p>
+              <div style={{ fontSize: isMobile ? ".9rem" : "1rem", color: "var(--td2)", lineHeight: 1.88, fontWeight: 300 }}>
+                <p>Maktech Group is a full stack IT company not a training centre that added education as a side offering. We deliver end to end technology solutions including web development, app development, UI/UX design, SEO, Google Ads, AI automation, HR management systems, and digital marketing to clients across international markets.</p>
                 <p style={{ marginTop: "1.1rem" }}>Our training division was established because the gap between formal education and what the IT industry actually demands is real and costly to careers. We address it the same way we address every problem: by building something grounded, structured, and built to produce results.</p>
-                <p style={{ marginTop: "1.1rem" }}>Every programme is designed by professionals actively delivering in the field. Every module reflects our current delivery standards. You are not learning from a syllabus — you are learning from the work itself.</p>
+                <p style={{ marginTop: "1.1rem" }}>Every programme is designed by professionals actively delivering in the field. Every module reflects our current delivery standards. You are not learning from a syllabus you are learning from the work itself.</p>
               </div>
               <div className="mk-stagger" style={{ display: "flex", flexDirection: "column", gap: ".7rem", marginTop: "2rem" }}>
                 {aboutCards.map((c) => (
@@ -392,7 +392,7 @@ function About({ isMobile }) {
                     <div className="d-ico-wrap">{c.idx}</div>
                     <div>
                       <strong style={{ display: "block", fontSize: ".875rem", fontWeight: 600, color: "var(--td)", marginBottom: ".2rem" }}>{c.title}</strong>
-                      <p style={{ fontSize: ".825rem", color: "var(--td2)", lineHeight: 1.62 }}>{c.desc}</p>
+                      <p style={{ fontSize: ".875rem", color: "var(--td2)", lineHeight: 1.62 }}>{c.desc}</p>
                     </div>
                   </div>
                 ))}
@@ -407,16 +407,16 @@ function About({ isMobile }) {
 }
 
 const programmes = [
-  { idx: "01", ico: "🔍", title: "Search Engine Optimisation (SEO)", desc: "Technical and strategic organic search — on-page structure, technical auditing, authority building, keyword architecture, and AI-Enhanced Optimisation (AEO). Learners work on live websites with tracked ranking outcomes.", tags: ["Technical SEO", "Link Building", "AEO", "Analytics"] }, // Magnifying glass - search/investigation
-  { idx: "02", ico: "📊", title: "Google Ads & Paid Media", desc: "Account-manager-level paid search training — campaign architecture, bidding strategy, audience targeting, conversion tracking, and return optimisation. Live ad account management included throughout.", tags: ["Search & Display", "Conversion", "Budget Strategy"] }, // Bar chart - analytics/data
-  { idx: "03", ico: "💻", title: "Web Development & CMS Design", desc: "Structured programme covering HTML, CSS, responsive design, and professional CMS development — including theme customisation, plugin management, and performance optimisation. Learners deploy a full working website.", tags: ["HTML / CSS", "CMS", "Performance", "UX"] }, // Laptop - web development
-  { idx: "04", ico: "🚀", title: "Digital Marketing Masterclass", desc: "Full-stack view of modern digital marketing — integrating SEO, paid media, content strategy, social channels, email, and analytics into a unified growth system. For those directing the full digital function.", tags: ["Multi-Channel", "Strategy", "AI Tools", "Analytics"] }, // Rocket - launch/growth
-  { idx: "05", ico: "🤝", title: "Freelancing & Client Acquisition", desc: "The business infrastructure behind the skill — positioning, pricing, proposals, client communication, and marketplace strategy across Upwork, Fiverr, and LinkedIn. Start earning from completion day one.", tags: ["Business Setup", "Client Management", "Income Strategy"] }, // Handshake - partnership/client relations
-  { idx: "06", ico: "📱", title: "Apps Development", desc: "Comprehensive mobile and web application development — from concept and architecture to UI implementation, API integration, and deployment. Learners build and publish a fully functional application end-to-end.", tags: ["Mobile Apps", "Web Apps", "API", "Deployment"] }, // Mobile phone - app development
-  { idx: "07", ico: "🎨", title: "UI/UX & Graphics Design", desc: "Practitioner-led design programme covering user interface, user experience principles, wireframing, prototyping, and professional graphics production. Learners build a complete design portfolio using industry-standard tools.", tags: ["Figma", "Prototyping", "Brand Design", "UX Research"] }, // Palette - design/creativity
-  { idx: "08", ico: "🤖", title: "AI Automation", desc: "Forward-focused programme covering AI tools, workflow automation, intelligent marketing systems, and practical machine learning applications for business. Learn how Maktech deploys AI in live commercial operations today.", tags: ["AI Tools", "Automation", "Prompt Engineering"] }, // Robot - artificial intelligence/automation
-  { idx: "09", ico: "🏢", title: "Corporate Skill Development", desc: "Bespoke workshops for teams and organisations — digital marketing capability, AI adoption, and data-informed decision-making. Fully scoped to your objectives and delivered on-site or remotely.", tags: ["Custom Scoped", "Team Delivery", "On-site / Remote"] }, // Building - corporate/enterprise
-  { idx: "10", ico: "🏭", title: "Industrial Attachment", desc: "Supervised attachment programme embedding students and fresh graduates inside Maktech Group's active delivery environment — first-hand exposure to professional IT and digital operations in a live commercial setting.", tags: ["Live Environment", "Mentored", "Portfolio Output", "Certificate"] }, // Factory - industrial/live operations
+    { idx: "01", ico: "🔍", title: "Search Engine Optimisation (SEO)", desc: "Technical and strategic organic search covering on page structure, technical auditing, authority building, keyword architecture, and AI Enhanced Optimisation (AEO). Learners work on live websites with tracked ranking outcomes.", tags: ["Technical SEO", "Link Building", "AEO", "Analytics"] },
+    { idx: "02", ico: "📊", title: "Google Ads & Paid Media", desc: "Account manager level paid search training covering campaign architecture, bidding strategy, audience targeting, conversion tracking, and return optimisation. Live ad account management included throughout.", tags: ["Search & Display", "Conversion", "Budget Strategy"] },
+  { idx: "03", ico: "💻", title: "Web Development & CMS Design", desc: "Structured programme covering HTML, CSS, responsive design, and professional CMS development, including theme customisation, plugin management, and performance optimisation. Learners deploy a full working website.", tags: ["HTML / CSS", "CMS", "Performance", "UX"] },
+  { idx: "04", ico: "🚀", title: "Digital Marketing Masterclass", desc: "Full stack view of modern digital marketing, integrating SEO, paid media, content strategy, social channels, email, and analytics into a unified growth system. For those directing the full digital function.", tags: ["Multi Channel", "Strategy", "AI Tools", "Analytics"] },
+  { idx: "05", ico: "🤝", title: "Freelancing & Client Acquisition", desc: "The business infrastructure behind the skill: positioning, pricing, proposals, client communication, and marketplace strategy across Upwork, Fiverr, and LinkedIn. Start earning from completion day one.", tags: ["Business Setup", "Client Management", "Income Strategy"] },
+  { idx: "06", ico: "📱", title: "Apps Development", desc: "Comprehensive mobile and web application development, from concept and architecture to UI implementation, API integration, and deployment. Learners build and publish a fully functional application end to end.", tags: ["Mobile Apps", "Web Apps", "API", "Deployment"] },
+  { idx: "07", ico: "🎃", title: "UI/UX & Graphics Design", desc: "Practitioner led design programme covering user interface, user experience principles, wireframing, prototyping, and professional graphics production. Learners build a complete design portfolio using industry standard tools.", tags: ["Figma", "Prototyping", "Brand Design", "UX Research"] },
+    { idx: "08", ico: "🤖", title: "AI Automation", desc: "Forward focused programme covering AI tools, workflow automation, intelligent marketing systems, and practical machine learning applications for business. Learn how Maktech deploys AI in live commercial operations today.", tags: ["AI Tools", "Automation", "Prompt Engineering"] },
+  { idx: "09", ico: "🏢", title: "Corporate Skill Development", desc: "Bespoke workshops for teams and organisations, covering digital marketing capability, AI adoption, and data informed decision making. Fully scoped to your objectives and delivered on site or remotely.", tags: ["Custom Scoped", "Team Delivery", "On site / Remote"] },
+  { idx: "10", ico: "🏭", title: "Industrial Attachment", desc: "Supervised attachment programme embedding students and fresh graduates inside Maktech Group's active delivery environment, providing first hand exposure to professional IT and digital operations in a live commercial setting.", tags: ["Live Environment", "Mentored", "Portfolio Output", "Certificate"] },
 ];
 
 function Programmes({ isMobile }) {
@@ -455,13 +455,13 @@ function Programmes({ isMobile }) {
         }`}>
           <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: isMobile ? "2rem" : "3rem", alignItems: "end", marginBottom: isMobile ? "2rem" : "3.5rem" }}>
             <div>
-              <div className="mk-tag mk-reveal-left" style={{ fontSize: isMobile ? "14px" : "16px" }}>Programmes Offered</div>
+              <div className="mk-tag mk-reveal-left" style={{ fontSize: "18px" }}>Programmes Offered</div>
               <h2 className="mk-reveal-left" style={{ fontFamily: "var(--fh)", fontSize: isMobile ? "clamp(1.4rem,2.5vw,1.9rem)" : "clamp(1.9rem,3.2vw,2.7rem)", fontWeight: 700, lineHeight: 1.1, letterSpacing: "-.035em", color: "var(--t1)" }}>
                 Ten Programmes.<br /><span style={{ color: "var(--ora)" }}>One Standard</span> of Delivery.
               </h2>
             </div>
-            <p className="mk-reveal-right" style={{ fontSize: isMobile ? ".9rem" : ".975rem", fontWeight: 300, lineHeight: 1.84, maxWidth: "540px", color: "var(--t2)" }}>
-              Each programme is structured around applied, project-based learning — connected directly to the tools, workflows, and standards used inside Maktech's own IT delivery teams.
+            <p className="mk-reveal-right" style={{ fontSize: isMobile ? ".9rem" : "1rem", fontWeight: 300, lineHeight: 1.84, maxWidth: "540px", color: "var(--t2)" }}>
+              Each programme is structured around applied, project based learning — connected directly to the tools, workflows, and standards used inside Maktech's own IT delivery teams.
             </p>
           </div>
           <div className="mk-stagger" style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(5,1fr)", gap: "1px", background: "var(--bdr)", border: "1px solid var(--bdr)", borderRadius: "18px", overflow: "hidden" }}>
@@ -470,9 +470,9 @@ function Programmes({ isMobile }) {
                 <div className="p-top" />
                 <div style={{ fontFamily: "var(--fm)", fontSize: "10px", color: "var(--t3)", textTransform: "uppercase", letterSpacing: ".14em", marginBottom: ".9rem" }}>Programme / {p.idx}</div>
                 {/* <div className="p-ico">{p.ico}</div> */}
-                <h3 style={{ fontFamily: "var(--fh)", fontSize: ".95rem", fontWeight: 700, color: "var(--t1)", lineHeight: 1.26, marginBottom: ".55rem", letterSpacing: "-.02em" }}>{p.title}</h3>
-                <p style={{ fontSize: ".82rem", color: "var(--t2)", lineHeight: 1.74, fontWeight: 300, marginBottom: "1.1rem" }}>{p.desc}</p>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: ".35rem" }}>
+                <h3 style={{ fontFamily: "var(--fh)", fontSize: "1rem", fontWeight: 700, color: "var(--t1)", lineHeight: 1.26, marginBottom: ".55rem", letterSpacing: "-.02em" }}>{p.title}</h3>
+                <p style={{ fontSize: ".875rem", color: "var(--t2)", lineHeight: 1.74, fontWeight: 300, marginBottom: "1.1rem" }}>{p.desc}</p>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: ".35rem", marginTop: "auto" }}>
                   {p.tags.map((t) => (
                     <span key={t} style={{ fontFamily: "var(--fm)", fontSize: "8.5px", letterSpacing: ".09em", textTransform: "uppercase", color: "var(--ora)", background: "var(--ora-dim)", border: "1px solid rgba(255,101,51,.2)", padding: ".18rem .5rem", borderRadius: "100px" }}>{t}</span>
                   ))}
@@ -488,12 +488,12 @@ function Programmes({ isMobile }) {
 }
 
 const whyCards = [
-  { num: "01 / Mentorship", title: "Founder-Led & Senior-Led Instruction", body: "Training is delivered by Maktech's founding professionals and senior delivery team — individuals actively delivering IT and digital solutions, not career lecturers working from textbooks." },
-  { num: "02 / Technology", title: "AI-Integrated Learning Throughout", body: "Learners are trained on the AI tools, automation workflows, and intelligent marketing systems that competitive IT companies use today — embedded throughout the programme, not as an optional module." },
-  { num: "03 / Execution", title: "Live Projects — No Simulations", body: "Every programme includes structured live project work on real briefs. Learners graduate with a portfolio of verified, tangible deliverables they can present directly to clients and employers." },
-  { num: "04 / Standards", title: "Full Stack IT Delivery Standards", body: "Instruction is built on the same quality frameworks Maktech applies to its commercial IT contracts — learners experience what high-level professional work actually demands." },
+  { num: "01 / Mentorship", title: "Founder Led & Senior Led Instruction", body: "Training is delivered by Maktech's founding professionals and senior delivery team — individuals actively delivering IT and digital solutions, not career lecturers working from textbooks." },
+  { num: "02 / Technology", title: "AI Integrated Learning Throughout", body: "Learners are trained on the AI tools, automation workflows, and intelligent marketing systems that competitive IT companies use today — embedded throughout the programme, not as an optional module." },
+  { num: "03 / Execution", title: "Live Projects. No Simulations.", body: "Every programme includes structured live project work on real briefs. Learners graduate with a portfolio of verified, tangible deliverables they can present directly to clients and employers." },
+  { num: "04 / Standards", title: "Full Stack IT Delivery Standards", body: "Instruction is built on the same quality frameworks Maktech applies to its commercial IT contracts — learners experience what high level professional work actually demands." },
   { num: "05 / Income", title: "Freelancing & Revenue Guidance", body: "Structured guidance on positioning, pricing, and acquiring clients — a clear path to generating professional income from skills from day one after completion." },
-  { num: "06 / Career", title: "Active Career Placement Support", body: "Portfolio review, professional profile optimisation, job-readiness coaching, and access to the Maktech professional network — structured support for digital and IT employment outcomes." },
+  { num: "06 / Career", title: "Active Career Placement Support", body: "Portfolio review, professional profile optimisation, job readiness coaching, and access to the Maktech professional network — structured support for digital and IT employment outcomes." },
 ];
 
 function Why({ isMobile }) {
@@ -532,12 +532,12 @@ function Why({ isMobile }) {
         }`}>
           <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: isMobile ? "2rem" : "3rem", alignItems: "end", marginBottom: isMobile ? "2rem" : "3.5rem" }}>
             <div>
-              <div className="mk-tag mk-reveal-left" style={{ fontSize: isMobile ? "14px" : "16px" }}>Why Maktech Training</div>
+              <div className="mk-tag mk-reveal-left" style={{ fontSize: "18px" }}>Why Maktech Training</div>
               <h2 className="mk-reveal-left" style={{ fontFamily: "var(--fh)", fontSize: isMobile ? "clamp(1.4rem,2.5vw,1.9rem)" : "clamp(1.9rem,3.2vw,2.7rem)", fontWeight: 700, lineHeight: 1.1, letterSpacing: "-.035em", color: "var(--t1)" }}>
                 What Sets This Apart From<br /><span style={{ color: "var(--ora)" }}>Any Other Institute.</span>
               </h2>
             </div>
-            <p className="mk-reveal-right" style={{ fontSize: isMobile ? ".9rem" : ".975rem", fontWeight: 300, lineHeight: 1.84, maxWidth: "540px", color: "var(--t2)" }}>
+            <p className="mk-reveal-right" style={{ fontSize: isMobile ? ".9rem" : "1rem", fontWeight: 300, lineHeight: 1.84, maxWidth: "540px", color: "var(--t2)" }}>
               Maktech is a full stack IT company first. The training division is an extension of live commercial operations — not a standalone school. That distinction defines every module's quality and relevance.
             </p>
           </div>
@@ -545,8 +545,8 @@ function Why({ isMobile }) {
             {whyCards.map((c) => (
               <div className="w-card-wrap" key={c.num}>
                 <div style={{ fontFamily: "var(--fm)", fontSize: "10.5px", color: "var(--ora)", fontWeight: 500, marginBottom: ".9rem" }}>{c.num}</div>
-                <div style={{ fontFamily: "var(--fh)", fontSize: ".97rem", fontWeight: 700, color: "var(--t1)", marginBottom: ".55rem", letterSpacing: "-.015em" }}>{c.title}</div>
-                <p style={{ fontSize: ".845rem", color: "var(--t2)", lineHeight: 1.72, fontWeight: 300 }}>{c.body}</p>
+                <div style={{ fontFamily: "var(--fh)", fontSize: "1rem", fontWeight: 700, color: "var(--t1)", marginBottom: ".55rem", letterSpacing: "-.015em" }}>{c.title}</div>
+                <p style={{ fontSize: ".875rem", color: "var(--t2)", lineHeight: 1.72, fontWeight: 300 }}>{c.body}</p>
               </div>
             ))}
           </div>
@@ -558,7 +558,7 @@ function Why({ isMobile }) {
 }
 
 const whoCards = [
-  { ico: "🎓", role: "Students", desc: "Build verified, market-relevant IT and digital skills before graduation. Enter the workforce with a portfolio and a clear professional profile — not just a qualification." },
+  { ico: "🎓", role: "Students", desc: "Build verified, market relevant IT and digital skills before graduation. Enter the workforce with a portfolio and a clear professional profile — not just a qualification." },
   { ico: "💻", role: "Freelancers", desc: "Deepen your technical capability, raise your service rates, and build a more structured client pipeline — guided by IT professionals who have done it from the ground up." },
   { ico: "📈", role: "Business Owners", desc: "Develop the digital and IT literacy to lead your marketing function, make informed technology decisions, and evaluate vendors with genuine confidence." },
   { ico: "🔍", role: "Job Seekers", desc: "Gain the verified skills, portfolio evidence, and professional readiness to compete effectively for digital and IT roles in a demanding job market." },
@@ -599,21 +599,21 @@ function WhoFor({ isMobile }) {
             ? "px-5"
             : "max-w-[70%] px-6 md:px-12 lg:px-24"
         }`}>
-          <div className="mk-tag mk-reveal-left" style={{ fontSize: isMobile ? "14px" : "16px" }}>Who This Is For</div>
+          <div className="mk-tag mk-reveal-left" style={{ fontSize: "18px" }}>Who This Is For</div>
           <div style={{ maxWidth: "600px", marginBottom: isMobile ? "2rem" : "3.5rem" }}>
             <h2 className="mk-reveal" style={{ fontFamily: "var(--fh)", fontSize: isMobile ? "clamp(1.4rem,2.5vw,1.9rem)" : "clamp(1.9rem,3.2vw,2.7rem)", fontWeight: 700, lineHeight: 1.1, letterSpacing: "-.035em", color: "var(--t1)", marginBottom: ".75rem" }}>
               One Programme. <span style={{ color: "var(--ora)" }}>Five Types of Learner.</span>
             </h2>
-            <p className="mk-reveal" style={{ fontSize: ".975rem", fontWeight: 300, lineHeight: 1.84, color: "var(--t2)" }}>
+            <p className="mk-reveal" style={{ fontSize: "1rem", fontWeight: 300, lineHeight: 1.84, color: "var(--t2)" }}>
               Designed to meet each learner at their current position and take them to a clearly defined professional outcome.
             </p>
           </div>
           <div className="mk-stagger" style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(5,1fr)", gap: "1px", background: "var(--bdr)", border: "1px solid var(--bdr)", borderRadius: "18px", overflow: "hidden" }}>
             {whoCards.map((c) => (
               <div className="wo-card-wrap" key={c.role}>
-                <div className="wo-ico">{c.ico}</div>
-                <div style={{ fontFamily: "var(--fh)", fontSize: ".97rem", fontWeight: 700, color: "var(--t1)", marginBottom: ".45rem", letterSpacing: "-.01em" }}>{c.role}</div>
-                <p style={{ fontSize: ".8rem", color: "var(--t2)", lineHeight: 1.65, fontWeight: 300 }}>{c.desc}</p>
+                {/* <div className="wo-ico">{c.ico}</div> */}
+                <div style={{ fontFamily: "var(--fh)", fontSize: "1rem", fontWeight: 700, color: "var(--t1)", marginBottom: ".45rem", letterSpacing: "-.01em" }}>{c.role}</div>
+                <p style={{ fontSize: ".875rem", color: "var(--t2)", lineHeight: 1.65, fontWeight: 300 }}>{c.desc}</p>
               </div>
             ))}
           </div>
@@ -625,11 +625,11 @@ function WhoFor({ isMobile }) {
 }
 
 const outcomes = [
-  { n: "O — 01", title: "Job-Ready Digital & IT Skills", body: "A verified skill set aligned to what employers and clients in the IT and digital sector actively hire for — built through structured delivery and live project work, not passive instruction." },
+  { n: "O — 01", title: "Job Ready Digital & IT Skills", body: "A verified skill set aligned to what employers and clients in the IT and digital sector actively hire for — built through structured delivery and live project work, not passive instruction." },
   { n: "O — 02", title: "Freelancing Income Capability", body: "The technical skills, business understanding, and client acquisition knowledge to begin generating independent professional income from digital and IT services immediately after completion." },
-  { n: "O — 03", title: "Business Scaling Capability", body: "An integrated understanding of digital channels, AI systems, and technology-driven growth strategy that connects directly to measurable commercial outcomes for business owners and leaders." },
+  { n: "O — 03", title: "Business Scaling Capability", body: "An integrated understanding of digital channels, AI systems, and technology driven growth strategy that connects directly to measurable commercial outcomes for business owners and leaders." },
   { n: "O — 04", title: "Real Portfolio of Project Work", body: "Tangible, documented deliverables from live project execution — websites, apps, campaigns, design work, and strategy outputs that serve as professional evidence of applied competence." },
-  { n: "O — 05", title: "Industry-Level Professional Understanding", body: "A practitioner-level view of how the IT and digital industry operates — how companies structure delivery, how clients are served, and how senior professionals think and make decisions." },
+  { n: "O — 05", title: "Industry Level Professional Understanding", body: "A practitioner level view of how the IT and digital industry operates — how companies structure delivery, how clients are served, and how senior professionals think and make decisions." },
 ];
 
 function Outcomes({ isMobile }) {
@@ -666,7 +666,7 @@ function Outcomes({ isMobile }) {
             ? "px-5"
             : "max-w-[70%] px-6 md:px-12 lg:px-24"
         }`}>
-          <div className="mk-tag on-light mk-reveal-left" style={{ fontSize: isMobile ? "14px" : "16px" }}>Programme Outcomes</div>
+          <div className="mk-tag-box mk-tag-box-w3 mk-reveal-left" style={{ fontSize: "18px" }}>Programme Outcomes</div>
           <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "5fr 7fr", gap: isMobile ? "2rem" : "6rem", marginTop: isMobile ? "2rem" : "3.5rem", alignItems: "start" }}>
             <div className="mk-reveal-left" style={{ position: "sticky", top: "86px" }}>
               <h2 style={{ fontFamily: "var(--fh)", fontSize: "clamp(1.6rem,2.8vw,2.3rem)", fontWeight: 800, color: "var(--td)", letterSpacing: "-.04em", lineHeight: 1.15, marginBottom: "1rem" }}>
@@ -679,10 +679,10 @@ function Outcomes({ isMobile }) {
             <div className="mk-stagger">
               {outcomes.map((o) => (
                 <div className="o-row-wrap" key={o.n}>
-                  <div style={{ fontFamily: "var(--fm)", fontSize: "10px", color: "var(--ora-d)", fontWeight: 500, paddingTop: "4px" }}>{o.n}</div>
+                  <div style={{ fontFamily: "var(--fm)", fontSize: "13px", color: "var(--ora-d)", fontWeight: 500, paddingTop: "4px" }}>{o.n}</div>
                   <div>
-                    <div style={{ fontFamily: "var(--fh)", fontSize: ".98rem", fontWeight: 700, color: "var(--td)", marginBottom: ".3rem", letterSpacing: "-.02em" }}>{o.title}</div>
-                    <p style={{ fontSize: ".855rem", color: "var(--td2)", lineHeight: 1.72, fontWeight: 300 }}>{o.body}</p>
+                    <div style={{ fontFamily: "var(--fh)", fontSize: "1rem", fontWeight: 700, color: "var(--td)", marginBottom: ".3rem", letterSpacing: "-.02em" }}>{o.title}</div>
+                    <p style={{ fontSize: ".875rem", color: "var(--td2)", lineHeight: 1.72, fontWeight: 300 }}>{o.body}</p>
                   </div>
                 </div>
               ))}
@@ -698,9 +698,9 @@ function Outcomes({ isMobile }) {
 const certPoints = [
   { title: "Maktech Group Programme Certificate", body: "Issued to learners completing all requirements — demonstrating applied IT and digital skills to a professional standard, verified through live project work." },
   { title: "Credibility from Active IT Operations", body: "Maktech's certification carries professional weight because it comes from a company actively delivering commercial technology solutions — not a standalone academic institution." },
-  { title: "Portfolio-Backed Evidence", body: "Certification is accompanied by documented project deliverables learners can present to employers, clients, and on professional platforms — evidence beyond the certificate itself." },
-  { title: "6+ Years of International Market Experience", body: "Maktech Group's training credibility is underpinned by six-plus years of active IT and digital services delivery across international markets." },
-  { title: "LinkedIn-Ready Professional Credential", body: "Graduates receive guidance on presenting their Maktech certification and project portfolio to maximise professional visibility with employers and potential clients." },
+  { title: "Portfolio Backed Evidence", body: "Certification is accompanied by documented project deliverables learners can present to employers, clients, and on professional platforms — evidence beyond the certificate itself." },
+  { title: "6+ Years of International Market Experience", body: "Maktech Group's training credibility is underpinned by six plus years of active IT and digital services delivery across international markets." },
+  { title: "LinkedIn Ready Professional Credential", body: "Graduates receive guidance on presenting their Maktech certification and project portfolio to maximise professional visibility with employers and potential clients." },
 ];
 
 function Certification({ isMobile }) {
@@ -737,14 +737,14 @@ function Certification({ isMobile }) {
             ? "px-5"
             : "max-w-[70%] px-6 md:px-12 lg:px-24"
         }`}>
-          <div className="mk-tag mk-reveal-left" style={{ fontSize: isMobile ? "14px" : "16px" }}>Certification &amp; Authority</div>
+          <div className="mk-tag mk-reveal-left" style={{ fontSize: "18px" }}>Certification &amp; Authority</div>
           <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: isMobile ? "2rem" : "5rem", marginTop: isMobile ? "2rem" : "3.5rem", alignItems: "center" }}>
             <div className="cert-card-wrap mk-reveal-scale">
               <div className="cert-seal-wrap">
                 <div className="cert-inner">Maktech<br />Group<br />Certified</div>
               </div>
               <div style={{ fontFamily: "var(--fh)", fontSize: "1.2rem", fontWeight: 700, color: "var(--t1)", marginBottom: ".4rem", letterSpacing: "-.02em", position: "relative", zIndex: 1 }}>Programme Certificate</div>
-              <p style={{ fontSize: ".82rem", color: "var(--t2)", fontWeight: 300, position: "relative", zIndex: 1 }}>Issued on successful completion of all programme requirements and live project deliverables</p>
+              <p style={{ fontSize: ".875rem", color: "var(--t2)", fontWeight: 300, position: "relative", zIndex: 1 }}>Issued on successful completion of all programme requirements and live project deliverables</p>
             </div>
             <div className="mk-stagger" style={{ display: "flex", flexDirection: "column", gap: "1.2rem" }}>
               {certPoints.map((c) => (
@@ -768,8 +768,8 @@ function Certification({ isMobile }) {
 const corpWorkshops = [
   { title: "Digital Marketing Capability for Teams", desc: "SEO, paid media, content strategy, and analytics — structured for marketing and commercial functions needing applied digital competence." },
   { title: "AI Tools & Automation for Business", desc: "Practical adoption of AI workflows and automation systems that reduce manual effort, improve output quality, and scale marketing performance." },
-  { title: "App & Product Development Fundamentals", desc: "For non-technical leaders and product teams — understanding the full development lifecycle, how to brief developers, and how to evaluate outputs." },
-  { title: "Digital Literacy for Non-Technical Leaders", desc: "Equipping senior teams and directors to confidently lead, brief, and evaluate digital and IT functions and external technology partners." },
+  { title: "App & Product Development Fundamentals", desc: "For non technical leaders and product teams — understanding the full development lifecycle, how to brief developers, and how to evaluate outputs." },
+  { title: "Digital Literacy for Non Technical Leaders", desc: "Equipping senior teams and directors to confidently lead, brief, and evaluate digital and IT functions and external technology partners." },
   { title: "Custom Scope Engagement", desc: "A fully bespoke workshop designed around your specific technology challenge, team profile, and strategic growth context." },
 ];
 
@@ -777,9 +777,9 @@ const corpFeatures = [
   "Needs assessment and capability benchmarking before delivery begins",
   "Custom curriculum built around your team, sector, and objectives",
   "Delivered by active Maktech IT and marketing professionals",
-  "Post-training benchmarks and progress tracking provided",
-  "Single workshops or extended multi-session programmes available",
-  "Fully on-site, remote, or hybrid delivery formats supported",
+  "Post training benchmarks and progress tracking provided",
+  "Single workshops or extended multi session programmes available",
+  "Fully on site, remote, or hybrid delivery formats supported",
 ];
 
 function Corporate({ isMobile }) {
@@ -816,14 +816,14 @@ function Corporate({ isMobile }) {
             ? "px-5"
             : "max-w-[70%] px-6 md:px-12 lg:px-24"
         }`}>
-          <div className="mk-tag mk-reveal-left" style={{ fontSize: isMobile ? "14px" : "16px" }}>Corporate Training</div>
+          <div className="mk-tag mk-reveal-left" style={{ fontSize: "18px" }}>Corporate Training</div>
           <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: isMobile ? "2rem" : "4rem", marginTop: isMobile ? "2rem" : "3.5rem" }}>
             <div className="mk-reveal-left">
               <h2 style={{ fontFamily: "var(--fh)", fontSize: isMobile ? "clamp(1.4rem,2.5vw,1.9rem)" : "clamp(1.9rem,3.2vw,2.7rem)", fontWeight: 700, lineHeight: 1.1, letterSpacing: "-.035em", color: "var(--t1)", marginBottom: "1.2rem" }}>
                 Upskill Your Team to<br /><span style={{ color: "var(--ora)" }}>Full Stack IT Company</span><br />Standard.
               </h2>
-              <p style={{ fontSize: isMobile ? ".9rem" : ".95rem", color: "var(--t2)", lineHeight: 1.84, fontWeight: 300, marginBottom: "1rem" }}>Maktech offers bespoke corporate training engagements — scoped around your organisation's capability level, strategic objectives, and the outcomes you need to achieve. We do not deliver generic off-the-shelf programmes.</p>
-              <p style={{ fontSize: ".95rem", color: "var(--t2)", lineHeight: 1.84, fontWeight: 300, marginBottom: "1rem" }}>Each engagement begins with a capability assessment and brief. We then design and deliver a structured workshop programme — on-site or remote — built directly around your team's needs.</p>
+              <p style={{ fontSize: isMobile ? ".9rem" : "1rem", color: "var(--t2)", lineHeight: 1.84, fontWeight: 300, marginBottom: "1rem" }}>Maktech offers bespoke corporate training engagements — scoped around your organisation's capability level, strategic objectives, and the outcomes you need to achieve. We do not deliver generic off the shelf programmes.</p>
+              <p style={{ fontSize: "1rem", color: "var(--t2)", lineHeight: 1.84, fontWeight: 300, marginBottom: "1rem" }}>Each engagement begins with a capability assessment and brief. We then design and deliver a structured workshop programme on site or remote — built directly around your team's needs.</p>
               <div style={{ display: "flex", flexDirection: "column", gap: ".65rem", margin: "1.5rem 0 2.5rem" }}>
                 {corpFeatures.map((f) => <div className="corp-f-item" key={f}>{f}</div>)}
               </div>
@@ -837,7 +837,7 @@ function Corporate({ isMobile }) {
                 {corpWorkshops.map((w) => (
                   <div className="corp-ws-wrap" key={w.title}>
                     <div style={{ fontSize: ".875rem", fontWeight: 600, color: "var(--t1)", marginBottom: ".22rem" }}>{w.title}</div>
-                    <div style={{ fontSize: ".8rem", color: "var(--t2)", fontWeight: 300, lineHeight: 1.55 }}>{w.desc}</div>
+                    <div style={{ fontSize: ".875rem", color: "var(--t2)", fontWeight: 300, lineHeight: 1.55 }}>{w.desc}</div>
                   </div>
                 ))}
               </div>
@@ -886,7 +886,7 @@ function CTA({ isMobile }) {
             ? "px-5"
             : "max-w-[70%] px-6 md:px-12 lg:px-24"
         }`} style={{ position: "relative", zIndex: 2 }}>
-        <div className="mk-reveal" style={{ display: "inline-flex", alignItems: "center", gap: "10px", fontFamily: "var(--fm)", fontSize: isMobile ? "14px" : "16px", fontWeight: 500, color: "var(--ora)", letterSpacing: ".14em", textTransform: "uppercase", marginBottom: isMobile ? "1rem" : "1.75rem", cursor: "pointer" }}>
+        <div className="mk-reveal" style={{ display: "inline-flex", alignItems: "center", gap: "10px", fontFamily: "var(--fm)", fontSize: "18px", fontWeight: 500, color: "var(--ora)", letterSpacing: ".14em", textTransform: "uppercase", marginBottom: isMobile ? "1rem" : "1.75rem", cursor: "pointer" }}>
           <span style={{ display: "block", width: "36px", height: "1px", background: "rgba(255,101,51,.4)" }} />
           Begin Your Transformation
           <span style={{ display: "block", width: "36px", height: "1px", background: "rgba(255,101,51,.4)" }} />
@@ -901,7 +901,7 @@ function CTA({ isMobile }) {
           <a className="mk-btn mk-btn-solid mag-btn" href="https://maktechgroup.com/" target="_blank" rel="noreferrer" style={{ fontSize: isMobile ? ".9rem" : "1rem", cursor: "pointer" }}>Book a Free Consultation</a>
           <a className="mk-btn mk-btn-od mag-btn" href="https://maktechgroup.com/" target="_blank" rel="noreferrer" style={{ fontSize: isMobile ? ".9rem" : "1rem", cursor: "pointer" }}>Visit Maktech Group</a>
         </div>
-        <p className="mk-reveal" style={{ marginTop: "1.5rem", fontSize: isMobile ? ".75rem" : ".8rem", color: "var(--t3)", letterSpacing: ".02em", fontWeight: 300 }}>No obligation. No sales pressure. A professional conversation about your goals and the right programme for you.</p>
+        <p className="mk-reveal" style={{ marginTop: "1.5rem", fontSize: isMobile ? ".75rem" : ".875rem", color: "var(--t3)", letterSpacing: ".02em", fontWeight: 300 }}>No obligation. No sales pressure. A professional conversation about your goals and the right programme for you.</p>
       </div>
     </section>
   );

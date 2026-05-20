@@ -81,8 +81,41 @@
 
 /* Tag label */
 .mk-tag { display:inline-flex;align-items:center;gap:8px;font-family:var(--fm);font-size:10.5px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--ora);margin-bottom:1rem; }
-.mk-tag::before { content:'';width:18px;height:2px;background:currentColor;border-radius:2px; }
 .mk-tag.on-light { color:var(--ora-d); }
+
+/* Animated border box tag */
+@property --tag-border-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+@keyframes tagBorderRotate { to { --tag-border-angle: 360deg; } }
+
+.mk-tag-box {
+  --tag-border-angle: 0deg;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--fm);
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ora-d);
+  margin-bottom: 1rem;
+  padding: .48rem 1.2rem;
+  border-radius: 6px;
+  border: 1.5px solid transparent;
+  background:
+    linear-gradient(var(--w2), var(--w2)) padding-box,
+    conic-gradient(from var(--tag-border-angle), transparent 0%, var(--ora-d) 35%, transparent 60%) border-box;
+  animation: tagBorderRotate 3s linear infinite;
+}
+.mk-tag-box-w3 {
+  background:
+    linear-gradient(var(--w3), var(--w3)) padding-box,
+    conic-gradient(from var(--tag-border-angle), transparent 0%, var(--ora-d) 35%, transparent 60%) border-box;
+}
 
 /* Div line */
 .mk-divline { height:1px;background:linear-gradient(90deg,transparent,rgba(255,101,51,.25),transparent); }
@@ -159,7 +192,8 @@
 
 /* Outcome row */
 .o-row-wrap { display:grid;grid-template-columns:46px 1fr;gap:1.2rem;align-items:start;padding:1.5rem 0;border-bottom:1px solid #d2cecc;transition:transform .3s var(--ease-spring);cursor:default; }
-.o-row-wrap:first-child { border-top:1px solid #d2cecc; }
+.o-row-wrap:first-child { border-top:none; }
+.o-row-wrap:last-child { border-bottom:none; }
 .o-row-wrap:hover { transform:translateX(6px); }
 
 /* Cert */
