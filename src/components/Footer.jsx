@@ -236,7 +236,10 @@ const Footer = () => {
               </h3>
               <ul className='space-y-3'>
                 <li className='text-gray-400 text-sm italic'>
-                  maktechgroup@gmail.com
+                  info@maktechgroup.com
+                </li>
+                <li className='text-gray-400 text-sm italic'>
+                  career@maktechgroup.com
                 </li>
                 <li className='text-gray-400 text-sm'>+88 01897-669233</li>
                 <li className='text-gray-400 text-sm'>
@@ -365,7 +368,10 @@ const Footer = () => {
             {openSection === 'contacts' && (
               <div className='pb-3 space-y-2'>
                 <p className='text-gray-400 text-sm italic'>
-                  maktechgroup@gmail.com
+                  info@maktechgroup.com
+                </p>
+                <p className='text-gray-400 text-sm italic'>
+                  career@maktechgroup.com
                 </p>
                 <p className='text-gray-400 text-sm'>+88 01897-669233</p>
                 <p className='text-gray-400 text-sm'>

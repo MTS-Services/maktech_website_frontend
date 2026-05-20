@@ -163,7 +163,7 @@ const ContactUs = () => {
                         Email us
                       </p>
                       <p className='text-[#AAAAAA] text-sm md:text-base'>
-                        maktechgroup@gmail.com
+                        info@maktechgroup.com
                       </p>
                     </div>
                   </div>
