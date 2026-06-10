@@ -8,7 +8,7 @@ const LEADERS = [
     orientation: 'image-left',
     headline: 'Visionary Leader Driving Strategic Growth',
     description: [
-      'Mohammad Alamgir Kabir leads the company with a strategic vision that drives growth, innovation, and operational excellence. With extensive experience in corporate leadership, he excels in shaping business strategies, fostering sustainable partnerships, and ensuring long-term value for stakeholders.',
+      'Mohammad Alamgir Kabir leads the company with a strategic vision that drives growth, innovation, and operational excellence. With extensive experience in corporate leadership, he excels in shaping business strategies, fostering sustainable partnerships, and ensuring long term value for stakeholders.',
       'His decisive approach and commitment to ethical leadership have consistently positioned the organization at the forefront of its industry.',
     ],
     name: 'Mohammad Alamgir Kabir',
@@ -19,7 +19,7 @@ const LEADERS = [
   },
   {
     orientation: 'image-right',
-    headline: 'People-First Leader Championing Culture & Talent',
+    headline: 'People First Leader Championing Culture & Talent',
     description: [
       'Nasrin Akter Pinky leads the Human Resources and Administration functions with a strong focus on building a positive workplace culture, nurturing talent, and aligning people strategies with organizational goals. Her approach combines empathy with efficiency, ensuring every team member is empowered to perform at their best.',
       'Her leadership in HR & Administration drives seamless internal operations, fosters employee engagement, and ensures the organization maintains the highest standards of professionalism and compliance.',
@@ -34,8 +34,8 @@ const LEADERS = [
     orientation: 'image-left',
     headline: 'Financial Strategist Ensuring Sustainable Growth',
     description: [
-      'Toufique Ahmed Akash manages the company’s financial strategy, ensuring robust fiscal planning, reporting, and compliance. His expertise encompasses budgeting, financial analysis, and risk management, supporting informed decision-making at the executive level.',
-      'With a meticulous and forward-thinking approach, he ensures the organization maintains financial health while pursuing sustainable growth opportunities.',
+      'Toufique Ahmed Akash manages the company’s financial strategy, ensuring robust fiscal planning, reporting, and compliance. His expertise encompasses budgeting, financial analysis, and risk management, supporting informed decision making at the executive level.',
+      'With a meticulous and forward thinking approach, he ensures the organization maintains financial health while pursuing sustainable growth opportunities.',
     ],
     name: 'Toufique Ahmed Akash',
     role: 'Director, Finance',
@@ -46,10 +46,10 @@ const LEADERS = [
 
   {
     orientation: 'image-right',
-    headline: 'Growth-Oriented Sales & Business Strategist',
+    headline: 'Growth Oriented Sales & Business Strategist',
     description: [
       'Mukabber Hossain is responsible for spearheading sales initiatives and cultivating new business opportunities. His strategic insights into market trends, customer needs, and competitive positioning enable the company to expand its reach and strengthen client relationships.',
-      'With a results-oriented approach, he continuously drives revenue growth while fostering a culture of innovation and collaboration within the sales team.',
+      'With a results oriented approach, he continuously drives revenue growth while fostering a culture of innovation and collaboration within the sales team.',
     ],
     name: 'Mukabber Hossain',
     role: 'Director, Sales & Business Development',
@@ -62,13 +62,26 @@ const LEADERS = [
     headline: 'Operational Excellence & Process Optimization Expert',
     description: [
       'Md. Firoj Mia oversees all operational functions, ensuring that processes are efficient, scalable, and aligned with organizational goals. He brings a wealth of experience in streamlining operations, optimizing resources, and implementing best practices across departments.',
-      'His leadership ensures seamless coordination between teams, driving operational excellence and supporting the company’s growth trajectory.',
+      'His leadership ensures seamless coordination between teams, driving operational excellence and supporting the company\'s growth trajectory.',
     ],
     name: 'Md. Firoj Mia',
     role: 'Director, Operations',
     company: 'MAKTECH',
     image: '/our_work/Frame 2147226428 (1).webp',
     imageAlt: 'Portrait of Md. Firoj Mia',
+  },
+  {
+    orientation: 'image-right',
+    headline: 'Visionary Leader Driving Talent and Organizational Excellence',
+    description: [
+      'Md. Mustafizur Rahman orchestrates the company\'s learning and development strategy, ensuring robust talent cultivation, skill alignment, and performance optimization. Their expertise encompasses instructional design, leadership development, and strategic workforce planning, supporting capability building at every level of the organization.',
+      'With a people centric and forward thinking approach, they ensure the organization maintains a competitive edge by fostering continuous learning while pursuing sustainable growth opportunities.',
+    ],
+    name: 'Md. Mustafizur Rahman',
+    role: 'Director, Training & Development',
+    company: 'MAKTECH',
+    image: '/mustafizur_rahman_1.jpg',
+    imageAlt: 'Portrait of Md. Mustafizur Rahman',
   },
 ];
 
