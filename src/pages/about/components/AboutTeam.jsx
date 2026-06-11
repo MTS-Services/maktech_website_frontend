@@ -10,7 +10,7 @@ const OWNERS = [
   {
     name: "Nasrin Akter Pinky",
     role: "Director, HR & Admin",
-    photo: "/pinkey2.webp",
+    photo: "/pinkey6.png",
   },
 ];
 
@@ -33,7 +33,7 @@ const DIRECTORS = [
   {
     name: "Md. Mustafizur Rahman",
     role: "Director, Training & Development",
-    photo: "/mustafizur_rahman_1.jpg",
+    photo: "/mustafizur_rahman_1.png",
   },
 ];
 

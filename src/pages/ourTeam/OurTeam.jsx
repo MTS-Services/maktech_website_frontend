@@ -72,10 +72,11 @@ const LEADERS = [
   },
   {
     orientation: 'image-right',
-    headline: 'Visionary Leader Driving Talent and Organizational Excellence',
+    headline: 'Advancing Skills Through Technology & Innovation',
     description: [
-      'Md. Mustafizur Rahman orchestrates the company\'s learning and development strategy, ensuring robust talent cultivation, skill alignment, and performance optimization. Their expertise encompasses instructional design, leadership development, and strategic workforce planning, supporting capability building at every level of the organization.',
-      'With a people centric and forward thinking approach, they ensure the organization maintains a competitive edge by fostering continuous learning while pursuing sustainable growth opportunities.',
+      'Md. Mustafizur Rahman leads the Training & Development division of MAKTECH, bringing over 20 years of experience in engineering, technical education, and professional training. As an Electrical Engineer, he is responsible for identifying emerging technologies, developing industry-focused training modules, and ensuring the effective delivery of high-quality learning programs.',
+      "His expertise extends to science-based education, applied research, and the development of local technological solutions that address real-world challenges. By aligning training initiatives with industry demands and organizational objectives, he plays a vital role in strengthening workforce readiness and supporting the company's sustainable growth.",
+      "Through his commitment to innovation, knowledge sharing, and continuous improvement, he helps shape the next generation of skilled professionals."
     ],
     name: 'Md. Mustafizur Rahman',
     role: 'Director, Training & Development',
