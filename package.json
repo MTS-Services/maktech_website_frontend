@@ -5,11 +5,11 @@
   "type": "module",
   "description": "Production-ready Admin Dashboard with React, Redux Toolkit, and Tailwind CSS",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
+    "dev": "node api.js && vite",
+    "build": "node api.js && vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "start": "vite preview --host"
+    "start": "node api.js && vite preview --host"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
