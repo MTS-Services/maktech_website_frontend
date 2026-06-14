@@ -27,7 +27,7 @@ const LEADERS = [
     name: 'Nasrin Akter Pinky',
     role: 'Director, HR & Admin',
     company: 'MAKTECH',
-    image: '/pinkey4.webp',
+    image: '/pinkey5.webp',
     imageAlt: 'Portrait of Nasrin Akter Pinky',
   },
   {
