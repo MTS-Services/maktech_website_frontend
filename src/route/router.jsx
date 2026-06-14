@@ -55,6 +55,7 @@ const CaseStudyDetailPage = lazy(
 const TrainingProgramme = lazy(
   () => import('../pages/training-programme/TrainingProgramme'),
 );
+const Gallery = lazy(() => import('../pages/gallery/Gallery'));
 const AppRoutes = () => (
   <Suspense fallback={<PageLoader />}>
     <Routes>
@@ -96,6 +97,7 @@ const AppRoutes = () => (
         <Route path='/case-study' element={<PublicCaseStudy />} />
         <Route path='/case-study/:slug' element={<CaseStudyDetailPage />} />
         <Route path='/training-programme' element={<TrainingProgramme />} />
+        <Route path='/gallery' element={<Gallery />} />
       </Route>
       <Route path='/login' element={<Login />} />
 

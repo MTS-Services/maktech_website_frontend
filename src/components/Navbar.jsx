@@ -29,6 +29,7 @@ const companyMegaItems = [
   { title: "Career", slug: "career", path: "/career" },
   { title: "Our team", slug: "our-team", path: "/our-team" },
   { title: "Training & Programme", slug: "training-programme", path: "/training-programme" },
+  { title: "Gallery", slug: "gallery", path: "/gallery" },
   { title: "contact us", slug: "contact-us", path: "/contact" },
 ];
 
