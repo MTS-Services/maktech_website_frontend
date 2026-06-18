@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 
 const categoryList = ['1st Quarter', '2nd Quarter', '3rd Quarter', '4th Quarter', 'Picnic 2025'];
@@ -12,6 +12,7 @@ const galleryData = Array.from({ length: 60 }).map((_, index) => {
   return {
     id: index + 1,
     category,
+    height,
     // Picsum serves images directly from Unsplash and guarantees they won't 404
     src: `https://picsum.photos/seed/maktech${index + 1}/600/${height}`,
     alt: `Gallery Image ${index + 1}`
@@ -20,9 +21,89 @@ const galleryData = Array.from({ length: 60 }).map((_, index) => {
 
 const tabs = ['All', '1st Quarter', '2nd Quarter', '3rd Quarter', '4th Quarter', 'Picnic 2025'];
 
+const skeletonHeights = [420, 560, 480, 640, 500, 720, 460, 600, 540, 680, 440, 520];
+
+const GallerySkeleton = ({ count = 12 }) => (
+  <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4">
+    {Array.from({ length: count }).map((_, index) => (
+      <div
+        key={index}
+        className="break-inside-avoid mb-4 overflow-hidden rounded-xl border border-white/10 bg-white/5"
+      >
+        <div
+          className="w-full animate-pulse bg-white/10"
+          style={{ height: skeletonHeights[index % skeletonHeights.length] }}
+        />
+      </div>
+    ))}
+  </div>
+);
+
+const GalleryImageCard = ({ item, index, onSelect }) => {
+  const [loaded, setLoaded] = useState(false);
+  const imgRef = useRef(null);
+
+  useEffect(() => {
+    setLoaded(false);
+    if (imgRef.current?.complete) {
+      setLoaded(true);
+    }
+  }, [item.src]);
+
+  return (
+    <div
+      className="break-inside-avoid mb-4 relative group overflow-hidden rounded-xl border border-white/10 bg-white/5 cursor-pointer"
+      onClick={() => loaded && onSelect(index)}
+    >
+      {!loaded && (
+        <div
+          className="w-full animate-pulse bg-white/10"
+          style={{ height: item.height * 0.75 }}
+          aria-hidden="true"
+        />
+      )}
+      <img
+        ref={imgRef}
+        src={item.src}
+        alt={item.alt}
+        onLoad={() => setLoaded(true)}
+        className={`w-full h-auto block transition-all duration-500 group-hover:scale-105 ${
+          loaded ? 'opacity-100' : 'absolute inset-0 opacity-0'
+        }`}
+        loading="lazy"
+      />
+      {loaded && (
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100 flex items-end">
+          <div className="p-4">
+            <p className="text-white font-medium text-sm">{item.category}</p>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
 const Gallery = () => {
   const [activeTab, setActiveTab] = useState('All');
   const [selectedImageIndex, setSelectedImageIndex] = useState(null);
+  const [galleryItems, setGalleryItems] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const loadGallery = async () => {
+      // Replace with API call when gallery endpoint is available
+      const data = galleryData;
+      if (!cancelled) {
+        setGalleryItems(data);
+        setIsLoading(false);
+      }
+    };
+
+    loadGallery();
+    return () => { cancelled = true; };
+  }, []);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -30,24 +111,24 @@ const Gallery = () => {
       if (e.key === 'Escape') setSelectedImageIndex(null);
       if (e.key === 'ArrowLeft') {
         setSelectedImageIndex((prev) => {
-          const filtered = activeTab === 'All' ? galleryData : galleryData.filter(item => item.category === activeTab);
+          const filtered = activeTab === 'All' ? galleryItems : galleryItems.filter(item => item.category === activeTab);
           return prev === 0 ? filtered.length - 1 : prev - 1;
         });
       }
       if (e.key === 'ArrowRight') {
         setSelectedImageIndex((prev) => {
-          const filtered = activeTab === 'All' ? galleryData : galleryData.filter(item => item.category === activeTab);
+          const filtered = activeTab === 'All' ? galleryItems : galleryItems.filter(item => item.category === activeTab);
           return prev === filtered.length - 1 ? 0 : prev + 1;
         });
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [selectedImageIndex, activeTab]);
+  }, [selectedImageIndex, activeTab, galleryItems]);
 
   const filteredData = activeTab === 'All' 
-    ? galleryData 
-    : galleryData.filter(item => item.category === activeTab);
+    ? galleryItems 
+    : galleryItems.filter(item => item.category === activeTab);
 
   return (
     <div className="min-h-screen  pt-[120px] pb-20 text-white">
@@ -81,29 +162,22 @@ const Gallery = () => {
         </div>
 
         {/* Masonry Layout Gallery */}
-        <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4">
-          {filteredData.map((item, index) => (
-            <div 
-              key={item.id} 
-              className="break-inside-avoid mb-4 relative group overflow-hidden rounded-xl border border-white/10 bg-white/5 cursor-pointer"
-              onClick={() => setSelectedImageIndex(index)}
-            >
-              <img
-                src={item.src}
-                alt={item.alt}
-                className="w-full h-auto block transition-transform duration-500 group-hover:scale-105"
-                loading="lazy"
+        {isLoading ? (
+          <GallerySkeleton count={16} />
+        ) : (
+          <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4">
+            {filteredData.map((item, index) => (
+              <GalleryImageCard
+                key={item.id}
+                item={item}
+                index={index}
+                onSelect={setSelectedImageIndex}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100 flex items-end">
-                <div className="p-4">
-                  <p className="text-white font-medium text-sm">{item.category}</p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
         
-        {filteredData.length === 0 && (
+        {!isLoading && filteredData.length === 0 && (
           <div className="text-center py-20 text-white/50">
             No images found for this category.
           </div>
