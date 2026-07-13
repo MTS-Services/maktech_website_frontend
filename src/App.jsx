@@ -1,5 +1,5 @@
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { useEffect } from 'react';
 import gsap from 'gsap';
 import Lenis from 'lenis';
 import AppRoutes from './route/router';

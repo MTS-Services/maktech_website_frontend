@@ -1,3 +1,5 @@
+import React from 'react';
+
 const PageLoader = () => (
   <div
     className='fixed inset-0 flex flex-col items-center justify-center bg-black-bg z-50 overflow-hidden'

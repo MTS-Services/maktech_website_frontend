@@ -1,4 +1,4 @@
-import { lazy, Suspense } from 'react';
+import React, { lazy, Suspense } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import AdminLayout from '../layout/adminLayout/AdminLayout';
 import PublicLayout from '../layout/publicLayout/PublicLayout';

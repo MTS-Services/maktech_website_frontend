@@ -1,6 +1,6 @@
+import React, { useEffect, useRef } from "react";
 import { Outlet } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import Navbar from "../../components/Navbar";
 import AnimatedLines from "../../components/AnimatedLines";
