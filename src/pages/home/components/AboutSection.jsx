@@ -15,8 +15,8 @@ const AboutSection = () => {
   const linePositions = isMobile ? [15, 30, 70, 85] : [12, 30, 50, 68, 88];
 
   const stats = [
-    { target: 7500, label: "Clients Worldwide", suffix: "+" },
-    { target: 11000, label: "Projects Delivered", suffix: "+" },
+    { target: 8500, label: "Clients Worldwide", suffix: "+" },
+    { target: 17000, label: "Projects Delivered", suffix: "+" },
     { target: 180, label: "In-House Professionals", suffix: "+" },
     { target: 6, label: "Years in Operation", suffix: "+" },
   ];
