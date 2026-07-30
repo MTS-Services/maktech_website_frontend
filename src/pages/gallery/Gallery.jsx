@@ -1,7 +1,36 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 
-const categoryList = ['1st Quarter', '2nd Quarter', '3rd Quarter', '4th Quarter', 'Picnic 2025'];
+const categoryList = ['1st Quarter'];
+const galleryImageSources = [
+  'https://i.ibb.co.com/LhBgKb9g/Chat-GPT-Image-Jul-27-2026-05-35-33-PM.png',
+  'https://i.ibb.co.com/N2dkn8ND/Chat-GPT-Image-Jul-27-2026-05-40-32-PM.png',
+  'https://i.ibb.co.com/357VFcxD/Chat-GPT-Image-Jul-27-2026-05-49-09-PM.png',
+  'https://i.ibb.co.com/JwyM4pvn/Chat-GPT-Image-Jul-27-2026-05-57-16-PM.png',
+  'https://i.ibb.co.com/7JyR6rBs/IMG-7303-JPG-2-K-202607271742.jpg',
+  'https://i.ibb.co.com/jvPDzbv1/IMG-7315-JPG-2-K-202607271450.jpg',
+  'https://i.ibb.co.com/wrNtLt7D/IMG-7317-JPG-2-K-202607271456.jpg',
+  'https://i.ibb.co.com/67Gt8J8M/IMG-7404-JPG-2-K-202607271540.jpg',
+  'https://i.ibb.co.com/gb4L6L7x/IMG-7696.jpg',
+  'https://i.ibb.co.com/LDXq8n2j/IMG-7711.jpg',
+  'https://i.ibb.co.com/0RjzFQz1/IMG-7719.jpg',
+  'https://i.ibb.co.com/MKJPdXx/IMG-7777-JPG-2-K-202607271756-1.jpg',
+  'https://i.ibb.co.com/v91mGdp/IMG-7794-JPG-2-K-202607271750.jpg',
+  'https://i.ibb.co.com/bMcbcqsc/IMG-20260214-094630767-HDR-AE.jpg',
+  'https://i.ibb.co.com/5gs7QY2S/IMG-20260214-104948671-HDR.jpg',
+  'https://i.ibb.co.com/9kr69Gnb/IMG-20260214-121658262-HDR.jpg',
+  'https://i.ibb.co.com/b5Bs5BkG/IMG-20260214-143513713-HDR.jpg',
+  'https://i.ibb.co.com/JF0q9LhZ/IMG-20260214-152011326-HDR-AE.jpg',
+  'https://i.ibb.co.com/N243ZdGY/IMG-20260214-163625248-HDR.jpg',
+  'https://i.ibb.co.com/B5kRqhRD/IMG-20260214-171111877-HDR.jpg',
+  'https://i.ibb.co.com/rRPRjW0Q/IMG-20260214-171224402-HDR.jpg',
+  'https://i.ibb.co.com/xSQ3vcJ0/IMG-20260214-171557378-HDR.jpg',
+  'https://i.ibb.co.com/yc3zshWz/IMG-20260214-171656632-HDR.jpg',
+  'https://i.ibb.co.com/GfFRtBWX/IMG-20260214-172249393-HDR.jpg',
+  'https://i.ibb.co.com/nNLzpxwN/Md-Alamgir-Kabir-sir.png',
+  'https://i.ibb.co.com/B29zTDfb/Md-Mahfuz.png',
+  'https://i.ibb.co.com/G38zjdM9/Md-Ridoy-Hasan-Kamrul.png'
+];
 
 const galleryData = Array.from({ length: 60 }).map((_, index) => {
   const category = categoryList[index % categoryList.length];
@@ -13,8 +42,7 @@ const galleryData = Array.from({ length: 60 }).map((_, index) => {
     id: index + 1,
     category,
     height,
-    // Picsum serves images directly from Unsplash and guarantees they won't 404
-    src: `https://picsum.photos/seed/maktech${index + 1}/600/${height}`,
+    src: galleryImageSources[index % galleryImageSources.length],
     alt: `Gallery Image ${index + 1}`
   };
 });
@@ -108,17 +136,19 @@ const Gallery = () => {
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (selectedImageIndex === null) return;
+      const visibleData = activeTab === 'All' || activeTab === '1st Quarter'
+        ? galleryItems
+        : [];
+
       if (e.key === 'Escape') setSelectedImageIndex(null);
       if (e.key === 'ArrowLeft') {
         setSelectedImageIndex((prev) => {
-          const filtered = activeTab === 'All' ? galleryItems : galleryItems.filter(item => item.category === activeTab);
-          return prev === 0 ? filtered.length - 1 : prev - 1;
+          return prev === 0 ? visibleData.length - 1 : prev - 1;
         });
       }
       if (e.key === 'ArrowRight') {
         setSelectedImageIndex((prev) => {
-          const filtered = activeTab === 'All' ? galleryItems : galleryItems.filter(item => item.category === activeTab);
-          return prev === filtered.length - 1 ? 0 : prev + 1;
+          return prev === visibleData.length - 1 ? 0 : prev + 1;
         });
       }
     };
@@ -126,9 +156,9 @@ const Gallery = () => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [selectedImageIndex, activeTab, galleryItems]);
 
-  const filteredData = activeTab === 'All' 
-    ? galleryItems 
-    : galleryItems.filter(item => item.category === activeTab);
+  const filteredData = activeTab === 'All' || activeTab === '1st Quarter'
+    ? galleryItems
+    : [];
 
   return (
     <div className="min-h-screen  pt-[120px] pb-20 text-white">
@@ -224,7 +254,7 @@ const Gallery = () => {
               onClick={(e) => e.stopPropagation()}
             >
               <img
-                src={filteredData[selectedImageIndex].src.replace(/\/600\/(\d+)/, (match, h) => `/1200/${parseInt(h) * 2}`)}
+                src={filteredData[selectedImageIndex].src}
                 alt={filteredData[selectedImageIndex].alt}
                 className="max-h-[90vh] max-w-[90vw] object-contain"
               />
