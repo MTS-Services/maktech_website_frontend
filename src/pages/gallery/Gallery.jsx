@@ -35,6 +35,7 @@ const galleryImageSources = [
 const galleryData = Array.from({ length: 60 }).map((_, index) => {
   const category = categoryList[index % categoryList.length];
   
+  
   // Deterministic height between 400 and 800 to create the varied Pinterest masonry layout
   const height = 400 + ((index * 117) % 400); 
   
