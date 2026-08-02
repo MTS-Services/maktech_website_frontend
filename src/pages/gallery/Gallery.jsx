@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 
-const categoryList = ['1st Quarter'];
+const categoryList = ['1st Quarter', '2nd Quarter', '3rd Quarter', '4th Quarter', 'Picnic 2025'];
 const galleryImageSources = [
   'https://i.ibb.co.com/LhBgKb9g/Chat-GPT-Image-Jul-27-2026-05-35-33-PM.png',
   'https://i.ibb.co.com/N2dkn8ND/Chat-GPT-Image-Jul-27-2026-05-40-32-PM.png',
@@ -32,18 +32,18 @@ const galleryImageSources = [
   'https://i.ibb.co.com/G38zjdM9/Md-Ridoy-Hasan-Kamrul.png'
 ];
 
-const galleryData = Array.from({ length: 60 }).map((_, index) => {
-  const category = categoryList[index % categoryList.length];
-  
+const galleryData = galleryImageSources.map((src, index) => {
+  // All images belong to 1st Quarter
+  const category = '1st Quarter';
   
   // Deterministic height between 400 and 800 to create the varied Pinterest masonry layout
-  const height = 400 + ((index * 117) % 400); 
+  const height = 400 + ((index * 117) % 400);
   
   return {
     id: index + 1,
     category,
     height,
-    src: galleryImageSources[index % galleryImageSources.length],
+    src,
     alt: `Gallery Image ${index + 1}`
   };
 });
@@ -137,9 +137,9 @@ const Gallery = () => {
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (selectedImageIndex === null) return;
-      const visibleData = activeTab === 'All' || activeTab === '1st Quarter'
+      const visibleData = activeTab === 'All'
         ? galleryItems
-        : [];
+        : galleryItems.filter((item) => item.category === activeTab);
 
       if (e.key === 'Escape') setSelectedImageIndex(null);
       if (e.key === 'ArrowLeft') {
@@ -157,9 +157,9 @@ const Gallery = () => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [selectedImageIndex, activeTab, galleryItems]);
 
-  const filteredData = activeTab === 'All' || activeTab === '1st Quarter'
+  const filteredData = activeTab === 'All'
     ? galleryItems
-    : [];
+    : galleryItems.filter((item) => item.category === activeTab);
 
   return (
     <div className="min-h-screen  pt-[120px] pb-20 text-white">
