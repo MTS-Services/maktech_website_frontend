@@ -33,7 +33,7 @@ const DIRECTORS = [
   {
     name: "Md. Mustafizur Rahman",
     role: "Director, Training & Development",
-    photo: "/mustafizur_rahman_1.png",
+    photo: "/mustafixz.png",
   },
 ];
 

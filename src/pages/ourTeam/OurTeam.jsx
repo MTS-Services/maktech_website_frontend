@@ -81,7 +81,7 @@ const LEADERS = [
     name: 'Md. Mustafizur Rahman',
     role: 'Director, Training & Development',
     company: 'MAKTECH',
-    image: '/mustafizur_rahman_1.jpg',
+    image: '/teams.png',
     imageAlt: 'Portrait of Md. Mustafizur Rahman',
   },
 ];
