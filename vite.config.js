@@ -9,6 +9,6 @@ export default defineConfig({
     tailwindcss(),
   ],
   preview: {
-    allowedHosts: ['maktechgroup.com'],
+    allowedHosts: ['maktechgroup.com','www.maktechgroup.com'],
   },
 })
