@@ -1,0 +1,11 @@
+# https://maktech.io/robots.txt
+User-agent: *
+Allow: /
+
+# Block admin & auth pages from indexing
+Disallow: /admin
+Disallow: /admin/
+Disallow: /login
+
+# Sitemap
+Sitemap: https://maktech.io/sitemap.xml
