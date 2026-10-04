@@ -6,7 +6,7 @@ export const ContentSidebar = ({ onAdd, onSaveDraft }) => {
 
   return (
     <div className="w-full lg:w-64 shrink-0">
-      <div className="sticky top-24 bg-white rounded-md border border-gray-100 overflow-hidden shadow-sm">
+      <div className="sticky top-6 bg-white rounded-md border border-gray-100 overflow-hidden shadow-sm">
         <div className="px-4 py-3 border-b border-gray-100 bg-[#fbfbfb]">
           <h3 className="text-[10px] font-medium text-gray-500 uppercase tracking-wide">Add Content</h3>
         </div>

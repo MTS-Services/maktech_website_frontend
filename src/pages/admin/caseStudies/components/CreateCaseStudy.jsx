@@ -85,7 +85,7 @@ export const CreateCaseStudy = () => {
             <CoverUpload />
 
             {/* Asset Builder Area */}
-            <div className="mt-8 pt-6 border-t border-gray-100 flex flex-col lg:flex-row gap-6 items-start">
+            <div className="mt-8 pt-6 border-t border-gray-100 flex flex-col lg:flex-row gap-6">
               <AssetBuilder blocks={blocks} onRemove={handleRemoveBlock} onUpdateBlock={handleUpdateBlock} />
               <ContentSidebar onAdd={handleAddBlock} onSaveDraft={handleSaveDraft} />
             </div>
