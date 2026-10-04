@@ -6,6 +6,7 @@ import { MetaForm } from './MetaForm';
 import { CoverUpload } from './CoverUpload';
 import { AssetBuilder } from './AssetBuilder';
 import { ContentSidebar } from './ContentSidebar';
+import { MdArrowBack } from 'react-icons/md';
 
 export const CreateCaseStudy = () => {
   const navigate = useNavigate();
@@ -59,6 +60,11 @@ export const CreateCaseStudy = () => {
 
   return (
     <div className="w-full pb-10">
+      <div className="mb-4">
+        <button type="button" onClick={() => navigate('/admin/case-studies')} className="flex items-center text-[13px] text-gray-500 hover:text-gray-800 transition-colors font-medium cursor-pointer">
+          <MdArrowBack size={16} className="mr-1.5" /> Back to Case Studies
+        </button>
+      </div>
       <div className="bg-white rounded-md border border-gray-100 shadow-sm p-6 sm:p-8 w-full">
         <h1 className="text-[17px] font-medium text-gray-800 mb-6 border-b border-gray-100 pb-4">
           Create Case Study
