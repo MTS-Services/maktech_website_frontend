@@ -22,7 +22,8 @@ import {
   MdFormatStrikethrough,
   MdImage,
   MdVideoLibrary,
-  MdGridView
+  MdGridView,
+  MdTextFields
 } from 'react-icons/md';
 
 const FontSize = Extension.create({
@@ -423,12 +424,41 @@ const TextBlock = ({ id, onRemove }) => {
   );
 };
 
-export const AssetBuilder = ({ blocks, onRemove, onUpdateBlock }) => {
+export const AssetBuilder = ({ blocks, onRemove, onUpdateBlock, onAdd }) => {
   return (
     <div className="flex-1 w-full max-w-[1400px]">
       <label className="block text-[12px] font-medium text-gray-600 mb-2">Attach your assets<span className="text-[#ff6533] ml-0.5">*</span></label>
       
       <div className="w-full flex flex-col">
+        {blocks.length === 0 && (
+          <div className="flex flex-wrap items-center justify-center gap-8 py-24 bg-[#fafafa] rounded-xl border border-gray-100">
+            <button type="button" onClick={() => onAdd('image')} className="flex flex-col items-center gap-3 group">
+              <div className="w-16 h-16 rounded-full bg-[#fff4f0] text-[#ff6533] flex items-center justify-center group-hover:bg-[#ffe5dc] transition-colors cursor-pointer">
+                <MdImage size={24} />
+              </div>
+              <span className="text-[12px] font-medium text-gray-800">Image</span>
+            </button>
+            <button type="button" onClick={() => onAdd('text')} className="flex flex-col items-center gap-3 group">
+              <div className="w-16 h-16 rounded-full bg-[#fff4f0] text-[#ff6533] flex items-center justify-center group-hover:bg-[#ffe5dc] transition-colors cursor-pointer">
+                <MdTextFields size={24} />
+              </div>
+              <span className="text-[12px] font-medium text-gray-800">Text</span>
+            </button>
+            <button type="button" onClick={() => onAdd('grid')} className="flex flex-col items-center gap-3 group">
+              <div className="w-16 h-16 rounded-full bg-[#fff4f0] text-[#ff6533] flex items-center justify-center group-hover:bg-[#ffe5dc] transition-colors cursor-pointer">
+                <MdGridView size={24} />
+              </div>
+              <span className="text-[12px] font-medium text-gray-800">Photo Grid</span>
+            </button>
+            <button type="button" onClick={() => onAdd('video')} className="flex flex-col items-center gap-3 group">
+              <div className="w-16 h-16 rounded-full bg-[#fff4f0] text-[#ff6533] flex items-center justify-center group-hover:bg-[#ffe5dc] transition-colors cursor-pointer">
+                <MdVideoLibrary size={24} />
+              </div>
+              <span className="text-[12px] font-medium text-gray-800">Video & Audio</span>
+            </button>
+          </div>
+        )}
+
         {blocks.map(block => {
           if (block.type === 'grid') {
             if (!block.layout) {

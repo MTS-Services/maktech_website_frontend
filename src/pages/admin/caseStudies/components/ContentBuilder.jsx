@@ -17,11 +17,11 @@ export const ContentBuilder = ({ entityName = 'Case Study', backPath = '/admin/c
   
   const methods = useForm({
     defaultValues: {
-      title: studyData?.title || (formType === 'caseStudy' ? 'E-commerce Platform for Fashion Retailer' : ''),
-      category: studyData?.category || (formType === 'caseStudy' ? 'Web Development' : ''),
+      title: studyData?.title || '',
+      category: studyData?.category || '',
       client: studyData?.client || '',
-      timeline: studyData?.timeline || (formType === 'caseStudy' ? '14 Weeks' : ''),
-      services: studyData?.services || (formType === 'caseStudy' ? 'International IT Product & Services' : ''),
+      timeline: studyData?.timeline || '',
+      services: studyData?.services || '',
       tags: studyData?.tags || '',
       description: studyData?.description || '',
       date: studyData?.date || '',
@@ -31,13 +31,7 @@ export const ContentBuilder = ({ entityName = 'Case Study', backPath = '/admin/c
     }
   });
 
-  const [blocks, setBlocks] = useState([
-    { id: 1, type: 'image', src: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=800&q=80', alt: 'Monitor' },
-    { id: 2, type: 'image', src: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&q=80', alt: 'Laptop' },
-    { id: 3, type: 'text' },
-    { id: 4, type: 'image', src: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80', alt: 'Screens' },
-    { id: 5, type: 'thanks' }
-  ]);
+  const [blocks, setBlocks] = useState(studyData?.blocks || []);
 
   const handleAddBlock = (type) => {
     const newBlock = { id: Date.now(), type };
@@ -90,8 +84,8 @@ export const ContentBuilder = ({ entityName = 'Case Study', backPath = '/admin/c
 
             {/* Asset Builder Area */}
             <div className="mt-8 pt-6 border-t border-gray-100 flex flex-col lg:flex-row gap-6">
-              <AssetBuilder blocks={blocks} onRemove={handleRemoveBlock} onUpdateBlock={handleUpdateBlock} />
-              <ContentSidebar onAdd={handleAddBlock} onSaveDraft={handleSaveDraft} />
+              <AssetBuilder blocks={blocks} onRemove={handleRemoveBlock} onUpdateBlock={handleUpdateBlock} onAdd={handleAddBlock} />
+              {blocks.length > 0 && <ContentSidebar onAdd={handleAddBlock} onSaveDraft={handleSaveDraft} />}
             </div>
 
             {/* Footer Actions */}
