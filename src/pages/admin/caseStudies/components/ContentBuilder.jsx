@@ -8,7 +8,7 @@ import { AssetBuilder } from './AssetBuilder';
 import { ContentSidebar } from './ContentSidebar';
 import { MdArrowBack } from 'react-icons/md';
 
-export const ContentBuilder = ({ entityName = 'Case Study', backPath = '/admin/case-studies' }) => {
+export const ContentBuilder = ({ entityName = 'Case Study', backPath = '/admin/case-studies', formType = 'caseStudy' }) => {
   const navigate = useNavigate();
   const { id } = useParams();
   const { state } = useLocation();
@@ -17,13 +17,17 @@ export const ContentBuilder = ({ entityName = 'Case Study', backPath = '/admin/c
   
   const methods = useForm({
     defaultValues: {
-      title: studyData?.title || 'E-commerce Platform for Fashion Retailer',
-      category: studyData?.category || 'Web Development',
-      client: studyData?.client || 'Fashion House BD',
-      timeline: '14 Weeks',
-      services: 'International IT Product & Services',
-      tags: '',
+      title: studyData?.title || (formType === 'caseStudy' ? 'E-commerce Platform for Fashion Retailer' : ''),
+      category: studyData?.category || (formType === 'caseStudy' ? 'Web Development' : ''),
+      client: studyData?.client || '',
+      timeline: studyData?.timeline || (formType === 'caseStudy' ? '14 Weeks' : ''),
+      services: studyData?.services || (formType === 'caseStudy' ? 'International IT Product & Services' : ''),
+      tags: studyData?.tags || '',
       description: studyData?.description || '',
+      date: studyData?.date || '',
+      postedBy: studyData?.postedBy || '',
+      keyTakeaways: studyData?.keyTakeaways || '',
+      blogContent: studyData?.blogContent || '',
     }
   });
 
@@ -79,7 +83,7 @@ export const ContentBuilder = ({ entityName = 'Case Study', backPath = '/admin/c
           <form onSubmit={methods.handleSubmit(onSubmit)} noValidate>
             
             {/* Top Meta Form */}
-            <MetaForm />
+            <MetaForm formType={formType} />
 
             {/* Cover Upload */}
             <CoverUpload />

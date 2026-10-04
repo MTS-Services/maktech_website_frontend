@@ -122,6 +122,8 @@ const AppRoutes = () => (
         <Route path='case-studies/create' element={<ContentBuilder entityName="Case Study" backPath="/admin/case-studies" />} />
         <Route path='case-studies/edit/:id' element={<ContentBuilder entityName="Case Study" backPath="/admin/case-studies" />} />
         <Route path='blog' element={<Blog />} />
+        <Route path='blog/create' element={<ContentBuilder entityName="Blog Post" backPath="/admin/blog" formType="blog" />} />
+        <Route path='blog/edit/:id' element={<ContentBuilder entityName="Blog Post" backPath="/admin/blog" formType="blog" />} />
         <Route path='jobs' element={<Jobs />} />
         <Route path='pricing' element={<Pricing />} />
       </Route>
