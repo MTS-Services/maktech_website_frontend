@@ -18,7 +18,7 @@ export const CoverUpload = () => {
 
   return (
     <div className="mt-5">
-      <label className="block text-[12px] font-medium text-gray-600 mb-1.5">Cover Image<span className="text-[#ff6533] ml-0.5">*</span></label>
+      <label className="block text-sm font-medium text-gray-600 mb-1.5">Cover Image<span className="text-[#ff6533] ml-0.5">*</span></label>
       
       {coverUrl ? (
         <div className="relative group w-full max-w-[808px] aspect-[808/632] border border-gray-200 rounded-lg overflow-hidden bg-gray-100 shadow-sm flex items-center justify-center">

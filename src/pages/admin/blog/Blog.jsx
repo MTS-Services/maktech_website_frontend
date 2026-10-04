@@ -1,10 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   MdAdd,
   MdEdit,
-  MdArrowBack,
-  MdCheck,
-  MdKeyboardArrowDown,
+  MdDelete
 } from 'react-icons/md';
 import { toast } from 'react-toastify';
 
@@ -68,234 +67,10 @@ const CATEGORY_STYLES = {
 const getCategoryStyle = (cat) =>
   CATEGORY_STYLES[cat] ?? 'bg-gray-100 text-gray-600';
 
-const LABEL_CLS = 'block text-sm font-medium text-gray-600 mb-1.5';
-const INPUT_CLS =
-  'w-full px-4 py-2.5 rounded-lg border border-gray-200 text-sm text-gray-700 placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-transparent transition';
-const REQUIRED_STAR = (
-  <span className='text-red-500 ml-0.5' aria-hidden='true'>
-    *
-  </span>
-);
 
-const EMPTY_POST = {
-  title: '',
-  category: '',
-  image: '',
-  author: '',
-  date: '',
-  excerpt: '',
-};
-
-// ─── Shared form shell (DRY) ─────────────────────────────────────────────────
-const BlogFormShell = ({
-  heading,
-  initialValues,
-  submitLabel,
-  onSubmit,
-  onCancel,
-}) => {
-  const [form, setForm] = useState(initialValues);
-
-  const handleChange = (e) =>
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onSubmit(form);
-  };
-
-  return (
-    <div className='space-y-6 pb-8'>
-      {/* Back nav */}
-      <button
-        type='button'
-        onClick={onCancel}
-        className='inline-flex cursor-pointer items-center gap-1.5 text-sm text-gray-500 hover:text-gray-800 transition-colors duration-150 group'
-      >
-        <MdArrowBack
-          className='text-base group-hover:-translate-x-0.5 transition-transform duration-150'
-          aria-hidden='true'
-        />
-        Back to Blog
-      </button>
-
-      <div className='bg-white rounded-xl border border-gray-100 shadow-sm p-6 sm:p-8'>
-        <h1 className='text-xl font-bold text-gray-900 mb-6'>{heading}</h1>
-
-        <form onSubmit={handleSubmit} noValidate>
-          <div className='space-y-4 mb-6'>
-            {/* Title */}
-            <div>
-              <label htmlFor='bf-title' className={LABEL_CLS}>
-                Title{REQUIRED_STAR}
-              </label>
-              <input
-                id='bf-title'
-                name='title'
-                type='text'
-                value={form.title}
-                onChange={handleChange}
-                autoComplete='off'
-                required
-                className={INPUT_CLS}
-              />
-            </div>
-
-            {/* Category — native select, DRY: options from CATEGORIES constant */}
-            <div>
-              <label htmlFor='bf-category' className={LABEL_CLS}>
-                Category{REQUIRED_STAR}
-              </label>
-              <div className='relative'>
-                <select
-                  id='bf-category'
-                  name='category'
-                  value={form.category}
-                  onChange={handleChange}
-                  required
-                  className={`${INPUT_CLS} appearance-none pr-10 cursor-pointer`}
-                >
-                  <option value='' disabled>
-                    Select a category
-                  </option>
-                  {CATEGORIES.map((cat) => (
-                    <option key={cat} value={cat}>
-                      {cat}
-                    </option>
-                  ))}
-                </select>
-                <MdKeyboardArrowDown
-                  className='pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-xl text-gray-400'
-                  aria-hidden='true'
-                />
-              </div>
-            </div>
-
-            {/* Image URL */}
-            <div>
-              <label htmlFor='bf-image' className={LABEL_CLS}>
-                Image URL{REQUIRED_STAR}
-              </label>
-              <input
-                id='bf-image'
-                name='image'
-                type='url'
-                value={form.image}
-                onChange={handleChange}
-                autoComplete='off'
-                required
-                className={INPUT_CLS}
-              />
-            </div>
-
-            {/* Author */}
-            <div>
-              <label htmlFor='bf-author' className={LABEL_CLS}>
-                Author{REQUIRED_STAR}
-              </label>
-              <input
-                id='bf-author'
-                name='author'
-                type='text'
-                value={form.author}
-                onChange={handleChange}
-                autoComplete='name'
-                required
-                className={INPUT_CLS}
-              />
-            </div>
-
-            {/* Date */}
-            <div>
-              <label htmlFor='bf-date' className={LABEL_CLS}>
-                Publish Date{REQUIRED_STAR}
-              </label>
-              <input
-                id='bf-date'
-                name='date'
-                type='date'
-                value={form.date}
-                onChange={handleChange}
-                required
-                className={INPUT_CLS}
-              />
-            </div>
-
-            {/* Blog Content */}
-            <div>
-              <label htmlFor='bf-excerpt' className={LABEL_CLS}>
-                Blog Content{REQUIRED_STAR}
-              </label>
-              <textarea
-                id='bf-excerpt'
-                name='excerpt'
-                value={form.excerpt}
-                onChange={handleChange}
-                rows={4}
-                autoComplete='off'
-                required
-                className={`${INPUT_CLS} resize-none`}
-              />
-            </div>
-          </div>
-
-          <div className='flex flex-col gap-3 sm:flex-row sm:items-center sm:flex-wrap'>
-            <button
-              type='submit'
-              className='group inline-flex cursor-pointer items-center justify-center gap-2 overflow-hidden px-5 py-2.5 text-sm font-semibold text-white bg-orange-bg-cta rounded-lg hover:bg-[#e5501a] hover:shadow-[0_4px_14px_rgba(255,101,51,0.35)] transition-all duration-200 active:scale-[0.97]'
-            >
-              <MdCheck
-                className='text-base shrink-0 transition-transform duration-300 ease-out group-hover:translate-x-1'
-                aria-hidden='true'
-              />
-              <span className='inline-block -translate-x-1 transition-transform duration-300 ease-out delay-100 group-hover:translate-x-0'>
-                {submitLabel}
-              </span>
-            </button>
-            <button
-              type='button'
-              onClick={onCancel}
-              className='w-full sm:w-auto inline-flex cursor-pointer items-center justify-center px-5 py-2.5 text-sm font-semibold text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-all duration-200 active:scale-[0.97]'
-            >
-              Cancel
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  );
-};
-
-// Thin wrappers — single responsibility, keep BlogFormShell DRY
-const AddBlogForm = ({ onCancel, onSubmit }) => (
-  <BlogFormShell
-    heading='Add New Blog Post'
-    initialValues={EMPTY_POST}
-    submitLabel='Publish Post'
-    onSubmit={onSubmit}
-    onCancel={onCancel}
-  />
-);
-
-const EditBlogForm = ({ post, onCancel, onSubmit }) => (
-  <BlogFormShell
-    heading='Edit Blog Post'
-    initialValues={{
-      title: post.title,
-      category: post.category,
-      image: post.image,
-      author: post.author,
-      date: post.date,
-      excerpt: post.excerpt,
-    }}
-    submitLabel='Update Post'
-    onSubmit={onSubmit}
-    onCancel={onCancel}
-  />
-);
 
 // ─── Blog post row card ───────────────────────────────────────────────────────
-const PostCard = ({ post, onEdit }) => (
+const PostCard = ({ post, onEdit, onDelete }) => (
   <article className='bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden'>
     <div className='flex gap-4 p-4 sm:p-5'>
       {/* Thumbnail — fixed width + aspect ratio wrapper prevents CLS */}
@@ -332,58 +107,47 @@ const PostCard = ({ post, onEdit }) => (
           {post.date}
         </p>
 
-        <button
-          type='button'
-          onClick={() => onEdit(post)}
-          aria-label={`Edit ${post.title}`}
-          className='inline-flex items-center gap-1.5 text-sm font-medium text-blue-500 hover:text-blue-600 transition-colors duration-150'
-        >
-          <MdEdit className='text-base' aria-hidden='true' />
-          Edit Blog Post
-        </button>
+        <div className="flex items-center gap-4 mt-auto">
+          <button
+            type='button'
+            onClick={() => onEdit(post)}
+            aria-label={`Edit ${post.title}`}
+            className='inline-flex items-center gap-1.5 text-sm font-medium text-blue-500 hover:text-blue-600 transition-colors duration-150 cursor-pointer'
+          >
+            <MdEdit className='text-base' aria-hidden='true' />
+            Edit Blog Post
+          </button>
+          <button
+            type='button'
+            onClick={() => onDelete(post.id)}
+            aria-label={`Delete ${post.title}`}
+            className='inline-flex items-center gap-1.5 text-sm font-medium text-red-500 hover:text-red-600 transition-colors duration-150 cursor-pointer'
+          >
+            <MdDelete className='text-base' aria-hidden='true' />
+            Delete
+          </button>
+        </div>
       </div>
     </div>
   </article>
 );
 
-// ─── Page component ───────────────────────────────────────────────────────────
 export default function Blog() {
+  const [posts, setPosts] = useState(POSTS);
+  const navigate = useNavigate();
+
   useEffect(() => {
     document.title = 'Blog – Maktech Admin';
   }, []);
 
-  const totalPosts = useMemo(() => POSTS.length, []);
+  const totalPosts = useMemo(() => posts.length, [posts]);
 
-  const [editingPost, setEditingPost] = useState(null);
-  const [addingPost, setAddingPost] = useState(false);
-
-  const handleAddSubmit = () => {
-    toast.success('Blog post published successfully!');
-    setAddingPost(false);
+  const handleDelete = (id) => {
+    if (window.confirm('Are you sure you want to delete this blog post?')) {
+      setPosts(posts.filter(p => p.id !== id));
+      toast.success('Blog post deleted successfully!');
+    }
   };
-
-  const handleEditSubmit = () => {
-    toast.success('Blog post updated successfully!');
-    setEditingPost(null);
-  };
-
-  // State machine: edit > add > list
-  if (editingPost)
-    return (
-      <EditBlogForm
-        post={editingPost}
-        onCancel={() => setEditingPost(null)}
-        onSubmit={handleEditSubmit}
-      />
-    );
-
-  if (addingPost)
-    return (
-      <AddBlogForm
-        onCancel={() => setAddingPost(false)}
-        onSubmit={handleAddSubmit}
-      />
-    );
 
   return (
     <div className='space-y-6 pb-8'>
@@ -405,7 +169,7 @@ export default function Blog() {
 
         <button
           type='button'
-          onClick={() => setAddingPost(true)}
+          onClick={() => navigate('/admin/blog/create')}
           className='group inline-flex cursor-pointer items-center gap-2 overflow-hidden px-5 py-2.5 text-sm font-semibold text-white bg-orange-bg-cta rounded-lg hover:bg-[#e5501a] hover:shadow-[0_4px_14px_rgba(255,101,51,0.35)] transition-all duration-200 active:scale-[0.97]'
         >
           <MdAdd
@@ -419,14 +183,19 @@ export default function Blog() {
       </div>
 
       {/* Post list */}
-      {POSTS.length === 0 ? (
+      {posts.length === 0 ? (
         <div className='bg-white rounded-2xl border border-gray-100 shadow-sm p-12 text-center'>
           <p className='text-base text-gray-400'>No blog posts found.</p>
         </div>
       ) : (
         <section aria-label='Blog posts list' className='space-y-4'>
-          {POSTS.map((post) => (
-            <PostCard key={post.id} post={post} onEdit={setEditingPost} />
+          {posts.map((post) => (
+            <PostCard 
+              key={post.id} 
+              post={post} 
+              onEdit={(post) => navigate(`/admin/blog/edit/${post.id}`, { state: { study: post } })} 
+              onDelete={handleDelete}
+            />
           ))}
         </section>
       )}

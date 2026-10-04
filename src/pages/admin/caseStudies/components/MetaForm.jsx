@@ -4,7 +4,7 @@ import { useFormContext } from 'react-hook-form';
 export const MetaForm = ({ formType = 'caseStudy' }) => {
   const { register, formState: { errors } } = useFormContext();
 
-  const labelCls = "block text-[12px] font-medium text-gray-600 mb-1.5";
+  const labelCls = "block text-sm font-medium text-gray-600 mb-1.5";
   const inputCls = "w-full px-3 py-2 rounded-md border border-gray-200 text-[13px] text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500 transition";
   const errCls = "text-red-500 text-xs mt-1";
   const star = <span className="text-[#ff6533] ml-0.5">*</span>;
