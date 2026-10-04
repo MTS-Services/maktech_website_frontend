@@ -23,7 +23,7 @@ export const CoverUpload = () => {
       {coverUrl ? (
         <div className="relative group w-full border border-gray-200 rounded-lg overflow-hidden bg-gray-100 shadow-sm flex items-center justify-center">
           <div className="absolute top-4 right-4 bg-[#2a2a2a] text-gray-300 rounded-md flex items-center opacity-0 group-hover:opacity-100 transition-opacity z-10 shadow-md">
-             <button type="button" onClick={handleRemove} className="p-1.5 text-red-400 hover:text-red-300 hover:bg-gray-700 rounded-md transition-colors"><MdDelete size={16} /></button>
+             <button type="button" onClick={handleRemove} className="p-1.5 text-red-400 hover:text-red-300 hover:bg-gray-700 rounded-md transition-colors cursor-pointer"><MdDelete size={16} /></button>
           </div>
           <img src={coverUrl} alt="Cover" className="w-full h-auto max-h-[600px] object-cover block" />
         </div>

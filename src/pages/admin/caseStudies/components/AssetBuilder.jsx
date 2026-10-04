@@ -132,7 +132,7 @@ const GridSelector = ({ id, onSelectLayout, onRemove }) => {
   return (
     <div className="relative group w-full border-2 border-dashed border-gray-300 rounded-xl bg-gray-50 p-6 mb-4">
       <div className="absolute top-4 right-4 bg-[#2a2a2a] text-gray-300 rounded-md flex items-center opacity-0 group-hover:opacity-100 transition-opacity z-10 border border-gray-600 shadow-md">
-        <button type="button" onClick={() => onRemove(id)} className="p-1.5 text-red-400 hover:text-red-300 hover:bg-gray-700 rounded-md transition-colors"><MdDelete size={16} /></button>
+        <button type="button" onClick={() => onRemove(id)} className="p-1.5 text-red-400 hover:text-red-300 hover:bg-gray-700 rounded-md transition-colors cursor-pointer"><MdDelete size={16} /></button>
       </div>
       <h3 className="text-sm font-bold text-gray-700 mb-6 text-center">Select Grid Layout</h3>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 justify-items-center">
@@ -161,7 +161,7 @@ const GridBlock = ({ block, onRemove, onUpdateBlock }) => {
       return (
         <div key={index} className={`relative group rounded-xl overflow-hidden shadow-sm bg-gray-100 w-full h-full ${className}`}>
            <div className="absolute top-2 right-2 bg-[#2a2a2a] text-gray-300 rounded-md flex items-center opacity-0 group-hover:opacity-100 transition-opacity z-10 shadow-md">
-             <button type="button" onClick={() => handleUpload(index, '')} className="p-1.5 text-red-400 hover:text-red-300 hover:bg-gray-700 rounded-md transition-colors"><MdDelete size={14} /></button>
+             <button type="button" onClick={() => handleUpload(index, '')} className="p-1.5 text-red-400 hover:text-red-300 hover:bg-gray-700 rounded-md transition-colors cursor-pointer"><MdDelete size={14} /></button>
            </div>
            <img src={images[index]} alt={`Grid slot ${index}`} className="absolute inset-0 w-full h-full object-cover" />
         </div>
@@ -237,7 +237,7 @@ const GridBlock = ({ block, onRemove, onUpdateBlock }) => {
   return (
     <div className="relative group mb-4 w-full border border-dashed border-transparent hover:border-gray-200 p-2 rounded-xl transition">
       <div className="absolute -right-2 top-2 bg-[#2a2a2a] text-gray-300 rounded-md flex items-center opacity-0 group-hover:opacity-100 transition-opacity z-10 border border-gray-600 shadow-md z-20">
-        <button type="button" onClick={() => onRemove(block.id)} className="p-1.5 text-red-400 hover:text-red-300 hover:bg-gray-700 rounded-md transition-colors"><MdDelete size={16} /></button>
+        <button type="button" onClick={() => onRemove(block.id)} className="p-1.5 text-red-400 hover:text-red-300 hover:bg-gray-700 rounded-md transition-colors cursor-pointer"><MdDelete size={16} /></button>
       </div>
       {renderLayout()}
     </div>
@@ -248,7 +248,7 @@ const MediaPlaceholder = ({ type, onUpload, onRemove, id }) => {
   return (
     <div className="relative group w-full border-2 border-dashed border-gray-300 rounded-xl bg-[#fafafa] flex flex-col items-center justify-center py-16 mb-4 hover:bg-gray-50 transition cursor-pointer">
       <div className="absolute top-4 right-4 bg-[#2a2a2a] text-gray-300 rounded-md flex items-center opacity-0 group-hover:opacity-100 transition-opacity z-10 border border-gray-600 shadow-md">
-        <button type="button" onClick={() => onRemove(id)} className="p-1.5 text-red-400 hover:text-red-300 hover:bg-gray-700 rounded-md transition-colors"><MdDelete size={16} /></button>
+        <button type="button" onClick={() => onRemove(id)} className="p-1.5 text-red-400 hover:text-red-300 hover:bg-gray-700 rounded-md transition-colors cursor-pointer"><MdDelete size={16} /></button>
       </div>
       <div className="w-12 h-12 bg-white shadow-sm border border-gray-100 rounded-full flex items-center justify-center mb-3 text-gray-400">
         {type === 'image' && <MdImage size={24} />}
@@ -278,8 +278,7 @@ const MediaPlaceholder = ({ type, onUpload, onRemove, id }) => {
 const MediaBlock = ({ id, type, src, alt, mediaType, onRemove }) => (
   <div className="relative group rounded-xl bg-[#1a1a1a] border border-gray-100 overflow-hidden mb-4 shadow-sm">
     <div className="absolute top-4 right-4 bg-[#2a2a2a] text-gray-300 rounded-md flex items-center opacity-0 group-hover:opacity-100 transition-opacity z-10 border border-gray-600 shadow-md z-20">
-      <button type="button" className="p-1.5 hover:text-white hover:bg-gray-700 rounded-l-md transition-colors border-r border-gray-600"><MdEdit size={16} /></button>
-      <button type="button" onClick={() => onRemove(id)} className="p-1.5 text-red-400 hover:text-red-300 hover:bg-gray-700 rounded-r-md transition-colors"><MdDelete size={16} /></button>
+      <button type="button" onClick={() => onRemove(id)} className="p-1.5 text-red-400 hover:text-red-300 hover:bg-gray-700 rounded-md transition-colors cursor-pointer"><MdDelete size={16} /></button>
     </div>
     {type === 'video' ? (
       mediaType === 'audio' ? (
@@ -384,7 +383,7 @@ const EditorMenu = ({ editor, onRemove, id }) => {
         if (url) editor.chain().focus().setLink({ href: url }).run();
         else if (url === '') editor.chain().focus().unsetLink().run();
       }} className={`p-1.5 hover:bg-gray-700 rounded ${editor.isActive('link') ? 'text-white bg-gray-700' : ''}`}><MdLink size={14} /></button>
-      <button type="button" onMouseDown={e => e.preventDefault()} onClick={() => onRemove(id)} className="p-1.5 hover:bg-gray-700 rounded text-red-400"><MdDelete size={14} /></button>
+      <button type="button" onMouseDown={e => e.preventDefault()} onClick={() => onRemove(id)} className="p-1.5 hover:bg-gray-700 rounded text-red-400 cursor-pointer"><MdDelete size={14} /></button>
     </BubbleMenu>
   );
 };
@@ -450,8 +449,7 @@ export const AssetBuilder = ({ blocks, onRemove, onUpdateBlock }) => {
             return (
               <div key={block.id} className="relative group rounded-xl bg-gradient-to-br from-[#1a1a1a] via-[#2a1a1a] to-[#4a1a00] border border-gray-100 overflow-hidden mb-4 shadow-sm flex items-center justify-center py-24">
                 <div className="absolute top-4 right-4 bg-[#2a2a2a] text-gray-300 rounded-md flex items-center opacity-0 group-hover:opacity-100 transition-opacity z-10 border border-gray-600 shadow-md">
-                  <button type="button" className="p-1.5 hover:text-white hover:bg-gray-700 rounded-l-md transition-colors border-r border-gray-600"><MdEdit size={16} /></button>
-                  <button type="button" onClick={() => onRemove(block.id)} className="p-1.5 text-red-400 hover:text-red-300 hover:bg-gray-700 rounded-r-md transition-colors"><MdDelete size={16} /></button>
+                  <button type="button" onClick={() => onRemove(block.id)} className="p-1.5 text-red-400 hover:text-red-300 hover:bg-gray-700 rounded-md transition-colors cursor-pointer"><MdDelete size={16} /></button>
                 </div>
                 <div className="text-center">
                   <h2 className="text-white text-3xl font-light tracking-widest border-b border-white/20 pb-2 mb-2 uppercase">Thanks <span className="text-sm align-middle tracking-normal italic mx-2 lowercase">for</span></h2>
