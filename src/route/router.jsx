@@ -120,6 +120,7 @@ const AppRoutes = () => (
         {/* <Route path='marketplace-orders' element={<MarketplaceOrders />} /> */}
         <Route path='case-studies' element={<CaseStudies />} />
         <Route path='case-studies/create' element={<CreateCaseStudy />} />
+        <Route path='case-studies/edit/:id' element={<CreateCaseStudy />} />
         <Route path='blog' element={<Blog />} />
         <Route path='jobs' element={<Jobs />} />
         <Route path='pricing' element={<Pricing />} />

@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { Outlet } from 'react-router-dom';
+import { useState, useEffect, useRef } from 'react';
+import { Outlet, useLocation } from 'react-router-dom';
 import Sidebar from './adminSidebar/AdminSidebar';
 import { MdMenu } from 'react-icons/md';
 import { getLenisInstance } from '../../utils/lenisManager';
@@ -10,6 +10,16 @@ const AdminLayout = () => {
   const [isDesktop, setIsDesktop] = useState(
     () => typeof window !== 'undefined' && window.innerWidth >= 1024,
   );
+  
+  const scrollRef = useRef(null);
+  const location = useLocation();
+
+  // Scroll to top of the admin container on route change
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTo(0, 0);
+    }
+  }, [location.pathname]);
 
   // Stop Lenis smooth scroll on admin — window never scrolls here
   useEffect(() => {
@@ -104,7 +114,7 @@ const AdminLayout = () => {
         </header>
 
         {/* Scrollable page area — data-lenis-prevent stops Lenis hijacking this div's scroll */}
-        <div className='flex-1 overflow-y-auto' data-lenis-prevent>
+        <div ref={scrollRef} className='flex-1 overflow-y-auto' data-lenis-prevent>
           <div className='w-full px-6 py-5 sm:px-8 sm:py-6 lg:px-10 lg:py-8'>
             <Outlet />
           </div>
