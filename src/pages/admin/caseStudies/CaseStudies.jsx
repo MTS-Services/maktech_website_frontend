@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   MdEdit,
   MdArrowBack,
@@ -8,6 +9,8 @@ import {
   MdOpenInNew,
 } from 'react-icons/md';
 import { toast } from 'react-toastify';
+import { CreateCaseStudy } from './components/CreateCaseStudy';
+
 
 // ─── Static case study data ───────────────────────────────────────────────────
 const CASE_STUDIES = [
@@ -77,186 +80,7 @@ const REQUIRED_STAR = (
   </span>
 );
 
-// ─── Create Case Study Form ──────────────────────────────────────────────────
-const CreateCaseStudyForm = ({ onCancel }) => {
-  const [form, setForm] = useState({
-    title: '',
-    category: Object.keys(CATEGORY_STYLES)[0],
-    image: '',
-    client: '',
-    description: '',
-    result: '',
-  });
 
-  const handleChange = (e) =>
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    toast.success('Case study created successfully!');
-    onCancel();
-  };
-
-  return (
-    <div className='space-y-6 pb-8'>
-      <button
-        type='button'
-        onClick={onCancel}
-        className='inline-flex cursor-pointer items-center gap-1.5 text-sm text-gray-500 hover:text-gray-800 transition-colors duration-150 group'
-      >
-        <MdArrowBack
-          className='text-base group-hover:-translate-x-0.5 transition-transform duration-150'
-          aria-hidden='true'
-        />
-        Back to Case Studies
-      </button>
-
-      <div className='bg-white rounded-xl border border-gray-100 shadow-sm p-6 sm:p-8'>
-        <h1 className='text-xl font-bold text-gray-900 mb-6'>
-          Create New Case Study
-        </h1>
-
-        <form onSubmit={handleSubmit} noValidate>
-          <div className='grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4 mb-4'>
-            {/* Title */}
-            <div>
-              <label htmlFor='ncs-title' className={LABEL_CLS}>
-                Title{REQUIRED_STAR}
-              </label>
-              <input
-                id='ncs-title'
-                name='title'
-                type='text'
-                value={form.title}
-                onChange={handleChange}
-                autoComplete='off'
-                required
-                className={INPUT_CLS}
-              />
-            </div>
-
-            {/* Category */}
-            <div>
-              <label htmlFor='ncs-category' className={LABEL_CLS}>
-                Category{REQUIRED_STAR}
-              </label>
-              <div className='relative'>
-                <select
-                  id='ncs-category'
-                  name='category'
-                  value={form.category}
-                  onChange={handleChange}
-                  required
-                  className={`${INPUT_CLS} appearance-none pr-10 cursor-pointer`}
-                >
-                  {Object.keys(CATEGORY_STYLES).map((cat) => (
-                    <option key={cat} value={cat}>
-                      {cat}
-                    </option>
-                  ))}
-                </select>
-                <MdKeyboardArrowDown
-                  className='pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-xl text-gray-400'
-                  aria-hidden='true'
-                />
-              </div>
-            </div>
-
-            {/* Client */}
-            <div>
-              <label htmlFor='ncs-client' className={LABEL_CLS}>
-                Client{REQUIRED_STAR}
-              </label>
-              <input
-                id='ncs-client'
-                name='client'
-                type='text'
-                value={form.client}
-                onChange={handleChange}
-                autoComplete='organization'
-                required
-                className={INPUT_CLS}
-              />
-            </div>
-
-            {/* Image URL */}
-            <div>
-              <label htmlFor='ncs-image' className={LABEL_CLS}>
-                Image URL{REQUIRED_STAR}
-              </label>
-              <input
-                id='ncs-image'
-                name='image'
-                type='url'
-                value={form.image}
-                onChange={handleChange}
-                autoComplete='off'
-                required
-                className={INPUT_CLS}
-              />
-            </div>
-          </div>
-
-          {/* Description — full width */}
-          <div className='mb-4'>
-            <label htmlFor='ncs-description' className={LABEL_CLS}>
-              Description{REQUIRED_STAR}
-            </label>
-            <textarea
-              id='ncs-description'
-              name='description'
-              value={form.description}
-              onChange={handleChange}
-              rows={4}
-              autoComplete='off'
-              required
-              className={`${INPUT_CLS} resize-none`}
-            />
-          </div>
-
-          {/* Results — full width */}
-          <div className='mb-6'>
-            <label htmlFor='ncs-result' className={LABEL_CLS}>
-              Results{REQUIRED_STAR}
-            </label>
-            <textarea
-              id='ncs-result'
-              name='result'
-              value={form.result}
-              onChange={handleChange}
-              rows={3}
-              autoComplete='off'
-              required
-              className={`${INPUT_CLS} resize-none`}
-            />
-          </div>
-
-          <div className='flex flex-col gap-3 sm:flex-row sm:items-center sm:flex-wrap'>
-            <button
-              type='submit'
-              className='group inline-flex cursor-pointer items-center justify-center gap-2 overflow-hidden px-5 py-2.5 text-sm font-semibold text-white bg-orange-bg-cta rounded-lg hover:bg-[#e5501a] hover:shadow-[0_4px_14px_rgba(255,101,51,0.35)] transition-all duration-200 active:scale-[0.97]'
-            >
-              <MdOpenInNew
-                className='text-base shrink-0 transition-transform duration-300 ease-out group-hover:translate-x-1'
-                aria-hidden='true'
-              />
-              <span className='inline-block -translate-x-1 transition-transform duration-300 ease-out delay-100 group-hover:translate-x-0'>
-                Create Case Study
-              </span>
-            </button>
-            <button
-              type='button'
-              onClick={onCancel}
-              className='w-full sm:w-auto inline-flex cursor-pointer items-center justify-center px-5 py-2.5 text-sm font-semibold text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-all duration-200 active:scale-[0.97]'
-            >
-              Cancel
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  );
-};
 
 // ─── Edit Case Study Form ─────────────────────────────────────────────────────
 const EditCaseStudyForm = ({ study, onCancel }) => {
@@ -498,11 +322,8 @@ export default function CaseStudies() {
     document.title = 'Case Studies – Maktech Admin';
   }, []);
 
+  const navigate = useNavigate();
   const [editingStudy, setEditingStudy] = useState(null);
-  const [creatingStudy, setCreatingStudy] = useState(false);
-
-  if (creatingStudy)
-    return <CreateCaseStudyForm onCancel={() => setCreatingStudy(false)} />;
 
   if (editingStudy)
     return (
@@ -526,7 +347,7 @@ export default function CaseStudies() {
         </div>
         <button
           type='button'
-          onClick={() => setCreatingStudy(true)}
+          onClick={() => navigate('/admin/case-studies/create')}
           className='group inline-flex shrink-0 cursor-pointer items-center gap-2 overflow-hidden px-5 py-2.5 text-sm font-semibold text-white bg-orange-bg-cta rounded-lg hover:bg-[#e5501a] hover:shadow-[0_4px_14px_rgba(255,101,51,0.35)] transition-all duration-200 active:scale-[0.97]'
         >
           <MdAdd

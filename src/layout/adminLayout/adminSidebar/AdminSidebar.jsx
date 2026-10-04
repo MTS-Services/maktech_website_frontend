@@ -22,12 +22,12 @@ const NAV_ITEMS = [
   { name: 'Emails', path: '/admin/emails', icon: MdEmail },
   { name: 'Leads', path: '/admin/leads', icon: MdPeople },
   { name: 'Orders', path: '/admin/orders', icon: MdShoppingCart },
-  {
-    name: 'Marketplace Orders',
-    path: '/admin/marketplace-orders',
-    icon: MdStorefront,
-    autoCollapse: true,
-  },
+  // {
+  //   name: 'Marketplace Orders',
+  //   path: '/admin/marketplace-orders',
+  //   icon: MdStorefront,
+  //   autoCollapse: true,
+  // },
   { name: 'Case Studies', path: '/admin/case-studies', icon: MdWork },
   { name: 'Blog', path: '/admin/blog', icon: MdArticle },
   { name: 'Jobs', path: '/admin/jobs', icon: MdWorkOutline },
@@ -76,7 +76,7 @@ const Sidebar = ({
               alt='Maktech'
               width={120}
               height={32}
-              fetchPriority='high'
+              fetchpriority='high'
               className='h-8 w-auto object-contain'
               onError={(e) => {
                 e.currentTarget.style.display = 'none';

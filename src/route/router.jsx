@@ -23,6 +23,7 @@ const MarketplaceOrders = lazy(
 const CaseStudies = lazy(
   () => import('../pages/admin/caseStudies/CaseStudies'),
 );
+const CreateCaseStudy = lazy(() => import('../pages/admin/caseStudies/components/CreateCaseStudy').then(m => ({ default: m.CreateCaseStudy })));
 const Blog = lazy(() => import('../pages/admin/blog/Blog'));
 const Jobs = lazy(() => import('../pages/admin/jobs/Jobs'));
 const Pricing = lazy(() => import('../pages/admin/pricing/Pricing'));
@@ -116,8 +117,9 @@ const AppRoutes = () => (
         <Route path='compose' element={<ComposePage />} />
         <Route path='leads' element={<Leads />} />
         <Route path='orders' element={<Orders />} />
-        <Route path='marketplace-orders' element={<MarketplaceOrders />} />
+        {/* <Route path='marketplace-orders' element={<MarketplaceOrders />} /> */}
         <Route path='case-studies' element={<CaseStudies />} />
+        <Route path='case-studies/create' element={<CreateCaseStudy />} />
         <Route path='blog' element={<Blog />} />
         <Route path='jobs' element={<Jobs />} />
         <Route path='pricing' element={<Pricing />} />
