@@ -426,7 +426,7 @@ const TextBlock = ({ id, onRemove }) => {
 
 export const AssetBuilder = ({ blocks, onRemove, onUpdateBlock }) => {
   return (
-    <div className="flex-1 w-full max-w-[800px]">
+    <div className="flex-1 w-full min-w-0">
       <label className="block text-[12px] font-medium text-gray-600 mb-2">Attach your assets<span className="text-[#ff6533] ml-0.5">*</span></label>
       
       <div className="w-full flex flex-col">

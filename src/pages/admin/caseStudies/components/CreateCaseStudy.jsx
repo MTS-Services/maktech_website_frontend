@@ -59,7 +59,7 @@ export const CreateCaseStudy = () => {
 
   return (
     <div className="w-full pb-10">
-      <div className="bg-white rounded-md border border-gray-100 shadow-sm p-6 sm:p-8 w-full max-w-5xl">
+      <div className="bg-white rounded-md border border-gray-100 shadow-sm p-6 sm:p-8 w-full">
         <h1 className="text-[17px] font-medium text-gray-800 mb-6 border-b border-gray-100 pb-4">
           Create Case Study
         </h1>
