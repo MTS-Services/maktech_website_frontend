@@ -9,7 +9,7 @@ import {
   MdOpenInNew,
 } from 'react-icons/md';
 import { toast } from 'react-toastify';
-import { CreateCaseStudy } from './components/CreateCaseStudy';
+
 
 
 // ─── Static case study data ───────────────────────────────────────────────────

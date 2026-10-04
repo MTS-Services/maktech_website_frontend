@@ -23,7 +23,7 @@ const MarketplaceOrders = lazy(
 const CaseStudies = lazy(
   () => import('../pages/admin/caseStudies/CaseStudies'),
 );
-const CreateCaseStudy = lazy(() => import('../pages/admin/caseStudies/components/CreateCaseStudy').then(m => ({ default: m.CreateCaseStudy })));
+const ContentBuilder = lazy(() => import('../pages/admin/caseStudies/components/ContentBuilder').then(m => ({ default: m.ContentBuilder })));
 const Blog = lazy(() => import('../pages/admin/blog/Blog'));
 const Jobs = lazy(() => import('../pages/admin/jobs/Jobs'));
 const Pricing = lazy(() => import('../pages/admin/pricing/Pricing'));
@@ -119,8 +119,8 @@ const AppRoutes = () => (
         <Route path='orders' element={<Orders />} />
         {/* <Route path='marketplace-orders' element={<MarketplaceOrders />} /> */}
         <Route path='case-studies' element={<CaseStudies />} />
-        <Route path='case-studies/create' element={<CreateCaseStudy />} />
-        <Route path='case-studies/edit/:id' element={<CreateCaseStudy />} />
+        <Route path='case-studies/create' element={<ContentBuilder entityName="Case Study" backPath="/admin/case-studies" />} />
+        <Route path='case-studies/edit/:id' element={<ContentBuilder entityName="Case Study" backPath="/admin/case-studies" />} />
         <Route path='blog' element={<Blog />} />
         <Route path='jobs' element={<Jobs />} />
         <Route path='pricing' element={<Pricing />} />

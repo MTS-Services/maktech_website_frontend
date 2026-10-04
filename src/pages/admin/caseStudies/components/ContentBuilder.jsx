@@ -8,7 +8,7 @@ import { AssetBuilder } from './AssetBuilder';
 import { ContentSidebar } from './ContentSidebar';
 import { MdArrowBack } from 'react-icons/md';
 
-export const CreateCaseStudy = () => {
+export const ContentBuilder = ({ entityName = 'Case Study', backPath = '/admin/case-studies' }) => {
   const navigate = useNavigate();
   const { id } = useParams();
   const { state } = useLocation();
@@ -59,20 +59,20 @@ export const CreateCaseStudy = () => {
 
   const onSubmit = (data) => {
     console.log({ ...data, blocks });
-    toast.success('Case study created successfully!');
+    toast.success(`${entityName} ${isEditMode ? 'updated' : 'created'} successfully!`);
     navigate(-1);
   };
 
   return (
     <div className="w-full pb-10">
       <div className="mb-4">
-        <button type="button" onClick={() => navigate('/admin/case-studies')} className="flex items-center text-[13px] text-gray-500 hover:text-gray-800 transition-colors font-medium cursor-pointer">
-          <MdArrowBack size={16} className="mr-1.5" /> Back to Case Studies
+        <button type="button" onClick={() => navigate(backPath)} className="flex items-center text-[13px] text-gray-500 hover:text-gray-800 transition-colors font-medium cursor-pointer">
+          <MdArrowBack size={16} className="mr-1.5" /> Back to {entityName}s
         </button>
       </div>
       <div className="bg-white rounded-md border border-gray-100 shadow-sm p-6 sm:p-8 w-full">
         <h1 className="text-[17px] font-medium text-gray-800 mb-6 border-b border-gray-100 pb-4">
-          {isEditMode ? 'Edit Case Study' : 'Create Case Study'}
+          {isEditMode ? `Edit ${entityName}` : `Create ${entityName}`}
         </h1>
 
         <FormProvider {...methods}>
@@ -96,7 +96,7 @@ export const CreateCaseStudy = () => {
                 type="submit"
                 className="px-5 py-2 rounded text-[12px] font-semibold bg-[#ff6533] text-white hover:bg-[#e5501a] transition-colors cursor-pointer"
               >
-                Update Case Study
+                {isEditMode ? `Update ${entityName}` : `Create ${entityName}`}
               </button>
               <button
                 type="button"
