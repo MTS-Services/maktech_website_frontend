@@ -7,6 +7,7 @@ import {
   MdKeyboardArrowDown,
   MdAdd,
   MdOpenInNew,
+  MdDelete
 } from 'react-icons/md';
 import { toast } from 'react-toastify';
 
@@ -84,7 +85,7 @@ const REQUIRED_STAR = (
 
 
 // ─── Case Study Card ──────────────────────────────────────────────────────────
-const CaseStudyCard = ({ study, onEdit }) => (
+const CaseStudyCard = ({ study, onEdit, onDelete }) => (
   <article className='bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden flex flex-col'>
     {/* Cover image — aspect-ratio wrapper prevents CLS */}
     <div className='aspect-video overflow-hidden'>
@@ -121,26 +122,46 @@ const CaseStudyCard = ({ study, onEdit }) => (
         <p className='text-sm text-gray-600'>{study.result}</p>
       </div>
 
-      {/* Edit action — button, not <a>, so keyboard/screen-reader works without href */}
-      <button
-        type='button'
-        onClick={() => onEdit(study)}
-        className='inline-flex items-center gap-1.5 text-sm font-medium text-blue-500 hover:text-blue-600 transition-colors duration-150 cursor-pointer'
-        aria-label={`Edit ${study.title}`}
-      >
-        <MdEdit className='text-base' aria-hidden='true' />
-        Edit Case Study
-      </button>
+      {/* Actions */}
+      <div className="flex items-center gap-4 mt-4">
+        <button
+          type='button'
+          onClick={() => onEdit(study)}
+          className='inline-flex items-center gap-1.5 text-sm font-medium text-blue-500 hover:text-blue-600 transition-colors duration-150 cursor-pointer'
+          aria-label={`Edit ${study.title}`}
+        >
+          <MdEdit className='text-base' aria-hidden='true' />
+          Edit Case Study
+        </button>
+        <button
+          type='button'
+          onClick={() => onDelete(study.id)}
+          className='inline-flex items-center gap-1.5 text-sm font-medium text-red-500 hover:text-red-600 transition-colors duration-150 cursor-pointer'
+          aria-label={`Delete ${study.title}`}
+        >
+          <MdDelete className='text-base' aria-hidden='true' />
+          Delete
+        </button>
+      </div>
     </div>
   </article>
 );
 
 export default function CaseStudies() {
+  const [studies, setStudies] = useState(CASE_STUDIES);
+
   useEffect(() => {
     document.title = 'Case Studies – Maktech Admin';
   }, []);
 
   const navigate = useNavigate();
+
+  const handleDelete = (id) => {
+    if (window.confirm('Are you sure you want to delete this case study?')) {
+      setStudies(studies.filter(s => s.id !== id));
+      toast.success('Case study deleted successfully!');
+    }
+  };
 
   return (
     <div className='space-y-6 pb-8'>
@@ -170,7 +191,7 @@ export default function CaseStudies() {
       </div>
 
       {/* Case studies grid */}
-      {CASE_STUDIES.length === 0 ? (
+      {studies.length === 0 ? (
         <div className='bg-white rounded-2xl border border-gray-100 shadow-sm p-12 text-center'>
           <p className='text-base text-gray-400'>No case studies found.</p>
         </div>
@@ -179,11 +200,12 @@ export default function CaseStudies() {
           aria-label='Case studies list'
           className='grid grid-cols-1 sm:grid-cols-2 gap-6'
         >
-          {CASE_STUDIES.map((study) => (
+          {studies.map((study) => (
             <CaseStudyCard
               key={study.id}
               study={study}
               onEdit={(study) => navigate(`/admin/case-studies/edit/${study.id}`, { state: { study } })}
+              onDelete={handleDelete}
             />
           ))}
         </section>
