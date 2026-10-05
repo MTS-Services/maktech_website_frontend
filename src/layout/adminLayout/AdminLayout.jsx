@@ -45,16 +45,18 @@ const AdminLayout = () => {
     return () => document.removeEventListener('keydown', onKey);
   }, []);
 
-  // Lock body scroll while mobile drawer is open
+  // Admin layout is fixed height, body should never scroll
   useEffect(() => {
-    document.body.style.overflow = sidebarOpen ? 'hidden' : '';
+    document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
     return () => {
       document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
     };
-  }, [sidebarOpen]);
+  }, []);
 
   return (
-    <div className='flex h-screen overflow-hidden bg-gray-50'>
+    <div className='fixed inset-0 flex overflow-hidden bg-gray-50'>
       {/* ── Mobile backdrop overlay ── */}
       <div
         className={`fixed inset-0 z-20 bg-black/40 backdrop-blur-sm lg:hidden transition-opacity duration-300 ${
