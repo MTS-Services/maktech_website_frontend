@@ -40,6 +40,7 @@ const DynamicList = ({ name, control, register, errors, titlePlaceholder, addLab
     e.dataTransfer.effectAllowed = "move";
   };
 
+  
   const handleDragOver = (e, index) => {
     e.preventDefault(); // Necessary to allow dropping
   };
