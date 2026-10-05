@@ -26,6 +26,7 @@ const CaseStudies = lazy(
 const ContentBuilder = lazy(() => import('../components/ContentBuilder/ContentBuilder').then(m => ({ default: m.ContentBuilder })));
 const Blog = lazy(() => import('../pages/admin/blog/Blog'));
 const Jobs = lazy(() => import('../pages/admin/jobs/Jobs'));
+const JobBuilder = lazy(() => import('../pages/admin/jobs/components/JobBuilder').then(m => ({ default: m.JobBuilder })));
 const Pricing = lazy(() => import('../pages/admin/pricing/Pricing'));
 const Services = lazy(() => import('../pages/services/Services'));
 const ServiceUIUX = lazy(() => import('../pages/services/UIUX'));
@@ -125,6 +126,8 @@ const AppRoutes = () => (
         <Route path='blog/create' element={<ContentBuilder entityName="Blog Post" backPath="/admin/blog" formType="blog" />} />
         <Route path='blog/edit/:id' element={<ContentBuilder entityName="Blog Post" backPath="/admin/blog" formType="blog" />} />
         <Route path='jobs' element={<Jobs />} />
+        <Route path='jobs/create' element={<JobBuilder />} />
+        <Route path='jobs/edit/:id' element={<JobBuilder />} />
         <Route path='pricing' element={<Pricing />} />
       </Route>
 
