@@ -23,7 +23,7 @@ const MarketplaceOrders = lazy(
 const CaseStudies = lazy(
   () => import('../pages/admin/caseStudies/CaseStudies'),
 );
-const ContentBuilder = lazy(() => import('../pages/admin/caseStudies/components/ContentBuilder').then(m => ({ default: m.ContentBuilder })));
+const ContentBuilder = lazy(() => import('../components/ContentBuilder/ContentBuilder').then(m => ({ default: m.ContentBuilder })));
 const Blog = lazy(() => import('../pages/admin/blog/Blog'));
 const Jobs = lazy(() => import('../pages/admin/jobs/Jobs'));
 const Pricing = lazy(() => import('../pages/admin/pricing/Pricing'));
