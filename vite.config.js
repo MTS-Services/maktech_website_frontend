@@ -11,4 +11,13 @@ export default defineConfig({
   preview: {
     allowedHosts: ['maktechgroup.com','www.maktechgroup.com'],
   },
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+        secure: false,
+      }
+    }
+  }
 })
