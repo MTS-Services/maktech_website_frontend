@@ -9,6 +9,7 @@ const ContactUs = () => {
     service: '',
     budget: '',
     industry: '',
+    meetingDate: '',
     message: '',
   });
 
@@ -389,6 +390,27 @@ const ContactUs = () => {
                     />
                   </div>
 
+                  {/* Book a Meeting */}
+                  <div>
+                    <label className='text-white-bg-cta text-base md:text-lg mb-2 flex items-center gap-2'>
+                      Book a Meeting <span className='text-gray-400 text-sm font-normal'>(Optional)</span>
+                    </label>
+                    <input
+                      type='datetime-local'
+                      name='meetingDate'
+                      value={formData.meetingDate}
+                      onChange={handleChange}
+                      onClick={(e) => {
+                        try { e.target.showPicker(); } catch (err) {}
+                      }}
+                      className='w-full px-4 py-3 bg-[#3F3F3F] border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-orange-bg-cta transition-colors duration-200 cursor-pointer'
+                      style={{ colorScheme: 'dark' }}
+                    />
+                    <p className='text-gray-400 text-sm mt-2'>
+                      Want to discuss your project directly? Pick a date and time for a quick Google Meet.
+                    </p>
+                  </div>
+
                   {/* Message */}
                   <div>
                     <label className='text-white-bg-cta text-base md:text-lg mb-2 block'>
@@ -410,7 +432,7 @@ const ContactUs = () => {
                     style={{ padding: '13px 28px' }}
                   >
                     <span className='inline-block -translate-x-0.5 transition-transform duration-300 ease-out delay-75 group-hover:translate-x-0'>
-                      Let’s Start
+                      Letâ€™s Start
                     </span>
                     <span
                       className='w-7 h-7 flex items-center justify-center rounded-full bg-white shrink-0 transition-transform duration-300 ease-out group-hover:translate-x-1'
