@@ -11,138 +11,13 @@ import {
   MdMoreVert,
 } from 'react-icons/md';
 import { toast } from 'react-toastify';
+import apiClient from '../../../services/apiClient';
 import AdminTable from '../../../components/AdminTable';
 import Pagination from '../../../components/Pagination';
 import ConfirmDeleteModal from '../../../components/ConfirmDeleteModal';
 import { getPageRange } from '../../../utils/helpers';
 
 // ─── Static order data ────────────────────────────────────────────────────────
-const INITIAL_ORDERS = [
-  {
-    id: 1,
-    orderId: '#1',
-    client: 'Ahmed Khan',
-    service: 'Website Development',
-    startDate: '2026-01-15',
-    deliveryDate: '2026-02-15',
-    price: '$85,000',
-    status: 'In progress',
-    assignedTeam: 'Development Team A',
-    notes: 'E-commerce website with payment gateway integration',
-  },
-  {
-    id: 2,
-    orderId: '#2',
-    client: 'Fatima Rahman',
-    service: 'Digital Marketing',
-    startDate: '2026-01-20',
-    deliveryDate: '2026-02-20',
-    price: '$45,000',
-    status: 'In progress',
-    assignedTeam: 'Marketing Team B',
-    notes: 'Focus on social media channels and email campaigns',
-  },
-  {
-    id: 3,
-    orderId: '#3',
-    client: 'Shakib Hasan',
-    service: 'Mobile App Development',
-    startDate: '2025-12-01',
-    deliveryDate: '2026-01-15',
-    price: '$1,50,000',
-    status: 'Completed',
-    assignedTeam: 'Mobile Dev Team C',
-    notes: 'Cross-platform app for iOS and Android with offline support',
-  },
-  {
-    id: 4,
-    orderId: '#4',
-    client: 'Nusrat Jahan',
-    service: 'SEO Optimization',
-    startDate: '2026-01-25',
-    deliveryDate: '2026-03-25',
-    price: '$35,000',
-    status: 'Pending',
-    assignedTeam: 'SEO & Analytics Team',
-    notes: 'Improve organic rankings for top 20 target keywords',
-  },
-  {
-    id: 5,
-    orderId: '#5',
-    client: 'Rahim Uddin',
-    service: 'E-commerce Development',
-    startDate: '2026-02-01',
-    deliveryDate: '2026-04-01',
-    price: '$1,20,000',
-    status: 'Pending',
-    assignedTeam: 'Development Team A',
-    notes: 'Multi-vendor marketplace with Stripe and bKash integration',
-  },
-  {
-    id: 6,
-    orderId: '#6',
-    client: 'Sabrina Begum',
-    service: 'Brand Identity Design',
-    startDate: '2026-01-10',
-    deliveryDate: '2026-02-10',
-    price: '$25,000',
-    status: 'Completed',
-    assignedTeam: 'Design Team D',
-    notes: 'Logo, brand guidelines, business card, and stationery kit',
-  },
-  {
-    id: 7,
-    orderId: '#7',
-    client: 'Imran Hossain',
-    service: 'Content Management System',
-    startDate: '2026-02-05',
-    deliveryDate: '2026-04-05',
-    price: '$70,000',
-    status: 'In progress',
-    assignedTeam: 'Development Team B',
-    notes: 'Headless CMS with custom admin panel and role-based access',
-  },
-  {
-    id: 8,
-    orderId: '#8',
-    client: 'Lailun Nahar',
-    service: 'Social Media Campaign',
-    startDate: '2026-02-10',
-    deliveryDate: '2026-03-10',
-    price: '$18,000',
-    status: 'Pending',
-    assignedTeam: 'Marketing Team A',
-    notes: '60-day campaign targeting Facebook and Instagram audiences',
-  },
-  {
-    id: 9,
-    orderId: '#9',
-    client: 'Tanvir Ahmed',
-    service: 'Mobile App Development',
-    startDate: '2026-01-05',
-    deliveryDate: '2026-03-05',
-    price: '$95,000',
-    status: 'In progress',
-    assignedTeam: 'Mobile Dev Team C',
-    notes: 'Fintech app with biometric authentication and transaction history',
-  },
-  {
-    id: 10,
-    orderId: '#10',
-    client: 'Roksana Islam',
-    service: 'Website Redesign',
-    startDate: '2025-11-15',
-    deliveryDate: '2026-01-15',
-    price: '$55,000',
-    status: 'Completed',
-    assignedTeam: 'Development Team A',
-    notes:
-      'Full redesign with modern UI/UX and Lighthouse performance optimization',
-  },
-];
-
-const PAGE_SIZE = 8;
-
 const ORDER_COLS = [
   { label: 'Order ID' },
   { label: 'Client' },
@@ -167,6 +42,26 @@ const getStatusStyle = (status) =>
 const TD = 'px-5 py-3.5 text-sm text-gray-700 whitespace-nowrap';
 
 // ─── Kebab action menu ────────────────────────────────────────────────────────
+
+const StatusDropdown = ({ status, onChange }) => (
+  <div className="relative inline-block text-left">
+    <select
+      value={status}
+      onChange={(e) => onChange(e.target.value)}
+      className={`inline-flex items-center pl-3 pr-7 py-1.5 rounded-full text-xs font-semibold cursor-pointer appearance-none outline-none border-none transition-shadow hover:shadow-sm ${getStatusStyle(status)}`}
+      style={{ WebkitAppearance: 'none', MozAppearance: 'none' }}
+    >
+      <option value="PENDING" className="bg-white text-gray-900 font-medium">PENDING</option>
+      <option value="IN_PROGRESS" className="bg-white text-gray-900 font-medium">IN PROGRESS</option>
+      <option value="COMPLETED" className="bg-white text-gray-900 font-medium">COMPLETED</option>
+      <option value="CANCELLED" className="bg-white text-gray-900 font-medium">CANCELLED</option>
+    </select>
+    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+      <MdKeyboardArrowDown className="text-sm opacity-60" />
+    </div>
+  </div>
+);
+
 const DROPDOWN_W = 144;
 const DROPDOWN_H = 120;
 
@@ -620,7 +515,7 @@ const CreateOrderForm = ({ onCancel }) => {
 };
 
 // ─── Mobile order card ────────────────────────────────────────────────────────
-const OrderCard = ({ order, onView, onEdit, onDelete }) => (
+const OrderCard = ({ order, onView, onEdit, onDelete, onStatusChange }) => (
   <article className='bg-white rounded-xl border border-gray-100 shadow-sm p-4'>
     {/* Card header: Order ID + ActionMenu */}
     <div className='flex items-center justify-between gap-2 mb-2'>
@@ -670,20 +565,16 @@ const OrderCard = ({ order, onView, onEdit, onDelete }) => (
       {/* Status */}
       <div>
         <dt className='text-xs text-gray-400 mb-0.5'>Status</dt>
-        <dd>
-          <span
-            className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold ${getStatusStyle(order.status)}`}
-          >
-            {order.status}
-          </span>
-        </dd>
+          <dd>
+            <StatusDropdown status={order.status} onChange={(val) => onStatusChange(order.id, val)} />
+          </dd>
       </div>
     </dl>
   </article>
 );
 
 // ─── Desktop table row ────────────────────────────────────────────────────────
-const OrderRow = ({ order, onView, onEdit, onDelete }) => (
+const OrderRow = ({ order, onView, onEdit, onDelete, onStatusChange }) => (
   <tr className='border-t border-gray-50 hover:bg-orange-50/30 transition-colors duration-150'>
     <td className={`${TD} font-medium text-gray-900`}>{order.orderId}</td>
     <td className={TD}>{order.client}</td>
@@ -691,13 +582,9 @@ const OrderRow = ({ order, onView, onEdit, onDelete }) => (
     <td className={TD}>{order.startDate}</td>
     <td className={TD}>{order.deliveryDate}</td>
     <td className={`${TD} font-medium`}>{order.price}</td>
-    <td className='px-5 py-3.5'>
-      <span
-        className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold ${getStatusStyle(order.status)}`}
-      >
-        {order.status}
-      </span>
-    </td>
+      <td className='px-5 py-3.5'>
+        <StatusDropdown status={order.status} onChange={(val) => onStatusChange(order.id, val)} />
+      </td>
     <td className='px-5 py-3.5'>
       <ActionMenu
         order={order}
@@ -905,36 +792,57 @@ const EditOrderForm = ({ order, onCancel, onSave }) => {
 // ─── Page component ───────────────────────────────────────────────────────────
 export default function Orders() {
   useEffect(() => {
-    document.title = 'Orders – Maktech Admin';
+    document.title = 'Orders - Maktech Admin';
   }, []);
 
-  const [orders, setOrders] = useState(INITIAL_ORDERS);
+  const [orders, setOrders] = useState([]);
+  const [stats, setStats] = useState({ totalOrders: 0, inProgress: 0, delivered: 0, totalRevenue: 0 });
+  const [loading, setLoading] = useState(true);
 
-  // Derive stat counts from data — never store derived state
-  const { inProgress, completed, totalRevenue } = useMemo(
-    () => ({
-      inProgress: orders.filter((o) => o.status === 'In progress').length,
-      completed: orders.filter((o) => o.status === 'Completed').length,
-      totalRevenue: orders.reduce((sum, o) => {
-        const num = parseFloat(String(o.price ?? '').replace(/[^0-9.]/g, ''));
-        return sum + (isNaN(num) ? 0 : num);
-      }, 0),
-    }),
-    [orders],
-  );
-
+  // Pagination meta from API
+  const PAGE_SIZE = 10;
   const [page, setPage] = useState(1);
-  const totalPages = Math.ceil(orders.length / PAGE_SIZE);
-  const pageData = useMemo(
-    () => orders.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE),
-    [orders, page],
-  );
-  const pageRange = useMemo(
-    () => getPageRange(page, totalPages),
-    [page, totalPages],
-  );
-  const rangeStart = (page - 1) * PAGE_SIZE + 1;
-  const rangeEnd = Math.min(page * PAGE_SIZE, orders.length);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalCount, setTotalCount] = useState(0);
+
+  const fetchOrders = async () => {
+    setLoading(true);
+    try {
+      const response = await apiClient.get(`/api/v1/orders?page=${page}&limit=${PAGE_SIZE}`);
+      if (response.data.success) {
+        setOrders(response.data.data);
+        setTotalPages(response.data.meta.totalPages);
+        setTotalCount(response.data.meta.total);
+      }
+    } catch (err) {
+      console.error("Failed to fetch orders", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchStats = async () => {
+    try {
+      const response = await apiClient.get('/api/v1/orders/stats');
+      if (response.data.success) {
+        setStats(response.data.data);
+      }
+    } catch (err) {
+      console.error("Failed to fetch stats", err);
+    }
+  };
+
+  useEffect(() => {
+    fetchStats();
+  }, []);
+
+  useEffect(() => {
+    fetchOrders();
+  }, [page]);
+
+  const pageRange = useMemo(() => getPageRange(page, totalPages), [page, totalPages]);
+  const rangeStart = totalCount === 0 ? 0 : (page - 1) * PAGE_SIZE + 1;
+  const rangeEnd = Math.min(page * PAGE_SIZE, totalCount);
   const handlePage = (p) => setPage(Math.max(1, Math.min(totalPages, p)));
 
   const [viewingOrder, setViewingOrder] = useState(null);
@@ -948,14 +856,41 @@ export default function Orders() {
     if (order) setDeleteTarget(order);
   };
 
-  const confirmDelete = () => {
-    setOrders((prev) => prev.filter((o) => o.id !== deleteTarget.id));
-    setDeleteTarget(null);
-    toast.success('Order deleted.');
+  const confirmDelete = async () => {
+    try {
+      await apiClient.delete(`/api/v1/orders/${deleteTarget.id}`);
+      toast.success('Order deleted.');
+      setDeleteTarget(null);
+      fetchOrders();
+      fetchStats();
+    } catch (err) {
+      toast.error('Failed to delete order');
+    }
   };
 
-  const handleSaveEdit = (updated) => {
-    setOrders((prev) => prev.map((o) => (o.id === updated.id ? updated : o)));
+  const handleSaveEdit = async (updated) => {
+    setEditingOrder(null);
+    fetchOrders();
+    fetchStats();
+  };
+  
+  const handleCreateOrder = async () => {
+    setCreatingOrder(false);
+    fetchOrders();
+    fetchStats();
+  };
+
+  const handleStatusChange = async (id, newStatus) => {
+    try {
+      const response = await apiClient.patch(`/api/v1/orders/${id}`, { status: newStatus });
+      if (response.data.success) {
+        toast.success('Order status updated!');
+        fetchOrders();
+        fetchStats();
+      }
+    } catch (err) {
+      toast.error('Failed to update status');
+    }
   };
 
   if (viewingOrder)
@@ -964,7 +899,7 @@ export default function Orders() {
     );
 
   if (creatingOrder)
-    return <CreateOrderForm onCancel={() => setCreatingOrder(false)} />;
+    return <CreateOrderForm onCancel={() => setCreatingOrder(false)} onSuccess={handleCreateOrder} />;
 
   if (editingOrder)
     return (
@@ -985,14 +920,14 @@ export default function Orders() {
               Orders
             </h1>
             <p className='text-base text-gray-500 mt-1'>
-              Project &amp; revenue management
+              Project & revenue management
             </p>
           </div>
 
           <button
             type='button'
             onClick={() => setCreatingOrder(true)}
-            className='group inline-flex cursor-pointer items-center gap-2 overflow-hidden px-5 py-2.5 text-sm font-semibold text-white bg-orange-bg-cta rounded-lg hover:bg-[#e5501a] hover:shadow-[0_4px_14px_rgba(255,101,51,0.35)] transition-all duration-200 active:scale-[0.97]'
+            className='group inline-flex cursor-pointer items-center gap-2 overflow-hidden px-5 py-2.5 text-sm font-semibold text-white bg-orange-bg-cta rounded-lg hover:bg-[#e5501a] transition-all duration-200 active:scale-[0.97]'
           >
             <MdAdd
               className='text-lg shrink-0 transition-transform duration-300 ease-out group-hover:translate-x-1'
@@ -1007,12 +942,12 @@ export default function Orders() {
         {/* Stat Cards */}
         <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5'>
           {[
-            { label: 'Total Orders', value: orders.length },
-            { label: 'In Progress', value: inProgress },
-            { label: 'Delivered', value: completed },
+            { label: 'Total Orders', value: stats.totalOrders },
+            { label: 'In Progress', value: stats.inProgress },
+            { label: 'Delivered', value: stats.delivered },
             {
               label: 'Total Revenue',
-              value: `$${totalRevenue.toLocaleString('en-US')}`,
+              value: `$${stats.totalRevenue.toLocaleString('en-US')}`,
             },
           ].map(({ label, value }) => (
             <div
@@ -1025,41 +960,56 @@ export default function Orders() {
           ))}
         </div>
 
-        {/* Orders list — single card */}
+        {/* Orders list */}
         <section
           aria-label='Orders list'
-          className='bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden'
+          className='bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden relative'
         >
-          {/* Mobile: card list */}
+          {loading && (
+            <div className="absolute inset-0 bg-white/50 backdrop-blur-[2px] z-10 flex items-center justify-center">
+              <div className="w-8 h-8 border-2 border-orange-bg-cta border-t-transparent rounded-full animate-spin"></div>
+            </div>
+          )}
+          
           <div className='sm:hidden p-4 space-y-3'>
-            {pageData.map((order) => (
+            {orders.map((order) => (
               <div key={order.id} role='listitem'>
                 <OrderCard
                   order={order}
                   onView={setViewingOrder}
                   onEdit={setEditingOrder}
                   onDelete={handleDelete}
+                  onStatusChange={handleStatusChange}
                 />
               </div>
             ))}
+            {orders.length === 0 && !loading && (
+              <div className="text-center py-8 text-gray-500">No orders found.</div>
+            )}
           </div>
 
-          {/* Desktop: table */}
           <div className='hidden sm:block overflow-x-auto'>
             <AdminTable columns={ORDER_COLS} ariaLabel='Orders list'>
-              {pageData.map((order) => (
+              {orders.map((order) => (
                 <OrderRow
                   key={order.id}
                   order={order}
                   onView={setViewingOrder}
                   onEdit={setEditingOrder}
                   onDelete={handleDelete}
+                  onStatusChange={handleStatusChange}
                 />
               ))}
+              {orders.length === 0 && !loading && (
+                <tr>
+                  <td colSpan={ORDER_COLS.length} className="text-center py-8 text-gray-500">
+                    No orders found.
+                  </td>
+                </tr>
+              )}
             </AdminTable>
           </div>
 
-          {/* Bottom bar */}
           <div className='flex flex-col items-center gap-3 px-5 py-4 border-t border-gray-100 sm:flex-row sm:items-center sm:justify-between'>
             <p className='text-sm text-gray-400 shrink-0'>
               Showing{' '}
@@ -1068,18 +1018,20 @@ export default function Orders() {
               </span>{' '}
               of{' '}
               <span className='font-semibold text-gray-700'>
-                {orders.length}
+                {totalCount}
               </span>{' '}
               orders
             </p>
-            <nav aria-label='Pagination'>
-              <Pagination
-                page={page}
-                totalPages={totalPages}
-                pageRange={pageRange}
-                onPage={handlePage}
-              />
-            </nav>
+            {totalPages > 1 && (
+              <nav aria-label='Pagination'>
+                <Pagination
+                  page={page}
+                  totalPages={totalPages}
+                  pageRange={pageRange}
+                  onPage={handlePage}
+                />
+              </nav>
+            )}
           </div>
         </section>
       </div>
@@ -1087,7 +1039,7 @@ export default function Orders() {
       {deleteTarget && (
         <ConfirmDeleteModal
           title='Delete Order?'
-          description={`${deleteTarget.orderId} — ${deleteTarget.client}`}
+          description={`${deleteTarget.orderId || 'Order'} - ${deleteTarget.client}`}
           hint='This action is permanent and cannot be undone.'
           onConfirm={confirmDelete}
           onCancel={() => setDeleteTarget(null)}
