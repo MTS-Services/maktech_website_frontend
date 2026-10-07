@@ -319,7 +319,7 @@ const OrderDetail = ({ order, onBack }) => (
 );
 
 // ─── Create Order Form ────────────────────────────────────────────────────────
-const CreateOrderForm = ({ onCancel }) => {
+const CreateOrderForm = ({ onCancel, onSuccess }) => {
   const [form, setForm] = useState({
     client: '',
     service: '',
@@ -335,8 +335,7 @@ const CreateOrderForm = ({ onCancel }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    toast.success('Order created & payment link generated!');
-    onCancel();
+      onSuccess(form);
   };
 
   return (
@@ -614,8 +613,6 @@ const EditOrderForm = ({ order, onCancel, onSave }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     onSave({ ...order, ...form });
-    toast.success('Order updated successfully!');
-    onCancel();
   };
 
   return (
@@ -869,15 +866,31 @@ export default function Orders() {
   };
 
   const handleSaveEdit = async (updated) => {
-    setEditingOrder(null);
-    fetchOrders();
-    fetchStats();
+    try {
+      const response = await apiClient.patch(`/api/v1/orders/${updated.id}`, updated);
+      if (response.data.success) {
+        toast.success('Order updated successfully!');
+        setEditingOrder(null);
+        fetchOrders();
+        fetchStats();
+      }
+    } catch (err) {
+      toast.error('Failed to update order');
+    }
   };
   
-  const handleCreateOrder = async () => {
-    setCreatingOrder(false);
-    fetchOrders();
-    fetchStats();
+  const handleCreateOrder = async (form) => {
+    try {
+      const response = await apiClient.post('/api/v1/orders', form);
+      if (response.data.success) {
+        toast.success('Order created & payment link generated!');
+        setCreatingOrder(false);
+        fetchOrders();
+        fetchStats();
+      }
+    } catch (err) {
+      toast.error('Failed to create order');
+    }
   };
 
   const handleStatusChange = async (id, newStatus) => {
