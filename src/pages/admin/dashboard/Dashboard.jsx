@@ -1,6 +1,7 @@
-import { useEffect, useId, useMemo } from 'react';
+import { useState, useEffect, useId, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import StatCard from '../../../components/StatCard';
+import apiClient from '../../../services/apiClient';
 import {
   LineChart,
   Line,
@@ -19,83 +20,10 @@ import {
   MdPersonAdd,
 } from 'react-icons/md';
 
-const STAT_CARDS = [
-  {
-    Icon: MdAttachMoney,
-    accentColor: '#16a34a',
-    iconBg: 'bg-green-50',
-    iconColor: 'text-green-600',
-    badge: '+12.5%',
-    badgeBg: 'bg-green-50',
-    badgeColor: 'text-green-700',
-    label: 'Monthly Revenue',
-    value: '$95,000',
-  },
-  {
-    Icon: MdShowChart,
-    accentColor: '#2563eb',
-    iconBg: 'bg-blue-50',
-    iconColor: 'text-blue-600',
-    badge: 'All Time',
-    badgeBg: 'bg-blue-50',
-    badgeColor: 'text-blue-700',
-    label: 'Lifetime Revenue',
-    value: '$8,08,000',
-  },
-  {
-    Icon: MdPeople,
-    accentColor: '#9333ea',
-    iconBg: 'bg-purple-50',
-    iconColor: 'text-purple-600',
-    badge: 'Active',
-    badgeBg: 'bg-purple-50',
-    badgeColor: 'text-purple-700',
-    label: 'Active Clients',
-    value: '24',
-  },
-  {
-    // Brand orange on the Leads card anchors the accent palette to Maktech identity
-    Icon: MdPersonAdd,
-    accentColor: '#FF6533',
-    iconBg: 'bg-orange-50',
-    iconColor: 'text-orange-500',
-    badge: '+8 this week',
-    badgeBg: 'bg-orange-50',
-    badgeColor: 'text-orange-700',
-    label: 'Total Leads',
-    value: '47',
-  },
-];
-
-const REVENUE_DATA = [
-  { month: 'Jan', revenue: 47000 },
-  { month: 'Feb', revenue: 49000 },
-  { month: 'Mar', revenue: 52000 },
-  { month: 'Apr', revenue: 58000 },
-  { month: 'May', revenue: 63000 },
-  { month: 'Jun', revenue: 67000 },
-  { month: 'Jul', revenue: 69000 },
-  { month: 'Aug', revenue: 74000 },
-  { month: 'Sep', revenue: 76000 },
-  { month: 'Oct', revenue: 82000 },
-  { month: 'Nov', revenue: 89000 },
-  { month: 'Dec', revenue: 99000 },
-];
-
-const ORDER_DATA = [
-  { day: 'Mon', orders: 12 },
-  { day: 'Tue', orders: 18 },
-  { day: 'Wed', orders: 13 },
-  { day: 'Thu', orders: 19 },
-  { day: 'Fri', orders: 17 },
-  { day: 'Sat', orders: 7 },
-  { day: 'Sun', orders: 5 },
-];
-
 const CHART_COLOR = '#FF6533';
 const TICK_STYLE = { fill: '#9ca3af', fontSize: 12 };
 
-// Shared chart config — spread onto each recharts primitive to stay DRY
+// Shared chart config
 const AXIS_BASE = { axisLine: false, tickLine: false, tick: TICK_STYLE };
 const GRID_PROPS = {
   strokeDasharray: '3 3',
@@ -111,10 +39,22 @@ const TOOLTIP_STYLE = {
 const Dashboard = () => {
   const navigate = useNavigate();
   const uid = useId();
-  // Unique per-instance ID prevents SVG gradient ID collisions if component mounts twice
-  const gradientId = `bar-gradient${uid}`;
+  const gradientId = "bar-gradient" + uid;
 
-  // Computed at render time so it reflects the user's actual session hour
+  const [loading, setLoading] = useState(true);
+  const [dashboardData, setDashboardData] = useState({
+    summary: {
+      monthlyRevenue: { value: 0, growth: '+0.0%' },
+      lifetimeRevenue: { value: 0 },
+      activeClients: { value: 0 },
+      totalLeads: { value: 0, growth: '+0 this week' }
+    },
+    charts: {
+      revenuePerformance: [],
+      orderVolume: []
+    }
+  });
+
   const greeting = useMemo(() => {
     const h = new Date().getHours();
     if (h < 12) return 'Good Morning';
@@ -123,8 +63,70 @@ const Dashboard = () => {
   }, []);
 
   useEffect(() => {
-    document.title = 'Dashboard – Maktech Admin';
+    document.title = 'Dashboard - Maktech Admin';
+    
+    const fetchDashboard = async () => {
+      try {
+        const response = await apiClient.get('/api/v1/dashboard/summary');
+        if (response.data.success) {
+          setDashboardData(response.data.data);
+        }
+      } catch (error) {
+        console.error("Failed to fetch dashboard data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchDashboard();
   }, []);
+
+  const STAT_CARDS = [
+    {
+      Icon: MdAttachMoney,
+      accentColor: '#16a34a',
+      iconBg: 'bg-green-50',
+      iconColor: 'text-green-600',
+      badge: dashboardData.summary.monthlyRevenue.growth || '0.0%',
+      badgeBg: 'bg-green-50',
+      badgeColor: 'text-green-700',
+      label: 'Monthly Revenue',
+      value: "$" + dashboardData.summary.monthlyRevenue.value.toLocaleString(),
+    },
+    {
+      Icon: MdShowChart,
+      accentColor: '#2563eb',
+      iconBg: 'bg-blue-50',
+      iconColor: 'text-blue-600',
+      badge: 'All Time',
+      badgeBg: 'bg-blue-50',
+      badgeColor: 'text-blue-700',
+      label: 'Lifetime Revenue',
+      value: "$" + dashboardData.summary.lifetimeRevenue.value.toLocaleString(),
+    },
+    {
+      Icon: MdPeople,
+      accentColor: '#9333ea',
+      iconBg: 'bg-purple-50',
+      iconColor: 'text-purple-600',
+      badge: 'Active',
+      badgeBg: 'bg-purple-50',
+      badgeColor: 'text-purple-700',
+      label: 'Active Clients',
+      value: dashboardData.summary.activeClients.value,
+    },
+    {
+      Icon: MdPersonAdd,
+      accentColor: '#FF6533',
+      iconBg: 'bg-orange-50',
+      iconColor: 'text-orange-500',
+      badge: dashboardData.summary.totalLeads.growth || '+0 this week',
+      badgeBg: 'bg-orange-50',
+      badgeColor: 'text-orange-700',
+      label: 'Total Leads',
+      value: dashboardData.summary.totalLeads.value,
+    },
+  ];
 
   return (
     <div className='space-y-6 pb-8'>
@@ -166,10 +168,10 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* Stat Cards — StatCard is importable on any admin page */}
+      {/* Stat Cards */}
       <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5'>
         {STAT_CARDS.map((card) => (
-          <StatCard key={card.label} {...card} />
+          <StatCard key={card.label} {...card} isLoading={loading} />
         ))}
       </div>
 
@@ -182,22 +184,26 @@ const Dashboard = () => {
           </h3>
           <div
             role='img'
-            aria-label='Line chart: monthly revenue from $47,000 in January to $99,000 in December'
+            aria-label='Line chart: monthly revenue'
+            className="relative"
           >
+            {loading && (
+              <div className="absolute inset-0 bg-white/70 backdrop-blur-sm z-10 rounded-xl flex items-center justify-center">
+                <div className="w-8 h-8 border-2 border-orange-bg-cta border-t-transparent rounded-full animate-spin"></div>
+              </div>
+            )}
             <ResponsiveContainer width='100%' height={300}>
               <LineChart
-                data={REVENUE_DATA}
+                data={dashboardData.charts.revenuePerformance}
                 margin={{ top: 4, right: 4, left: 0, bottom: 0 }}
               >
                 <CartesianGrid {...GRID_PROPS} />
                 <XAxis dataKey='month' {...AXIS_BASE} />
                 <YAxis
-                  domain={[0, 100000]}
-                  ticks={[0, 25000, 50000, 75000, 100000]}
                   width={58}
                   {...AXIS_BASE}
                 />
-                <Tooltip contentStyle={TOOLTIP_STYLE} />
+                <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(val) => "$" + val} />
                 <Line
                   type='monotone'
                   dataKey='revenue'
@@ -218,11 +224,17 @@ const Dashboard = () => {
           </h3>
           <div
             role='img'
-            aria-label='Bar chart: daily order volume this week, peaking at 19 orders on Thursday'
+            aria-label='Bar chart: daily order volume this week'
+            className="relative"
           >
+            {loading && (
+              <div className="absolute inset-0 bg-white/70 backdrop-blur-sm z-10 rounded-xl flex items-center justify-center">
+                <div className="w-8 h-8 border-2 border-orange-bg-cta border-t-transparent rounded-full animate-spin"></div>
+              </div>
+            )}
             <ResponsiveContainer width='100%' height={300}>
               <BarChart
-                data={ORDER_DATA}
+                data={dashboardData.charts.orderVolume}
                 margin={{ top: 4, right: 4, left: 0, bottom: 0 }}
               >
                 <defs>
@@ -242,15 +254,13 @@ const Dashboard = () => {
                 <CartesianGrid {...GRID_PROPS} />
                 <XAxis dataKey='day' {...AXIS_BASE} />
                 <YAxis
-                  domain={[0, 24]}
-                  ticks={[0, 6, 12, 18, 24]}
                   width={28}
                   {...AXIS_BASE}
                 />
                 <Tooltip contentStyle={TOOLTIP_STYLE} />
                 <Bar
                   dataKey='orders'
-                  fill={`url(#${gradientId})`}
+                  fill={"url(#" + gradientId + ")"}
                   radius={[4, 4, 0, 0]}
                 />
               </BarChart>
