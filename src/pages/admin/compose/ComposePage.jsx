@@ -1,16 +1,41 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MdArrowBack, MdSend } from 'react-icons/md';
+import apiClient from '../../../services/apiClient';
+import { toast } from 'react-toastify';
 
 export default function ComposePage() {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    document.title = 'Compose Email – Maktech Admin';
+    document.title = 'Compose Email - Maktech Admin';
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    const formData = new FormData(e.target);
+    const to = formData.get('to');
+    const subject = formData.get('subject');
+    const html = formData.get('message');
+    
+    if (!to || !subject || !html) {
+      return toast.error("Please fill in all fields");
+    }
+
+    setIsLoading(true);
+    try {
+      const response = await apiClient.post('/api/v1/emails/send', { to, subject, html });
+      if (response.data.success) {
+        toast.success("Email sent successfully!");
+        navigate(-1);
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Failed to send email");
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -95,12 +120,13 @@ export default function ComposePage() {
           {/* Send */}
           <button
             type='submit'
-            className='group inline-flex cursor-pointer items-center gap-2 overflow-hidden px-5 py-2.5 text-sm font-semibold text-white bg-orange-bg-cta rounded-lg hover:bg-[#e5501a] hover:shadow-[0_4px_14px_rgba(255,101,51,0.35)] transition-all duration-200 active:scale-[0.97]'
+            disabled={isLoading}
+            className='group inline-flex cursor-pointer items-center gap-2 overflow-hidden px-5 py-2.5 text-sm font-semibold text-white bg-orange-bg-cta rounded-lg hover:bg-[#e5501a] hover:shadow-[0_4px_14px_rgba(255,101,51,0.35)] transition-all duration-200 active:scale-[0.97] disabled:opacity-70 disabled:cursor-not-allowed'
           >
-            <MdSend
+            {isLoading ? <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div> : <MdSend
               className='text-lg shrink-0 transition-transform duration-300 ease-out group-hover:translate-x-1'
               aria-hidden='true'
-            />
+            />}
             <span className='inline-block -translate-x-1 transition-transform duration-300 ease-out delay-100 group-hover:translate-x-0'>
               Send Email
             </span>

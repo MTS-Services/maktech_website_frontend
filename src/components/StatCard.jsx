@@ -8,6 +8,7 @@ const StatCard = ({
   label,
   value,
   accentColor,
+  isLoading,
 }) => (
   <article
     aria-label={label}
@@ -29,9 +30,13 @@ const StatCard = ({
       </div>
 
       {/* Value */}
-      <p className='text-2xl font-bold text-gray-900 tracking-tight leading-none mb-2'>
-        {value}
-      </p>
+      {isLoading ? (
+        <div className='h-8 w-16 bg-gray-200 animate-pulse rounded-md mb-2'></div>
+      ) : (
+        <p className='text-2xl font-bold text-gray-900 tracking-tight leading-none mb-2'>
+          {value}
+        </p>
+      )}
 
       {/* Label */}
       <p className='text-sm font-medium text-gray-400'>{label}</p>

@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import Cookies from 'js-cookie';
+import apiClient from '../../services/apiClient';
+import { toast } from 'react-toastify';
 import {
   MdOutlineEmail,
   MdOutlineLock,
@@ -13,23 +16,32 @@ const LINE_POSITIONS = [12, 30, 50, 68, 88];
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [email, setEmail] = useState('admin@test.com');
-  const [password, setPassword] = useState('123');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    // Simulated async auth — replace with a real API call to your auth endpoint.
-    // On success the server should set an httpOnly cookie; the localStorage token
-    // here is a placeholder until a real backend is integrated.
-    setTimeout(() => {
-      localStorage.setItem('authToken', `session-${Date.now()}`);
-      // Redirect back to the page the user originally tried to access, or dashboard
-      const destination = location.state?.from ?? '/admin/dashboard';
-      navigate(destination, { replace: true });
-    }, 700);
+    try {
+      const response = await apiClient.post("/api/v1/auth/login", { email, password });
+      if (response.data.success) {
+        Cookies.set("authToken", response.data.data.token, { expires: 7 });
+        toast.success(response.data.message || "Logged in successfully");
+        const destination = "/admin/dashboard";
+        navigate(destination, { replace: true });
+      }
+    } catch (error) {
+      if (error.response?.data?.errorMessages?.length > 0) {
+        toast.error(error.response.data.errorMessages[0].message);
+      } else {
+        toast.error(error.response?.data?.message || "Failed to login");
+      }
+      console.error("Login error:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -37,7 +49,7 @@ const Login = () => {
       className='min-h-screen relative overflow-hidden'
       style={{ backgroundColor: '#1c1c1c' }}
     >
-      {/* ── Full-page radial glow ── */}
+      {/* Ã¢â€â‚¬Ã¢â€â‚¬ Full-page radial glow Ã¢â€â‚¬Ã¢â€â‚¬ */}
       <div
         className='absolute inset-0 pointer-events-none z-0'
         style={{
@@ -47,7 +59,7 @@ const Login = () => {
         aria-hidden='true'
       />
 
-      {/* ── Full-page animated vertical lines ── */}
+      {/* Ã¢â€â‚¬Ã¢â€â‚¬ Full-page animated vertical lines Ã¢â€â‚¬Ã¢â€â‚¬ */}
       <div
         className='absolute inset-0 pointer-events-none z-0'
         aria-hidden='true'
@@ -88,9 +100,9 @@ const Login = () => {
         ))}
       </div>
 
-      {/* ── Container ── */}
+      {/* Ã¢â€â‚¬Ã¢â€â‚¬ Container Ã¢â€â‚¬Ã¢â€â‚¬ */}
       <div className='relative z-10 mx-auto w-full max-w-350 px-5 md:px-10 xl:px-16 2xl:px-20 min-h-screen flex xl:flex-row flex-col'>
-        {/* ── Left Branding Panel (desktop only) ── */}
+        {/* Ã¢â€â‚¬Ã¢â€â‚¬ Left Branding Panel (desktop only) Ã¢â€â‚¬Ã¢â€â‚¬ */}
         <div className='hidden xl:flex xl:w-1/2 flex-col justify-between py-12 pr-12 2xl:pr-16'>
           {/* Logo */}
           <div>
@@ -133,7 +145,7 @@ const Login = () => {
             </h2>
 
             <p className='text-[#AAAAAA] text-base 2xl:text-lg leading-relaxed'>
-              Manage projects, track leads, and oversee operations — all in one
+              Manage projects, track leads, and oversee operations Ã¢â‚¬â€ all in one
               powerful workspace.
             </p>
           </div>
@@ -144,7 +156,7 @@ const Login = () => {
           </div>
         </div>
 
-        {/* ── Right Form Panel ── */}
+        {/* Ã¢â€â‚¬Ã¢â€â‚¬ Right Form Panel Ã¢â€â‚¬Ã¢â€â‚¬ */}
         <div className='w-full xl:w-1/2 flex flex-col items-center justify-center min-h-screen xl:min-h-0 py-20 xl:py-12 xl:pl-12 2xl:pl-16'>
           {/* Mobile logo */}
           <div className='xl:hidden mb-10'>
@@ -294,7 +306,7 @@ const Login = () => {
                           d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z'
                         />
                       </svg>
-                      Signing in…
+                      Signing in....
                     </>
                   ) : (
                     <>

@@ -1,8 +1,9 @@
+import Cookies from 'js-cookie';
 import { Navigate, useLocation } from 'react-router-dom';
 
 const ProtectedRoute = ({ children }) => {
   const location = useLocation();
-  const isAuthenticated = Boolean(localStorage.getItem('authToken'));
+  const isAuthenticated = Boolean(Cookies.get('authToken'));
 
   if (!isAuthenticated) {
     // Preserve the attempted URL so Login can redirect back after sign-in

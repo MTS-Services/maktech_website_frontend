@@ -1,5 +1,7 @@
 import { useState, useMemo, useEffect } from 'react';
+import apiClient from '../../../services/apiClient';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import StatCard from '../../../components/StatCard';
 import AdminTable from '../../../components/AdminTable';
 import Pagination from '../../../components/Pagination';
@@ -199,7 +201,7 @@ const EMAILS = [
   },
 ];
 
-// Status badges — text label always present; color is not the sole indicator (WCAG 1.4.1)
+// Status badges - text label always present; color is not the sole indicator (WCAG 1.4.1)
 const STATUS_STYLES = {
   Unread: 'bg-blue-50 text-blue-700',
   Read: 'bg-amber-50 text-amber-700',
@@ -209,7 +211,7 @@ const STATUS_STYLES = {
 const getStatusStyle = (status) =>
   STATUS_STYLES[status] ?? 'bg-gray-100 text-gray-600';
 
-// "2026-01-28 10:30 AM" → "2026-01-28 at 10:30 AM"
+// "2026-01-28 10:30 AM" - - "2026-01-28 at 10:30 AM"
 const formatDetailDate = (dt) => {
   const idx = dt.indexOf(' ');
   return idx === -1 ? dt : `${dt.slice(0, idx)} at ${dt.slice(idx + 1)}`;
@@ -222,93 +224,108 @@ const EMAIL_COLS = [
   { label: 'Status' },
 ];
 
-// ─── Reply Form ─────────────────────────────────────────────────────────────
-const ReplyForm = ({ email, onBack }) => (
-  <div className='space-y-6'>
-    {/* Back link */}
-    <button
-      type='button'
-      onClick={onBack}
-      className='inline-flex cursor-pointer items-center gap-1.5 text-base text-gray-500 hover:text-gray-800 transition-colors duration-150 group'
-    >
-      <MdArrowBack
-        className='text-lg group-hover:-translate-x-0.5 transition-transform duration-150'
-        aria-hidden='true'
-      />
-      Back to Inbox
-    </button>
+// - Reply Form -
+const ReplyForm = ({ email, onBack }) => {
+  const [isLoading, setIsLoading] = useState(false);
 
-    <div className='bg-white rounded-xl border border-gray-100 shadow-sm p-6 sm:p-8'>
-      <h2 className='text-xl font-bold text-gray-900 mb-6'>Reply to Email</h2>
+  // Extract pure email address from 'from' string like "John <john@abc.com>"
+  let defaultTo = email.from;
+  const emailMatch = email.from.match(/<([^>]+)>/);
+  if (emailMatch) {
+    defaultTo = emailMatch[1];
+  }
 
-      <div className='space-y-4'>
-        {/* To */}
-        <div>
-          <label
-            htmlFor='reply-to'
-            className='block text-sm text-gray-500 mb-1.5'
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const to = formData.get('to');
+    const subject = formData.get('subject');
+    const html = formData.get('message');
+    
+    if (!to || !subject || !html) return toast.error("Please fill all fields");
+
+    setIsLoading(true);
+    try {
+      const response = await apiClient.post('/api/v1/emails/send', { to, subject, html });
+      if (response.data.success) {
+        toast.success("Reply sent successfully!");
+        onBack();
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Failed to send reply");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <div className='space-y-6'>
+      <button
+        type='button'
+        onClick={onBack}
+        className='inline-flex cursor-pointer items-center gap-1.5 text-base text-gray-500 hover:text-gray-800 transition-colors duration-150 group'
+      >
+        <MdArrowBack
+          className='text-lg group-hover:-translate-x-0.5 transition-transform duration-150'
+          aria-hidden='true'
+        />
+        Back to Inbox
+      </button>
+
+      <div className='bg-white rounded-xl border border-gray-100 shadow-sm p-6 sm:p-8'>
+        <h2 className='text-xl font-bold text-gray-900 mb-6'>Reply to Email</h2>
+
+        <form onSubmit={handleSubmit} className='space-y-4'>
+          <div>
+            <label htmlFor='reply-to' className='block text-sm text-gray-500 mb-1.5'>To:</label>
+            <input
+              id='reply-to'
+              name='to'
+              type='email'
+              defaultValue={defaultTo}
+              className='w-full px-4 py-2.5 rounded-lg border border-gray-200 text-base text-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-transparent transition'
+            />
+          </div>
+
+          <div>
+            <label htmlFor='reply-subject' className='block text-sm text-gray-500 mb-1.5'>Subject:</label>
+            <input
+              id='reply-subject'
+              name='subject'
+              type='text'
+              defaultValue={`Re: ${email.subject}`}
+              className='w-full px-4 py-2.5 rounded-lg border border-gray-200 text-base text-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-transparent transition'
+            />
+          </div>
+
+          <div>
+            <label htmlFor='reply-message' className='block text-sm text-gray-500 mb-1.5'>Message:</label>
+            <textarea
+              id='reply-message'
+              name='message'
+              rows={7}
+              placeholder='Type your message here...'
+              className='w-full px-4 py-3 rounded-lg border border-gray-200 text-base text-gray-700 placeholder:text-gray-300 resize-none focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-transparent transition'
+            />
+          </div>
+
+          <button
+            type='submit'
+            disabled={isLoading}
+            className='group inline-flex cursor-pointer items-center gap-2 overflow-hidden px-5 py-2.5 text-sm font-semibold text-white bg-orange-bg-cta rounded-lg hover:bg-[#e5501a] hover:shadow-[0_4px_14px_rgba(255,101,51,0.35)] transition-all duration-200 active:scale-[0.97] disabled:opacity-70'
           >
-            To:
-          </label>
-          <input
-            id='reply-to'
-            type='email'
-            defaultValue={email.email}
-            className='w-full px-4 py-2.5 rounded-lg border border-gray-200 text-base text-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-transparent transition'
-          />
-        </div>
-
-        {/* Subject */}
-        <div>
-          <label
-            htmlFor='reply-subject'
-            className='block text-sm text-gray-500 mb-1.5'
-          >
-            Subject:
-          </label>
-          <input
-            id='reply-subject'
-            type='text'
-            defaultValue={`Re: ${email.subject}`}
-            className='w-full px-4 py-2.5 rounded-lg border border-gray-200 text-base text-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-transparent transition'
-          />
-        </div>
-
-        {/* Message */}
-        <div>
-          <label
-            htmlFor='reply-message'
-            className='block text-sm text-gray-500 mb-1.5'
-          >
-            Message:
-          </label>
-          <textarea
-            id='reply-message'
-            rows={7}
-            placeholder='Type your message here...'
-            className='w-full px-4 py-3 rounded-lg border border-gray-200 text-base text-gray-700 resize-none focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-transparent transition'
-          />
-        </div>
-
-        {/* Send */}
-        <button
-          type='button'
-          className='group inline-flex cursor-pointer items-center gap-2 overflow-hidden px-5 py-2.5 text-sm font-semibold text-white bg-orange-bg-cta rounded-lg hover:bg-[#e5501a] hover:shadow-[0_4px_14px_rgba(255,101,51,0.35)] transition-all duration-200 active:scale-[0.97]'
-        >
-          <MdSend
-            className='text-lg shrink-0 transition-transform duration-300 ease-out group-hover:translate-x-1'
-            aria-hidden='true'
-          />
-          <span className='inline-block -translate-x-1 transition-transform duration-300 ease-out delay-100 group-hover:translate-x-0'>
-            Send Email
-          </span>
-        </button>
+            {isLoading ? <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div> : <MdSend className='text-lg shrink-0 transition-transform duration-300 ease-out group-hover:translate-x-1' aria-hidden='true' />}
+            <span className='inline-block -translate-x-1 transition-transform duration-300 ease-out delay-100 group-hover:translate-x-0'>
+              Send Reply
+            </span>
+          </button>
+        </form>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
-// ─── Email Detail View ───────────────────────────────────────────────────────
+// - Email Detail View -
 const EmailDetail = ({ email, onBack }) => {
   const [showReply, setShowReply] = useState(false);
 
@@ -343,23 +360,35 @@ const EmailDetail = ({ email, onBack }) => {
           </span>
         </div>
 
-        {/* Meta: From · email · datetime */}
+        {/* Meta: From - email - datetime */}
         <p className='text-sm text-gray-400 mb-6'>
           <span className='text-gray-500'>From:</span>{' '}
-          <span className='font-medium text-gray-700'>{email.client}</span>
+          <span className='font-medium text-gray-700'>{email.from}</span>
           <span className='mx-2 text-gray-300'>&bull;</span>
           {email.email}
           <span className='mx-2 text-gray-300'>&bull;</span>
-          {formatDetailDate(email.datetime)}
+          {formatDetailDate(new Date(email.date).toLocaleString())}
         </p>
 
         {/* Divider */}
         <hr className='border-gray-100 mb-6' />
 
         {/* Body */}
-        <p className='text-base text-gray-600 leading-relaxed mb-8'>
-          {email.body}
-        </p>
+        <div className='w-full mb-8 rounded-xl overflow-hidden border border-gray-200 bg-white shadow-sm'>
+          {email.html ? (
+            <iframe 
+               srcDoc={email.html} 
+               title="Email content" 
+               className="w-full min-h-[600px] bg-white" 
+               frameBorder="0"
+               sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin"
+            />
+          ) : (
+            <p className='text-base text-gray-600 leading-relaxed p-6 whitespace-pre-wrap'>
+              {email.text}
+            </p>
+          )}
+        </div>
 
         {/* Reply button */}
         <button
@@ -380,9 +409,12 @@ const EmailDetail = ({ email, onBack }) => {
   );
 };
 
-// ─── EmailCard — mobile layout (< md) ───────────────────────────────────────
+// - EmailCard - mobile layout (< md) -
 const EmailCard = ({ email, onSelect }) => {
-  const { client, subject, datetime, status } = email;
+  const client = email.from || 'Unknown';
+  const subject = email.subject || '(No Subject)';
+  const datetime = new Date(email.date).toLocaleString();
+  const status = email.status || 'Unread';
   const isUnread = status === 'Unread';
   return (
     <button
@@ -426,9 +458,12 @@ const EmailCard = ({ email, onSelect }) => {
   );
 };
 
-// ─── EmailRow — desktop table row (md+) ─────────────────────────────────────
+// - EmailRow - desktop table row (md+) -
 const EmailRow = ({ email, onSelect }) => {
-  const { client, subject, datetime, status } = email;
+  const client = email.from || 'Unknown';
+  const subject = email.subject || '(No Subject)';
+  const datetime = new Date(email.date).toLocaleString();
+  const status = email.status || 'Unread';
   const isUnread = status === 'Unread';
   return (
     <tr
@@ -481,34 +516,122 @@ const EmailRow = ({ email, onSelect }) => {
   );
 };
 
-// ─── Page component ──────────────────────────────────────────────────────────
+
 export default function Emails() {
   const navigate = useNavigate();
   const [page, setPage] = useState(1);
   const [selectedEmail, setSelected] = useState(null);
+  
+  // Real API states
+  const [emails, setEmails] = useState([]);
+  const [hasNewEmails, setHasNewEmails] = useState(false);
+  const [latestFetchedEmails, setLatestFetchedEmails] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [statsLoading, setStatsLoading] = useState(true);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalEmails, setTotalEmails] = useState(0);
+  const [stats, setStats] = useState({ unread: 0, today: 0, waiting: 0 });
 
-  const totalPages = Math.ceil(EMAILS.length / PAGE_SIZE);
-  const pageData = useMemo(
-    () => EMAILS.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE),
-    [page],
-  );
+  const fetchStats = async () => {
+    setStatsLoading(true);
+    try {
+      const res = await apiClient.get('/api/v1/emails/stats');
+      if (res.data.success) {
+        setStats(res.data.data);
+      }
+    } catch (err) {
+      console.error("Failed to fetch stats", err);
+    } finally {
+      setStatsLoading(false);
+    }
+  };
+
+  const fetchEmails = async (pageToFetch) => {
+    try {
+      setLoading(true);
+      const response = await apiClient.get(`/api/v1/emails/inbox?page=${pageToFetch}&limit=${PAGE_SIZE}`);
+      const result = response.data;
+      if (result.success) {
+        setEmails(result.data);
+        setTotalPages(result.meta?.totalPages || 1);
+        setTotalEmails(result.meta?.total || 0);
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchEmails(page);
+    fetchStats();
+  }, [page]);
+
+  // Polling logic
+  useEffect(() => {
+    let pollingInterval;
+    const startPolling = () => {
+      pollingInterval = setInterval(async () => {
+        try {
+          const response = await apiClient.get(`/api/v1/emails/inbox?page=1&limit=${PAGE_SIZE}`);
+          const result = response.data;
+          if (result.success) {
+            const backgroundEmails = result.data;
+            if (backgroundEmails.length > 0 && emails.length > 0) {
+              if (backgroundEmails[0].id !== emails[0].id) {
+                setLatestFetchedEmails(backgroundEmails);
+                setHasNewEmails(true);
+              }
+            }
+          }
+        } catch (error) {
+          console.error("Polling error:", error);
+        }
+      }, 65000);
+    };
+    
+    if (page === 1) {
+      startPolling();
+    }
+    
+    return () => clearInterval(pollingInterval);
+  }, [page, emails]);
+
+  const refreshInbox = () => {
+    setEmails(latestFetchedEmails);
+    setHasNewEmails(false);
+  };
+
   const pageRange = useMemo(
     () => getPageRange(page, totalPages),
-    [page, totalPages],
+    [page, totalPages]
   );
+  
   const rangeStart = (page - 1) * PAGE_SIZE + 1;
-  const rangeEnd = Math.min(page * PAGE_SIZE, EMAILS.length);
+  const rangeEnd = Math.min(page * PAGE_SIZE, totalEmails);
 
   const handlePage = (p) => setPage(Math.max(1, Math.min(totalPages, p)));
-  const handleSelect = (email) => setSelected(email);
+  const handleSelect = async (email) => {
+    setSelected(email);
+    if (email.status !== 'Read') {
+      try {
+        await apiClient.patch(`/api/v1/emails/${email.id}/read`);
+        setEmails((prev) => prev.map((e) => (e.id === email.id ? { ...e, status: 'Read' } : e)));
+        fetchStats(); // Update the unread count
+      } catch (err) {
+        console.error("Failed to mark as read", err);
+      }
+    }
+  };
   const handleBack = () => setSelected(null);
 
   useEffect(() => {
-    document.title = 'Emails – Maktech Admin';
+    document.title = 'Emails - Maktech Admin';
   }, []);
 
   return (
-    <div className='space-y-6 pb-8'>
+    <div className='space-y-6 relative'>
       {/* Page Header */}
       <div className='flex flex-wrap items-start justify-between gap-4'>
         <div>
@@ -536,61 +659,120 @@ export default function Emails() {
 
       {/* Stat Strip */}
       <div className='grid grid-cols-1 sm:grid-cols-3 gap-5'>
-        {STAT_CARDS.map((card) => (
-          <StatCard key={card.label} {...card} />
+        {[
+          {
+            Icon: MdEmail,
+            accentColor: '#2563eb',
+            iconBg: 'bg-blue-50',
+            iconColor: 'text-blue-600',
+            badge: 'Inbox',
+            badgeBg: 'bg-blue-50',
+            badgeColor: 'text-blue-700',
+            label: 'Unread Emails',
+            value: stats.unread,
+          },
+          {
+            Icon: MdScheduleSend,
+            accentColor: '#16a34a',
+            iconBg: 'bg-green-50',
+            iconColor: 'text-green-600',
+            badge: 'Today',
+            badgeBg: 'bg-green-50',
+            badgeColor: 'text-green-700',
+            label: 'Emails Today',
+            value: stats.today,
+          },
+          {
+            Icon: MdReply,
+            accentColor: '#d97706',
+            iconBg: 'bg-orange-50',
+            iconColor: 'text-orange-600',
+            badge: 'Pending',
+            badgeBg: 'bg-orange-50',
+            badgeColor: 'text-orange-700',
+            label: 'Waiting for Reply',
+            value: stats.waiting,
+          },
+        ].map((card) => (
+          <StatCard key={card.label} {...card} isLoading={statsLoading} />
         ))}
       </div>
+      
+      {/* Polling Badge */}
+      {hasNewEmails && !selectedEmail && (
+        <div className="flex justify-center mb-4">
+          <button 
+            onClick={refreshInbox} 
+            className="bg-blue-600 text-white px-5 py-2.5 rounded-full shadow-lg text-sm font-medium flex items-center gap-2 hover:bg-blue-700 hover:shadow-xl transition-all duration-200 animate-bounce"
+          >
+            <MdEmail className="text-lg" />
+            New message arrived, click to reload
+          </button>
+        </div>
+      )}
 
-      {/* ── Detail view or Inbox ── */}
+      {/* Detail view or Inbox */}
       {selectedEmail ? (
         <EmailDetail email={selectedEmail} onBack={handleBack} />
       ) : (
         <section
           aria-label='Email inbox'
-          className='bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden'
+          className='bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden min-h-[400px]'
         >
-          {/* Mobile: card list (< md) */}
-          <div className='md:hidden p-4 space-y-3'>
-            {pageData.map((email) => (
-              <EmailCard key={email.id} email={email} onSelect={handleSelect} />
-            ))}
-          </div>
+          {loading ? (
+             <div className="flex justify-center items-center h-[300px]">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
+             </div>
+          ) : emails.length === 0 ? (
+             <div className="flex justify-center items-center h-[300px] text-gray-500">
+                No emails found.
+             </div>
+          ) : (
+             <>
+                {/* Mobile: card list (< md) */}
+                <div className='md:hidden p-4 space-y-3'>
+                  {emails.map((email) => (
+                    <EmailCard key={email.id} email={email} onSelect={handleSelect} />
+                  ))}
+                </div>
 
-          {/* Desktop: table (md+) */}
-          <div className='hidden md:block overflow-x-auto'>
-            <AdminTable columns={EMAIL_COLS} ariaLabel='Client emails'>
-              {pageData.map((email) => (
-                <EmailRow
-                  key={email.id}
-                  email={email}
-                  onSelect={handleSelect}
-                />
-              ))}
-            </AdminTable>
-          </div>
+                {/* Desktop: table (md+) */}
+                <div className='hidden md:block overflow-x-auto'>
+                  <AdminTable columns={EMAIL_COLS} ariaLabel='Client emails'>
+                    {emails.map((email) => (
+                      <EmailRow
+                        key={email.id}
+                        email={email}
+                        onSelect={handleSelect}
+                      />
+                    ))}
+                  </AdminTable>
+                </div>
 
-          {/* Bottom bar */}
-          <div className='flex flex-col items-center gap-3 px-5 py-4 border-t border-gray-100 sm:flex-row sm:items-center sm:justify-between'>
-            <p className='text-sm text-gray-400 shrink-0'>
-              Showing{' '}
-              <span className='font-semibold text-gray-700'>
-                {rangeStart} to {rangeEnd}
-              </span>{' '}
-              of{' '}
-              <span className='font-semibold text-gray-700'>
-                {EMAILS.length}
-              </span>{' '}
-              emails
-            </p>
-            <nav aria-label='Pagination'>
-              <Pagination
-                page={page}
-                totalPages={totalPages}
-                pageRange={pageRange}
-                onPage={handlePage}
-              />
-            </nav>
-          </div>
+                {/* Bottom bar */}
+                <div className='flex flex-col items-center gap-3 px-5 py-4 border-t border-gray-100 sm:flex-row sm:items-center sm:justify-between'>
+                  <p className='text-sm text-gray-400 shrink-0'>
+                    Showing{' '}
+                    <span className='font-semibold text-gray-700'>
+                      {totalEmails === 0 ? 0 : rangeStart} to {rangeEnd}
+                    </span>{' '}
+                    of{' '}
+                    <span className='font-semibold text-gray-700'>
+                      {totalEmails}
+                    </span>{' '}
+                    emails
+                  </p>
+                  <nav aria-label='Pagination'>
+                    <Pagination
+                      page={page}
+                      totalPages={totalPages}
+                      pageRange={pageRange}
+                      onPage={handlePage}
+                    />
+                  </nav>
+                </div>
+             </>
+          )}
         </section>
       )}
     </div>
