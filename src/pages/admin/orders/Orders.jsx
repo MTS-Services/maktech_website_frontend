@@ -129,7 +129,7 @@ const ActionMenu = ({ order, onView, onEdit, onDelete }) => {
         aria-label='Order actions'
         aria-haspopup='true'
         aria-expanded={open}
-        className='p-1.5 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-orange-50/40 transition-colors duration-150'
+        className='cursor-pointer p-1.5 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-orange-50/40 transition-colors duration-150'
       >
         <MdMoreVert className='text-xl' />
       </button>
@@ -152,7 +152,7 @@ const ActionMenu = ({ order, onView, onEdit, onDelete }) => {
               setOpen(false);
               onView(order);
             }}
-            className='w-full flex items-center gap-2.5 px-3.5 py-2 text-sm text-gray-700 hover:bg-orange-50/40 hover:text-gray-900 transition-colors duration-150'
+            className='cursor-pointer w-full flex items-center gap-2.5 px-3.5 py-2 text-sm text-gray-700 hover:bg-orange-50/40 hover:text-gray-900 transition-colors duration-150'
           >
             <MdRemoveRedEye className='text-base shrink-0 text-orange-400' />
             View
@@ -163,7 +163,7 @@ const ActionMenu = ({ order, onView, onEdit, onDelete }) => {
               setOpen(false);
               onEdit(order);
             }}
-            className='w-full flex items-center gap-2.5 px-3.5 py-2 text-sm text-gray-700 hover:bg-orange-50/40 hover:text-gray-900 transition-colors duration-150'
+            className='cursor-pointer w-full flex items-center gap-2.5 px-3.5 py-2 text-sm text-gray-700 hover:bg-orange-50/40 hover:text-gray-900 transition-colors duration-150'
           >
             <MdEdit className='text-base shrink-0 text-blue-400' />
             Edit
@@ -175,7 +175,7 @@ const ActionMenu = ({ order, onView, onEdit, onDelete }) => {
               setOpen(false);
               onDelete(order.id);
             }}
-            className='w-full flex items-center gap-2.5 px-3.5 py-2 text-sm text-red-500 hover:bg-red-50 transition-colors duration-150'
+            className='cursor-pointer w-full flex items-center gap-2.5 px-3.5 py-2 text-sm text-red-500 hover:bg-red-50 transition-colors duration-150'
           >
             <MdDelete className='text-base shrink-0' />
             Delete
@@ -300,7 +300,7 @@ const OrderDetail = ({ order, onBack }) => (
       </dl>
 
       {/* Get Payment Link — external action */}
-      <div className='pt-2'>
+      {/* <div className='pt-2'>
         <button
           type='button'
           className='group inline-flex cursor-pointer items-center gap-2 overflow-hidden px-5 py-2.5 text-sm font-semibold text-white bg-orange-bg-cta rounded-lg hover:bg-[#e5501a] hover:shadow-[0_4px_14px_rgba(255,101,51,0.35)] transition-all duration-200 active:scale-[0.97]'
@@ -313,7 +313,7 @@ const OrderDetail = ({ order, onBack }) => (
             Get Payment Link
           </span>
         </button>
-      </div>
+      </div> */}
     </div>
   </div>
 );
@@ -496,7 +496,7 @@ const CreateOrderForm = ({ onCancel, onSuccess }) => {
                 aria-hidden='true'
               />
               <span className='inline-block -translate-x-1 transition-transform duration-300 ease-out delay-100 group-hover:translate-x-0'>
-                Create Order &amp; Generate Payment Link
+                Create Order
               </span>
             </button>
             <button
