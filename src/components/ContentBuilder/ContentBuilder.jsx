@@ -15,6 +15,21 @@ export const ContentBuilder = ({ entityName = 'Case Study', backPath = '/admin/c
   const { state } = useLocation();
   const studyData = state?.study;
   const isEditMode = !!id;
+
+  const htmlToTextList = (html) => {
+    if (!html) return '';
+    if (!html.includes('<li')) return html;
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+    const lis = Array.from(doc.querySelectorAll('li')).map(li => li.textContent);
+    return lis.join('\n');
+  };
+  const htmlToTextParagraphs = (html) => {
+    if (!html) return '';
+    if (!html.includes('<p')) return html;
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+    const ps = Array.from(doc.querySelectorAll('p')).map(p => p.textContent);
+    return ps.join('\n\n');
+  };
   
   const methods = useForm({
     defaultValues: {
@@ -77,6 +92,18 @@ export const ContentBuilder = ({ entityName = 'Case Study', backPath = '/admin/c
   const onSubmit = async (data) => {
     setIsSubmitting(true);
     try {
+      const formatKeyTakeaways = (text) => {
+        if (!text) return '';
+        if (text.includes('<ul')) return text;
+        const items = text.split('\n').filter(line => line.trim() !== '').map(line => `<li>${line.replace(/^[•\-\*]\s*/, '').trim()}</li>`);
+        return `<ul>${items.join('')}</ul>`;
+      };
+      const formatBlogContent = (text) => {
+        if (!text) return '';
+        if (text.includes('<p>')) return text;
+        const paragraphs = text.split('\n\n').filter(p => p.trim() !== '').map(p => `<p>${p.trim()}</p>`);
+        return paragraphs.join('');
+      };
       let htmlContent = '';
       if (blocks && blocks.length > 0) {
         htmlContent = blocks.map(b => {
@@ -115,6 +142,12 @@ export const ContentBuilder = ({ entityName = 'Case Study', backPath = '/admin/c
           res = await apiClient.put(`/api/v1/case-studies/${id}`, payload);
         } else {
           res = await apiClient.post('/api/v1/case-studies', payload);
+        }
+      } else if (formType === 'blog') {
+        if (isEditMode) {
+          res = await apiClient.patch(`/api/v1/blogs/${id}`, payload);
+        } else {
+          res = await apiClient.post('/api/v1/blogs', payload);
         }
       } else {
         toast.success(`${entityName} ${isEditMode ? 'updated' : 'created'} (Mocked)`);

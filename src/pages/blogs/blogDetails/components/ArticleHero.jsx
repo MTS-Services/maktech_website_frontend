@@ -8,7 +8,7 @@ import {
 } from "react-icons/fa";
 import Breadcrumb from "../../../../components/Breadcrumb";
 
-const ArticleHero = () => {
+const ArticleHero = ({ blog }) => {
   return (
     <div className='relative flex flex-col items-center justify-center h-screen px-5 pt-28 pb-16 text-center'>
       {/* Breadcrumb */}
@@ -27,15 +27,15 @@ const ArticleHero = () => {
         className='relative z-10 text-white font-bold leading-tight tracking-tight text-[clamp(1.75rem,5vw,4rem)] max-w-5xl mb-6'
       >
 
-        How the system of Web Development works
+        {blog.title}
 
       </h1>
 
       {/* Description */}
-      <p className='relative z-10 text-white/60 text-base xl:text-lg max-w-2xl leading-relaxed mb-10'>
+      <div className='relative z-10 text-white/60 text-base xl:text-lg max-w-2xl leading-relaxed mb-10'>
         <div className="flex flex-wrap items-center justify-center gap-y-4 text-[#FFFFFF] text-sm md:text-base font-medium">
           <span className="flex items-center">
-            by <span className="text-white ml-1">Emma Rose</span>
+            by <span className="text-white ml-1">{blog.postedBy}</span>
           </span>
 
           <span className="mx-3 hidden md:inline">—</span>
@@ -70,7 +70,7 @@ const ArticleHero = () => {
             </button>
           </div>
         </div>
-      </p>
+      </div>
 
       {/* CTA */}
       <button

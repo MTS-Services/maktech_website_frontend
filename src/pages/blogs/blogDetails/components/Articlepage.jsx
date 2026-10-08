@@ -17,13 +17,19 @@ const SocialIcon = ({ icon: Icon, label, value }) => (
     </div>
 );
 
-const ArticleUI = () => {
+const ArticleUI = ({ blog }) => {
+    const stripHtml = (html) => {
+      if (!html) return "";
+      const doc = new DOMParser().parseFromString(html, "text/html");
+      return doc.body.textContent || "";
+    };
+
     return (
         <div className="min-h-screen text-[#eee]">
             {/* Header Image Section */}
             <div className="relative w-full  max-w-360 overflow-hidden  mx-auto">
                 <img
-                    src="/Desktop.webp"
+                    src={blog.coverImage || "/Desktop.webp"}
                     alt=""
                     className="w-full h-full object-cover object-center"
                 />
@@ -54,14 +60,14 @@ const ArticleUI = () => {
                 {/* Main Content Area */}
                 <main className="flex-1  max-w-360 z-10">
                     {/* Top Intro Paragraph - Serif font from image */}
-                    <p className="text-base text-whiteleading-[1.8] mb-20 font-serif max-w-360">
-                        The seamless experience of browsing a website, from reading a sports update to scrolling through a gallery,
-                        is the result of a complex yet beautifully coordinated system. At its core, web development is a
-                        conversation between a client—your web browser—and a remote server. When you enter a URL, your
-                        browser sends a formal request across the internet to a server where the website's files are stored.
-                        The server then processes this request and sends back a package of data, which the browser translates
-                        into the visual interface you see on your screen.
-                    </p>
+                    <p className="text-base text-white leading-[1.8] mb-10 font-serif max-w-360 whitespace-pre-wrap">{stripHtml(blog.blogContent)}</p>
+
+                    {blog.content && (
+                        <div 
+                            className="tiptap-content text-white max-w-360 mb-20 prose prose-invert"
+                            dangerouslySetInnerHTML={{ __html: typeof blog.content === 'object' ? blog.content.html : blog.content }}
+                        />
+                    )}
 
                     {/* Headline Section with Large Quote - Sans serif font from image */}
                     <div className="relative mb-20 flex items-start gap-4 md:gap-6">
@@ -69,7 +75,7 @@ const ArticleUI = () => {
                             <span className="text-6xl md:text-8xl text-white/20 font-serif leading-none italic">”</span>
                         </div>
                         <h1 className="text-[32px] md:text-[46px] font-bold text-[#E3E3E3] font-sans leading-[1.15] tracking-tight">
-                            Decoding the Digital Engine: How the Web Development System Works
+                            Key Takeaways
                         </h1>
                     </div>
 
