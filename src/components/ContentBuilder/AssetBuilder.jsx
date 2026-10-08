@@ -150,11 +150,20 @@ const GridSelector = ({ id, onSelectLayout, onRemove }) => {
 
 const GridBlock = ({ block, onRemove, onUpdateBlock }) => {
   const images = block.images || Array(block.slots).fill('');
+  const filenames = block.filenames || Array(block.slots).fill('');
+  const [uploadingSlots, setUploadingSlots] = React.useState({});
   
-  const handleUpload = (index, url) => {
+  const handleUpload = async (index, url, filename) => {
     const newImages = [...images];
-    newImages[index] = url;
-    onUpdateBlock(block.id, { images: newImages });
+    const newFilenames = [...filenames];
+    
+    if (newFilenames[index] && !url) {
+      apiClient.delete(`/api/v1/uploads/${newFilenames[index]}`).catch(err => console.error(err));
+    }
+
+    newImages[index] = url || '';
+    newFilenames[index] = filename || '';
+    onUpdateBlock(block.id, { images: newImages, filenames: newFilenames });
   };
 
   const renderSlot = (index, className = '') => {
@@ -162,7 +171,7 @@ const GridBlock = ({ block, onRemove, onUpdateBlock }) => {
       return (
         <div key={index} className={`relative group rounded-xl overflow-hidden shadow-sm bg-gray-100 w-full h-full ${className}`}>
            <div className="absolute top-2 right-2 bg-[#2a2a2a] text-gray-300 rounded-md flex items-center opacity-0 group-hover:opacity-100 transition-opacity z-10 shadow-md">
-             <button type="button" onClick={() => handleUpload(index, '')} className="p-1.5 text-red-400 hover:text-red-300 hover:bg-gray-700 rounded-md transition-colors cursor-pointer"><MdDelete size={14} /></button>
+             <button type="button" onClick={() => handleUpload(index, '', '')} className="p-1.5 text-red-400 hover:text-red-300 hover:bg-gray-700 rounded-md transition-colors cursor-pointer"><MdDelete size={14} /></button>
            </div>
            <img src={images[index]} alt={`Grid slot ${index}`} className="absolute inset-0 w-full h-full object-cover" />
         </div>
@@ -171,68 +180,27 @@ const GridBlock = ({ block, onRemove, onUpdateBlock }) => {
     return (
       <div key={index} className={`relative w-full h-full min-h-[150px] border-2 border-dashed border-gray-300 rounded-xl bg-[#fafafa] flex flex-col items-center justify-center hover:bg-gray-50 transition cursor-pointer ${className}`}>
         <MdImage size={24} className="text-gray-300 mb-2" />
-        <span className="text-[10px] font-bold text-gray-500 uppercase">Upload</span>
-        <input type="file" accept="image/*" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" onChange={(e) => {
+        <span className="text-[10px] font-bold text-gray-500 uppercase">{uploadingSlots[index] ? 'Uploading...' : 'Upload'}</span>
+        <input type="file" accept="image/*" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer disabled:cursor-not-allowed" disabled={uploadingSlots[index]} onChange={async (e) => {
           if (e.target.files && e.target.files.length > 0) {
-            handleUpload(index, URL.createObjectURL(e.target.files[0]));
+            const file = e.target.files[0];
+            const formData = new FormData();
+            formData.append('image', file);
+            setUploadingSlots(prev => ({ ...prev, [index]: true }));
+            try {
+              const res = await apiClient.post('/api/v1/uploads', formData, { headers: { 'Content-Type': 'multipart/form-data' }});
+              if(res.data.success) {
+                handleUpload(index, res.data.data.url, res.data.data.filename);
+              }
+            } catch(err) {
+              toast.error('Failed to upload grid image');
+            } finally {
+              setUploadingSlots(prev => ({ ...prev, [index]: false }));
+            }
           }
         }} />
       </div>
     );
-  };
-
-  const renderLayout = () => {
-    switch(block.layout) {
-      case '1-col': return <div className="w-full">{renderSlot(0, 'aspect-video')}</div>;
-      case '2-col': return <div className="grid grid-cols-2 gap-4 w-full">{renderSlot(0, 'aspect-square')}{renderSlot(1, 'aspect-square')}</div>;
-      case '3-col': return <div className="grid grid-cols-3 gap-4 w-full">{renderSlot(0, 'aspect-square')}{renderSlot(1, 'aspect-square')}{renderSlot(2, 'aspect-square')}</div>;
-      case '4-col': return <div className="grid grid-cols-4 gap-4 w-full">{renderSlot(0, 'aspect-square')}{renderSlot(1, 'aspect-square')}{renderSlot(2, 'aspect-square')}{renderSlot(3, 'aspect-square')}</div>;
-      case '2x2': return <div className="grid grid-cols-2 gap-4 w-full">{renderSlot(0, 'aspect-square')}{renderSlot(1, 'aspect-square')}{renderSlot(2, 'aspect-square')}{renderSlot(3, 'aspect-square')}</div>;
-      
-      case '1-top-2-bottom': return (
-        <div className="flex flex-col gap-4 w-full">
-           {renderSlot(0, 'aspect-[2/1]')}
-           <div className="grid grid-cols-2 gap-4">{renderSlot(1, 'aspect-[4/3]')}{renderSlot(2, 'aspect-[4/3]')}</div>
-        </div>
-      );
-      case '2-top-1-bottom': return (
-        <div className="flex flex-col gap-4 w-full">
-           <div className="grid grid-cols-2 gap-4">{renderSlot(0, 'aspect-[4/3]')}{renderSlot(1, 'aspect-[4/3]')}</div>
-           {renderSlot(2, 'aspect-[2/1]')}
-        </div>
-      );
-      case '1-left-2-right': return (
-        <div className="grid grid-cols-2 gap-4 aspect-[2/1.2] w-full">
-           {renderSlot(0, 'h-full')}
-           <div className="grid grid-rows-2 gap-4 h-full">{renderSlot(1, 'h-full')}{renderSlot(2, 'h-full')}</div>
-        </div>
-      );
-      case '2-left-1-right': return (
-        <div className="grid grid-cols-2 gap-4 aspect-[2/1.2] w-full">
-           <div className="grid grid-rows-2 gap-4 h-full">{renderSlot(0, 'h-full')}{renderSlot(1, 'h-full')}</div>
-           {renderSlot(2, 'h-full')}
-        </div>
-      );
-      case '1-large-3-small': return (
-        <div className="flex flex-col gap-4 w-full">
-           {renderSlot(0, 'aspect-[2.5/1]')}
-           <div className="grid grid-cols-3 gap-4">{renderSlot(1, 'aspect-square')}{renderSlot(2, 'aspect-square')}{renderSlot(3, 'aspect-square')}</div>
-        </div>
-      );
-      case '3-small-1-large': return (
-        <div className="flex flex-col gap-4 w-full">
-           <div className="grid grid-cols-3 gap-4">{renderSlot(0, 'aspect-square')}{renderSlot(1, 'aspect-square')}{renderSlot(2, 'aspect-square')}</div>
-           {renderSlot(3, 'aspect-[2.5/1]')}
-        </div>
-      );
-      case '2-top-3-bottom': return (
-        <div className="flex flex-col gap-4 w-full">
-           <div className="grid grid-cols-2 gap-4">{renderSlot(0, 'aspect-[4/3]')}{renderSlot(1, 'aspect-[4/3]')}</div>
-           <div className="grid grid-cols-3 gap-4">{renderSlot(2, 'aspect-square')}{renderSlot(3, 'aspect-square')}{renderSlot(4, 'aspect-square')}</div>
-        </div>
-      );
-      default: return null;
-    }
   };
 
   return (
@@ -240,7 +208,23 @@ const GridBlock = ({ block, onRemove, onUpdateBlock }) => {
       <div className="absolute -right-2 top-2 bg-[#2a2a2a] text-gray-300 rounded-md flex items-center opacity-0 group-hover:opacity-100 transition-opacity z-10 border border-gray-600 shadow-md z-20">
         <button type="button" onClick={() => onRemove(block.id)} className="p-1.5 text-red-400 hover:text-red-300 hover:bg-gray-700 rounded-md transition-colors cursor-pointer"><MdDelete size={16} /></button>
       </div>
-      {renderLayout()}
+      {(() => {
+        switch (block.layout) {
+          case '1-col': return <div className="w-full">{renderSlot(0, 'aspect-[2.5/1]')}</div>;
+          case '2-col': return <div className="grid grid-cols-2 gap-4 w-full">{renderSlot(0, 'aspect-[4/3]')}{renderSlot(1, 'aspect-[4/3]')}</div>;
+          case '3-col': return <div className="grid grid-cols-3 gap-4 w-full">{renderSlot(0, 'aspect-square')}{renderSlot(1, 'aspect-square')}{renderSlot(2, 'aspect-square')}</div>;
+          case '4-col': return <div className="grid grid-cols-4 gap-4 w-full">{renderSlot(0, 'aspect-square')}{renderSlot(1, 'aspect-square')}{renderSlot(2, 'aspect-square')}{renderSlot(3, 'aspect-square')}</div>;
+          case '2x2': return <div className="grid grid-cols-2 gap-4 w-full">{renderSlot(0, 'aspect-square')}{renderSlot(1, 'aspect-square')}{renderSlot(2, 'aspect-square')}{renderSlot(3, 'aspect-square')}</div>;
+          case '1-top-2-bottom': return <div className="flex flex-col gap-4 w-full">{renderSlot(0, 'aspect-[2.5/1]')}<div className="grid grid-cols-2 gap-4">{renderSlot(1, 'aspect-[4/3]')}{renderSlot(2, 'aspect-[4/3]')}</div></div>;
+          case '2-top-1-bottom': return <div className="flex flex-col gap-4 w-full"><div className="grid grid-cols-2 gap-4">{renderSlot(0, 'aspect-[4/3]')}{renderSlot(1, 'aspect-[4/3]')}</div>{renderSlot(2, 'aspect-[2.5/1]')}</div>;
+          case '1-left-2-right': return <div className="grid grid-cols-2 gap-4 w-full">{renderSlot(0, 'h-full aspect-square')}<div className="flex flex-col gap-4">{renderSlot(1, 'aspect-[4/3]')}{renderSlot(2, 'aspect-[4/3]')}</div></div>;
+          case '2-left-1-right': return <div className="grid grid-cols-2 gap-4 w-full"><div className="flex flex-col gap-4">{renderSlot(0, 'aspect-[4/3]')}{renderSlot(1, 'aspect-[4/3]')}</div>{renderSlot(2, 'h-full aspect-square')}</div>;
+          case '1-large-3-small': return <div className="flex flex-col gap-4 w-full">{renderSlot(0, 'aspect-[2.5/1]')}<div className="grid grid-cols-3 gap-4">{renderSlot(1, 'aspect-square')}{renderSlot(2, 'aspect-square')}{renderSlot(3, 'aspect-square')}</div></div>;
+          case '3-small-1-large': return <div className="flex flex-col gap-4 w-full"><div className="grid grid-cols-3 gap-4">{renderSlot(0, 'aspect-square')}{renderSlot(1, 'aspect-square')}{renderSlot(2, 'aspect-square')}</div>{renderSlot(3, 'aspect-[2.5/1]')}</div>;
+          case '2-top-3-bottom': return <div className="flex flex-col gap-4 w-full"><div className="grid grid-cols-2 gap-4">{renderSlot(0, 'aspect-[4/3]')}{renderSlot(1, 'aspect-[4/3]')}</div><div className="grid grid-cols-3 gap-4">{renderSlot(2, 'aspect-square')}{renderSlot(3, 'aspect-square')}{renderSlot(4, 'aspect-square')}</div></div>;
+          default: return null;
+        }
+      })()}
     </div>
   );
 };
@@ -389,7 +373,14 @@ const EditorMenu = ({ editor, onRemove, id }) => {
   );
 };
 
-const TextBlock = ({ id, onRemove }) => {
+const TextBlock = ({ id, onRemove, onUpdateBlock, initialHtml }) => {
+  const defaultContent = `
+      <h2 style="font-family: Poppins; font-size: 40px">About MakTech</h2>
+      <p>MakTech is a creative digital agency dedicated to helping businesses grow through innovative design and technology solutions. We specialize in Graphic Design, UI/UX Design, Web Development, App Development, Video Editing, and digital branding services that help companies build a strong and impactful online presence.</p>
+      <p>Our team combines creativity, strategy, and technical expertise to deliver solutions that are not only visually engaging but also focused on performance and business growth. From startups to established brands, we work closely with our clients to transform ideas into meaningful digital experiences.</p>
+      <p>At MakTech, our mission is to create high-quality digital products that drive results, strengthen brands, and help businesses succeed in an increasingly competitive digital landscape.</p>
+    `;
+
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -400,12 +391,12 @@ const TextBlock = ({ id, onRemove }) => {
       FontFamily,
       FontSize,
     ],
-    content: `
-      <h2 style="font-family: Poppins; font-size: 40px">About MakTech</h2>
-      <p>MakTech is a creative digital agency dedicated to helping businesses grow through innovative design and technology solutions. We specialize in Graphic Design, UI/UX Design, Web Development, App Development, Video Editing, and digital branding services that help companies build a strong and impactful online presence.</p>
-      <p>Our team combines creativity, strategy, and technical expertise to deliver solutions that are not only visually engaging but also focused on performance and business growth. From startups to established brands, we work closely with our clients to transform ideas into meaningful digital experiences.</p>
-      <p>At MakTech, our mission is to create high-quality digital products that drive results, strengthen brands, and help businesses succeed in an increasingly competitive digital landscape.</p>
-    `,
+    content: initialHtml || defaultContent,
+    onUpdate: ({ editor }) => {
+      if (onUpdateBlock) {
+        onUpdateBlock(id, { html: editor.getHTML() });
+      }
+    },
     editorProps: {
       attributes: {
         class: 'prose prose-sm lg:prose-base focus:outline-none min-h-[150px] py-4 bg-transparent text-gray-800',
@@ -413,8 +404,17 @@ const TextBlock = ({ id, onRemove }) => {
     },
   });
 
+  React.useEffect(() => {
+    if (editor && onUpdateBlock && !initialHtml) {
+      onUpdateBlock(id, { html: editor.getHTML() });
+    }
+  }, [editor, onUpdateBlock, id, initialHtml]);
+
   return (
     <div className="relative group bg-white border border-dashed border-[#ff6533]/40 p-4 mb-4 mt-2">
+      <div className="absolute top-2 right-2 bg-[#2a2a2a] text-gray-300 rounded-md flex items-center opacity-0 group-hover:opacity-100 transition-opacity z-10 border border-gray-600 shadow-md">
+        <button type="button" onClick={() => onRemove(id)} className="p-1.5 text-red-400 hover:text-red-300 hover:bg-gray-700 rounded-md transition-colors cursor-pointer"><MdDelete size={16} /></button>
+      </div>
       <style>{EDITOR_STYLES}</style>
       {editor && <EditorMenu editor={editor} onRemove={onRemove} id={id} />}
       <div className="">
@@ -423,7 +423,6 @@ const TextBlock = ({ id, onRemove }) => {
     </div>
   );
 };
-
 export const AssetBuilder = ({ blocks, onRemove, onUpdateBlock, onAdd }) => {
   return (
     <div className="flex-1 w-full max-w-[1400px]">
@@ -473,7 +472,7 @@ export const AssetBuilder = ({ blocks, onRemove, onUpdateBlock, onAdd }) => {
             return <MediaBlock key={block.id} id={block.id} type={block.type} src={block.src} alt={block.type} mediaType={block.mediaType} onRemove={onRemove} />;
           }
           if (block.type === 'text') {
-            return <TextBlock key={block.id} id={block.id} onRemove={onRemove} />;
+            return <TextBlock key={block.id} id={block.id} onRemove={onRemove} onUpdateBlock={onUpdateBlock} initialHtml={block.html} />;
           }
           if (block.type === 'thanks') {
             return (
