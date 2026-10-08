@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useForm, useFieldArray, FormProvider, useFormContext } from 'react-hook-form';
 import { useNavigate, useLocation, useParams, useSearchParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import apiClient from '../../../../services/apiClient';
 import { MdArrowBack, MdImage, MdAutoAwesome } from 'react-icons/md';
 import * as MdIcons from 'react-icons/md';
 import { IconPickerModal } from '../../../../components/IconPickerModal/IconPickerModal';
@@ -225,6 +226,14 @@ export const JobBuilder = () => {
     setSearchParams({ step: newStep }, { replace: true });
   };
 
+  const mapApiToForm = (list) => {
+    if (!list) return [{ title: '', description: '', icon: '' }];
+    return list.map(item => ({
+      ...item,
+      icon: item.emoji || ''
+    }));
+  };
+
   const methods = useForm({
     defaultValues: {
       title: jobData?.title || '',
@@ -234,9 +243,10 @@ export const JobBuilder = () => {
       department: jobData?.department || '',
       salary: jobData?.salary || '',
       coverImage: jobData?.coverImage || null,
-      responsibilities: jobData?.responsibilities || [{ title: '', description: '' }],
-      benefits: jobData?.benefits || [{ title: '', description: '' }],
-      jobTypes: jobData?.jobTypes || [{ title: '', description: '' }],
+      responsibilities: jobData?.responsibilities ? mapApiToForm(jobData.responsibilities) : [{ title: '', description: '', icon: '' }],
+      benefits: jobData?.benefits ? mapApiToForm(jobData.benefits) : [{ title: '', description: '', icon: '' }],
+      jobTypes: jobData?.jobTypes ? mapApiToForm(jobData.jobTypes) : [{ title: '', description: '', icon: '' }],
+      questions: jobData?.questions ? jobData.questions.map(q => ({ ...q, required: q.isRequired || false })) : [],
     }
   });
 
@@ -271,10 +281,80 @@ export const JobBuilder = () => {
     setStep(2);
   };
 
-  const onFinalSubmit = (data) => {
-    console.log("Job Data & Application Form Data:", data);
-    toast.success(`Job ${isEditMode ? 'updated' : 'created'} successfully!`);
-    navigate('/admin/jobs');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const formatList = (list) => {
+    if (!list) return [];
+    return list.map((item, index) => {
+      const formatted = { ...item, order: index + 1 };
+      if (item.icon) {
+        formatted.emoji = item.icon;
+        delete formatted.icon;
+      } else {
+        formatted.emoji = 'MdAutoAwesome';
+      }
+      return formatted;
+    });
+  };
+
+  const onFinalSubmit = async (data) => {
+    try {
+      setIsSubmitting(true);
+      const payload = { ...data };
+      
+      // Handle file upload first if coverImage is a File object
+      if (payload.coverImage instanceof File) {
+        const formData = new FormData();
+        formData.append('image', payload.coverImage);
+        const uploadRes = await apiClient.post('/api/v1/uploads', formData, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        });
+        payload.coverImage = uploadRes.data.data.url;
+      }
+      
+      if (payload.vacancy !== undefined && payload.vacancy !== '') {
+        payload.vacancy = parseInt(payload.vacancy, 10);
+        if (isNaN(payload.vacancy)) payload.vacancy = 1;
+      } else {
+        delete payload.vacancy;
+      }
+      
+      payload.jobTypes = formatList(payload.jobTypes);
+      payload.responsibilities = formatList(payload.responsibilities);
+      payload.benefits = formatList(payload.benefits);
+      
+      if (payload.questions) {
+        payload.questions = payload.questions.map((q, idx) => {
+          const formattedQ = { ...q, order: idx + 1, isRequired: q.required || q.isRequired || false };
+          delete formattedQ.required; // Remove frontend-only field
+          if (formattedQ.options) {
+            formattedQ.options = formattedQ.options.map((opt, optIdx) => ({
+              ...opt,
+              order: optIdx + 1
+            }));
+          }
+          return formattedQ;
+        });
+      }
+      
+      if (!payload.coverImage) {
+        payload.coverImage = 'http://localhost:3000/uploads/dummy-job.jpg';
+      }
+
+      if (isEditMode && id) {
+        await apiClient.patch(`/api/v1/jobs/${id}`, payload);
+        toast.success('Job updated successfully!');
+      } else {
+        await apiClient.post('/api/v1/jobs', payload);
+        toast.success('Job created successfully!');
+      }
+      navigate('/admin/jobs');
+    } catch (err) {
+      toast.error(err.response?.data?.message || 'Failed to save job posting');
+      console.error(err);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   // Watch job title for the step 2 header
@@ -357,8 +437,13 @@ export const JobBuilder = () => {
             <button type="button" onClick={() => navigate('/admin/jobs')} className="px-6 py-2.5 rounded-lg border border-gray-200 text-sm font-semibold text-gray-700 bg-white hover:bg-gray-50 transition-colors cursor-pointer shadow-sm">
               Save draft
             </button>
-            <button type="button" onClick={methods.handleSubmit(onFinalSubmit)} className="px-6 py-2.5 rounded-lg text-sm font-semibold text-white bg-orange-bg-cta hover:bg-[#e5501a] transition-all active:scale-[0.97] cursor-pointer shadow-md shadow-orange-500/20">
-              Publish
+            <button 
+              type="button" 
+              onClick={methods.handleSubmit(onFinalSubmit)} 
+              disabled={isSubmitting}
+              className={`px-6 py-2.5 rounded-lg text-sm font-semibold text-white transition-all active:scale-[0.97] cursor-pointer shadow-md shadow-orange-500/20 ${isSubmitting ? 'bg-orange-400 opacity-70 cursor-not-allowed' : 'bg-orange-bg-cta hover:bg-[#e5501a]'}`}
+            >
+              {isSubmitting ? 'Publishing...' : 'Publish'}
             </button>
           </div>
         </FormProvider>
