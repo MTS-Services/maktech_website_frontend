@@ -11,7 +11,7 @@ const stripHtml = (html) => {
 
 const BlogCard = ({ blog }) => (
   <Link
-    to="/blogs/details"
+    to={`/blogs/details/${blog.id}`}
     state={{ blog }}
     className="cursor-pointer overflow-hidden h-full flex flex-col transition-transform duration-300 hover:-translate-y-1"
   >
@@ -38,6 +38,46 @@ const BlogCard = ({ blog }) => (
   </Link>
 );
 
+
+const FALLBACK_BLOGS = [
+  {
+    id: 1,
+    coverImage: "https://images.unsplash.com/photo-1562577309-4932fdd64cd1?w=400&h=200&fit=crop",
+    title: "Grow Website in Organic Way",
+    blogContent: "Achieving real website traffic without spending on ads is possible through a blend of strategic SEO, quality content, and superior UX. This blog explores the core principles of driving sustainable organic growth.",
+  },
+  {
+    id: 2,
+    coverImage: "https://images.unsplash.com/photo-1547658719-da2b51169166?w=400&h=200&fit=crop",
+    title: "Modern Web Design Trends",
+    blogContent: "Top Web Design Trends to Elevate Your Brand in 2026 Summary: Stay ahead of the curve with modern design trends. From AI-driven layouts to minimalist aesthetics, learn how to create a visually stunning website that captivates your digital audience.",
+  },
+  {
+    id: 3,
+    coverImage: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=200&fit=crop",
+    title: "Custom Development vs. CMS",
+    blogContent: "Choosing the right platform is crucial for business growth. We compare custom-built solutions with popular CMS options to help you decide which path offers the best scalability and security organic growth.",
+  },
+  {
+    id: 4,
+    coverImage: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400&h=200&fit=crop",
+    title: "Website Speed & Conversions",
+    blogContent: "A one-second delay can cost you customers. Explore the technical strategies we use to optimize site performance, reduce bounce rates, and turn casual visitors into loyal paying clients.",
+  },
+  {
+    id: 5,
+    coverImage: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400&h=200&fit=crop",
+    title: "E-commerce Growth",
+    blogContent: "Ready to sell online? Discover the essential features of a successful e-commerce website, from seamless checkout experiences to robust security measures that build customer .",
+  },
+  {
+    id: 6,
+    coverImage: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=400&h=200&fit=crop",
+    title: "Mobile-First Approach",
+    blogContent: "With mobile traffic dominating the web, a responsive site is no longer optional. Learn how our mobile-first approach ensures your website looks and performs perfectly on every screen size.",
+  },
+];
+
 export default function BlogSection() {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -45,7 +85,7 @@ export default function BlogSection() {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const res = await apiClient.get('/api/v1/blogs?page=1&limit=6&searchTerm=');
+        const res = await apiClient.get('/api/v1/blogs?page=1&limit=6&isPublished=true&searchTerm=');
         if (res.data.success) {
           setBlogs(res.data.data);
         }
@@ -79,14 +119,12 @@ export default function BlogSection() {
           <div className="flex justify-center items-center py-20">
             <div className="w-8 h-8 border-2 border-[#FF6533] border-t-transparent rounded-full animate-spin"></div>
           </div>
-        ) : blogs.length > 0 ? (
+        ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6  ">
-            {blogs.map((blog) => (
+            {(blogs.length > 0 ? blogs : FALLBACK_BLOGS).map((blog) => (
               <BlogCard key={blog.id} blog={blog} />
             ))}
           </div>
-        ) : (
-          <p className="text-[#BEBEBE] text-center py-10">No blogs found.</p>
         )}
       </div>
     </section>

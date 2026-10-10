@@ -50,11 +50,11 @@ const ArticleUI = ({ blog }) => {
 
                 {/* Sidebar Metrics - Sticky */}
                 <aside className="md:sticky md:top-24 self-start flex flex-row md:flex-col items-center justify-center md:justify-start w-full md:w-20 shrink-0 gap-6 md:gap-0 z-10">
-                    <SocialIcon icon={FaChartBar} label="views" value="1.6K" />
-                    <SocialIcon icon={FaShare} label="shares" value="996K" />
-                    <SocialIcon icon={FaHeart} label="likes" value="125" />
-                    <SocialIcon icon={FaTwitter} label="twitter" />
-                    <SocialIcon icon={FaInstagram} label="instagram" value="425" />
+                    <SocialIcon icon={FaChartBar} label="views" value={blog?.engagement?.views || "1.6K"} />
+                    <SocialIcon icon={FaShare} label="shares" value={blog?.engagement?.shares || "996K"} />
+                    <SocialIcon icon={FaHeart} label="likes" value={blog?.engagement?.likes || "125"} />
+                    <SocialIcon icon={FaTwitter} label="twitter" value={blog?.engagement?.twitter || ""} />
+                    <SocialIcon icon={FaInstagram} label="instagram" value={blog?.engagement?.instagram || "425"} />
                 </aside>
 
                 {/* Main Content Area */}
@@ -69,49 +69,24 @@ const ArticleUI = ({ blog }) => {
                         />
                     )}
 
-                    {/* Headline Section with Large Quote - Sans serif font from image */}
-                    <div className="relative mb-20 flex items-start gap-4 md:gap-6">
-                        <div className="shrink-0 pt-1.5 md:pt-2">
-                            <span className="text-6xl md:text-8xl text-white/20 font-serif leading-none italic">”</span>
+                    {/* Key Takeaways Section */}
+                    {blog?.keyTakeaways && (
+                        <div className="border border-[#333] p-5 md:p-[25px] rounded-lg mb-10 bg-transparent">
+                            <div className="border-l-2 border-[#FF6533] pl-3 mb-5">
+                                <h4 className="text-[#FF6533] m-0 text-xs uppercase font-bold tracking-[0.1em] font-sans">
+                                    Key takeaways
+                                </h4>
+                            </div>
+                            <ul className="list-none pl-0 text-[#BEBEBE] text-[15px] m-0 font-sans leading-[1.8] space-y-3">
+                                {blog.keyTakeaways.split('\n').filter(p => p.trim() !== '').map((point, index) => (
+                                    <li key={index} className="relative pl-4">
+                                        <span className="absolute left-0 top-2.5 w-1 h-1 bg-[#BEBEBE] rounded-full"></span>
+                                        {point.trim()}
+                                    </li>
+                                ))}
+                            </ul>
                         </div>
-                        <h1 className="text-[32px] md:text-[46px] font-bold text-[#E3E3E3] font-sans leading-[1.15] tracking-tight">
-                            Key Takeaways
-                        </h1>
-                    </div>
-
-                    {/* List Content - Serif font, bullet points */}
-                    <div className="space-y-12 pl-2 md:pl-8 font-serif">
-                        {/* Bullet 1 */}
-                        <div className="relative group">
-                            {/* Bullet point dot */}
-                            <span className="absolute -left-7 md:-left-9 top-3 w-1.5 h-1.5 bg-white rounded-full opacity-80 group-hover:scale-125 transition-transform"></span>
-                            <p className="text-base text-white leading-[1.8]">
-                                The actual construction of a website relies on three fundamental layers that work in unison
-                                to create a functional experience. The first layer is the structure, defined by HTML,
-                                which acts as the skeleton of the page by identifying headings, paragraphs, and media.
-                                Once the structure is in place, CSS is applied to handle the aesthetics, managing
-                                everything from typography to color schemes to the responsive layout that allows a site
-                                to look good on both a desktop and a phone. Finally, JavaScript acts as the nervous system,
-                                providing the logic and interactivity that allows for real-time updates and dynamic content
-                                without needing to refresh the entire page.
-                            </p>
-                        </div>
-
-                        {/* Bullet 2 */}
-                        <div className="relative group">
-                            {/* Bullet point dot */}
-                            <span className="absolute -left-7 md:-left-9 top-3 w-1.5 h-1.5 bg-white rounded-full opacity-80 group-hover:scale-125 transition-transform"></span>
-                            <p className="text-base text-white leading-[1.8]">
-                                Beyond what the user sees, the system is supported by a robust "Back-end" infrastructure.
-                                This involves the server-side logic and the database, which acts as a massive digital library.
-                                For a blog, the database is where every article, comment, and user profile is securely stored.
-                                When a visitor clicks on a specific post, the server fetches that specific data from the database,
-                                merges it with the design templates, and delivers a complete page to the user. This intricate
-                                dance between front-end design, back-end logic, and database management is what allows the
-                                modern web to be the fast, reliable, and engaging platform we use every day.
-                            </p>
-                        </div>
-                    </div>
+                    )}
                 </main>
             </div>
         </div>

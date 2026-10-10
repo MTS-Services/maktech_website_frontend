@@ -42,14 +42,14 @@ const ArticleHero = ({ blog }) => {
 
           <div className="flex items-center gap-2">
             <FaClock size={16} />
-            <span>2 minute read</span>
+            <span>{blog.readTime || '2 minute read'}</span>
           </div>
 
           <span className="mx-3 hidden md:inline">—</span>
 
           <div className="flex items-center gap-2">
             <FaChartBar size={16} />
-            <span>1.6K views</span>
+            <span>{blog?.engagement?.views || "1.6K"} views</span>
           </div>
 
           <span className="mx-3 hidden md:inline">—</span>
@@ -65,7 +65,7 @@ const ArticleHero = ({ blog }) => {
             <button className="hover:text-white transition-colors">
               <span className="flex items-center gap-1">
                 <FaShare size={18} fill="currentColor" />
-                <span className="text-xs">1.2K shares</span>
+                <span className="text-xs">{blog?.engagement?.shares || "1.2K"} shares</span>
               </span>
             </button>
           </div>

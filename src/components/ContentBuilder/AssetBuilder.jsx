@@ -23,7 +23,9 @@ import {
   MdImage,
   MdVideoLibrary,
   MdGridView,
-  MdTextFields
+  MdTextFields,
+  MdFormatListBulleted,
+  MdFormatListNumbered
 } from 'react-icons/md';
 
 const FontSize = Extension.create({
@@ -64,6 +66,9 @@ const EDITOR_STYLES = `
   .ProseMirror h2 { font-size: 2em !important; font-weight: 700 !important; line-height: 1.3 !important; margin-bottom: 0.5em !important; }
   .ProseMirror h3 { font-size: 1.5em !important; font-weight: 600 !important; line-height: 1.4 !important; margin-bottom: 0.5em !important; }
   .ProseMirror p { margin-bottom: 0.75em !important; }
+  .ProseMirror ul { list-style-type: disc !important; padding-left: 1.5em !important; margin-bottom: 1em !important; }
+  .ProseMirror ol { list-style-type: decimal !important; padding-left: 1.5em !important; margin-bottom: 1em !important; }
+  .ProseMirror li { margin-bottom: 0.25em !important; }
 `;
 
 const GridSelector = ({ id, onSelectLayout, onRemove }) => {
@@ -346,6 +351,14 @@ const EditorMenu = ({ editor, onRemove, id }) => {
       <div className="w-px h-4 bg-gray-600 mx-1"></div>
       
       {/* Formatting Icons */}
+
+      <div className="w-px h-4 bg-gray-600 mx-1"></div>
+      <button type="button" onMouseDown={e => e.preventDefault()} onClick={() => editor.chain().focus().toggleBulletList().run()} className={`p-1.5 hover:bg-gray-700 rounded flex space-x-0.5 items-center ${editor.isActive('bulletList') ? 'text-white bg-gray-700' : ''}`} title="Bullet List">
+        <MdFormatListBulleted size={14} />
+      </button>
+      <button type="button" onMouseDown={e => e.preventDefault()} onClick={() => editor.chain().focus().toggleOrderedList().run()} className={`p-1.5 hover:bg-gray-700 rounded flex space-x-0.5 items-center ${editor.isActive('orderedList') ? 'text-white bg-gray-700' : ''}`} title="Numbered List">
+        <MdFormatListNumbered size={14} />
+      </button>
       <button type="button" onMouseDown={e => e.preventDefault()} onClick={() => editor.chain().focus().toggleBold().run()} className={`p-1.5 hover:bg-gray-700 rounded ${editor.isActive('bold') ? 'text-white bg-gray-700' : ''}`}><MdFormatBold size={14} /></button>
       <button type="button" onMouseDown={e => e.preventDefault()} onClick={() => editor.chain().focus().toggleItalic().run()} className={`p-1.5 hover:bg-gray-700 rounded ${editor.isActive('italic') ? 'text-white bg-gray-700' : ''}`}><MdFormatItalic size={14} /></button>
       <button type="button" onMouseDown={e => e.preventDefault()} onClick={() => editor.chain().focus().toggleStrike().run()} className={`p-1.5 hover:bg-gray-700 rounded ${editor.isActive('strike') ? 'text-white bg-gray-700' : ''}`}><MdFormatStrikethrough size={14} /></button>

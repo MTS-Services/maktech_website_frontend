@@ -24,13 +24,17 @@ export const MetaForm = ({ formType = 'caseStudy' }) => {
         </div>
         <div>
           <label className={labelCls}>Date{star}</label>
-          <input type="text" {...register('date', { required: 'Date is required' })} className={inputCls} placeholder="DD-MM-YYYY" />
+          <input type="date" onClick={(e) => e.target.showPicker && e.target.showPicker()} {...register('date', { required: 'Date is required' })} className={inputCls} />
           {errors.date && <p className={errCls}>{errors.date.message}</p>}
         </div>
         <div>
           <label className={labelCls}>Posted By{star}</label>
           <input type="text" {...register('postedBy', { required: 'Posted By is required' })} className={inputCls} placeholder="e.g. Joni" />
           {errors.postedBy && <p className={errCls}>{errors.postedBy.message}</p>}
+        </div>
+        <div>
+          <label className={labelCls}>Read Time</label>
+          <input type="text" {...register('readTime')} className={inputCls} placeholder="e.g., 2 minute" />
         </div>
         <div>
           <label className={labelCls}>Key takeaways{star}</label>
