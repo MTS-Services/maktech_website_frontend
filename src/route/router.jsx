@@ -94,7 +94,7 @@ const AppRoutes = () => (
         <Route path='/career' element={<Career />} />
         <Route path='/apply-jobs' element={<ApplyJobs />} />
         <Route path='/blogs' element={<Blogs />} />
-        <Route path='/blogs/details' element={<BlogDetails />} />
+        <Route path='/blogs/details/:id' element={<BlogDetails />} />
         <Route path='/pricing' element={<PublicPricing />} />
         <Route path='/case-study' element={<PublicCaseStudy />} />
         <Route path='/case-study/:slug' element={<CaseStudyDetailPage />} />

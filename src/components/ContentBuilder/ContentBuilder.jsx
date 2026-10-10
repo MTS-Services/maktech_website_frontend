@@ -42,6 +42,7 @@ export const ContentBuilder = ({ entityName = 'Case Study', backPath = '/admin/c
       description: studyData?.description || '',
       date: studyData?.date || '',
       postedBy: studyData?.postedBy || '',
+      readTime: studyData?.readTime || '',
       keyTakeaways: studyData?.keyTakeaways || '',
       blogContent: studyData?.blogContent || '',
     }
@@ -133,7 +134,8 @@ export const ContentBuilder = ({ entityName = 'Case Study', backPath = '/admin/c
           html: htmlContent,
           blocks: blocks
         },
-        coverImage: coverImage ? coverImage.url : null
+        coverImage: coverImage ? coverImage.url : null,
+        isPublished: true
       };
 
       let res;
