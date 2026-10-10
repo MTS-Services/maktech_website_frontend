@@ -15,10 +15,13 @@ import { getPageRange } from '../../../utils/helpers';
 
 // Category badge colours — text + bg so colour is never the sole indicator (WCAG 1.4.1)
 const CATEGORY_STYLES = {
-  'Web Development': 'bg-blue-50 text-blue-700',
+  'UI/UX': 'bg-pink-50 text-pink-700',
+  'MERN': 'bg-green-50 text-green-700',
+  'Laravel': 'bg-red-50 text-red-700',
+  'Flutter': 'bg-blue-50 text-blue-700',
+  'CMS': 'bg-amber-50 text-amber-700',
   'Digital Marketing': 'bg-purple-50 text-purple-700',
-  'Mobile App': 'bg-green-50 text-green-700',
-  Branding: 'bg-amber-50 text-amber-700',
+  'AI': 'bg-indigo-50 text-indigo-700',
 };
 const getCategoryStyle = (cat) =>
   CATEGORY_STYLES[cat] ?? 'bg-gray-100 text-gray-600';

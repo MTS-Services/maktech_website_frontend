@@ -56,11 +56,14 @@ export const MetaForm = ({ formType = 'caseStudy' }) => {
       
       <div>
         <label className={labelCls}>Category{star}</label>
-        <select {...register('category', { required: 'Category is required' })} className={`${inputCls} bg-white appearance-none`}>
-          <option value="Web Development">Web Development</option>
+        <select {...register('category', { required: 'Category is required' })} className={`${inputCls} bg-white`}>
+          <option value="UI/UX">UI/UX</option>
+          <option value="MERN">MERN</option>
+          <option value="Laravel">Laravel</option>
+          <option value="Flutter">Flutter</option>
+          <option value="CMS">CMS</option>
           <option value="Digital Marketing">Digital Marketing</option>
-          <option value="Mobile App">Mobile App</option>
-          <option value="Branding">Branding</option>
+          <option value="AI">AI</option>
         </select>
         {errors.category && <p className={errCls}>{errors.category.message}</p>}
       </div>
