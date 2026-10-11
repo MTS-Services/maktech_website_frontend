@@ -123,6 +123,42 @@ const ApplyContact = ({ job }) => {
     ? [{ value: job.title, label: job.title }, ...DEFAULT_POSITIONS.filter(p => p.label !== job.title)]
     : DEFAULT_POSITIONS;
 
+  if (job && job.isActive === false) {
+    return (
+      <section id='apply-contact' className='w-full relative py-16 xl:py-24 overflow-hidden'>
+        <div className='mx-auto px-5 xl:px-8 max-w-xl relative z-10'>
+          <div
+            className='p-8 sm:p-12 text-center rounded-2xl'
+            style={{
+              backgroundColor: 'rgba(42, 42, 42, 0.85)',
+              backdropFilter: 'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)',
+              border: '1px solid rgba(255, 255, 255, 0.12)',
+            }}
+          >
+            <div className='w-14 h-14 rounded-full bg-[#FF6533]/20 text-[#FF6533] flex items-center justify-center mx-auto mb-4'>
+              <svg width='28' height='28' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round'>
+                <circle cx='12' cy='12' r='10'></circle>
+                <line x1='12' y1='8' x2='12' y2='12'></line>
+                <line x1='12' y1='16' x2='12.01' y2='16'></line>
+              </svg>
+            </div>
+            <h3 className='text-white text-2xl font-bold mb-3'>Position Inactive / Closed</h3>
+            <p className='text-white/70 text-sm sm:text-base leading-relaxed mb-6 max-w-md mx-auto'>
+              Applications for this role ({job.title}) are currently paused. Please check back later or explore other open positions.
+            </p>
+            <a
+              href='/career'
+              className='inline-flex items-center px-6 py-2.5 rounded-full bg-[#FF6533] hover:bg-[#e5501a] text-white text-sm font-semibold transition-colors'
+            >
+              Explore Open Careers
+            </a>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className='w-full relative py-16 xl:py-20 overflow-hidden'>
       {/* Background Image */}

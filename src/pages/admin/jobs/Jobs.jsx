@@ -5,7 +5,7 @@ import {
   MdEdit,
   MdDelete,
   MdLocationOn,
-  MdRemoveRedEye
+  MdRemoveRedEye,
 } from 'react-icons/md';
 import { toast } from 'react-toastify';
 import apiClient from '../../../services/apiClient';
@@ -33,37 +33,39 @@ const getTypeStyle = (type) => {
   return 'bg-gray-100 text-gray-600';
 };
 
-const JobCard = ({ job, onEdit, onDelete }) => {
+const JobCard = ({ job, onToggleStatus, isToggling, onEdit, onDelete }) => {
   const jobType = job.jobTypes?.[0]?.title || 'Full-time';
   const location = job.department || 'Remote';
   const postedDate = job.createdAt ? new Date(job.createdAt).toLocaleDateString() : 'N/A';
 
   return (
-    <article className='relative bg-white rounded-2xl border border-gray-100 shadow-sm px-5 py-4 flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between'>
+    <article className='relative bg-white rounded-2xl border border-gray-100 shadow-sm p-5 sm:p-6 flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between hover:border-gray-200 transition-all'>
       <div className='flex-1 min-w-0'>
-        {/* Title + type badge inline */}
-        <div className='flex flex-wrap items-center gap-2 mb-1'>
-          <h2 className='text-base font-bold text-gray-900 truncate'>{job.title}</h2>
+        {/* Title + type badge + active badge inline */}
+        <div className='flex flex-wrap items-center gap-2.5 mb-2'>
+          <h2 className='text-lg font-bold text-gray-900 truncate'>{job.title}</h2>
           <span
             className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold ${getTypeStyle(jobType)}`}
           >
             {jobType}
           </span>
           {job.isActive ? (
-            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
-              Published
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+              Active
             </span>
           ) : (
-            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200">
-              Draft
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-gray-100 text-gray-500 border border-gray-200">
+              <span className="w-1.5 h-1.5 rounded-full bg-gray-400" />
+              Inactive
             </span>
           )}
         </div>
 
-        <p className='text-base text-gray-500 mb-2 line-clamp-1'>{job.description}</p>
+        <p className='text-base text-gray-500 mb-2.5 line-clamp-1'>{job.description}</p>
 
         {/* Location + posted date */}
-        <p className='flex flex-wrap items-center gap-1 text-sm text-gray-400'>
+        <p className='flex flex-wrap items-center gap-1.5 text-sm text-gray-400'>
           <MdLocationOn
             className='text-base text-red-400 shrink-0'
             aria-hidden='true'
@@ -74,32 +76,58 @@ const JobCard = ({ job, onEdit, onDelete }) => {
         </p>
       </div>
 
-      {/* Action Buttons */}
-      <div className='flex items-center gap-2 mt-4 sm:mt-0 shrink-0'>
+      {/* Action Buttons & Toggle Switch */}
+      <div className='flex items-center gap-3 mt-3 sm:mt-0 shrink-0'>
+        {/* Active / Inactive Toggle Switch */}
+        <div className='flex items-center gap-2 pr-3 border-r border-gray-200'>
+          <button
+            type='button'
+            role='switch'
+            aria-checked={job.isActive}
+            disabled={isToggling}
+            onClick={() => onToggleStatus(job)}
+            title={job.isActive ? 'Click to deactivate job' : 'Click to activate job'}
+            aria-label={`Toggle active status for ${job.title}`}
+            className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-[#ff6533]/50 ${
+              job.isActive ? 'bg-[#ff6533]' : 'bg-gray-300'
+            } ${isToggling ? 'opacity-50 cursor-wait' : ''}`}
+          >
+            <span
+              aria-hidden='true'
+              className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-md ring-0 transition duration-200 ease-in-out ${
+                job.isActive ? 'translate-x-5' : 'translate-x-0'
+              }`}
+            />
+          </button>
+        </div>
+
         <a
           href={`/careers/${job.id}`}
           target='_blank'
           rel='noopener noreferrer'
           aria-label={`View ${job.title}`}
+          title='View Public Job Details'
           className='p-2 rounded-lg text-emerald-500 hover:bg-emerald-50 transition-colors duration-150 cursor-pointer'
         >
-          <MdRemoveRedEye className='text-lg' aria-hidden='true' />
+          <MdRemoveRedEye className='text-xl' aria-hidden='true' />
         </a>
         <button
           type='button'
           onClick={() => onEdit(job)}
           aria-label={`Edit ${job.title}`}
+          title='Edit Job Posting'
           className='p-2 rounded-lg text-blue-500 hover:bg-blue-50 transition-colors duration-150 cursor-pointer'
         >
-          <MdEdit className='text-lg' aria-hidden='true' />
+          <MdEdit className='text-xl' aria-hidden='true' />
         </button>
         <button
           type='button'
           onClick={() => onDelete(job)}
           aria-label={`Delete ${job.title}`}
+          title='Delete Job Posting'
           className='p-2 rounded-lg text-red-500 hover:bg-red-50 transition-colors duration-150 cursor-pointer'
         >
-          <MdDelete className='text-lg' aria-hidden='true' />
+          <MdDelete className='text-xl' aria-hidden='true' />
         </button>
       </div>
     </article>
@@ -113,6 +141,9 @@ export default function Jobs() {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
+  const [activeCount, setActiveCount] = useState(0);
+  const [inactiveCount, setInactiveCount] = useState(0);
+  const [togglingId, setTogglingId] = useState(null);
   const [deleteTarget, setDeleteTarget] = useState(null);
   const navigate = useNavigate();
 
@@ -126,8 +157,21 @@ export default function Jobs() {
       const res = await apiClient.get(`/api/v1/jobs?page=${page}&limit=${PAGE_SIZE}`);
       if (res.data.success) {
         setJobs(res.data.data);
-        setTotalPages(res.data.meta.totalPages);
-        setTotalCount(res.data.meta.total);
+        setTotalPages(res.data.meta?.totalPages || 1);
+        setTotalCount(res.data.meta?.total || 0);
+      }
+
+      // Fetch all jobs to compute overall active/inactive counts across all pages
+      try {
+        const allRes = await apiClient.get('/api/v1/jobs?limit=1000');
+        if (allRes.data.success && Array.isArray(allRes.data.data)) {
+          const allList = allRes.data.data;
+          const active = allList.filter(j => j.isActive !== false).length;
+          setActiveCount(active);
+          setInactiveCount(allList.length - active);
+        }
+      } catch (err) {
+        console.warn('Failed to fetch full stats:', err);
       }
     } catch (err) {
       toast.error('Failed to load jobs');
@@ -139,6 +183,40 @@ export default function Jobs() {
   useEffect(() => {
     fetchJobs();
   }, [fetchJobs]);
+
+  const handleToggleStatus = async (job) => {
+    const newStatus = !job.isActive;
+    setTogglingId(job.id);
+
+    // Optimistic update
+    setJobs((prev) =>
+      prev.map((j) => (j.id === job.id ? { ...j, isActive: newStatus } : j))
+    );
+    setActiveCount((prev) => (newStatus ? prev + 1 : Math.max(0, prev - 1)));
+    setInactiveCount((prev) => (newStatus ? Math.max(0, prev - 1) : prev + 1));
+
+    try {
+      const res = await apiClient.patch(`/api/v1/jobs/${job.id}`, {
+        isActive: newStatus,
+      });
+
+      if (res.data?.success) {
+        toast.success(`Job marked as ${newStatus ? 'Active' : 'Inactive'}!`);
+      } else {
+        throw new Error(res.data?.message || 'Update failed');
+      }
+    } catch (err) {
+      // Revert on error
+      setJobs((prev) =>
+        prev.map((j) => (j.id === job.id ? { ...j, isActive: job.isActive } : j))
+      );
+      setActiveCount((prev) => (newStatus ? Math.max(0, prev - 1) : prev + 1));
+      setInactiveCount((prev) => (newStatus ? prev + 1 : Math.max(0, prev - 1)));
+      toast.error('Failed to update job status');
+    } finally {
+      setTogglingId(null);
+    }
+  };
 
   const handleDelete = (job) => {
     setDeleteTarget(job);
@@ -172,7 +250,7 @@ export default function Jobs() {
             <h1 className='text-2xl sm:text-3xl font-bold text-gray-900 leading-tight'>
               Jobs
             </h1>
-            <span className='inline-flex items-center justify-center min-w-[1.75rem] h-7 px-1.5 rounded-full bg-orange-bg-cta text-white text-sm font-bold leading-none'>
+            <span className='inline-flex items-center justify-center min-w-[1.75rem] h-7 px-2 rounded-full bg-orange-bg-cta text-white text-sm font-bold leading-none'>
               {totalCount}
             </span>
           </div>
@@ -196,6 +274,57 @@ export default function Jobs() {
         </button>
       </div>
 
+      {/* Statistics Cards */}
+      <div className='grid grid-cols-1 sm:grid-cols-3 gap-5'>
+        {/* Open / Active Positions Card */}
+        <div className='bg-white rounded-2xl border border-gray-100 shadow-sm p-6 flex flex-col justify-between hover:border-gray-200 transition-all'>
+          <div className='flex items-center justify-between'>
+            <p className='text-sm font-medium text-gray-500'>Open Positions</p>
+            <span className='inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700'>
+              Live
+            </span>
+          </div>
+          <p className='text-3xl sm:text-4xl font-bold text-gray-900 mt-3'>
+            {activeCount}
+          </p>
+          <p className='text-xs text-gray-400 mt-1.5'>
+            Currently active on careers page
+          </p>
+        </div>
+
+        {/* Total Positions Card */}
+        <div className='bg-white rounded-2xl border border-gray-100 shadow-sm p-6 flex flex-col justify-between hover:border-gray-200 transition-all'>
+          <div className='flex items-center justify-between'>
+            <p className='text-sm font-medium text-gray-500'>Total Positions</p>
+            <span className='inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-blue-50 text-blue-700'>
+              All
+            </span>
+          </div>
+          <p className='text-3xl sm:text-4xl font-bold text-gray-900 mt-3'>
+            {totalCount}
+          </p>
+          <p className='text-xs text-gray-400 mt-1.5'>
+            Total career postings created
+          </p>
+        </div>
+
+        {/* Inactive / Draft Card */}
+        <div className='bg-white rounded-2xl border border-gray-100 shadow-sm p-6 flex flex-col justify-between hover:border-gray-200 transition-all'>
+          <div className='flex items-center justify-between'>
+            <p className='text-sm font-medium text-gray-500'>Inactive Positions</p>
+            <span className='inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-gray-100 text-gray-600'>
+              Paused
+            </span>
+          </div>
+          <p className='text-3xl sm:text-4xl font-bold text-gray-400 mt-3'>
+            {inactiveCount}
+          </p>
+          <p className='text-xs text-gray-400 mt-1.5'>
+            Hidden from public applications
+          </p>
+        </div>
+      </div>
+
       {/* Jobs list */}
       <div className='relative'>
         {loading ? (
@@ -212,6 +341,8 @@ export default function Jobs() {
               <JobCard 
                 key={job.id} 
                 job={job} 
+                onToggleStatus={handleToggleStatus}
+                isToggling={togglingId === job.id}
                 onEdit={(job) => navigate(`/admin/jobs/edit/${job.id}`, { state: { job } })} 
                 onDelete={handleDelete}
               />
