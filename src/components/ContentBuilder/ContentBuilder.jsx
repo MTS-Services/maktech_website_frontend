@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -9,27 +9,55 @@ import { ContentSidebar } from './ContentSidebar';
 import { MdArrowBack } from 'react-icons/md';
 import apiClient from '../../services/apiClient';
 
+const normalizeImageUrl = (url) => {
+  if (!url || typeof url !== 'string') return url;
+  if (url.startsWith('http://www.api.maktechgroup.com')) {
+    return url.replace('http://www.api.maktechgroup.com', 'https://www.api.maktechgroup.com');
+  }
+  return url;
+};
+
+const extractBlocks = (study) => {
+  if (!study) return [];
+  if (Array.isArray(study.blocks) && study.blocks.length > 0) {
+    return study.blocks;
+  }
+  if (study.content) {
+    if (typeof study.content === 'object' && Array.isArray(study.content.blocks)) {
+      return study.content.blocks;
+    }
+    if (typeof study.content === 'string') {
+      try {
+        const parsed = JSON.parse(study.content);
+        if (Array.isArray(parsed?.blocks) && parsed.blocks.length > 0) {
+          return parsed.blocks;
+        }
+      } catch (e) {
+        // Not a JSON string
+      }
+    }
+  }
+  return [];
+};
+
+const extractCover = (study) => {
+  if (!study) return '';
+  const url = study.coverImage || study.image || '';
+  if (typeof url === 'string') {
+    if (url.startsWith('http://www.api.maktechgroup.com')) {
+      return url.replace('http://www.api.maktechgroup.com', 'https://www.api.maktechgroup.com');
+    }
+    return url;
+  }
+  return '';
+};
+
 export const ContentBuilder = ({ entityName = 'Case Study', backPath = '/admin/case-studies', formType = 'caseStudy' }) => {
   const navigate = useNavigate();
   const { id } = useParams();
   const { state } = useLocation();
   const studyData = state?.study;
   const isEditMode = !!id;
-
-  const htmlToTextList = (html) => {
-    if (!html) return '';
-    if (!html.includes('<li')) return html;
-    const doc = new DOMParser().parseFromString(html, 'text/html');
-    const lis = Array.from(doc.querySelectorAll('li')).map(li => li.textContent);
-    return lis.join('\n');
-  };
-  const htmlToTextParagraphs = (html) => {
-    if (!html) return '';
-    if (!html.includes('<p')) return html;
-    const doc = new DOMParser().parseFromString(html, 'text/html');
-    const ps = Array.from(doc.querySelectorAll('p')).map(p => p.textContent);
-    return ps.join('\n\n');
-  };
   
   const methods = useForm({
     defaultValues: {
@@ -42,83 +70,95 @@ export const ContentBuilder = ({ entityName = 'Case Study', backPath = '/admin/c
       description: studyData?.description || '',
       date: studyData?.date || '',
       postedBy: studyData?.postedBy || '',
-      readTime: studyData?.readTime || '',
       keyTakeaways: studyData?.keyTakeaways || '',
       blogContent: studyData?.blogContent || '',
     }
   });
 
-  const [blocks, setBlocks] = useState(() => {
-    if (studyData?.content && typeof studyData.content === 'object' && studyData.content.blocks) {
-      return studyData.content.blocks;
-    }
-    if (studyData?.blocks) return studyData.blocks;
-    if (studyData?.content && typeof studyData.content === 'string') {
-      return [{ id: Date.now(), type: 'text', html: studyData.content }];
-    }
-    return [];
-  });
-  const [coverImage, setCoverImage] = useState(studyData?.coverImage ? { url: studyData.coverImage } : null);
+  const [coverUrl, setCoverUrl] = useState(() => extractCover(studyData));
+  const [blocks, setBlocks] = useState(() => extractBlocks(studyData));
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleAddBlock = React.useCallback((type) => {
+  // If in edit mode, ensure full data (including blocks & cover) is loaded
+  useEffect(() => {
+    if (id) {
+      // Check if studyData passed in location.state already has blocks
+      const initialBlocks = extractBlocks(studyData);
+      if (initialBlocks.length > 0) {
+        setBlocks(initialBlocks);
+      }
+      const initialCover = extractCover(studyData);
+      if (initialCover) {
+        setCoverUrl(initialCover);
+      }
+
+      // Fetch fresh data from API
+      apiClient.get(`/api/v1/case-studies/${id}`)
+        .then((res) => {
+          if (res.data?.success && res.data.data) {
+            const fetched = res.data.data;
+            methods.reset({
+              title: fetched.title || '',
+              category: fetched.category || '',
+              client: fetched.client || '',
+              timeline: fetched.timeline || '',
+              services: fetched.services || '',
+              tags: fetched.tags || '',
+              description: fetched.description || '',
+              date: fetched.date || '',
+              postedBy: fetched.postedBy || '',
+              keyTakeaways: fetched.keyTakeaways || '',
+              blogContent: fetched.blogContent || '',
+            });
+            const fetchedCover = extractCover(fetched);
+            if (fetchedCover) {
+              setCoverUrl(fetchedCover);
+            }
+            const fetchedBlocks = extractBlocks(fetched);
+            if (fetchedBlocks.length > 0) {
+              setBlocks(fetchedBlocks);
+            }
+          }
+        })
+        .catch((err) => console.error("Failed to load study for editing:", err));
+    }
+  }, [id]);
+
+  const handleAddBlock = (type) => {
     const newBlock = { id: Date.now(), type };
     if (['image', 'video', 'grid'].includes(type)) {
       newBlock.src = ''; // Start empty for upload placeholder
     }
-    setBlocks(prevBlocks => [...prevBlocks, newBlock]);
+    setBlocks([...blocks, newBlock]);
     toast.success(`Added ${type} block`);
-  }, []);
+  };
 
-  const handleRemoveBlock = React.useCallback((id) => {
-    setBlocks(prevBlocks => {
-      const blockToRemove = prevBlocks.find(b => b.id === id);
-      if (blockToRemove && blockToRemove.filename) {
-        apiClient.delete(`/api/v1/uploads/${blockToRemove.filename}`).catch(err => console.error("Failed to delete", err));
-      }
-      return prevBlocks.filter(b => b.id !== id);
-    });
+  const handleRemoveBlock = (id) => {
+    setBlocks(blocks.filter(b => b.id !== id));
     toast.info('Block removed');
-  }, []);
+  };
 
-  const handleUpdateBlock = React.useCallback((id, updates) => {
-    setBlocks(prevBlocks => prevBlocks.map(b => b.id === id ? { ...b, ...updates } : b));
-  }, []);
+  const handleUpdateBlock = (id, updates) => {
+    setBlocks(blocks.map(b => b.id === id ? { ...b, ...updates } : b));
+  };
 
   const handleSaveDraft = () => {
     toast.success('Draft saved successfully!');
   };
 
-    const [isSubmitting, setIsSubmitting] = useState(false);
-
   const onSubmit = async (data) => {
     setIsSubmitting(true);
     try {
-      const formatKeyTakeaways = (text) => {
-        if (!text) return '';
-        if (text.includes('<ul')) return text;
-        const items = text.split('\n').filter(line => line.trim() !== '').map(line => `<li>${line.replace(/^[•\-\*]\s*/, '').trim()}</li>`);
-        return `<ul>${items.join('')}</ul>`;
-      };
-      const formatBlogContent = (text) => {
-        if (!text) return '';
-        if (text.includes('<p>')) return text;
-        const paragraphs = text.split('\n\n').filter(p => p.trim() !== '').map(p => `<p>${p.trim()}</p>`);
-        return paragraphs.join('');
-      };
       let htmlContent = '';
       if (blocks && blocks.length > 0) {
         htmlContent = blocks.map(b => {
           if (b.type === 'text') return `<div class="my-6">${b.html || ''}</div>`;
           if (b.type === 'image') return `<img src="${b.src}" alt="image" class="w-full h-auto rounded-xl shadow-sm my-6" />`;
-          if (b.type === 'video' && b.mediaType === 'audio') return `<audio src="${b.src}" controls class="w-full max-w-md my-8 mx-auto block"></audio>`;
-          if (b.type === 'video') return `<video src="${b.src}" controls class="w-full h-auto rounded-xl shadow-sm my-6 bg-black"></video>`;
+          if (b.type === 'video') return `<video src="${b.src}" controls class="w-full h-auto rounded-xl shadow-sm my-6"></video>`;
           if (b.type === 'grid') {
             let gridClass = 'grid-cols-2';
-            if (b.layout === '1-col') gridClass = 'grid-cols-1';
-            else if (b.layout === '3-col') gridClass = 'grid-cols-3';
+            if (b.layout === '3-col') gridClass = 'grid-cols-3';
             else if (b.layout === '4-col') gridClass = 'grid-cols-4';
-            else if (b.layout === '1-large-3-small') gridClass = 'grid-cols-4';
-            
             const imagesHtml = (b.images || []).map(img => `<img src="${img}" class="w-full h-full object-cover rounded-xl shadow-sm aspect-video" />`).join('');
             return `<div class="grid gap-4 ${gridClass} my-6">${imagesHtml}</div>`;
           }
@@ -127,40 +167,24 @@ export const ContentBuilder = ({ entityName = 'Case Study', backPath = '/admin/c
         }).join('');
       }
 
-      console.log('SUBMITTING BLOCKS:', blocks); console.log('SUBMITTING HTML:', htmlContent);
       const payload = {
         ...data,
         content: {
           html: htmlContent,
           blocks: blocks
         },
-        coverImage: coverImage ? coverImage.url : null,
-        isPublished: true
+        coverImage: coverUrl
       };
 
-      let res;
       if (formType === 'caseStudy') {
         if (isEditMode) {
-          res = await apiClient.put(`/api/v1/case-studies/${id}`, payload);
+          await apiClient.put(`/api/v1/case-studies/${id}`, payload);
         } else {
-          res = await apiClient.post('/api/v1/case-studies', payload);
+          await apiClient.post('/api/v1/case-studies', payload);
         }
-      } else if (formType === 'blog') {
-        if (isEditMode) {
-          res = await apiClient.patch(`/api/v1/blogs/${id}`, payload);
-        } else {
-          res = await apiClient.post('/api/v1/blogs', payload);
-        }
-      } else {
-        toast.success(`${entityName} ${isEditMode ? 'updated' : 'created'} (Mocked)`);
-        navigate(-1);
-        return;
       }
-
-      if (res.data.success) {
-        toast.success(`${entityName} ${isEditMode ? 'updated' : 'created'} successfully!`);
-        navigate(-1);
-      }
+      toast.success(`${entityName} ${isEditMode ? 'updated' : 'created'} successfully!`);
+      navigate(backPath);
     } catch (err) {
       console.error(err);
       toast.error(err.response?.data?.message || 'Something went wrong');
@@ -188,7 +212,7 @@ export const ContentBuilder = ({ entityName = 'Case Study', backPath = '/admin/c
             <MetaForm formType={formType} />
 
             {/* Cover Upload */}
-            <CoverUpload value={coverImage} onChange={(url, filename) => setCoverImage(url ? { url, filename } : null)} />
+            <CoverUpload coverUrl={coverUrl} onChangeCover={setCoverUrl} />
 
             {/* Asset Builder Area */}
             <div className="mt-8 pt-6 border-t border-gray-100 flex flex-col lg:flex-row gap-6">
@@ -200,9 +224,9 @@ export const ContentBuilder = ({ entityName = 'Case Study', backPath = '/admin/c
             <div className="mt-8 pt-4 flex items-center justify-start gap-3">
               <button
                 type="submit"
-                className="px-5 py-2 rounded text-[12px] font-semibold bg-[#ff6533] text-white hover:bg-[#e5501a] transition-colors cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed" disabled={isSubmitting}
+                className="px-5 py-2 rounded text-[12px] font-semibold bg-[#ff6533] text-white hover:bg-[#e5501a] transition-colors cursor-pointer"
               >
-                {isSubmitting ? 'Saving...' : isEditMode ? `Update ${entityName}` : `Create ${entityName}`}
+                {isEditMode ? `Update ${entityName}` : `Create ${entityName}`}
               </button>
               <button
                 type="button"

@@ -80,15 +80,16 @@ const CaseStudyCard = ({ study, onView, onEdit, onDelete }) => (
 
       {/* Actions */}
       <div className="flex items-center gap-4 mt-auto">
-        <button
-          type='button'
-          onClick={() => onView(study)}
+        <a
+          href={`/case-study/${study.slug || study.id}`}
+          target='_blank'
+          rel='noopener noreferrer'
           className='inline-flex items-center gap-1 text-sm font-medium text-gray-500 hover:text-gray-700 transition-colors duration-150 cursor-pointer'
           aria-label={`View ${study.title}`}
         >
           <MdRemoveRedEye className='text-base' aria-hidden='true' />
           View
-        </button>
+        </a>
         <button
           type='button'
           onClick={() => onEdit(study)}
