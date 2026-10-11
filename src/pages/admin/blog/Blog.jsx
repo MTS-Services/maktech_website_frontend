@@ -202,15 +202,16 @@ const PostCard = ({ post, onView, onEdit, onDelete }) => {
         </p>
 
         <div className="flex items-center gap-4 mt-auto">
-          <button
-            type='button'
-            onClick={() => onView(post)}
+          <a
+            href={`/blogs/details/${post.slug || post.id}?id=${post.id}`}
+            target='_blank'
+            rel='noopener noreferrer'
             aria-label={`View ${post.title}`}
             className='inline-flex items-center gap-1.5 text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors duration-150 cursor-pointer'
           >
             <MdRemoveRedEye className='text-base' aria-hidden='true' />
             View
-          </button>
+          </a>
           <button
             type='button'
             onClick={() => onEdit(post)}

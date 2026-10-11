@@ -4,68 +4,91 @@ import {
   FaFacebook,
   FaTwitter,
   FaShare,
-  FaArrowRight,
-} from "react-icons/fa";
-import Breadcrumb from "../../../../components/Breadcrumb";
+} from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+import Breadcrumb from '../../../../components/Breadcrumb';
 
 const ArticleHero = ({ blog }) => {
+  const title = blog?.title || 'How the system of Web Development works';
+  const author = blog?.postedBy || 'Emma Rose';
+  const readTime = blog?.readTime || '2 minute read';
+  const views = blog?.engagement?.views ? `${blog.engagement.views} views` : '1.6K views';
+  const shares = blog?.engagement?.shares ? `${blog.engagement.shares} shares` : '1.2K shares';
+
   return (
-    <div className='relative flex flex-col items-center justify-center h-screen px-5 pt-28 pb-16 text-center'>
+    <div className='relative flex flex-col items-center justify-center min-h-[70vh] sm:min-h-[80vh] px-5 pt-28 pb-16 text-center'>
       {/* Breadcrumb */}
-      <div className='mb-10 relative z-10'>
+      <div className='mb-8 relative z-10'>
         <Breadcrumb
           crumbs={[
             { label: 'Blogs', href: '/blogs' },
-            { label: 'Blog Details' },
+            { label: title.length > 40 ? `${title.slice(0, 40)}...` : title },
           ]}
         />
       </div>
 
+      {/* Category Badge if present */}
+      {blog?.category && (
+        <div className='relative z-10 mb-5 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-4 py-1 text-xs font-semibold text-[#ff6533] uppercase tracking-wider backdrop-blur-sm'>
+          {blog.category}
+        </div>
+      )}
+
       {/* Heading */}
       <h1
         id='about-heading'
-        className='relative z-10 text-white font-bold leading-tight tracking-tight text-[clamp(1.75rem,5vw,4rem)] max-w-5xl mb-6'
+        className='relative z-10 text-white font-bold leading-tight tracking-tight text-[clamp(1.75rem,5vw,3.75rem)] max-w-5xl mb-6'
       >
-
-        {blog.title}
-
+        {title}
       </h1>
 
-      {/* Description */}
-      <div className='relative z-10 text-white/60 text-base xl:text-lg max-w-2xl leading-relaxed mb-10'>
-        <div className="flex flex-wrap items-center justify-center gap-y-4 text-[#FFFFFF] text-sm md:text-base font-medium">
-          <span className="flex items-center">
-            by <span className="text-white ml-1">{blog.postedBy}</span>
+      {/* Meta description / info */}
+      <div className='relative z-10 text-white/60 text-base xl:text-lg max-w-3xl leading-relaxed mb-10'>
+        <div className='flex flex-wrap items-center justify-center gap-y-4 text-[#FFFFFF] text-sm md:text-base font-medium'>
+          <span className='flex items-center'>
+            by <span className='text-white ml-1 font-semibold'>{author}</span>
           </span>
 
-          <span className="mx-3 hidden md:inline">—</span>
+          <span className='mx-3 hidden md:inline opacity-40'>—</span>
 
-          <div className="flex items-center gap-2">
-            <FaClock size={16} />
-            <span>{blog.readTime || '2 minute read'}</span>
+          <div className='flex items-center gap-2'>
+            <FaClock size={15} className='text-[#ff6533]' />
+            <span>{readTime}</span>
           </div>
 
-          <span className="mx-3 hidden md:inline">—</span>
+          <span className='mx-3 hidden md:inline opacity-40'>—</span>
 
-          <div className="flex items-center gap-2">
-            <FaChartBar size={16} />
-            <span>{blog?.engagement?.views || "1.6K"} views</span>
+          <div className='flex items-center gap-2'>
+            <FaChartBar size={15} className='text-[#ff6533]' />
+            <span>{views}</span>
           </div>
 
-          <span className="mx-3 hidden md:inline">—</span>
+          <span className='mx-3 hidden md:inline opacity-40'>—</span>
 
           {/* Social Icons */}
-          <div className="flex items-center gap-4">
-            <button className="hover:text-white transition-colors">
-              <FaFacebook size={18} fill="currentColor" />
+          <div className='flex items-center gap-4'>
+            <button
+              type='button'
+              aria-label='Share on Facebook'
+              className='hover:text-[#ff6533] transition-colors cursor-pointer'
+            >
+              <FaFacebook size={17} fill='currentColor' />
             </button>
-            <button className="hover:text-white transition-colors">
-              <FaTwitter size={18} fill="currentColor" />
+            <button
+              type='button'
+              aria-label='Share on Twitter'
+              className='hover:text-[#ff6533] transition-colors cursor-pointer'
+            >
+              <FaTwitter size={17} fill='currentColor' />
             </button>
-            <button className="hover:text-white transition-colors">
-              <span className="flex items-center gap-1">
-                <FaShare size={18} fill="currentColor" />
-                <span className="text-xs">{blog?.engagement?.shares || "1.2K"} shares</span>
+            <button
+              type='button'
+              aria-label='Share'
+              className='hover:text-[#ff6533] transition-colors cursor-pointer'
+            >
+              <span className='flex items-center gap-1.5'>
+                <FaShare size={16} fill='currentColor' />
+                <span className='text-xs'>{shares}</span>
               </span>
             </button>
           </div>
@@ -73,8 +96,8 @@ const ArticleHero = ({ blog }) => {
       </div>
 
       {/* CTA */}
-      <button
-
+      <Link
+        to='/contact'
         className='relative z-10 group inline-flex items-center gap-3 overflow-hidden bg-orange-bg-cta hover:bg-[#e5501a] hover:shadow-[0_4px_20px_rgba(255,101,51,0.45)] text-white font-semibold rounded-full transition-all duration-200 active:scale-[0.97] border-0 cursor-pointer'
         style={{ padding: '13px 28px' }}
       >
@@ -99,7 +122,7 @@ const ArticleHero = ({ blog }) => {
             <path d='M3 8h10M9 4l4 4-4 4' />
           </svg>
         </span>
-      </button>
+      </Link>
     </div>
   );
 };
