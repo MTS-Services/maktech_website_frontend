@@ -49,6 +49,15 @@ const JobCard = ({ job, onEdit, onDelete }) => {
           >
             {jobType}
           </span>
+          {job.isActive ? (
+            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+              Published
+            </span>
+          ) : (
+            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200">
+              Draft
+            </span>
+          )}
         </div>
 
         <p className='text-base text-gray-500 mb-2 line-clamp-1'>{job.description}</p>
