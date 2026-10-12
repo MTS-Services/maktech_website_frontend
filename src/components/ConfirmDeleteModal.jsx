@@ -8,9 +8,13 @@ export default function ConfirmDeleteModal({
   confirmLabel = 'Yes, Delete',
   onConfirm,
   onCancel,
+  onClose,
+  itemName,
 }) {
   const [visible, setVisible] = useState(false);
   const [closing, setClosing] = useState(false);
+  const handleCancel = onCancel || onClose || (() => {});
+  const resolvedDesc = description || (itemName ? `Are you sure you want to delete ${itemName}?` : null);
 
   // Trigger enter animation on next frame
   useEffect(() => {
@@ -20,7 +24,7 @@ export default function ConfirmDeleteModal({
 
   const triggerClose = (cb) => {
     setClosing(true);
-    setTimeout(cb, 220);
+    setTimeout(cb || handleCancel, 220);
   };
 
   const overlayStyle = {
@@ -43,7 +47,7 @@ export default function ConfirmDeleteModal({
     <div
       className='fixed inset-0 z-50 flex items-center justify-center p-4'
       style={overlayStyle}
-      onClick={() => triggerClose(onCancel)}
+      onClick={() => triggerClose(handleCancel)}
       role='dialog'
       aria-modal='true'
       aria-labelledby='cdm-title'
@@ -66,9 +70,9 @@ export default function ConfirmDeleteModal({
           {title}
         </h2>
 
-        {description && (
+        {resolvedDesc && (
           <p className='text-sm text-gray-600 text-center font-medium mb-1'>
-            {description}
+            {resolvedDesc}
           </p>
         )}
 
@@ -83,7 +87,7 @@ export default function ConfirmDeleteModal({
         <div className='flex gap-3'>
           <button
             type='button'
-            onClick={() => triggerClose(onCancel)}
+            onClick={() => triggerClose(handleCancel)}
             className='flex-1 py-2.5 rounded-xl text-sm font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200 transition-all duration-150 active:scale-[0.97]'
           >
             Cancel
