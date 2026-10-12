@@ -6,6 +6,7 @@ import {
   MdDelete,
   MdLocationOn,
   MdRemoveRedEye,
+  MdArrowForward,
 } from 'react-icons/md';
 import { toast } from 'react-toastify';
 import apiClient from '../../../services/apiClient';
@@ -33,10 +34,11 @@ const getTypeStyle = (type) => {
   return 'bg-gray-100 text-gray-600';
 };
 
-const JobCard = ({ job, onToggleStatus, isToggling, onEdit, onDelete }) => {
+const JobCard = ({ job, onToggleStatus, isToggling, onEdit, onDelete, onViewApplicants }) => {
   const jobType = job.jobTypes?.[0]?.title || 'Full-time';
   const location = job.department || 'Remote';
   const postedDate = job.createdAt ? new Date(job.createdAt).toLocaleDateString() : 'N/A';
+  const applicantCount = job._count?.applications ?? job.applicantCount ?? 0;
 
   return (
     <article className='relative bg-white rounded-2xl border border-gray-100 shadow-sm p-5 sm:p-6 flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between hover:border-gray-200 transition-all'>
@@ -76,59 +78,83 @@ const JobCard = ({ job, onToggleStatus, isToggling, onEdit, onDelete }) => {
         </p>
       </div>
 
-      {/* Action Buttons & Toggle Switch */}
-      <div className='flex items-center gap-3 mt-3 sm:mt-0 shrink-0'>
-        {/* Active / Inactive Toggle Switch */}
-        <div className='flex items-center gap-2 pr-3 border-r border-gray-200'>
+      {/* Right Column: Actions & Applicants Info (Matches red marked spot) */}
+      <div className='flex flex-col sm:items-end justify-between gap-3 shrink-0 self-stretch sm:self-center'>
+        {/* Top Row: Active Toggle & Management Action Buttons */}
+        <div className='flex items-center gap-2 sm:gap-3'>
+          {/* Active / Inactive Toggle Switch */}
+          <div className='flex items-center gap-2 pr-3 border-r border-gray-200'>
+            <button
+              type='button'
+              role='switch'
+              aria-checked={job.isActive}
+              disabled={isToggling}
+              onClick={() => onToggleStatus(job)}
+              title={job.isActive ? 'Click to deactivate job' : 'Click to activate job'}
+              aria-label={`Toggle active status for ${job.title}`}
+              className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-[#ff6533]/50 ${
+                job.isActive ? 'bg-[#ff6533]' : 'bg-gray-300'
+              } ${isToggling ? 'opacity-50 cursor-wait' : ''}`}
+            >
+              <span
+                aria-hidden='true'
+                className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-md ring-0 transition duration-200 ease-in-out ${
+                  job.isActive ? 'translate-x-5' : 'translate-x-0'
+                }`}
+              />
+            </button>
+          </div>
+
+          <a
+            href={`/careers/${job.id}`}
+            target='_blank'
+            rel='noopener noreferrer'
+            aria-label={`View ${job.title}`}
+            title='View Public Job Details'
+            className='p-2 rounded-lg text-emerald-500 hover:bg-emerald-50 transition-colors duration-150 cursor-pointer'
+          >
+            <MdRemoveRedEye className='text-xl' aria-hidden='true' />
+          </a>
           <button
             type='button'
-            role='switch'
-            aria-checked={job.isActive}
-            disabled={isToggling}
-            onClick={() => onToggleStatus(job)}
-            title={job.isActive ? 'Click to deactivate job' : 'Click to activate job'}
-            aria-label={`Toggle active status for ${job.title}`}
-            className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-[#ff6533]/50 ${
-              job.isActive ? 'bg-[#ff6533]' : 'bg-gray-300'
-            } ${isToggling ? 'opacity-50 cursor-wait' : ''}`}
+            onClick={() => onEdit(job)}
+            aria-label={`Edit ${job.title}`}
+            title='Edit Job Posting'
+            className='p-2 rounded-lg text-blue-500 hover:bg-blue-50 transition-colors duration-150 cursor-pointer'
           >
-            <span
-              aria-hidden='true'
-              className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-md ring-0 transition duration-200 ease-in-out ${
-                job.isActive ? 'translate-x-5' : 'translate-x-0'
-              }`}
-            />
+            <MdEdit className='text-xl' aria-hidden='true' />
+          </button>
+          <button
+            type='button'
+            onClick={() => onDelete(job)}
+            aria-label={`Delete ${job.title}`}
+            title='Delete Job Posting'
+            className='p-2 rounded-lg text-red-500 hover:bg-red-50 transition-colors duration-150 cursor-pointer'
+          >
+            <MdDelete className='text-xl' aria-hidden='true' />
           </button>
         </div>
 
-        <a
-          href={`/careers/${job.id}`}
-          target='_blank'
-          rel='noopener noreferrer'
-          aria-label={`View ${job.title}`}
-          title='View Public Job Details'
-          className='p-2 rounded-lg text-emerald-500 hover:bg-emerald-50 transition-colors duration-150 cursor-pointer'
-        >
-          <MdRemoveRedEye className='text-xl' aria-hidden='true' />
-        </a>
-        <button
-          type='button'
-          onClick={() => onEdit(job)}
-          aria-label={`Edit ${job.title}`}
-          title='Edit Job Posting'
-          className='p-2 rounded-lg text-blue-500 hover:bg-blue-50 transition-colors duration-150 cursor-pointer'
-        >
-          <MdEdit className='text-xl' aria-hidden='true' />
-        </button>
-        <button
-          type='button'
-          onClick={() => onDelete(job)}
-          aria-label={`Delete ${job.title}`}
-          title='Delete Job Posting'
-          className='p-2 rounded-lg text-red-500 hover:bg-red-50 transition-colors duration-150 cursor-pointer'
-        >
-          <MdDelete className='text-xl' aria-hidden='true' />
-        </button>
+        {/* Bottom Area (RED RECTANGLE SPOT): Applicants Count & Show All Button */}
+        <div className='flex items-center gap-2 pt-0.5'>
+          <button
+            type='button'
+            onClick={() => onViewApplicants && onViewApplicants(job)}
+            className='inline-flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-semibold bg-orange-50 hover:bg-orange-100 text-[#ff6533] border border-orange-200/80 transition-all duration-200 hover:shadow-xs group cursor-pointer'
+            title={`View all applicants for ${job.title}`}
+            aria-label={`View ${applicantCount} applicants for ${job.title}`}
+          >
+            <span className='inline-flex items-center justify-center min-w-[20px] h-5 px-1.5 rounded-full bg-[#ff6533] text-white text-[11px] font-bold shadow-2xs'>
+              {applicantCount}
+            </span>
+            <span className='text-gray-700 font-medium'>Applicants</span>
+            <span className='w-1 h-1 rounded-full bg-orange-300' />
+            <span className='text-[#ff6533] font-bold group-hover:underline inline-flex items-center gap-1'>
+              Show All
+              <MdArrowForward className='text-xs transition-transform group-hover:translate-x-0.5' />
+            </span>
+          </button>
+        </div>
       </div>
     </article>
   );
@@ -345,6 +371,7 @@ export default function Jobs() {
                 isToggling={togglingId === job.id}
                 onEdit={(job) => navigate(`/admin/jobs/edit/${job.id}`, { state: { job } })} 
                 onDelete={handleDelete}
+                onViewApplicants={(job) => navigate(`/admin/jobs/${job.id}/applicants`, { state: { job } })}
               />
             ))}
           </section>

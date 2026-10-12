@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react';
 import { IoIosArrowDown } from 'react-icons/io';
 import { MdAttachFile } from 'react-icons/md';
 import { toast } from 'react-toastify';
+import apiClient from '../../../services/apiClient';
 
 const DEFAULT_POSITIONS = [
   { value: 'ui-ux', label: 'UI/UX Design' },
@@ -68,6 +69,9 @@ const ApplyContact = ({ job }) => {
     message: '',
   });
 
+  // Submitting loading state
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const handleAnswerChange = (questionId, value) => {
     setAnswers((prev) => ({
       ...prev,
@@ -85,17 +89,110 @@ const ApplyContact = ({ job }) => {
     });
   };
 
-  const handleDynamicSubmit = (e) => {
+  const handleDynamicSubmit = async (e) => {
     e.preventDefault();
+    if (isSubmitting) return;
+
     // Validate required questions
     for (const q of dynamicQuestions) {
-      if (q.isRequired && !answers[q.id]) {
+      if (q.isRequired && (answers[q.id] === undefined || answers[q.id] === null || answers[q.id] === '')) {
         toast.error(`Please answer: "${q.title}"`);
         return;
       }
     }
-    toast.success('Application submitted successfully! We will get in touch with you.');
-    setAnswers({});
+
+    // Extract applicant details from answers
+    let applicantName = '';
+    let applicantEmail = '';
+    let applicantPhone = '';
+    let resumeFile = null;
+
+    dynamicQuestions.forEach((q) => {
+      const normType = getNormalizedType(q.type);
+      const titleLower = (q.title || '').toLowerCase();
+      const val = answers[q.id];
+
+      if (!applicantEmail && (normType === 'email' || titleLower.includes('email'))) {
+        if (typeof val === 'string' && val.trim()) applicantEmail = val.trim();
+      }
+      if (!applicantPhone && (normType === 'phone' || titleLower.includes('phone') || titleLower.includes('contact') || titleLower.includes('mobile'))) {
+        if (typeof val === 'string' && val.trim()) applicantPhone = val.trim();
+      }
+      if (!applicantName && (titleLower.includes('full name') || titleLower.includes('your name') || titleLower.includes('name'))) {
+        if (typeof val === 'string' && val.trim()) applicantName = val.trim();
+      }
+      if (!resumeFile && (normType === 'file_upload' || titleLower.includes('resume') || titleLower.includes('cv'))) {
+        if (val instanceof File) {
+          resumeFile = val;
+        }
+      }
+    });
+
+    if (!applicantName) {
+      for (const q of dynamicQuestions) {
+        const val = answers[q.id];
+        if (typeof val === 'string' && val.trim() && !val.includes('@') && val.length < 50) {
+          applicantName = val.trim();
+          break;
+        }
+      }
+      if (!applicantName) applicantName = 'Applicant';
+    }
+
+    if (!applicantEmail) {
+      for (const q of dynamicQuestions) {
+        const val = answers[q.id];
+        if (typeof val === 'string' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val.trim())) {
+          applicantEmail = val.trim();
+          break;
+        }
+      }
+    }
+
+    if (!applicantEmail) {
+      toast.error('Please enter a valid email address in your application.');
+      return;
+    }
+
+    const answersPayload = dynamicQuestions.map((q) => {
+      const val = answers[q.id];
+      if (val instanceof File) {
+        return {
+          questionId: q.id,
+          answerData: {
+            fileName: val.name,
+            fileSize: `${(val.size / (1024 * 1024)).toFixed(2)} MB`,
+          },
+        };
+      }
+      return {
+        questionId: q.id,
+        answerData: val !== undefined ? val : null,
+      };
+    });
+
+    const formData = new FormData();
+    formData.append('applicantName', applicantName);
+    formData.append('applicantEmail', applicantEmail);
+    if (applicantPhone) formData.append('applicantPhone', applicantPhone);
+    if (resumeFile instanceof File) formData.append('resume', resumeFile);
+    formData.append('answers', JSON.stringify(answersPayload));
+
+    setIsSubmitting(true);
+    try {
+      const targetJobId = job?.id || 'demo';
+      await apiClient.post(`/api/v1/jobs/${targetJobId}/apply`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+      toast.success('Application submitted successfully! We will get in touch with you.');
+      setAnswers({});
+    } catch (err) {
+      console.error('Failed to submit application:', err);
+      const msg = err.response?.data?.message || 'Failed to submit application. Please try again.';
+      toast.error(msg);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleFallbackChange = (e) => {
@@ -106,17 +203,49 @@ const ApplyContact = ({ job }) => {
     }));
   };
 
-  const handleFallbackSubmit = (e) => {
+  const handleFallbackSubmit = async (e) => {
     e.preventDefault();
-    toast.success('Application submitted successfully! We will get in touch with you.');
-    setFallbackData({
-      fullName: '',
-      phone: '',
-      email: '',
-      service: job?.title || 'ui-ux',
-      experience: 'Fresher',
-      message: '',
-    });
+    if (isSubmitting) return;
+
+    if (!fallbackData.fullName.trim() || !fallbackData.email.trim()) {
+      toast.error('Please provide your name and email address.');
+      return;
+    }
+
+    const fallbackAnswers = [
+      { questionId: 'position', answerData: fallbackData.service },
+      { questionId: 'experience', answerData: fallbackData.experience },
+      { questionId: 'message', answerData: fallbackData.message },
+    ];
+
+    const formData = new FormData();
+    formData.append('applicantName', fallbackData.fullName.trim());
+    formData.append('applicantEmail', fallbackData.email.trim());
+    if (fallbackData.phone.trim()) formData.append('applicantPhone', fallbackData.phone.trim());
+    formData.append('answers', JSON.stringify(fallbackAnswers));
+
+    setIsSubmitting(true);
+    try {
+      const targetJobId = job?.id || 'demo';
+      await apiClient.post(`/api/v1/jobs/${targetJobId}/apply`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+      toast.success('Application submitted successfully! We will get in touch with you.');
+      setFallbackData({
+        fullName: '',
+        phone: '',
+        email: '',
+        service: job?.title || 'ui-ux',
+        experience: 'Fresher',
+        message: '',
+      });
+    } catch (err) {
+      console.error('Failed to submit application:', err);
+      const msg = err.response?.data?.message || 'Failed to submit application. Please try again.';
+      toast.error(msg);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const positionOptions = job?.title
@@ -547,24 +676,31 @@ const ApplyContact = ({ job }) => {
                   <div className='pt-4'>
                     <button
                       type='submit'
-                      className='group inline-flex items-center justify-between gap-4 bg-[#FF6533] hover:bg-[#e55a2d] text-white p-2.5 pl-7 sm:pl-9 pr-3 rounded-full transition-all duration-300 active:scale-95 shadow-[0_4px_20px_rgba(255,101,51,0.35)] cursor-pointer'
+                      disabled={isSubmitting}
+                      className={`group inline-flex items-center justify-between gap-4 bg-[#FF6533] hover:bg-[#e55a2d] text-white p-2.5 pl-7 sm:pl-9 pr-3 rounded-full transition-all duration-300 active:scale-95 shadow-[0_4px_20px_rgba(255,101,51,0.35)] cursor-pointer ${
+                        isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
+                      }`}
                     >
                       <span className='text-base font-semibold'>
-                        Submit Application
+                        {isSubmitting ? 'Submitting Application...' : 'Submit Application'}
                       </span>
                       <div className='w-9 h-9 sm:w-10 sm:h-10 bg-white rounded-full flex items-center justify-center transition-transform duration-300 group-hover:translate-x-1 shadow-md'>
-                        <svg
-                          width='18'
-                          height='18'
-                          viewBox='0 0 24 24'
-                          fill='none'
-                          stroke='black'
-                          strokeWidth='2.5'
-                          strokeLinecap='round'
-                          strokeLinejoin='round'
-                        >
-                          <path d='M5 12h14M12 5l7 7-7 7' />
-                        </svg>
+                        {isSubmitting ? (
+                          <div className='w-4 h-4 border-2 border-[#FF6533] border-t-transparent rounded-full animate-spin' />
+                        ) : (
+                          <svg
+                            width='18'
+                            height='18'
+                            viewBox='0 0 24 24'
+                            fill='none'
+                            stroke='black'
+                            strokeWidth='2.5'
+                            strokeLinecap='round'
+                            strokeLinejoin='round'
+                          >
+                            <path d='M5 12h14M12 5l7 7-7 7' />
+                          </svg>
+                        )}
                       </div>
                     </button>
                   </div>
@@ -734,24 +870,31 @@ const ApplyContact = ({ job }) => {
                   <div>
                     <button
                       type='submit'
-                      className='group inline-flex items-center justify-between gap-4 bg-[#FF6533] hover:bg-[#e55a2d] text-white p-2.5 pl-7 sm:pl-9 pr-3 rounded-full transition-all duration-300 active:scale-95 shadow-[0_4px_20px_rgba(255,101,51,0.35)] cursor-pointer'
+                      disabled={isSubmitting}
+                      className={`group inline-flex items-center justify-between gap-4 bg-[#FF6533] hover:bg-[#e55a2d] text-white p-2.5 pl-7 sm:pl-9 pr-3 rounded-full transition-all duration-300 active:scale-95 shadow-[0_4px_20px_rgba(255,101,51,0.35)] cursor-pointer ${
+                        isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
+                      }`}
                     >
                       <span className='text-base font-semibold'>
-                        Send Message
+                        {isSubmitting ? 'Sending Message...' : 'Send Message'}
                       </span>
                       <div className='w-9 h-9 sm:w-10 sm:h-10 bg-white rounded-full flex items-center justify-center transition-transform duration-300 group-hover:translate-x-1 shadow-md'>
-                        <svg
-                          width='18'
-                          height='18'
-                          viewBox='0 0 24 24'
-                          fill='none'
-                          stroke='black'
-                          strokeWidth='2.5'
-                          strokeLinecap='round'
-                          strokeLinejoin='round'
-                        >
-                          <path d='M5 12h14M12 5l7 7-7 7' />
-                        </svg>
+                        {isSubmitting ? (
+                          <div className='w-4 h-4 border-2 border-[#FF6533] border-t-transparent rounded-full animate-spin' />
+                        ) : (
+                          <svg
+                            width='18'
+                            height='18'
+                            viewBox='0 0 24 24'
+                            fill='none'
+                            stroke='black'
+                            strokeWidth='2.5'
+                            strokeLinecap='round'
+                            strokeLinejoin='round'
+                          >
+                            <path d='M5 12h14M12 5l7 7-7 7' />
+                          </svg>
+                        )}
                       </div>
                     </button>
                   </div>

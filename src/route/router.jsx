@@ -27,6 +27,8 @@ const ContentBuilder = lazy(() => import('../components/ContentBuilder/ContentBu
 const Blog = lazy(() => import('../pages/admin/blog/Blog'));
 const Jobs = lazy(() => import('../pages/admin/jobs/Jobs'));
 const JobBuilder = lazy(() => import('../pages/admin/jobs/components/JobBuilder').then(m => ({ default: m.JobBuilder })));
+const JobApplicants = lazy(() => import('../pages/admin/jobs/JobApplicants'));
+const ApplicantDetailPage = lazy(() => import('../pages/admin/jobs/ApplicantDetailPage'));
 const Pricing = lazy(() => import('../pages/admin/pricing/Pricing'));
 const Services = lazy(() => import('../pages/services/Services'));
 const ServiceUIUX = lazy(() => import('../pages/services/UIUX'));
@@ -134,6 +136,8 @@ const AppRoutes = () => (
         <Route path='jobs' element={<Jobs />} />
         <Route path='jobs/create' element={<JobBuilder />} />
         <Route path='jobs/edit/:id' element={<JobBuilder />} />
+        <Route path='jobs/:jobId/applicants' element={<JobApplicants />} />
+        <Route path='jobs/:jobId/applicants/:applicantId' element={<ApplicantDetailPage />} />
         <Route path='pricing' element={<Pricing />} />
       </Route>
 
