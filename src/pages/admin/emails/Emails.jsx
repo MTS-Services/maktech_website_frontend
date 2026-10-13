@@ -1,777 +1,972 @@
-import { useState, useMemo, useEffect } from 'react';
-import apiClient from '../../../services/apiClient';
+import { useState, useMemo, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import StatCard from '../../../components/StatCard';
 import AdminTable from '../../../components/AdminTable';
 import Pagination from '../../../components/Pagination';
 import { getPageRange } from '../../../utils/helpers';
+import apiClient from '../../../services/apiClient';
+import { toast } from 'react-toastify';
 import {
   MdEmail,
-  MdOutlineEmail,
   MdScheduleSend,
   MdReply,
   MdAdd,
   MdArrowBack,
-  MdSend,
+  MdVisibility,
+  MdLocationOn,
+  MdDevices,
+  MdMouse,
+  MdCheckCircle,
+  MdAccessTime,
+  MdRefresh,
+  MdSearch,
+  MdTrackChanges,
 } from 'react-icons/md';
 
-const PAGE_SIZE = 8;
+const PAGE_SIZE = 4;
 
-const STAT_CARDS = [
-  {
-    Icon: MdEmail,
-    accentColor: '#2563eb',
-    iconBg: 'bg-blue-50',
-    iconColor: 'text-blue-600',
-    badge: 'Inbox',
-    badgeBg: 'bg-blue-50',
-    badgeColor: 'text-blue-700',
-    label: 'Unread Emails',
-    value: '4',
-  },
-  {
-    Icon: MdScheduleSend,
-    accentColor: '#16a34a',
-    iconBg: 'bg-green-50',
-    iconColor: 'text-green-600',
-    badge: 'Today',
-    badgeBg: 'bg-green-50',
-    badgeColor: 'text-green-700',
-    label: 'Emails Today',
-    value: '6',
-  },
-  {
-    Icon: MdReply,
-    accentColor: '#d97706',
-    iconBg: 'bg-amber-50',
-    iconColor: 'text-amber-600',
-    badge: 'Pending',
-    badgeBg: 'bg-amber-50',
-    badgeColor: 'text-amber-700',
-    label: 'Waiting for Reply',
-    value: '3',
-  },
-];
+/**
+ * ─── DEDICATED SENT EMAIL DETAIL PAGE VIEW ───
+ */
+function SentEmailDetailView({ email, onBack, onRefresh }) {
+  const navigate = useNavigate();
+  const isClicked = email.isClicked;
+  const isOpened = email.isOpened;
 
-const EMAILS = [
-  {
-    id: 'em-001',
-    client: 'Ahmed Khan',
-    email: 'ahmed.khan@example.com',
-    subject: 'Website Development Project Update',
-    datetime: '2026-01-28 10:30 AM',
-    status: 'Unread',
-    body: 'Hello Maktech, I wanted to check on the progress of our website development project. Could you please provide an update on the timeline? Looking forward to hearing from you soon.',
-  },
-  {
-    id: 'em-002',
-    client: 'Fatima Rahman',
-    email: 'fatima.rahman@example.com',
-    subject: 'Regarding Digital Marketing Package',
-    datetime: '2026-01-28 09:15 AM',
-    status: 'Unread',
-    body: 'Hi team, I am interested in your digital marketing package. Could you share the pricing details and what services are included? I would love to schedule a call to discuss further.',
-  },
-  {
-    id: 'em-003',
-    client: 'Shakib Hasan',
-    email: 'shakib.hasan@example.com',
-    subject: 'Thank you for the excellent service',
-    datetime: '2026-01-27 04:45 PM',
-    status: 'Replied',
-    body: 'Dear Maktech team, I just wanted to take a moment to thank you for the outstanding service you provided. The project was delivered on time and exceeded our expectations. We look forward to working with you again.',
-  },
-  {
-    id: 'em-004',
-    client: 'Nusrat Jahan',
-    email: 'nusrat.jahan@example.com',
-    subject: 'Invoice Payment Confirmation',
-    datetime: '2026-01-27 02:20 PM',
-    status: 'Read',
-    body: 'Hello, I am writing to confirm that the payment for invoice #INV-2026-047 has been processed successfully. Please find the transaction reference attached. Let me know if you need anything else.',
-  },
-  {
-    id: 'em-005',
-    client: 'Rahim Uddin',
-    email: 'rahim.uddin@example.com',
-    subject: 'Quote Request for E-commerce Website',
-    datetime: '2026-01-26 11:30 AM',
-    status: 'Replied',
-    body: 'Hi, we are planning to launch an e-commerce website for our clothing brand. Could you provide a quote for developing a full-featured store with payment integration, product management, and mobile responsiveness?',
-  },
-  {
-    id: 'em-006',
-    client: 'Sabrina Begum',
-    email: 'sabrina.begum@example.com',
-    subject: 'Follow-up on SEO Proposal',
-    datetime: '2026-01-26 09:00 AM',
-    status: 'Unread',
-    body: 'Hello, I sent a request last week regarding your SEO services for our business. I have not received a response yet. Could you please follow up on the proposal and let me know the next steps?',
-  },
-  {
-    id: 'em-007',
-    client: 'Imran Hossain',
-    email: 'imran.hossain@example.com',
-    subject: 'Maintenance Contract Renewal',
-    datetime: '2026-01-25 03:20 PM',
-    status: 'Read',
-    body: 'Dear Maktech, our current maintenance contract is expiring next month. We would like to renew it for another year. Please send over the updated contract terms and pricing so we can review and sign.',
-  },
-  {
-    id: 'em-008',
-    client: 'Lailun Nahar',
-    email: 'lailun.nahar@example.com',
-    subject: 'New Feature Request for CRM',
-    datetime: '2026-01-25 01:10 PM',
-    status: 'Replied',
-    body: 'Hi, we would like to request a few new features for the CRM system you built for us. Specifically, we need bulk email export, a reminder system, and custom report generation. Please advise on the timeline and cost.',
-  },
-  {
-    id: 'em-009',
-    client: 'Tanvir Ahmed',
-    email: 'tanvir.ahmed@example.com',
-    subject: 'App Testing Feedback Report',
-    datetime: '2026-01-24 05:40 PM',
-    status: 'Unread',
-    body: 'Hello team, I have completed the testing phase of the mobile application. Please find the detailed feedback report attached. There are a few critical bugs that need to be addressed before the launch.',
-  },
-  {
-    id: 'em-010',
-    client: 'Roksana Islam',
-    email: 'roksana.islam@example.com',
-    subject: 'Branding Package Inquiry',
-    datetime: '2026-01-24 11:00 AM',
-    status: 'Read',
-    body: 'Hi Maktech, we are a startup looking for a complete branding package including logo design, brand guidelines, business cards, and social media assets. Can you share your portfolio and pricing?',
-  },
-  {
-    id: 'em-011',
-    client: 'Mehedi Hassan',
-    email: 'mehedi.hassan@example.com',
-    subject: 'Q1 Performance Review Request',
-    datetime: '2026-01-23 04:15 PM',
-    status: 'Replied',
-    body: 'Dear team, as per our quarterly review schedule, I would like to request the Q1 performance report for our digital campaigns. Please include traffic data, conversion rates, and ROI analysis.',
-  },
-  {
-    id: 'em-012',
-    client: 'Nasrin Akter',
-    email: 'nasrin.akter@example.com',
-    subject: 'Website Redesign Consultation',
-    datetime: '2026-01-23 10:45 AM',
-    status: 'Read',
-    body: 'Hello, our company website is outdated and we are looking for a complete redesign. We want a modern, professional look with improved UX and faster load times. Can we schedule a consultation call this week?',
-  },
-  {
-    id: 'em-013',
-    client: 'Jahirul Islam',
-    email: 'jahirul.islam@example.com',
-    subject: 'API Integration Support Needed',
-    datetime: '2026-01-22 02:30 PM',
-    status: 'Unread',
-    body: 'Hi, we need help integrating a third-party payment gateway and a logistics API into our existing platform. Could your team provide support for this? Please let us know your availability and estimated timeline.',
-  },
-  {
-    id: 'em-014',
-    client: 'Shamima Khatun',
-    email: 'shamima.khatun@example.com',
-    subject: 'Social Media Campaign Brief',
-    datetime: '2026-01-22 09:50 AM',
-    status: 'Replied',
-    body: 'Dear Maktech, I have prepared the campaign brief for our upcoming Eid promotion. Please review the attached document and let me know if you need any clarifications before we proceed with content creation.',
-  },
-  {
-    id: 'em-015',
-    client: 'Robiul Alam',
-    email: 'robiul.alam@example.com',
-    subject: 'Monthly Report and Analytics',
-    datetime: '2026-01-21 03:00 PM',
-    status: 'Read',
-    body: 'Hello, I am following up on the monthly analytics report for January. Could you please share the updated report including website traffic, social media engagement, and lead generation metrics?',
-  },
-  {
-    id: 'em-016',
-    client: 'Moriam Begum',
-    email: 'moriam.begum@example.com',
-    subject: 'Contract Amendment Discussion',
-    datetime: '2026-01-21 11:20 AM',
-    status: 'Replied',
-    body: 'Hi, we would like to discuss a few amendments to our existing service contract. Specifically regarding the scope of work and deliverable timelines for the upcoming quarter. Please let us know when you are available.',
-  },
-];
+  return (
+    <div className='space-y-6 pb-8 animate-in fade-in duration-200'>
+      {/* Top Navigation Bar */}
+      <div className='flex flex-wrap items-center justify-between gap-4'>
+        <button
+          type='button'
+          onClick={onBack}
+          className='flex items-center text-[13px] text-gray-500 hover:text-gray-800 transition-colors font-medium cursor-pointer'
+        >
+          <MdArrowBack size={16} className='mr-1.5' /> Back to Sent Emails
+        </button>
 
-// Status badges - text label always present; color is not the sole indicator (WCAG 1.4.1)
-const STATUS_STYLES = {
-  Unread: 'bg-blue-50 text-blue-700',
-  Read: 'bg-amber-50 text-amber-700',
-  Replied: 'bg-green-50 text-green-700',
-};
+        <div className='flex items-center gap-2.5'>
+          <button
+            type='button'
+            onClick={onRefresh}
+            className='inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-gray-200 bg-white text-xs font-semibold text-gray-600 hover:text-[#ff6533] shadow-2xs transition cursor-pointer'
+          >
+            <MdRefresh className='text-sm' />
+            <span>Refresh Status</span>
+          </button>
+          <button
+            type='button'
+            onClick={() => navigate('/admin/compose')}
+            className='inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-orange-bg-cta text-white text-xs font-semibold hover:bg-[#e5501a] shadow-2xs transition cursor-pointer'
+          >
+            <MdAdd className='text-sm' />
+            <span>Compose Email</span>
+          </button>
+        </div>
+      </div>
 
-const getStatusStyle = (status) =>
-  STATUS_STYLES[status] ?? 'bg-gray-100 text-gray-600';
+      {/* Main Content Card */}
+      <div className='bg-white rounded-2xl border border-gray-100 shadow-sm p-6 sm:p-8 space-y-6'>
+        {/* Header Strip */}
+        <div className='flex flex-wrap items-start justify-between gap-4 border-b border-gray-100 pb-5'>
+          <div>
+            <span className='inline-flex items-center gap-1.5 text-xs font-bold text-[#ff6533] uppercase tracking-wider bg-orange-50 px-2.5 py-1 rounded-md border border-orange-200'>
+              <MdTrackChanges className='text-sm' />
+              Email Tracking Intelligence
+            </span>
+            <h1 className='text-2xl sm:text-3xl font-bold text-gray-900 mt-2.5 leading-snug'>
+              {email.subject || '(No Subject)'}
+            </h1>
+            <p className='text-sm text-gray-500 mt-1'>
+              Sent to <span className='font-semibold text-gray-800'>{email.toEmail}</span> &bull;{' '}
+              <span>{new Date(email.sentAt).toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' })}</span>
+            </p>
+          </div>
 
-// "2026-01-28 10:30 AM" - - "2026-01-28 at 10:30 AM"
-const formatDetailDate = (dt) => {
-  const idx = dt.indexOf(' ');
-  return idx === -1 ? dt : `${dt.slice(0, idx)} at ${dt.slice(idx + 1)}`;
-};
+          <div className='flex items-center gap-2 flex-wrap'>
+            {isClicked && (
+              <span className='inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-purple-50 text-purple-700 border border-purple-200'>
+                <MdMouse className='text-sm text-purple-600' />
+                <span>Link Clicked ({email.clickCount})</span>
+              </span>
+            )}
+            {isOpened ? (
+              <span className='inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200'>
+                <span className='w-2 h-2 rounded-full bg-emerald-500 animate-ping' />
+                <span>Opened</span>
+              </span>
+            ) : (
+              <span className='inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-500'>
+                <MdAccessTime className='text-xs' />
+                <span>Unopened</span>
+              </span>
+            )}
+          </div>
+        </div>
 
-const EMAIL_COLS = [
-  { label: 'Client Name' },
-  { label: 'Subject' },
-  { label: 'Date & Time' },
-  { label: 'Status' },
-];
+        {/* 4 Quick Metrics Cards */}
+        <div className='grid grid-cols-2 lg:grid-cols-4 gap-4'>
+          <div className='p-4 rounded-xl bg-gray-50 border border-gray-100'>
+            <p className='text-xs font-semibold text-gray-400 uppercase tracking-wider'>Read Status</p>
+            <p className='text-base font-extrabold text-gray-900 mt-1.5 flex items-center gap-1.5'>
+              {email.isOpened ? (
+                <span className='text-emerald-700 font-bold flex items-center gap-1.5'>
+                  <span className='w-2 h-2 rounded-full bg-emerald-500' />
+                  Opened
+                </span>
+              ) : (
+                <span className='text-gray-400 font-semibold'>Unopened</span>
+              )}
+            </p>
+          </div>
 
-// - Reply Form -
-const ReplyForm = ({ email, onBack }) => {
-  const [isLoading, setIsLoading] = useState(false);
+          <div className='p-4 rounded-xl bg-emerald-50/60 border border-emerald-100'>
+            <p className='text-xs font-semibold text-emerald-600 uppercase tracking-wider'>First Opened</p>
+            <p className='text-sm font-bold text-emerald-800 mt-1.5'>
+              {email.firstOpenedAt
+                ? new Date(email.firstOpenedAt).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })
+                : 'Not yet opened'}
+            </p>
+          </div>
 
-  // Extract pure email address from 'from' string like "John <john@abc.com>"
-  let defaultTo = email.from;
-  const emailMatch = email.from.match(/<([^>]+)>/);
-  if (emailMatch) {
-    defaultTo = emailMatch[1];
-  }
+          <div className='p-4 rounded-xl bg-purple-50/60 border border-purple-100'>
+            <p className='text-xs font-semibold text-purple-600 uppercase tracking-wider'>Links Clicked</p>
+            <p className='text-xl font-extrabold text-purple-800 mt-1'>
+              {email.clickCount || 0}
+            </p>
+          </div>
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    const to = formData.get('to');
-    const subject = formData.get('subject');
-    const html = formData.get('message');
-    
-    if (!to || !subject || !html) return toast.error("Please fill all fields");
+          <div className='p-4 rounded-xl bg-blue-50/60 border border-blue-100'>
+            <p className='text-xs font-semibold text-blue-600 uppercase tracking-wider'>Client Device</p>
+            <p className='text-sm font-bold text-blue-800 mt-1.5 truncate'>
+              {email.device || 'Desktop'} &bull; {email.browser || 'Browser'}
+            </p>
+          </div>
+        </div>
 
-    setIsLoading(true);
+
+
+        {/* Live Engagement Timeline */}
+        <div className='pt-2'>
+          <h2 className='text-base font-bold text-gray-900 mb-4'>Live Engagement Timeline</h2>
+          <div className='border-l-2 border-orange-200 ml-4 space-y-5 pl-5 py-1'>
+            {/* Server Dispatch */}
+            <div className='relative'>
+              <span className='absolute -left-[27px] top-0.5 w-3.5 h-3.5 rounded-full bg-[#ff6533] border-2 border-white shadow-xs' />
+              <p className='text-sm font-bold text-gray-800'>Email Dispatched</p>
+              <p className='text-xs text-gray-400 mt-0.5'>
+                {new Date(email.sentAt).toLocaleString()}
+              </p>
+            </div>
+
+            {/* Activities */}
+            {email.activities && email.activities.length > 0 ? (
+              email.activities.map((act, idx) => (
+                <div key={act.id || idx} className='relative'>
+                  <span
+                    className={`absolute -left-[27px] top-0.5 w-3.5 h-3.5 rounded-full border-2 border-white shadow-xs ${
+                      act.type === 'CLICK' ? 'bg-purple-500' : 'bg-emerald-500'
+                    }`}
+                  />
+                  <p className='text-sm font-bold text-gray-800'>
+                    {act.type === 'CLICK' ? (
+                      <span className='text-purple-700'>
+                        Clicked Link:{' '}
+                        <span className='font-mono font-normal underline'>
+                          {act.targetUrl
+                            ? (() => {
+                                try {
+                                  return new URL(act.targetUrl).hostname;
+                                } catch {
+                                  return act.targetUrl;
+                                }
+                              })()
+                            : 'Target URL'}
+                        </span>
+                      </span>
+                    ) : (
+                      <span className='text-emerald-700'>
+                        Email Opened in {act.city || act.country || 'Client App'}
+                      </span>
+                    )}
+                  </p>
+                  <p className='text-xs text-gray-400 mt-0.5'>
+                    {new Date(act.createdAt).toLocaleString()} &bull; {act.device || 'Desktop'} ({act.browser || 'Browser'})
+                  </p>
+                </div>
+              ))
+            ) : email.isOpened ? (
+              <div className='relative'>
+                <span className='absolute -left-[27px] top-0.5 w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-white shadow-xs' />
+                <p className='text-sm font-bold text-emerald-700'>Email Viewed by Client</p>
+                <p className='text-xs text-gray-400 mt-0.5'>
+                  {new Date(email.firstOpenedAt).toLocaleString()}
+                </p>
+              </div>
+            ) : (
+              <p className='text-xs text-gray-400 italic'>No recipient opens recorded yet.</p>
+            )}
+          </div>
+        </div>
+
+        {/* Message Content Preview */}
+        <div className='pt-2'>
+          <h2 className='text-base font-bold text-gray-900 mb-3'>Email Message Content</h2>
+          <div className='p-6 rounded-2xl bg-gray-50 border border-gray-100 text-sm text-gray-800 leading-relaxed max-h-96 overflow-y-auto'>
+            {email.html ? (
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: email.html.replace(/<img[^>]*track\/open[^>]*>/gi, ''),
+                }}
+              />
+            ) : (
+              <p className='whitespace-pre-wrap'>{email.text || 'No message content'}</p>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * ─── DEDICATED INBOX EMAIL DETAIL PAGE VIEW ───
+ */
+function InboxEmailDetailView({ email, onBack }) {
+  const navigate = useNavigate();
+
+  const handleReply = () => {
+    const replyEmail = email.from?.match(/<([^>]+)>/)?.[1] || email.from || '';
+    const replySubject = email.subject
+      ? email.subject.startsWith('Re:')
+        ? email.subject
+        : `Re: ${email.subject}`
+      : '';
+    navigate(
+      `/admin/compose?to=${encodeURIComponent(replyEmail)}&subject=${encodeURIComponent(replySubject)}`
+    );
+  };
+
+  return (
+    <div className='space-y-6 pb-8 animate-in fade-in duration-200'>
+      {/* Top Back Navigation Bar */}
+      <div className='flex flex-wrap items-center justify-between gap-4'>
+        <button
+          type='button'
+          onClick={onBack}
+          className='flex items-center text-[13px] text-gray-500 hover:text-gray-800 transition-colors font-medium cursor-pointer'
+        >
+          <MdArrowBack size={16} className='mr-1.5' /> Back to Inbox
+        </button>
+
+        <button
+          type='button'
+          onClick={handleReply}
+          className='inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-orange-bg-cta text-white text-xs font-semibold hover:bg-[#e5501a] shadow-2xs transition cursor-pointer'
+        >
+          <MdReply className='text-base' />
+          <span>Reply to Client</span>
+        </button>
+      </div>
+
+      {/* Main Message Card */}
+      <div className='bg-white rounded-2xl border border-gray-100 shadow-sm p-6 sm:p-8 space-y-6'>
+        {/* Header */}
+        <div className='flex flex-wrap items-start justify-between gap-4 border-b border-gray-100 pb-5'>
+          <div>
+            <span className='inline-flex items-center gap-1 text-xs font-bold text-blue-700 uppercase tracking-wider bg-blue-50 px-2.5 py-1 rounded-md border border-blue-200'>
+              <MdEmail className='text-sm' />
+              Client Inbox Message
+            </span>
+            <h1 className='text-2xl sm:text-3xl font-bold text-gray-900 mt-2.5 leading-snug'>
+              {email.subject || '(No Subject)'}
+            </h1>
+          </div>
+
+          <span className='inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200'>
+            <MdCheckCircle className='text-sm' />
+            <span>Read</span>
+          </span>
+        </div>
+
+        {/* Sender Meta Strip */}
+        <div className='flex items-center gap-3.5 p-4 rounded-xl bg-gray-50 border border-gray-100'>
+          <div className='w-12 h-12 rounded-2xl bg-blue-100 text-blue-700 flex items-center justify-center shrink-0 font-bold text-base'>
+            {(email.from || 'CL').slice(0, 2).toUpperCase()}
+          </div>
+          <div className='min-w-0 flex-1'>
+            <div className='flex flex-wrap items-center justify-between gap-2'>
+              <p className='text-sm font-bold text-gray-900 truncate'>{email.from}</p>
+              <span className='text-xs text-gray-400'>
+                {email.date
+                  ? new Date(email.date).toLocaleString('en-US', {
+                      dateStyle: 'medium',
+                      timeStyle: 'short',
+                    })
+                  : ''}
+              </span>
+            </div>
+            <p className='text-xs text-gray-500 mt-0.5'>
+              Recipient: <span className='font-semibold text-gray-700'>{email.to || 'Maktech Services'}</span>
+            </p>
+          </div>
+        </div>
+
+        {/* Message Body */}
+        <div>
+          <h2 className='text-xs font-bold text-gray-400 uppercase tracking-wider mb-2.5'>Message Content</h2>
+          <div className='p-6 rounded-2xl bg-white border border-gray-100 text-sm text-gray-800 leading-relaxed whitespace-pre-wrap min-h-[160px]'>
+            {email.html ? (
+              <div dangerouslySetInnerHTML={{ __html: email.html }} />
+            ) : (
+              <p>{email.text || email.body || 'No message content'}</p>
+            )}
+          </div>
+        </div>
+
+        {/* Quick Action Footer */}
+        <div className='pt-2 flex flex-wrap items-center justify-between gap-4 border-t border-gray-100'>
+          <p className='text-xs text-gray-400'>
+            Reply will be sent directly through SMTP with active read tracking attached.
+          </p>
+          <button
+            type='button'
+            onClick={handleReply}
+            className='inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-orange-bg-cta text-white text-xs font-semibold hover:bg-[#e5501a] shadow-xs transition cursor-pointer'
+          >
+            <MdReply className='text-base' />
+            <span>Compose Direct Reply</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * ─── MAIN EMAILS PAGE COMPONENT ───
+ */
+export default function Emails() {
+  const navigate = useNavigate();
+
+  // Active Tab: 'SENT_TRACKING' or 'INBOX'
+  const [activeTab, setActiveTab] = useState('SENT_TRACKING');
+
+  // Sent Emails State
+  const [sentEmails, setSentEmails] = useState([]);
+  const [loadingSent, setLoadingSent] = useState(true);
+  const [sentPage, setSentPage] = useState(1);
+  const [sentMeta, setSentMeta] = useState(null);
+  const [sentStats, setSentStats] = useState({
+    totalSent: 0,
+    totalOpened: 0,
+    totalClicked: 0,
+    openRate: '0%',
+  });
+  const [sentFilter, setSentFilter] = useState('ALL'); // ALL, OPENED, UNOPENED, CLICKED
+  const [sentSearch, setSentSearch] = useState('');
+
+  // Selected Email for Detail Page View (NOT modal)
+  const [selectedSentEmail, setSelectedSentEmail] = useState(null);
+
+  // Inbox State
+  const [inboxEmails, setInboxEmails] = useState([]);
+  const [loadingInbox, setLoadingInbox] = useState(false);
+  const [inboxPage, setInboxPage] = useState(1);
+  const [inboxMeta, setInboxMeta] = useState(null);
+  const [selectedInboxEmail, setSelectedInboxEmail] = useState(null);
+
+  // Overall Stats
+  const [inboxStats, setInboxStats] = useState({ unread: 0, today: 0 });
+
+  useEffect(() => {
+    document.title = 'Emails & Tracking – Maktech Admin';
+  }, []);
+
+  // Fetch Sent Emails & Tracking
+  const fetchSentEmails = useCallback(async () => {
+    setLoadingSent(true);
     try {
-      const response = await apiClient.post('/api/v1/emails/send', { to, subject, html });
-      if (response.data.success) {
-        toast.success("Reply sent successfully!");
-        onBack();
+      const params = new URLSearchParams();
+      params.append('page', sentPage);
+      params.append('limit', PAGE_SIZE);
+      if (sentFilter !== 'ALL') params.append('status', sentFilter);
+      if (sentSearch.trim()) params.append('searchTerm', sentSearch.trim());
+
+      const res = await apiClient.get(`/api/v1/emails/sent?${params.toString()}`);
+      if (res.data?.success) {
+        const list = res.data.data || [];
+        setSentEmails(list);
+        setSentMeta(res.data.meta);
+        if (res.data.stats) {
+          setSentStats(res.data.stats);
+        } else {
+          const totalSent = res.data.meta?.total ?? list.length;
+          const totalOpened = list.filter((m) => m.isOpened || m.isClicked).length;
+          const totalClicked = list.filter((m) => m.isClicked).length;
+          const totalClickCount = list.reduce((sum, m) => sum + (m.clickCount || 0), 0);
+          const openRate = totalSent > 0 ? `${Math.round((totalOpened / totalSent) * 100)}%` : '0%';
+          setSentStats({
+            totalSent,
+            totalOpened,
+            totalClicked: totalClickCount || totalClicked,
+            totalClickCount,
+            openRate,
+          });
+        }
       }
-    } catch (error) {
-      toast.error(error.response?.data?.message || "Failed to send reply");
+    } catch (err) {
+      console.warn('Failed to fetch sent emails:', err);
     } finally {
-      setIsLoading(false);
+      setLoadingSent(false);
+    }
+  }, [sentPage, sentFilter, sentSearch]);
+
+  // Fetch Inbox Emails
+  const fetchInbox = useCallback(async () => {
+    setLoadingInbox(true);
+    try {
+      const res = await apiClient.get(`/api/v1/emails/inbox?page=${inboxPage}&limit=${PAGE_SIZE}`);
+      if (res.data?.success) {
+        setInboxEmails(res.data.data || []);
+        setInboxMeta(res.data.meta);
+      }
+    } catch (err) {
+      console.warn('Failed to fetch inbox:', err);
+    } finally {
+      setLoadingInbox(false);
+    }
+  }, [inboxPage]);
+
+  // Fetch Email Stats
+  const fetchStats = useCallback(async () => {
+    try {
+      const res = await apiClient.get('/api/v1/emails/stats');
+      if (res.data?.success && res.data.data) {
+        setInboxStats(res.data.data);
+      }
+    } catch (err) {
+      console.warn('Failed to fetch stats:', err);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchSentEmails();
+  }, [fetchSentEmails]);
+
+  useEffect(() => {
+    fetchStats();
+  }, [fetchStats]);
+
+  useEffect(() => {
+    if (activeTab === 'INBOX' && inboxEmails.length === 0) {
+      fetchInbox();
+    }
+  }, [activeTab, inboxEmails.length, fetchInbox]);
+
+  /**
+   * Handle selecting an inbox email:
+   * Opens the dedicated detail page and immediately marks the email as Read
+   */
+  const handleSelectInboxEmail = async (email) => {
+    setSelectedInboxEmail({ ...email, status: 'Read' });
+
+    if (email.status !== 'Read') {
+      // 1. Instantly update UI status in inbox list
+      setInboxEmails((prev) =>
+        prev.map((item) => (item.id === email.id ? { ...item, status: 'Read' } : item))
+      );
+
+      // 2. Decrement unread counter
+      setInboxStats((prev) => ({
+        ...prev,
+        unread: Math.max(0, (prev.unread || 1) - 1),
+      }));
+
+      // 3. Persist read status to IMAP server
+      try {
+        await apiClient.patch(`/api/v1/emails/${email.id}/read`);
+        // Refresh server stats
+        fetchStats();
+      } catch (err) {
+        console.warn('Failed to mark email as read on server:', err);
+      }
     }
   };
+
+  // ─── IF VIEWING DEDICATED SENT EMAIL DETAIL PAGE ───
+  if (selectedSentEmail) {
+    return (
+      <SentEmailDetailView
+        email={selectedSentEmail}
+        onBack={() => setSelectedSentEmail(null)}
+        onRefresh={() => {
+          fetchSentEmails();
+          toast.info('Refreshed email status');
+        }}
+      />
+    );
+  }
+
+  // ─── IF VIEWING DEDICATED INBOX EMAIL DETAIL PAGE ───
+  if (selectedInboxEmail) {
+    return (
+      <InboxEmailDetailView
+        email={selectedInboxEmail}
+        onBack={() => setSelectedInboxEmail(null)}
+      />
+    );
+  }
+
+  // Stat Cards Configuration
+  const statCardsData = [
+    {
+      Icon: MdScheduleSend,
+      accentColor: '#ff6533',
+      iconBg: 'bg-orange-50',
+      iconColor: 'text-[#ff6533]',
+      badge: 'Sent',
+      badgeBg: 'bg-orange-50',
+      badgeColor: 'text-orange-700',
+      label: 'Total Sent',
+      value: (sentStats.totalSent ?? sentMeta?.total ?? 0).toString(),
+    },
+    {
+      Icon: MdVisibility,
+      accentColor: '#16a34a',
+      iconBg: 'bg-emerald-50',
+      iconColor: 'text-emerald-600',
+      badge: sentStats.openRate || '0%',
+      badgeBg: 'bg-emerald-50',
+      badgeColor: 'text-emerald-700',
+      label: 'Read Rate',
+      value: `${sentStats.totalOpened ?? 0} Opened`,
+    },
+    {
+      Icon: MdMouse,
+      accentColor: '#8b5cf6',
+      iconBg: 'bg-purple-50',
+      iconColor: 'text-purple-600',
+      badge: 'Clicks',
+      badgeBg: 'bg-purple-50',
+      badgeColor: 'text-purple-700',
+      label: 'Links Clicked',
+      value: (sentStats.totalClickCount ?? sentStats.totalClicked ?? 0).toString(),
+    },
+    {
+      Icon: MdEmail,
+      accentColor: '#2563eb',
+      iconBg: 'bg-blue-50',
+      iconColor: 'text-blue-600',
+      badge: 'Inbox',
+      badgeBg: 'bg-blue-50',
+      badgeColor: 'text-blue-700',
+      label: 'Unread Inbox',
+      value: inboxStats.unread ? inboxStats.unread.toString() : '0',
+    },
+  ];
+
+  const SENT_COLS = [
+    { label: 'Recipient' },
+    { label: 'Subject' },
+    { label: 'Sent Date' },
+    { label: 'Read Status' },
+    { label: 'Location & Device' },
+    { label: 'Actions', align: 'right' },
+  ];
 
   return (
     <div className='space-y-6'>
-      <button
-        type='button'
-        onClick={onBack}
-        className='inline-flex cursor-pointer items-center gap-1.5 text-base text-gray-500 hover:text-gray-800 transition-colors duration-150 group'
-      >
-        <MdArrowBack
-          className='text-lg group-hover:-translate-x-0.5 transition-transform duration-150'
-          aria-hidden='true'
-        />
-        Back to Inbox
-      </button>
-
-      <div className='bg-white rounded-xl border border-gray-100 shadow-sm p-6 sm:p-8'>
-        <h2 className='text-xl font-bold text-gray-900 mb-6'>Reply to Email</h2>
-
-        <form onSubmit={handleSubmit} className='space-y-4'>
-          <div>
-            <label htmlFor='reply-to' className='block text-sm text-gray-500 mb-1.5'>To:</label>
-            <input
-              id='reply-to'
-              name='to'
-              type='email'
-              defaultValue={defaultTo}
-              className='w-full px-4 py-2.5 rounded-lg border border-gray-200 text-base text-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-transparent transition'
-            />
-          </div>
-
-          <div>
-            <label htmlFor='reply-subject' className='block text-sm text-gray-500 mb-1.5'>Subject:</label>
-            <input
-              id='reply-subject'
-              name='subject'
-              type='text'
-              defaultValue={`Re: ${email.subject}`}
-              className='w-full px-4 py-2.5 rounded-lg border border-gray-200 text-base text-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-transparent transition'
-            />
-          </div>
-
-          <div>
-            <label htmlFor='reply-message' className='block text-sm text-gray-500 mb-1.5'>Message:</label>
-            <textarea
-              id='reply-message'
-              name='message'
-              rows={7}
-              placeholder='Type your message here...'
-              className='w-full px-4 py-3 rounded-lg border border-gray-200 text-base text-gray-700 placeholder:text-gray-300 resize-none focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-transparent transition'
-            />
-          </div>
-
-          <button
-            type='submit'
-            disabled={isLoading}
-            className='group inline-flex cursor-pointer items-center gap-2 overflow-hidden px-5 py-2.5 text-sm font-semibold text-white bg-orange-bg-cta rounded-lg hover:bg-[#e5501a] hover:shadow-[0_4px_14px_rgba(255,101,51,0.35)] transition-all duration-200 active:scale-[0.97] disabled:opacity-70'
-          >
-            {isLoading ? <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div> : <MdSend className='text-lg shrink-0 transition-transform duration-300 ease-out group-hover:translate-x-1' aria-hidden='true' />}
-            <span className='inline-block -translate-x-1 transition-transform duration-300 ease-out delay-100 group-hover:translate-x-0'>
-              Send Reply
-            </span>
-          </button>
-        </form>
-      </div>
-    </div>
-  );
-};
-
-// - Email Detail View -
-const EmailDetail = ({ email, onBack }) => {
-  const [showReply, setShowReply] = useState(false);
-
-  if (showReply) return <ReplyForm email={email} onBack={onBack} />;
-
-  return (
-    <div>
-      {/* Back link */}
-      <button
-        type='button'
-        onClick={onBack}
-        className='inline-flex cursor-pointer items-center gap-1.5 text-base text-gray-500 hover:text-gray-800 transition-colors duration-150 mb-6 group'
-      >
-        <MdArrowBack
-          className='text-lg group-hover:-translate-x-0.5 transition-transform duration-150'
-          aria-hidden='true'
-        />
-        Back to Inbox
-      </button>
-
-      {/* Email card */}
-      <div className='bg-white rounded-xl border border-gray-100 shadow-sm p-6 sm:p-8'>
-        {/* Header row: subject + status badge */}
-        <div className='flex items-start justify-between gap-4 mb-3'>
-          <h2 className='text-xl sm:text-2xl font-bold text-gray-900 leading-snug'>
-            {email.subject}
-          </h2>
-          <span
-            className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold shrink-0 ${getStatusStyle(email.status)}`}
-          >
-            {email.status}
-          </span>
-        </div>
-
-        {/* Meta: From - email - datetime */}
-        <p className='text-sm text-gray-400 mb-6'>
-          <span className='text-gray-500'>From:</span>{' '}
-          <span className='font-medium text-gray-700'>{email.from}</span>
-          <span className='mx-2 text-gray-300'>&bull;</span>
-          {email.email}
-          <span className='mx-2 text-gray-300'>&bull;</span>
-          {formatDetailDate(new Date(email.date).toLocaleString())}
-        </p>
-
-        {/* Divider */}
-        <hr className='border-gray-100 mb-6' />
-
-        {/* Body */}
-        <div className='w-full mb-8 rounded-xl overflow-hidden border border-gray-200 bg-white shadow-sm'>
-          {email.html ? (
-            <iframe 
-               srcDoc={email.html} 
-               title="Email content" 
-               className="w-full min-h-[600px] bg-white" 
-               frameBorder="0"
-               sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin"
-            />
-          ) : (
-            <p className='text-base text-gray-600 leading-relaxed p-6 whitespace-pre-wrap'>
-              {email.text}
-            </p>
-          )}
-        </div>
-
-        {/* Reply button */}
-        <button
-          type='button'
-          onClick={() => setShowReply(true)}
-          className='group inline-flex cursor-pointer items-center gap-2 overflow-hidden px-5 py-2.5 text-sm font-semibold text-white bg-orange-bg-cta rounded-lg hover:bg-[#e5501a] hover:shadow-[0_4px_14px_rgba(255,101,51,0.35)] transition-all duration-200 active:scale-[0.97]'
-        >
-          <MdReply
-            className='text-lg shrink-0 transition-transform duration-300 ease-out group-hover:translate-x-1'
-            aria-hidden='true'
-          />
-          <span className='inline-block -translate-x-1 transition-transform duration-300 ease-out delay-100 group-hover:translate-x-0'>
-            Reply
-          </span>
-        </button>
-      </div>
-    </div>
-  );
-};
-
-// - EmailCard - mobile layout (< md) -
-const EmailCard = ({ email, onSelect }) => {
-  const client = email.from || 'Unknown';
-  const subject = email.subject || '(No Subject)';
-  const datetime = new Date(email.date).toLocaleString();
-  const status = email.status || 'Unread';
-  const isUnread = status === 'Unread';
-  return (
-    <button
-      type='button'
-      onClick={() => onSelect(email)}
-      className={`w-full text-left p-4 rounded-xl border transition-all duration-150 hover:shadow-sm active:scale-[0.99] ${
-        isUnread ? 'border-blue-100 bg-blue-50/40' : 'border-gray-100 bg-white'
-      }`}
-    >
-      <div className='flex items-start justify-between gap-2 mb-2'>
-        <div className='flex items-center gap-2 min-w-0'>
-          <MdOutlineEmail
-            className={`shrink-0 text-lg ${isUnread ? 'text-blue-500' : 'text-gray-300'}`}
-            aria-hidden='true'
-          />
-          <span
-            className={`text-base truncate ${
-              isUnread
-                ? 'font-semibold text-gray-900'
-                : 'font-medium text-gray-700'
-            }`}
-          >
-            {client}
-          </span>
-        </div>
-        <span
-          className={`inline-flex items-center px-2.5 py-1 rounded-full text-sm font-semibold shrink-0 ${getStatusStyle(status)}`}
-        >
-          {status}
-        </span>
-      </div>
-      <p
-        className={`text-base pl-7 mb-1 ${
-          isUnread ? 'font-semibold text-gray-800' : 'text-gray-600'
-        }`}
-      >
-        {subject}
-      </p>
-      <p className='text-sm text-gray-400 pl-7'>{datetime}</p>
-    </button>
-  );
-};
-
-// - EmailRow - desktop table row (md+) -
-const EmailRow = ({ email, onSelect }) => {
-  const client = email.from || 'Unknown';
-  const subject = email.subject || '(No Subject)';
-  const datetime = new Date(email.date).toLocaleString();
-  const status = email.status || 'Unread';
-  const isUnread = status === 'Unread';
-  return (
-    <tr
-      onClick={() => onSelect(email)}
-      className={`border-b border-gray-50 transition-colors duration-150 cursor-pointer hover:bg-orange-50/40 ${
-        isUnread ? 'bg-blue-50/30' : ''
-      }`}
-    >
-      <td className='py-3.5 px-5'>
-        <div className='flex items-center gap-2.5'>
-          <MdOutlineEmail
-            className={`shrink-0 text-lg ${isUnread ? 'text-blue-500' : 'text-gray-300'}`}
-            aria-hidden='true'
-          />
-          <span
-            className={`text-sm ${
-              isUnread
-                ? 'font-semibold text-gray-900'
-                : 'font-medium text-gray-700'
-            }`}
-          >
-            {client}
-          </span>
-        </div>
-      </td>
-      <td className='py-3.5 px-5'>
-        <span
-          className={`text-sm ${
-            isUnread
-              ? 'font-semibold text-gray-900'
-              : 'font-normal text-gray-600'
-          }`}
-        >
-          {subject}
-        </span>
-      </td>
-      <td className='py-3.5 px-5'>
-        <span className='text-sm text-gray-400 whitespace-nowrap'>
-          {datetime}
-        </span>
-      </td>
-      <td className='py-3.5 px-5'>
-        <span
-          className={`inline-flex items-center px-2.5 py-1 rounded-full text-sm font-semibold ${getStatusStyle(status)}`}
-        >
-          {status}
-        </span>
-      </td>
-    </tr>
-  );
-};
-
-
-export default function Emails() {
-  const navigate = useNavigate();
-  const [page, setPage] = useState(1);
-  const [selectedEmail, setSelected] = useState(null);
-  
-  // Real API states
-  const [emails, setEmails] = useState([]);
-  const [hasNewEmails, setHasNewEmails] = useState(false);
-  const [latestFetchedEmails, setLatestFetchedEmails] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [statsLoading, setStatsLoading] = useState(true);
-  const [totalPages, setTotalPages] = useState(1);
-  const [totalEmails, setTotalEmails] = useState(0);
-  const [stats, setStats] = useState({ unread: 0, today: 0, waiting: 0 });
-
-  const fetchStats = async () => {
-    setStatsLoading(true);
-    try {
-      const res = await apiClient.get('/api/v1/emails/stats');
-      if (res.data.success) {
-        setStats(res.data.data);
-      }
-    } catch (err) {
-      console.error("Failed to fetch stats", err);
-    } finally {
-      setStatsLoading(false);
-    }
-  };
-
-  const fetchEmails = async (pageToFetch) => {
-    try {
-      setLoading(true);
-      const response = await apiClient.get(`/api/v1/emails/inbox?page=${pageToFetch}&limit=${PAGE_SIZE}`);
-      const result = response.data;
-      if (result.success) {
-        setEmails(result.data);
-        setTotalPages(result.meta?.totalPages || 1);
-        setTotalEmails(result.meta?.total || 0);
-      }
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchEmails(page);
-    fetchStats();
-  }, [page]);
-
-  // Polling logic
-  useEffect(() => {
-    let pollingInterval;
-    const startPolling = () => {
-      pollingInterval = setInterval(async () => {
-        try {
-          const response = await apiClient.get(`/api/v1/emails/inbox?page=1&limit=${PAGE_SIZE}`);
-          const result = response.data;
-          if (result.success) {
-            const backgroundEmails = result.data;
-            if (backgroundEmails.length > 0 && emails.length > 0) {
-              if (backgroundEmails[0].id !== emails[0].id) {
-                setLatestFetchedEmails(backgroundEmails);
-                setHasNewEmails(true);
-              }
-            }
-          }
-        } catch (error) {
-          console.error("Polling error:", error);
-        }
-      }, 65000);
-    };
-    
-    if (page === 1) {
-      startPolling();
-    }
-    
-    return () => clearInterval(pollingInterval);
-  }, [page, emails]);
-
-  const refreshInbox = () => {
-    setEmails(latestFetchedEmails);
-    setHasNewEmails(false);
-  };
-
-  const pageRange = useMemo(
-    () => getPageRange(page, totalPages),
-    [page, totalPages]
-  );
-  
-  const rangeStart = (page - 1) * PAGE_SIZE + 1;
-  const rangeEnd = Math.min(page * PAGE_SIZE, totalEmails);
-
-  const handlePage = (p) => setPage(Math.max(1, Math.min(totalPages, p)));
-  const handleSelect = async (email) => {
-    setSelected(email);
-    if (email.status !== 'Read') {
-      try {
-        await apiClient.patch(`/api/v1/emails/${email.id}/read`);
-        setEmails((prev) => prev.map((e) => (e.id === email.id ? { ...e, status: 'Read' } : e)));
-        fetchStats(); // Update the unread count
-      } catch (err) {
-        console.error("Failed to mark as read", err);
-      }
-    }
-  };
-  const handleBack = () => setSelected(null);
-
-  useEffect(() => {
-    document.title = 'Emails - Maktech Admin';
-  }, []);
-
-  return (
-    <div className='space-y-6 relative'>
       {/* Page Header */}
       <div className='flex flex-wrap items-start justify-between gap-4'>
         <div>
           <h1 className='text-2xl sm:text-3xl font-bold text-gray-900 leading-tight'>
-            Emails
+            Emails & Live Tracking
           </h1>
-          <p className='text-base text-gray-500 mt-1'>
-            Manage all client communications
+          <p className='text-sm sm:text-base text-gray-500 mt-1'>
+            Compose client emails and monitor read receipts, open counts, and geolocation in real time
           </p>
         </div>
-        <button
-          type='button'
-          onClick={() => navigate('/admin/compose')}
-          className='group inline-flex cursor-pointer items-center gap-1.5 overflow-hidden px-4 py-2.5 text-sm font-semibold text-white bg-orange-bg-cta rounded-lg hover:bg-[#e5501a] hover:shadow-[0_4px_14px_rgba(255,101,51,0.35)] transition-all duration-200 active:scale-[0.97]'
-        >
-          <MdAdd
-            className='text-lg shrink-0 transition-transform duration-300 ease-out group-hover:translate-x-1'
-            aria-hidden='true'
-          />
-          <span className='inline-block -translate-x-1 transition-transform duration-300 ease-out delay-100 group-hover:translate-x-0'>
-            Compose Email
-          </span>
-        </button>
+        <div className='flex items-center gap-3'>
+          <button
+            type='button'
+            onClick={() => {
+              if (activeTab === 'SENT_TRACKING') fetchSentEmails();
+              else fetchInbox();
+              fetchStats();
+              toast.info('Refreshed email statuses');
+            }}
+            title='Refresh'
+            className='p-2.5 rounded-xl border border-gray-200 bg-white text-gray-600 hover:text-[#ff6533] hover:border-orange-200 shadow-2xs transition cursor-pointer'
+          >
+            <MdRefresh className='text-lg' />
+          </button>
+          <button
+            type='button'
+            onClick={() => navigate('/admin/compose')}
+            className='group inline-flex cursor-pointer items-center gap-1.5 overflow-hidden px-4 py-2.5 text-sm font-semibold text-white bg-orange-bg-cta rounded-xl hover:bg-[#e5501a] hover:shadow-[0_4px_14px_rgba(255,101,51,0.35)] transition-all duration-200 active:scale-[0.97]'
+          >
+            <MdAdd className='text-lg shrink-0 transition-transform duration-300 ease-out group-hover:translate-x-1' />
+            <span>Compose Email</span>
+          </button>
+        </div>
       </div>
 
       {/* Stat Strip */}
-      <div className='grid grid-cols-1 sm:grid-cols-3 gap-5'>
-        {[
-          {
-            Icon: MdEmail,
-            accentColor: '#2563eb',
-            iconBg: 'bg-blue-50',
-            iconColor: 'text-blue-600',
-            badge: 'Inbox',
-            badgeBg: 'bg-blue-50',
-            badgeColor: 'text-blue-700',
-            label: 'Unread Emails',
-            value: stats.unread,
-          },
-          {
-            Icon: MdScheduleSend,
-            accentColor: '#16a34a',
-            iconBg: 'bg-green-50',
-            iconColor: 'text-green-600',
-            badge: 'Today',
-            badgeBg: 'bg-green-50',
-            badgeColor: 'text-green-700',
-            label: 'Emails Today',
-            value: stats.today,
-          },
-          {
-            Icon: MdReply,
-            accentColor: '#d97706',
-            iconBg: 'bg-orange-50',
-            iconColor: 'text-orange-600',
-            badge: 'Pending',
-            badgeBg: 'bg-orange-50',
-            badgeColor: 'text-orange-700',
-            label: 'Waiting for Reply',
-            value: stats.waiting,
-          },
-        ].map((card) => (
-          <StatCard key={card.label} {...card} isLoading={statsLoading} />
+      <div className='grid grid-cols-2 lg:grid-cols-4 gap-4'>
+        {statCardsData.map((card) => (
+          <StatCard key={card.label} {...card} />
         ))}
       </div>
-      
-      {/* Polling Badge */}
-      {hasNewEmails && !selectedEmail && (
-        <div className="flex justify-center mb-4">
-          <button 
-            onClick={refreshInbox} 
-            className="bg-blue-600 text-white px-5 py-2.5 rounded-full shadow-lg text-sm font-medium flex items-center gap-2 hover:bg-blue-700 hover:shadow-xl transition-all duration-200 animate-bounce"
-          >
-            <MdEmail className="text-lg" />
-            New message arrived, click to reload
-          </button>
+
+      {/* Tab Selector Strip */}
+      <div className='flex items-center gap-2 p-1 bg-gray-100/80 rounded-2xl max-w-md'>
+        <button
+          type='button'
+          onClick={() => {
+            setActiveTab('SENT_TRACKING');
+            setSelectedSentEmail(null);
+            setSelectedInboxEmail(null);
+          }}
+          className={`flex-1 py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer flex items-center justify-center gap-2 ${
+            activeTab === 'SENT_TRACKING'
+              ? 'bg-white text-gray-900 shadow-xs'
+              : 'text-gray-500 hover:text-gray-800'
+          }`}
+        >
+          <MdTrackChanges className='text-base text-[#ff6533]' />
+          <span>Send & Tracking ({sentStats.totalSent ?? sentMeta?.total ?? sentEmails.length})</span>
+        </button>
+
+        <button
+          type='button'
+          onClick={() => {
+            setActiveTab('INBOX');
+            setSelectedSentEmail(null);
+            setSelectedInboxEmail(null);
+          }}
+          className={`flex-1 py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer flex items-center justify-center gap-2 ${
+            activeTab === 'INBOX'
+              ? 'bg-white text-gray-900 shadow-xs'
+              : 'text-gray-500 hover:text-gray-800'
+          }`}
+        >
+          <MdEmail className='text-base text-blue-600' />
+          <span>Client Inbox ({inboxStats.unread || 0})</span>
+        </button>
+      </div>
+
+      {/* ─── TAB 1: SENT EMAILS WITH LIVE TRACKING ─── */}
+      {activeTab === 'SENT_TRACKING' && (
+        <div className='space-y-4'>
+          {/* Controls: Filter & Search Bar */}
+          <div className='flex flex-wrap items-center justify-between gap-3 bg-white p-3 rounded-2xl border border-gray-100 shadow-2xs'>
+            <div className='flex items-center gap-2 flex-1 min-w-[240px] px-3 py-1.5 bg-gray-50 rounded-xl border border-gray-200/60'>
+              <MdSearch className='text-gray-400 text-lg shrink-0' />
+              <input
+                type='text'
+                placeholder='Search by recipient email, subject, country...'
+                value={sentSearch}
+                onChange={(e) => {
+                  setSentSearch(e.target.value);
+                  setSentPage(1);
+                }}
+                className='w-full text-xs sm:text-sm bg-transparent outline-none text-gray-800 placeholder:text-gray-400'
+              />
+            </div>
+
+            <div className='flex items-center gap-2'>
+              <span className='text-xs font-semibold text-gray-500 hidden sm:inline'>Filter:</span>
+              <select
+                value={sentFilter}
+                onChange={(e) => {
+                  setSentFilter(e.target.value);
+                  setSentPage(1);
+                }}
+                className='px-3 py-2 bg-gray-50 border border-gray-200/80 rounded-xl text-xs sm:text-sm font-semibold text-gray-700 outline-none cursor-pointer hover:border-gray-300 transition'
+              >
+                <option value='ALL'>All Sent Emails</option>
+                <option value='OPENED'>Opened by Client</option>
+                <option value='CLICKED'>Clicked Links</option>
+                <option value='UNOPENED'>Unopened Yet</option>
+              </select>
+            </div>
+          </div>
+
+          {/* Table Container */}
+          <section className='bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden'>
+            {loadingSent ? (
+              <div className='p-12 flex items-center justify-center'>
+                <div className='w-8 h-8 border-2 border-[#ff6533] border-t-transparent rounded-full animate-spin' />
+              </div>
+            ) : sentEmails.length === 0 ? (
+              <div className='p-12 text-center text-gray-400'>
+                <MdScheduleSend className='text-4xl text-gray-300 mx-auto mb-2' />
+                <p className='text-sm font-semibold text-gray-700'>No sent emails found</p>
+                <p className='text-xs text-gray-400 mt-0.5 mb-4'>
+                  Emails you send to clients with tracking beacons will appear here
+                </p>
+                <button
+                  type='button'
+                  onClick={() => navigate('/admin/compose')}
+                  className='inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold text-white bg-[#ff6533] hover:bg-[#e5501a] transition shadow-xs'
+                >
+                  <MdAdd className='text-base' />
+                  <span>Compose Now</span>
+                </button>
+              </div>
+            ) : (
+              <div className='overflow-x-auto'>
+                <AdminTable columns={SENT_COLS} ariaLabel='Sent tracked emails'>
+                  {sentEmails.map((email) => {
+                    const isOpened = email.isOpened;
+                    const isClicked = email.isClicked;
+
+                    return (
+                      <tr
+                        key={email.id}
+                        onClick={() => setSelectedSentEmail(email)}
+                        className='border-b border-gray-50 transition-colors duration-150 cursor-pointer hover:bg-orange-50/20 group'
+                      >
+                        {/* Recipient */}
+                        <td className='py-4 px-5'>
+                          <div className='flex items-center gap-3'>
+                            <div className='w-9 h-9 rounded-xl bg-gray-100 group-hover:bg-orange-100 text-gray-600 group-hover:text-[#ff6533] flex items-center justify-center font-bold text-xs uppercase shrink-0 transition-colors'>
+                              {email.toEmail.slice(0, 2)}
+                            </div>
+                            <div className='min-w-0'>
+                              <p className='text-sm font-bold text-gray-900 truncate'>{email.toEmail}</p>
+                              <span className='text-[11px] text-gray-400'>Client Recipient</span>
+                            </div>
+                          </div>
+                        </td>
+
+                        {/* Subject */}
+                        <td className='py-4 px-5 max-w-[240px]'>
+                          <p className='text-sm font-semibold text-gray-800 truncate'>
+                            {email.subject || '(No Subject)'}
+                          </p>
+                          <p className='text-xs text-gray-400 truncate mt-0.5'>
+                            {email.text ? email.text.slice(0, 45) + '...' : 'Direct Client Communication'}
+                          </p>
+                        </td>
+
+                        {/* Sent Date */}
+                        <td className='py-4 px-5 whitespace-nowrap'>
+                          <p className='text-xs font-semibold text-gray-700'>
+                            {new Date(email.sentAt).toLocaleDateString('en-US', {
+                              month: 'short',
+                              day: 'numeric',
+                              year: 'numeric',
+                            })}
+                          </p>
+                          <p className='text-[11px] text-gray-400'>
+                            {new Date(email.sentAt).toLocaleTimeString('en-US', {
+                              hour: '2-digit',
+                              minute: '2-digit',
+                            })}
+                          </p>
+                        </td>
+
+                        {/* Read Status Badge */}
+                        <td className='py-4 px-5 whitespace-nowrap'>
+                          {isClicked ? (
+                            <div className='inline-flex flex-col gap-1 items-start'>
+                              <div className='inline-flex items-center gap-1.5 flex-wrap'>
+                                <span className='inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200'>
+                                  <span className='w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping' />
+                                  <span>Opened</span>
+                                </span>
+                                <span className='inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-purple-50 text-purple-700 border border-purple-200'>
+                                  <MdMouse className='text-xs text-purple-600' />
+                                  <span>Link Clicked ({email.clickCount})</span>
+                                </span>
+                              </div>
+                              {(email.lastClickedAt || email.lastOpenedAt) && (
+                                <span className='text-[10px] text-gray-500 pl-1'>
+                                  {email.lastClickedAt
+                                    ? `Clicked at ${new Date(email.lastClickedAt).toLocaleTimeString('en-US', {
+                                        hour: '2-digit',
+                                        minute: '2-digit',
+                                      })}`
+                                    : `Opened at ${new Date(email.lastOpenedAt).toLocaleTimeString('en-US', {
+                                        hour: '2-digit',
+                                        minute: '2-digit',
+                                      })}`}
+                                </span>
+                              )}
+                            </div>
+                          ) : isOpened ? (
+                            <div className='inline-flex flex-col'>
+                              <span className='inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200'>
+                                <span className='w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping' />
+                                <span>Opened</span>
+                              </span>
+                              {email.lastOpenedAt && (
+                                <span className='text-[10px] text-emerald-600 mt-0.5 pl-1'>
+                                  {new Date(email.lastOpenedAt).toLocaleTimeString('en-US', {
+                                    hour: '2-digit',
+                                    minute: '2-digit',
+                                  })}
+                                </span>
+                              )}
+                            </div>
+                          ) : (
+                            <span className='inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-500'>
+                              <MdAccessTime className='text-xs' />
+                              <span>Unopened</span>
+                            </span>
+                          )}
+                        </td>
+
+                        {/* Location & Device */}
+                        <td className='py-4 px-5'>
+                          {email.country || email.city ? (
+                            <div className='text-xs text-gray-700'>
+                              <div className='flex items-center gap-1 font-semibold'>
+                                <MdLocationOn className='text-rose-500 text-sm shrink-0' />
+                                <span>{[email.city, email.country].filter(Boolean).join(', ')}</span>
+                              </div>
+                              <div className='flex items-center gap-1 text-[11px] text-gray-400 mt-0.5'>
+                                <MdDevices className='text-xs shrink-0' />
+                                <span>{[email.device, email.browser].filter(Boolean).join(' • ')}</span>
+                              </div>
+                            </div>
+                          ) : (
+                            <span className='text-xs text-gray-400 italic'>Awaiting first open</span>
+                          )}
+                        </td>
+
+                        {/* Action: Details button */}
+                        <td className='py-4 px-5 text-right whitespace-nowrap'>
+                          <button
+                            type='button'
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setSelectedSentEmail(email);
+                            }}
+                            className='inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold bg-orange-50 hover:bg-[#ff6533] text-[#ff6533] hover:text-white border border-orange-200 hover:border-[#ff6533] transition shadow-2xs group/btn cursor-pointer'
+                          >
+                            <MdVisibility className='text-base group-hover/btn:scale-110 transition-transform' />
+                            <span>Details</span>
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </AdminTable>
+              </div>
+            )}
+
+            {/* Pagination */}
+            {sentMeta && sentMeta.totalPages > 1 && (
+              <div className='flex flex-col sm:flex-row items-center justify-between gap-3 px-6 py-4 border-t border-gray-100 bg-gray-50/50'>
+                <p className='text-xs text-gray-500'>
+                  Showing <span className='font-bold text-gray-700'>{(sentPage - 1) * PAGE_SIZE + 1} to {Math.min(sentPage * PAGE_SIZE, sentMeta.total)}</span> of{' '}
+                  <span className='font-bold text-gray-700'>{sentMeta.total}</span> emails
+                </p>
+                <Pagination
+                  page={sentPage}
+                  totalPages={sentMeta.totalPages}
+                  pageRange={getPageRange(sentPage, sentMeta.totalPages)}
+                  onPage={(p) => setSentPage(p)}
+                />
+              </div>
+            )}
+          </section>
         </div>
       )}
 
-      {/* Detail view or Inbox */}
-      {selectedEmail ? (
-        <EmailDetail email={selectedEmail} onBack={handleBack} />
-      ) : (
-        <section
-          aria-label='Email inbox'
-          className='bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden min-h-[400px]'
-        >
-          {loading ? (
-             <div className="flex justify-center items-center h-[300px]">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
-             </div>
-          ) : emails.length === 0 ? (
-             <div className="flex justify-center items-center h-[300px] text-gray-500">
-                No emails found.
-             </div>
+      {/* ─── TAB 2: CLIENT INBOX VIEW ─── */}
+      {activeTab === 'INBOX' && (
+        <section className='bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden'>
+          {loadingInbox ? (
+            <div className='p-12 flex items-center justify-center'>
+              <div className='w-8 h-8 border-2 border-[#ff6533] border-t-transparent rounded-full animate-spin' />
+            </div>
+          ) : inboxEmails.length === 0 ? (
+            <div className='p-12 text-center text-gray-400'>
+              <MdEmail className='text-4xl text-gray-300 mx-auto mb-2' />
+              <p className='text-sm font-semibold text-gray-700'>Inbox is empty</p>
+              <p className='text-xs text-gray-400 mt-0.5'>No incoming messages found</p>
+            </div>
           ) : (
-             <>
-                {/* Mobile: card list (< md) */}
-                <div className='md:hidden p-4 space-y-3'>
-                  {emails.map((email) => (
-                    <EmailCard key={email.id} email={email} onSelect={handleSelect} />
-                  ))}
-                </div>
+            <div className='divide-y divide-gray-100'>
+              {inboxEmails.map((email) => {
+                const isUnread = email.status !== 'Read';
+                return (
+                  <div
+                    key={email.id}
+                    onClick={() => handleSelectInboxEmail(email)}
+                    className={`p-4 sm:p-5 transition cursor-pointer flex items-start justify-between gap-4 ${
+                      isUnread ? 'bg-blue-50/30 hover:bg-blue-50/50' : 'hover:bg-orange-50/20'
+                    }`}
+                  >
+                    <div className='flex items-start gap-3 min-w-0'>
+                      <div
+                        className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 font-bold text-sm ${
+                          isUnread ? 'bg-blue-600 text-white shadow-xs' : 'bg-gray-100 text-gray-600'
+                        }`}
+                      >
+                        {email.from.slice(0, 2).toUpperCase()}
+                      </div>
+                      <div className='min-w-0'>
+                        <div className='flex items-center gap-2'>
+                          <p
+                            className={`text-sm truncate ${
+                              isUnread ? 'font-extrabold text-gray-900' : 'font-semibold text-gray-700'
+                            }`}
+                          >
+                            {email.from}
+                          </p>
+                          <span
+                            className={`text-[11px] font-bold px-2 py-0.5 rounded-md ${
+                              isUnread
+                                ? 'bg-blue-100 text-blue-700 border border-blue-200'
+                                : 'bg-gray-100 text-gray-600'
+                            }`}
+                          >
+                            {email.status}
+                          </span>
+                        </div>
+                        <p
+                          className={`text-sm mt-0.5 truncate ${
+                            isUnread ? 'font-bold text-gray-900' : 'font-medium text-gray-700'
+                          }`}
+                        >
+                          {email.subject}
+                        </p>
+                        <p className='text-xs text-gray-500 mt-1 line-clamp-2'>{email.text || email.body}</p>
+                      </div>
+                    </div>
+                    <div className='text-right shrink-0'>
+                      <span className='text-xs text-gray-400 whitespace-nowrap block'>
+                        {new Date(email.date).toLocaleDateString()}
+                      </span>
+                      {isUnread && (
+                        <span className='inline-block w-2 h-2 rounded-full bg-blue-600 mt-1.5' />
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
 
-                {/* Desktop: table (md+) */}
-                <div className='hidden md:block overflow-x-auto'>
-                  <AdminTable columns={EMAIL_COLS} ariaLabel='Client emails'>
-                    {emails.map((email) => (
-                      <EmailRow
-                        key={email.id}
-                        email={email}
-                        onSelect={handleSelect}
-                      />
-                    ))}
-                  </AdminTable>
-                </div>
-
-                {/* Bottom bar */}
-                <div className='flex flex-col items-center gap-3 px-5 py-4 border-t border-gray-100 sm:flex-row sm:items-center sm:justify-between'>
-                  <p className='text-sm text-gray-400 shrink-0'>
-                    Showing{' '}
-                    <span className='font-semibold text-gray-700'>
-                      {totalEmails === 0 ? 0 : rangeStart} to {rangeEnd}
-                    </span>{' '}
-                    of{' '}
-                    <span className='font-semibold text-gray-700'>
-                      {totalEmails}
-                    </span>{' '}
-                    emails
-                  </p>
-                  <nav aria-label='Pagination'>
-                    <Pagination
-                      page={page}
-                      totalPages={totalPages}
-                      pageRange={pageRange}
-                      onPage={handlePage}
-                    />
-                  </nav>
-                </div>
-             </>
+          {/* Inbox Pagination */}
+          {inboxMeta && inboxMeta.totalPages > 1 && (
+            <div className='flex flex-col sm:flex-row items-center justify-between gap-3 px-6 py-4 border-t border-gray-100 bg-gray-50/50'>
+              <p className='text-xs text-gray-500'>
+                Showing <span className='font-bold text-gray-700'>{(inboxPage - 1) * PAGE_SIZE + 1} to {Math.min(inboxPage * PAGE_SIZE, inboxMeta.total)}</span> of{' '}
+                <span className='font-bold text-gray-700'>{inboxMeta.total}</span> messages
+              </p>
+              <Pagination
+                page={inboxPage}
+                totalPages={inboxMeta.totalPages}
+                pageRange={getPageRange(inboxPage, inboxMeta.totalPages)}
+                onPage={(p) => setInboxPage(p)}
+              />
+            </div>
           )}
         </section>
       )}

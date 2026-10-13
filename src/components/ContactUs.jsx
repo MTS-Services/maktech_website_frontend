@@ -432,7 +432,7 @@ const ContactUs = () => {
                     style={{ padding: '13px 28px' }}
                   >
                     <span className='inline-block -translate-x-0.5 transition-transform duration-300 ease-out delay-75 group-hover:translate-x-0'>
-                      Letâ€™s Start
+                      Let’s Start
                     </span>
                     <span
                       className='w-7 h-7 flex items-center justify-center rounded-full bg-white shrink-0 transition-transform duration-300 ease-out group-hover:translate-x-1'
