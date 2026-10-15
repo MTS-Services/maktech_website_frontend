@@ -16,29 +16,64 @@ const LINE_POSITIONS = [12, 30, 50, 68, 88];
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('admin123@MAKtechgroup.com');
+  const [password, setPassword] = useState('admin123@MAKtechgroup');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!email || !password) {
+      setErrorMsg('Please enter both email and password.');
+      toast.error('Please enter both email and password.');
+      return;
+    }
+
     setIsLoading(true);
+    setErrorMsg('');
+
     try {
-      const response = await apiClient.post("/api/v1/auth/login", { email, password });
-      if (response.data.success) {
-        Cookies.set("authToken", response.data.data.token, { expires: 7 });
-        toast.success(response.data.message || "Logged in successfully");
-        const destination = "/admin/dashboard";
+      const response = await apiClient.post('/api/v1/auth/login', {
+        email: email.trim(),
+        password: password,
+      });
+
+      const token = response.data?.data?.token;
+      const user = response.data?.data?.user;
+
+      if (token) {
+        // Store in localStorage so ProtectedRoute & apiClient immediately detect it
+        localStorage.setItem('authToken', token);
+        if (user) {
+          localStorage.setItem('authUser', JSON.stringify(user));
+        }
+
+        // Also safely try cookie if js-cookie is present
+        try {
+          if (typeof Cookies !== 'undefined' && Cookies.set) {
+            Cookies.set('authToken', token, { expires: 7 });
+          }
+        } catch {
+          // ignore cookie failure
+        }
+
+        toast.success(response.data?.message || 'Admin logged in successfully!');
+        const destination = location.state?.from ?? '/admin/dashboard';
         navigate(destination, { replace: true });
+      } else {
+        const msg = 'Authentication failed: No token received from server.';
+        setErrorMsg(msg);
+        toast.error(msg);
       }
     } catch (error) {
-      if (error.response?.data?.errorMessages?.length > 0) {
-        toast.error(error.response.data.errorMessages[0].message);
-      } else {
-        toast.error(error.response?.data?.message || "Failed to login");
-      }
-      console.error("Login error:", error);
+      console.error('Login error:', error);
+      const serverMessage =
+        error.response?.data?.message ||
+        error.response?.data?.errorMessages?.[0]?.message ||
+        'Invalid email or password.';
+      setErrorMsg(serverMessage);
+      toast.error(serverMessage);
     } finally {
       setIsLoading(false);
     }
@@ -192,6 +227,12 @@ const Login = () => {
 
               {/* Form */}
               <form onSubmit={handleSubmit} className='space-y-4' noValidate>
+                {errorMsg && (
+                  <div className='p-3 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-300 text-xs flex items-center gap-2'>
+                    <span className='w-1.5 h-1.5 rounded-full bg-rose-500 shrink-0' />
+                    <span>{errorMsg}</span>
+                  </div>
+                )}
                 {/* Email */}
                 <div>
                   <label

@@ -55,8 +55,13 @@ const Sidebar = ({
   const navigate = useNavigate();
 
   const handleLogout = () => {
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('authUser');
+    if (typeof document !== 'undefined') {
+      document.cookie = 'authToken=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    }
     toast.success('Signed out successfully');
-    setTimeout(() => navigate('/login'), 900);
+    setTimeout(() => navigate('/login'), 500);
   };
 
   return (

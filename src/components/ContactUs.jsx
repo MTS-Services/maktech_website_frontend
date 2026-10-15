@@ -1,18 +1,115 @@
-import { useState } from 'react';
+import axios from 'axios';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import CustomSelect from './CustomSelect';
+import apiClient from '../services/apiClient';
+import { toast } from 'react-toastify';
+import {
+  MdCalendarToday,
+  MdAccessTime,
+  MdPublic,
+  MdCheckCircle,
+  MdEventBusy,
+  MdRefresh,
+  MdClose,
+} from 'react-icons/md';
+import MeetingBookingModal from './MeetingBookingModal';
+import {
+  POPULAR_TIMEZONES,
+  getUserTimezone,
+  getTimezoneSummary,
+  generateMeetingSlots,
+  BST_TIMEZONE,
+  getLocationFromTimezone,
+} from '../utils/timezoneHelper';
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({
     fullName: '',
     companyName: '',
     email: '',
+    phone: '',
     service: '',
     budget: '',
     industry: '',
-    meetingDate: '',
     message: '',
   });
 
+  // Calculate smart default date (if past 5 PM BST, default to tomorrow)
+  const defaultDateStr = useMemo(() => {
+    const now = new Date();
+    const bstHour = (now.getUTCHours() + 6) % 24;
+    if (bstHour >= 17) {
+      const tomorrow = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+      return tomorrow.toISOString().split('T')[0];
+    }
+    return now.toISOString().split('T')[0];
+  }, []);
+
+  const [bookingDate, setBookingDate] = useState(defaultDateStr);
+  const [visitorTimezone, setVisitorTimezone] = useState(() => getUserTimezone());
+  const [isMeetingModalOpen, setIsMeetingModalOpen] = useState(false);
+  const tzSummary = useMemo(() => getTimezoneSummary(visitorTimezone), [visitorTimezone]);
+  const [bookedSlots, setBookedSlots] = useState([]);
+  const [loadingSlots, setLoadingSlots] = useState(false);
+  const [selectedSlot, setSelectedSlot] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submittedBooking, setSubmittedBooking] = useState(null);
+
+  // Minimum selectable date is today
+  const minDateStr = useMemo(() => new Date().toISOString().split('T')[0], []);
+
+  // Timezone options (ensuring user's detected timezone is included)
+  const timezoneOptions = useMemo(() => {
+    const exists = POPULAR_TIMEZONES.some((tz) => tz.value === visitorTimezone);
+    if (!exists && visitorTimezone) {
+      return [{ value: visitorTimezone, label: `${visitorTimezone} (Local detected)` }, ...POPULAR_TIMEZONES];
+    }
+    return POPULAR_TIMEZONES;
+  }, [visitorTimezone]);
+
+  // Fetch booked slots from backend
+  const fetchBookedSlots = useCallback(async (date) => {
+    setLoadingSlots(true);
+    try {
+      let res;
+      try {
+        res = await apiClient.get(`/api/v1/leads/booked-slots${date ? `?date=${date}` : ''}`);
+      } catch (primaryErr) {
+        // If primary remote API fails (e.g. endpoint not deployed yet on production server),
+        // fallback to local backend on port 5000 when running in local dev
+        if (
+          typeof window !== 'undefined' &&
+          (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+        ) {
+          try {
+            res = await axios.get(`http://localhost:5000/api/v1/leads/booked-slots${date ? `?date=${date}` : ''}`);
+          } catch (localErr) {
+            throw primaryErr;
+          }
+        } else {
+          throw primaryErr;
+        }
+      }
+      if (res?.data?.success && Array.isArray(res.data.data)) {
+        setBookedSlots(res.data.data);
+      }
+    } catch (err) {
+      console.warn('Failed to fetch booked slots:', err);
+    } finally {
+      setLoadingSlots(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchBookedSlots(bookingDate);
+  }, [bookingDate, fetchBookedSlots]);
+
+  // Compute available slots in visitor's local timezone
+  const slots = useMemo(() => {
+    return generateMeetingSlots(bookingDate, visitorTimezone, bookedSlots);
+  }, [bookingDate, visitorTimezone, bookedSlots]);
+
+  // Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -21,8 +118,88 @@ const ContactUs = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  // Handle slot selection/deselection
+  const handleSlotClick = (slot) => {
+    if (!slot.isAvailable) return;
+    if (selectedSlot?.iso === slot.iso) {
+      setSelectedSlot(null); // toggle off
+    } else {
+      setSelectedSlot(slot);
+    }
+  };
+
+  // Form Submission
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!formData.fullName.trim()) {
+      toast.error('Please enter your full name');
+      return;
+    }
+    if (!formData.email.trim()) {
+      toast.error('Please enter your email address');
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const effectiveTimezone = visitorTimezone || getUserTimezone();
+      const detectedLocation = getLocationFromTimezone(effectiveTimezone);
+
+      const payload = {
+        fullName: formData.fullName.trim(),
+        companyName: formData.companyName.trim() || undefined,
+        email: formData.email.trim(),
+        phone: formData.phone.trim() || undefined,
+        service: formData.service || undefined,
+        budget: formData.budget ? Number(formData.budget) : undefined,
+        industry: formData.industry.trim() || undefined,
+        message: formData.message.trim() || undefined,
+        meetingDate: selectedSlot ? selectedSlot.iso : undefined,
+        timezone: effectiveTimezone || undefined,
+        location: detectedLocation || undefined,
+      };
+
+      const res = await apiClient.post('/api/v1/leads', payload);
+      if (res.data?.success) {
+        toast.success(
+          selectedSlot
+            ? 'Meeting booked & inquiry submitted successfully!'
+            : 'Your message has been submitted successfully!'
+        );
+
+        setSubmittedBooking({
+          lead: res.data.data,
+          slot: selectedSlot,
+          timezone: visitorTimezone,
+        });
+
+        // Reset form inputs
+        setFormData({
+          fullName: '',
+          companyName: '',
+          email: '',
+          phone: '',
+          service: '',
+          budget: '',
+          industry: '',
+          message: '',
+        });
+        setSelectedSlot(null);
+        // Refresh booked slots list to update taken slot
+        fetchBookedSlots(bookingDate);
+      }
+    } catch (err) {
+      const msg = err.response?.data?.message || 'Failed to submit inquiry. Please try again.';
+      toast.error(msg);
+      if (err.response?.status === 409) {
+        // Slot was taken in the meantime!
+        fetchBookedSlots(bookingDate);
+        setSelectedSlot(null);
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -59,13 +236,13 @@ const ContactUs = () => {
                   background:
                     'radial-gradient(circle at 35% 30%, rgba(255,101,51,0.95), rgba(255,101,51,0.6) 40%, rgba(255,101,51,0.25) 70%)',
                 }}
-              ></span>
+              />
               <span
                 className='w-2 h-2 rounded-full'
                 style={{
                   background: 'linear-gradient(180deg, #ff8a5a, #ff6533)',
                 }}
-              ></span>
+              />
             </div>
             <span className='text-base font-medium text-white'>
               Let&apos;s talk
@@ -99,7 +276,7 @@ const ContactUs = () => {
 
           {/* Outer Wrapper Box */}
           <div
-            className='p-5 md:p-6 xl:p-8'
+            className='p-5 md:p-6 xl:p-8 rounded-2xl'
             style={{
               backgroundColor: 'rgba(66, 66, 66, 0.2)',
               backdropFilter: 'blur(20px)',
@@ -110,7 +287,7 @@ const ContactUs = () => {
             <div className='grid grid-cols-1 xl:grid-cols-2 gap-6 xl:gap-8'>
               {/* Left Side - Company Info Box */}
               <div
-                className='p-3 md:p-8 xl:p-10 '
+                className='p-5 md:p-8 xl:p-10 rounded-xl'
                 style={{
                   backgroundColor: 'rgba(66, 66, 66, 0.2)',
                   backdropFilter: 'blur(20px)',
@@ -125,7 +302,7 @@ const ContactUs = () => {
                   </h3>
                   <p className='text-[#AAAAAA] text-sm md:text-base lg:text-lg'>
                     We&apos;re a digital-first team helping businesses build
-                    meaningful
+                    meaningful, scalable digital solutions worldwide.
                   </p>
                 </div>
 
@@ -238,7 +415,7 @@ const ContactUs = () => {
                   </div>
                 </div>
 
-                {/* Social Media */}
+                {/* Instant Query via WhatsApp */}
                 <div>
                   <p className='text-white text-sm md:text-base font-medium mb-4'>
                     Instant Query
@@ -248,7 +425,7 @@ const ContactUs = () => {
                       href='https://wa.me/8801897669233'
                       target='_blank'
                       rel='noopener noreferrer'
-                      className='w-10 h-10 rounded-lg text-white  bg-[#3a3a3a] hover:bg-orange-bg-cta border border-white/5 flex items-center justify-center transition-all duration-200'
+                      className='w-10 h-10 rounded-lg text-white bg-[#3a3a3a] hover:bg-orange-bg-cta border border-white/5 flex items-center justify-center transition-all duration-200'
                       aria-label='WhatsApp'
                     >
                       <svg
@@ -267,7 +444,7 @@ const ContactUs = () => {
 
               {/* Right Side - Form Box */}
               <div
-                className='p-5 md:p-8 xl:p-10'
+                className='p-5 md:p-8 xl:p-10 rounded-xl'
                 style={{
                   backgroundColor: 'rgba(66, 66, 66, 0.2)',
                   backdropFilter: 'blur(20px)',
@@ -275,190 +452,335 @@ const ContactUs = () => {
                   border: '1px solid rgba(255, 255, 255, 0.1)',
                 }}
               >
-                <form onSubmit={handleSubmit} className='space-y-5'>
-                  {/* Full Name */}
-                  <div>
-                    <label className='text-white-bg-cta text-base md:text-lg mb-2 block'>
-                      Full Name
-                    </label>
-                    <input
-                      type='text'
-                      name='fullName'
-                      placeholder='Full Name'
-                      value={formData.fullName}
-                      onChange={handleChange}
-                      className='w-full px-4 py-3 bg-[#3F3F3F] border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-orange-bg-cta transition-colors duration-200'
-                    />
-                  </div>
+                {submittedBooking ? (
+                  /* Success Confirmation Screen */
+                  <div className='py-8 text-center space-y-5 animate-in fade-in duration-300'>
+                    <div className='w-16 h-16 mx-auto rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-3xl border border-emerald-500/30'>
+                      <MdCheckCircle />
+                    </div>
+                    <div>
+                      <h3 className='text-2xl font-bold text-white'>
+                        {submittedBooking.slot ? 'Meeting Booked Successfully!' : 'Inquiry Submitted!'}
+                      </h3>
+                      <p className='text-sm text-gray-300 mt-2 max-w-md mx-auto'>
+                        Thank you <span className='font-semibold text-white'>{submittedBooking.lead?.fullName}</span>. We have received your inquiry and will reach out to you shortly at <span className='text-[#ff8a5a] font-medium'>{submittedBooking.lead?.email}</span>.
+                      </p>
+                    </div>
 
-                  {/* Company Name and Email */}
-                  <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
+                    {submittedBooking.slot && (
+                      <div className='p-5 rounded-xl bg-white/5 border border-white/10 text-left space-y-2.5 max-w-md mx-auto'>
+                        <div className='flex items-center gap-2 text-xs font-bold text-[#ff6533] uppercase tracking-wider'>
+                          <MdCalendarToday />
+                          <span>Confirmed Meeting Schedule</span>
+                        </div>
+                        <div className='text-sm text-white pt-1 space-y-1.5'>
+                          <p>
+                            <span className='text-gray-400 text-xs block'>Your Local Time:</span>
+                            <span className='font-bold text-base text-white'>{submittedBooking.slot.localDateLabel} at {submittedBooking.slot.localTimeLabel}</span>{' '}
+                            <span className='text-xs text-gray-400'>({submittedBooking.timezone})</span>
+                          </p>
+                          <p className='pt-0.5 text-xs text-emerald-400/90'>
+                            &bull; Meeting invitation and calendar invite will be sent to your email.
+                          </p>
+                        </div>
+                      </div>
+                    )}
+
+                    <div className='pt-3'>
+                      <button
+                        type='button'
+                        onClick={() => setSubmittedBooking(null)}
+                        className='px-6 py-2.5 rounded-full bg-orange-bg-cta hover:bg-[#e5501a] text-white text-xs font-bold shadow-md transition cursor-pointer'
+                      >
+                        Send Another Inquiry
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <form onSubmit={handleSubmit} className='space-y-5'>
+                    {/* Full Name */}
                     <div>
                       <label className='text-white-bg-cta text-base md:text-lg mb-2 block'>
-                        Company Name
+                        Full Name <span className='text-red-400'>*</span>
                       </label>
                       <input
                         type='text'
-                        name='companyName'
-                        placeholder='Company Name'
-                        value={formData.companyName}
+                        name='fullName'
+                        required
+                        placeholder='Full Name'
+                        value={formData.fullName}
                         onChange={handleChange}
                         className='w-full px-4 py-3 bg-[#3F3F3F] border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-orange-bg-cta transition-colors duration-200'
                       />
                     </div>
-                    <div>
-                      <label className='text-white-bg-cta text-base md:text-lg mb-2 block'>
-                        Email
-                      </label>
-                      <input
-                        type='email'
-                        name='email'
-                        placeholder='Email'
-                        value={formData.email}
-                        onChange={handleChange}
-                        className='w-full px-4 py-3 bg-[#3F3F3F] border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-orange-bg-cta transition-colors duration-200'
-                      />
-                    </div>
-                  </div>
 
-                  {/* Service and Budget */}
-                  <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
-                    <div>
-                      <label className='text-white-bg-cta text-base md:text-lg mb-2 block'>
-                        Service
-                      </label>
-                      <CustomSelect
-                        name='service'
-                        value={formData.service}
-                        onChange={handleChange}
-                        placeholder='Service'
-                        options={[
-                          { value: 'ui-ux', label: 'UI/UX Design' },
-                          { value: 'mern', label: 'MERN Stack Development' },
-                          {
-                            value: 'application',
-                            label: 'Application Development',
-                          },
-                          {
-                            value: 'ecommerce',
-                            label: 'E-Commerce Development',
-                          },
-                          { value: 'marketing', label: 'Digital Marketing' },
-                          {
-                            value: 'wordpress',
-                            label: 'WordPress Development',
-                          },
-                          { value: 'shopify', label: 'Shopify Development' },
-                          { value: 'wix', label: 'WIX Development' },
-                          { value: 'graphic', label: 'Graphic Design' },
-                          { value: 'other', label: 'Other' },
-                        ]}
-                      />
-                    </div>
-                    <div>
-                      <label className='text-white-bg-cta text-base md:text-lg mb-2 block'>
-                        Budget
-                      </label>
-                      <div className='relative'>
-                        <span className='absolute left-4 top-1/2 -translate-y-1/2 text-white pointer-events-none'>
-                          $
-                        </span>
+                    {/* Company Name and Email */}
+                    <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
+                      <div>
+                        <label className='text-white-bg-cta text-base md:text-lg mb-2 block'>
+                          Company Name
+                        </label>
                         <input
-                          type='number'
-                          name='budget'
-                          placeholder='Enter your budget'
-                          value={formData.budget}
+                          type='text'
+                          name='companyName'
+                          placeholder='Company Name'
+                          value={formData.companyName}
                           onChange={handleChange}
-                          className='w-full pl-8 pr-4 py-3 bg-[#3F3F3F] border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-orange-bg-cta transition-colors duration-200'
+                          className='w-full px-4 py-3 bg-[#3F3F3F] border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-orange-bg-cta transition-colors duration-200'
+                        />
+                      </div>
+                      <div>
+                        <label className='text-white-bg-cta text-base md:text-lg mb-2 block'>
+                          Email <span className='text-red-400'>*</span>
+                        </label>
+                        <input
+                          type='email'
+                          name='email'
+                          required
+                          placeholder='Email Address'
+                          value={formData.email}
+                          onChange={handleChange}
+                          className='w-full px-4 py-3 bg-[#3F3F3F] border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-orange-bg-cta transition-colors duration-200'
                         />
                       </div>
                     </div>
-                  </div>
 
-                  {/* Industry */}
-                  <div>
-                    <label className='text-white-bg-cta text-base md:text-lg mb-2 block'>
-                      Industry
-                    </label>
-                    <input
-                      type='text'
-                      name='industry'
-                      placeholder='Full industry name'
-                      value={formData.industry}
-                      onChange={handleChange}
-                      className='w-full px-4 py-3 bg-[#3F3F3F] border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-orange-bg-cta transition-colors duration-200'
-                    />
-                  </div>
+                    {/* Phone and Service */}
+                    <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
+                      <div>
+                        <label className='text-white-bg-cta text-base md:text-lg mb-2 block'>
+                          Phone / WhatsApp
+                        </label>
+                        <input
+                          type='tel'
+                          name='phone'
+                          placeholder='+1 234 567 8900'
+                          value={formData.phone}
+                          onChange={handleChange}
+                          className='w-full px-4 py-3 bg-[#3F3F3F] border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-orange-bg-cta transition-colors duration-200'
+                        />
+                      </div>
+                      <div>
+                        <label className='text-white-bg-cta text-base md:text-lg mb-2 block'>
+                          Service
+                        </label>
+                        <CustomSelect
+                          name='service'
+                          value={formData.service}
+                          onChange={handleChange}
+                          placeholder='Select Service'
+                          options={[
+                            { value: 'ui-ux', label: 'UI/UX Design' },
+                            { value: 'mern', label: 'MERN Stack Development' },
+                            {
+                              value: 'application',
+                              label: 'Application Development',
+                            },
+                            {
+                              value: 'ecommerce',
+                              label: 'E-Commerce Development',
+                            },
+                            { value: 'marketing', label: 'Digital Marketing' },
+                            {
+                              value: 'wordpress',
+                              label: 'WordPress Development',
+                            },
+                            { value: 'shopify', label: 'Shopify Development' },
+                            { value: 'wix', label: 'WIX Development' },
+                            { value: 'graphic', label: 'Graphic Design' },
+                            { value: 'other', label: 'Other' },
+                          ]}
+                        />
+                      </div>
+                    </div>
 
-                  {/* Book a Meeting */}
-                  <div>
-                    <label className='text-white-bg-cta text-base md:text-lg mb-2 flex items-center gap-2'>
-                      Book a Meeting <span className='text-gray-400 text-sm font-normal'>(Optional)</span>
-                    </label>
-                    <input
-                      type='datetime-local'
-                      name='meetingDate'
-                      value={formData.meetingDate}
-                      onChange={handleChange}
-                      onClick={(e) => {
-                        try { e.target.showPicker(); } catch (err) {}
-                      }}
-                      className='w-full px-4 py-3 bg-[#3F3F3F] border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-orange-bg-cta transition-colors duration-200 cursor-pointer'
-                      style={{ colorScheme: 'dark' }}
-                    />
-                    <p className='text-gray-400 text-sm mt-2'>
-                      Want to discuss your project directly? Pick a date and time for a quick Google Meet.
-                    </p>
-                  </div>
+                    {/* Budget and Industry */}
+                    <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
+                      <div>
+                        <label className='text-white-bg-cta text-base md:text-lg mb-2 block'>
+                          Budget ($ USD)
+                        </label>
+                        <div className='relative'>
+                          <span className='absolute left-4 top-1/2 -translate-y-1/2 text-white pointer-events-none'>
+                            $
+                          </span>
+                          <input
+                            type='number'
+                            name='budget'
+                            placeholder='e.g. 5000'
+                            value={formData.budget}
+                            onChange={handleChange}
+                            className='w-full pl-8 pr-4 py-3 bg-[#3F3F3F] border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-orange-bg-cta transition-colors duration-200'
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <label className='text-white-bg-cta text-base md:text-lg mb-2 block'>
+                          Industry
+                        </label>
+                        <input
+                          type='text'
+                          name='industry'
+                          placeholder='e.g. Fintech, Healthcare, Retail'
+                          value={formData.industry}
+                          onChange={handleChange}
+                          className='w-full px-4 py-3 bg-[#3F3F3F] border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-orange-bg-cta transition-colors duration-200'
+                        />
+                      </div>
+                    </div>
 
-                  {/* Message */}
-                  <div>
-                    <label className='text-white-bg-cta text-base md:text-lg mb-2 block'>
-                      Message
-                    </label>
-                    <textarea
-                      name='message'
-                      placeholder='Message'
-                      value={formData.message}
-                      onChange={handleChange}
-                      rows='4'
-                      className='w-full px-4 py-3 bg-[#3F3F3F] border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-orange-bg-cta transition-colors duration-200 resize-none'
-                    />
-                  </div>
+                    {/* ─── MEETING & CONSULTATION BOOKING TRIGGER ─── */}
+                    <div>
+                      <div className='flex items-center justify-between mb-2'>
+                        <label className='text-white-bg-cta text-base md:text-lg block'>
+                          Meeting &amp; Consultation <span className='text-xs text-gray-400 font-normal'>(Optional)</span>
+                        </label>
+                        {selectedSlot && (
+                          <button
+                            type='button'
+                            onClick={() => setSelectedSlot(null)}
+                            className='text-xs text-rose-400 hover:text-rose-300 underline cursor-pointer'
+                          >
+                            Remove Meeting
+                          </button>
+                        )}
+                      </div>
 
-                  {/* Submit Button */}
-                  <button
-                    className='relative z-10 group inline-flex items-center gap-3 overflow-hidden bg-orange-bg-cta hover:bg-[#e5501a] hover:shadow-[0_4px_20px_rgba(255,101,51,0.45)] text-white font-semibold rounded-full transition-all duration-200 active:scale-[0.97]'
-                    style={{ padding: '13px 28px' }}
-                  >
-                    <span className='inline-block -translate-x-0.5 transition-transform duration-300 ease-out delay-75 group-hover:translate-x-0'>
-                      Let’s Start
-                    </span>
-                    <span
-                      className='w-7 h-7 flex items-center justify-center rounded-full bg-white shrink-0 transition-transform duration-300 ease-out group-hover:translate-x-1'
-                      aria-hidden='true'
-                    >
-                      <svg
-                        width='14'
-                        height='14'
-                        viewBox='0 0 16 16'
-                        fill='none'
-                        stroke='black'
-                        strokeWidth='2'
-                        strokeLinecap='round'
-                        strokeLinejoin='round'
-                        aria-hidden='true'
+                      {!selectedSlot ? (
+                        <button
+                          type='button'
+                          onClick={() => setIsMeetingModalOpen(true)}
+                          className='w-full px-3.5 sm:px-4 py-3 bg-[#3F3F3F] hover:bg-[#474747] border border-white/10 hover:border-[#ff6533] rounded-lg text-left transition-all duration-200 cursor-pointer flex items-center justify-between gap-2 group shadow-xs focus:outline-none focus:border-orange-bg-cta'
+                        >
+                          <div className='flex items-center gap-2.5 min-w-0 flex-1'>
+                            <MdCalendarToday className='text-[#ff6533] text-lg sm:text-xl shrink-0' />
+                            <span className='text-xs sm:text-base font-medium text-gray-300 group-hover:text-white truncate'>
+                              Select Meeting Date &amp; Time
+                            </span>
+                          </div>
+                          <span className='inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-[#ff6533]/15 text-[#ff8a5a] text-xs font-semibold border border-[#ff6533]/30 group-hover:bg-[#ff6533] group-hover:text-white transition-all shrink-0'>
+                            <span>Pick Slot</span>
+                            <span aria-hidden='true'>&rarr;</span>
+                          </span>
+                        </button>
+                      ) : (
+                        <div className='p-3 sm:p-3.5 bg-gradient-to-r from-orange-500/15 via-[#ff6533]/10 to-transparent border border-[#ff6533]/40 rounded-lg flex items-center justify-between gap-2.5 shadow-md'>
+                          <div className='flex items-center gap-2.5 min-w-0 flex-1'>
+                            <div className='w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-[#ff6533] text-white flex items-center justify-center text-base sm:text-lg shrink-0 shadow-sm'>
+                              <MdCalendarToday />
+                            </div>
+                            <div className='min-w-0 flex-1'>
+                              <p className='text-xs sm:text-sm font-bold text-white leading-snug truncate'>
+                                {selectedSlot.localDateLabel} &bull; {selectedSlot.localTimeLabel}
+                              </p>
+                              <p className='text-[10px] sm:text-xs text-gray-400 mt-0.5 truncate'>
+                                {tzSummary.cityName} Time &bull; Auto-adjusted
+                              </p>
+                            </div>
+                          </div>
+
+                          <div className='flex items-center gap-1.5 shrink-0'>
+                            <button
+                              type='button'
+                              onClick={() => setIsMeetingModalOpen(true)}
+                              className='px-2.5 py-1 rounded-md bg-white/10 hover:bg-[#ff6533] text-white text-xs font-semibold transition cursor-pointer'
+                            >
+                              Change
+                            </button>
+                            <button
+                              type='button'
+                              onClick={() => setSelectedSlot(null)}
+                              title='Remove meeting'
+                              className='p-1 rounded-md text-gray-400 hover:text-rose-400 hover:bg-rose-500/10 transition cursor-pointer'
+                            >
+                              <MdClose className='text-base' />
+                            </button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Message */}
+                    <div>
+                      <label className='text-white-bg-cta text-base md:text-lg mb-2 block'>
+                        Message
+                      </label>
+                      <textarea
+                        name='message'
+                        placeholder='Tell us about your project goals and requirements...'
+                        value={formData.message}
+                        onChange={handleChange}
+                        rows='3'
+                        className='w-full px-4 py-3 bg-[#3F3F3F] border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-orange-bg-cta transition-colors duration-200 resize-none'
+                      />
+                    </div>
+
+                    {/* Submit Button */}
+                    <div className='pt-2'>
+                      <button
+                        type='submit'
+                        disabled={isSubmitting}
+                        className={`relative z-10 group inline-flex items-center gap-3 overflow-hidden bg-orange-bg-cta hover:bg-[#e5501a] hover:shadow-[0_4px_20px_rgba(255,101,51,0.45)] text-white font-semibold rounded-full transition-all duration-200 active:scale-[0.97] cursor-pointer ${
+                          isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
+                        }`}
+                        style={{ padding: '13px 28px' }}
                       >
-                        <path d='M3 8h10M9 4l4 4-4 4' />
-                      </svg>
-                    </span>
-                  </button>
-                </form>
+                        {isSubmitting ? (
+                          <span className='inline-flex items-center gap-2'>
+                            <span className='w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin' />
+                            <span>Submitting...</span>
+                          </span>
+                        ) : (
+                          <>
+                            <span className='inline-block -translate-x-0.5 transition-transform duration-300 ease-out delay-75 group-hover:translate-x-0'>
+                              {selectedSlot ? 'Book Meeting & Submit' : 'Let’s Start'}
+                            </span>
+                            <span
+                              className='w-7 h-7 flex items-center justify-center rounded-full bg-white shrink-0 transition-transform duration-300 ease-out group-hover:translate-x-1'
+                              aria-hidden='true'
+                            >
+                              <svg
+                                width='14'
+                                height='14'
+                                viewBox='0 0 16 16'
+                                fill='none'
+                                stroke='black'
+                                strokeWidth='2'
+                                strokeLinecap='round'
+                                strokeLinejoin='round'
+                                aria-hidden='true'
+                              >
+                                <path d='M3 8h10M9 4l4 4-4 4' />
+                              </svg>
+                            </span>
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  </form>
+                )}
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Meeting Booking Modal */}
+      <MeetingBookingModal
+        isOpen={isMeetingModalOpen}
+        onClose={() => setIsMeetingModalOpen(false)}
+        initialSlot={selectedSlot}
+        onConfirmSlot={(slot) => setSelectedSlot(slot)}
+        bookingDate={bookingDate}
+        setBookingDate={setBookingDate}
+        minDateStr={minDateStr}
+        visitorTimezone={visitorTimezone}
+        setVisitorTimezone={setVisitorTimezone}
+        timezoneOptions={timezoneOptions}
+        tzSummary={tzSummary}
+        slots={slots}
+        loadingSlots={loadingSlots}
+      />
     </section>
   );
 };
