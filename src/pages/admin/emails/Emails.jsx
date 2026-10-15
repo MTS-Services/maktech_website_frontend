@@ -355,6 +355,7 @@ export default function Emails() {
   // Sent Emails State
   const [sentEmails, setSentEmails] = useState([]);
   const [loadingSent, setLoadingSent] = useState(true);
+  const [loadingSentStats, setLoadingSentStats] = useState(true);
   const [sentPage, setSentPage] = useState(1);
   const [sentMeta, setSentMeta] = useState(null);
   const [sentStats, setSentStats] = useState({
@@ -371,13 +372,15 @@ export default function Emails() {
 
   // Inbox State
   const [inboxEmails, setInboxEmails] = useState([]);
-  const [loadingInbox, setLoadingInbox] = useState(false);
+  const [loadingInbox, setLoadingInbox] = useState(true);
   const [inboxPage, setInboxPage] = useState(1);
   const [inboxMeta, setInboxMeta] = useState(null);
   const [selectedInboxEmail, setSelectedInboxEmail] = useState(null);
 
   // Overall Stats
   const [inboxStats, setInboxStats] = useState({ unread: 0, today: 0 });
+  const [loadingStats, setLoadingStats] = useState(true);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   useEffect(() => {
     document.title = 'Emails & Tracking – Maktech Admin';
@@ -419,6 +422,7 @@ export default function Emails() {
       console.warn('Failed to fetch sent emails:', err);
     } finally {
       setLoadingSent(false);
+      setLoadingSentStats(false);
     }
   }, [sentPage, sentFilter, sentSearch]);
 
@@ -447,8 +451,31 @@ export default function Emails() {
       }
     } catch (err) {
       console.warn('Failed to fetch stats:', err);
+    } finally {
+      setLoadingStats(false);
     }
   }, []);
+
+  // Handle Refreshing all email data
+  const handleRefresh = async () => {
+    setIsRefreshing(true);
+    setLoadingSentStats(true);
+    setLoadingStats(true);
+    try {
+      await Promise.allSettled([
+        fetchSentEmails(),
+        fetchStats(),
+        fetchInbox(),
+      ]);
+      toast.info('Refreshed email statuses');
+    } catch (err) {
+      console.warn('Failed to refresh email data:', err);
+    } finally {
+      setIsRefreshing(false);
+      setLoadingSentStats(false);
+      setLoadingStats(false);
+    }
+  };
 
   useEffect(() => {
     fetchSentEmails();
@@ -459,10 +486,8 @@ export default function Emails() {
   }, [fetchStats]);
 
   useEffect(() => {
-    if (activeTab === 'INBOX' && inboxEmails.length === 0) {
-      fetchInbox();
-    }
-  }, [activeTab, inboxEmails.length, fetchInbox]);
+    fetchInbox();
+  }, [fetchInbox]);
 
   /**
    * Handle selecting an inbox email:
@@ -519,6 +544,9 @@ export default function Emails() {
   }
 
   // Stat Cards Configuration
+  const isSentCardsLoading = loadingSentStats || isRefreshing;
+  const isInboxCardLoading = loadingStats || isRefreshing;
+
   const statCardsData = [
     {
       Icon: MdScheduleSend,
@@ -530,6 +558,7 @@ export default function Emails() {
       badgeColor: 'text-orange-700',
       label: 'Total Sent',
       value: (sentStats.totalSent ?? sentMeta?.total ?? 0).toString(),
+      loading: isSentCardsLoading,
     },
     {
       Icon: MdVisibility,
@@ -541,6 +570,7 @@ export default function Emails() {
       badgeColor: 'text-emerald-700',
       label: 'Read Rate',
       value: `${sentStats.totalOpened ?? 0} Opened`,
+      loading: isSentCardsLoading,
     },
     {
       Icon: MdMouse,
@@ -552,6 +582,7 @@ export default function Emails() {
       badgeColor: 'text-purple-700',
       label: 'Links Clicked',
       value: (sentStats.totalClickCount ?? sentStats.totalClicked ?? 0).toString(),
+      loading: isSentCardsLoading,
     },
     {
       Icon: MdEmail,
@@ -563,6 +594,7 @@ export default function Emails() {
       badgeColor: 'text-blue-700',
       label: 'Unread Inbox',
       value: inboxStats.unread ? inboxStats.unread.toString() : '0',
+      loading: isInboxCardLoading,
     },
   ];
 
@@ -576,7 +608,7 @@ export default function Emails() {
   ];
 
   return (
-    <div className='space-y-6'>
+    <div className='space-y-6 pb-8'>
       {/* Page Header */}
       <div className='flex flex-wrap items-start justify-between gap-4'>
         <div>
@@ -590,16 +622,14 @@ export default function Emails() {
         <div className='flex items-center gap-3'>
           <button
             type='button'
-            onClick={() => {
-              if (activeTab === 'SENT_TRACKING') fetchSentEmails();
-              else fetchInbox();
-              fetchStats();
-              toast.info('Refreshed email statuses');
-            }}
+            onClick={handleRefresh}
+            disabled={isRefreshing}
             title='Refresh'
-            className='p-2.5 rounded-xl border border-gray-200 bg-white text-gray-600 hover:text-[#ff6533] hover:border-orange-200 shadow-2xs transition cursor-pointer'
+            className={`p-2.5 rounded-xl border border-gray-200 bg-white text-gray-600 hover:text-[#ff6533] hover:border-orange-200 shadow-2xs transition cursor-pointer ${
+              isRefreshing ? 'opacity-70 cursor-not-allowed' : ''
+            }`}
           >
-            <MdRefresh className='text-lg' />
+            <MdRefresh className={`text-lg ${isRefreshing ? 'animate-spin text-[#ff6533]' : ''}`} />
           </button>
           <button
             type='button'
@@ -635,7 +665,14 @@ export default function Emails() {
           }`}
         >
           <MdTrackChanges className='text-base text-[#ff6533]' />
-          <span>Send & Tracking ({sentStats.totalSent ?? sentMeta?.total ?? sentEmails.length})</span>
+          <span className='inline-flex items-center gap-1.5'>
+            <span>Send & Tracking</span>
+            {isSentCardsLoading ? (
+              <span className='inline-block w-5 h-4 rounded-full bg-orange-100 animate-pulse' />
+            ) : (
+              <span>({sentStats.totalSent ?? sentMeta?.total ?? sentEmails.length})</span>
+            )}
+          </span>
         </button>
 
         <button
@@ -652,7 +689,14 @@ export default function Emails() {
           }`}
         >
           <MdEmail className='text-base text-blue-600' />
-          <span>Client Inbox ({inboxStats.unread || 0})</span>
+          <span className='inline-flex items-center gap-1.5'>
+            <span>Client Inbox</span>
+            {isInboxCardLoading ? (
+              <span className='inline-block w-5 h-4 rounded-full bg-blue-100 animate-pulse' />
+            ) : (
+              <span>({inboxStats.unread ?? 0})</span>
+            )}
+          </span>
         </button>
       </div>
 
@@ -860,7 +904,9 @@ export default function Emails() {
 
             {/* Pagination */}
             {sentMeta && sentMeta.totalPages > 1 && (
-              <div className='flex flex-col sm:flex-row items-center justify-between gap-3 px-6 py-4 border-t border-gray-100 bg-gray-50/50'>
+              <div className={`flex flex-col sm:flex-row items-center justify-between gap-3 px-6 py-4 border-t border-gray-100 bg-gray-50/50 transition-opacity ${
+                loadingSent ? 'opacity-50 pointer-events-none' : ''
+              }`}>
                 <p className='text-xs text-gray-500'>
                   Showing <span className='font-bold text-gray-700'>{(sentPage - 1) * PAGE_SIZE + 1} to {Math.min(sentPage * PAGE_SIZE, sentMeta.total)}</span> of{' '}
                   <span className='font-bold text-gray-700'>{sentMeta.total}</span> emails
@@ -881,8 +927,9 @@ export default function Emails() {
       {activeTab === 'INBOX' && (
         <section className='bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden'>
           {loadingInbox ? (
-            <div className='p-12 flex items-center justify-center'>
+            <div className='p-12 flex flex-col items-center justify-center gap-3'>
               <div className='w-8 h-8 border-2 border-[#ff6533] border-t-transparent rounded-full animate-spin' />
+              <p className='text-xs font-semibold text-gray-400'>Loading inbox messages...</p>
             </div>
           ) : inboxEmails.length === 0 ? (
             <div className='p-12 text-center text-gray-400'>
@@ -955,7 +1002,9 @@ export default function Emails() {
 
           {/* Inbox Pagination */}
           {inboxMeta && inboxMeta.totalPages > 1 && (
-            <div className='flex flex-col sm:flex-row items-center justify-between gap-3 px-6 py-4 border-t border-gray-100 bg-gray-50/50'>
+            <div className={`flex flex-col sm:flex-row items-center justify-between gap-3 px-6 py-4 border-t border-gray-100 bg-gray-50/50 transition-opacity ${
+              loadingInbox ? 'opacity-50 pointer-events-none' : ''
+            }`}>
               <p className='text-xs text-gray-500'>
                 Showing <span className='font-bold text-gray-700'>{(inboxPage - 1) * PAGE_SIZE + 1} to {Math.min(inboxPage * PAGE_SIZE, inboxMeta.total)}</span> of{' '}
                 <span className='font-bold text-gray-700'>{inboxMeta.total}</span> messages
