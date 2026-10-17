@@ -5,7 +5,8 @@ import { Link } from "react-router-dom";
 // All numbers below are the exact values that component uses.
 const SCROLL_DISTANCE = 650; // px of page scroll per slide
 const TURN_DURATION = 1.1; // seconds, used when a ticker label is clicked
-const CUBE_SIZE = 440; // Framer default is 360; enlarged for this site
+const CUBE_SIZE = 520; // Framer default is 360; enlarged for this site
+const STAGE_RATIO = 1.25; // stage height per cube height (Framer: 1.42), lets cubes grow on short screens
 const TITLE_SCALE = 17; // % of cube size
 const FACE_COLOR = "rgb(41, 41, 45)";
 const ACCENT = "rgb(255, 96, 56)";
@@ -85,7 +86,7 @@ const CubeFlow = ({ slides }) => {
   const sideSpace = isPhone ? 64 : isTablet ? 128 : 160;
   const cube = Math.max(
     1,
-    Math.min(CUBE_SIZE, (width - sideSpace) / 2, (height - 110) / 1.42),
+    Math.min(CUBE_SIZE, (width - sideSpace) / 2, (height - 110) / STAGE_RATIO),
   );
   const pitch = isPhone
     ? clamp(width / 3, 96, 140)
@@ -507,7 +508,7 @@ const CubeFlow = ({ slides }) => {
           tabIndex={0}
           onKeyDown={(e) => handleKeyDown(e)}
           className="relative flex w-full items-center justify-center outline-offset-[-12px]"
-          style={{ minHeight: cube * 1.42 }}
+          style={{ minHeight: cube * STAGE_RATIO }}
         >
           {[-1, 1].map((side) => (
             <div
