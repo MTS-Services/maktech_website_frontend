@@ -146,25 +146,41 @@ const services = [
 
 const slides = services.map(createServiceCardSlide)
 
-// Based on the Framer "CMS Gallery" settings; the card is widened and made
-// taller so the full service card reads clearly at rest.
-const GALLERY = { width: 44, height: 60, gap: 22, curve: 0.72, bend: 0.85, momentum: 0.65 }
+// Based on the Framer "CMS Gallery" settings; the card is sized so a full
+// service card reads clearly within the space left under the heading.
+const GALLERY = { width: 40, height: 62, gap: 22, curve: 0.72, bend: 0.85, momentum: 0.65 }
 // Intro orbit plays inside this section against the page's dark background
 const INTRO = { mark: 'MAKTECH', background: '#1c1c1c', color: '#FF6533' }
 const CAPTION = { color: '#FFFFFF' }
 
 const ServiceCaseStudyCard = () => {
   return (
-    <section className='relative h-[clamp(680px,100svh,960px)] w-full overflow-hidden'>
-      <OrbitGallery
-        slides={slides}
-        gallery={GALLERY}
-        intro={INTRO}
-        caption={CAPTION}
-        autoplay={38}
-        holdOnHover
-        ariaLabel='Our services. Drag horizontally or use left and right arrow keys.'
-      />
+    <section className='relative flex h-screen min-h-155 w-full flex-col overflow-hidden'>
+      <div className='flex shrink-0 justify-center px-5 pt-20 pb-6 sm:px-8 sm:pt-24 md:pb-8 xl:pt-12'>
+        <div className='w-full container px-5 xl:px-8 2xl:px-12'>
+          <p className='text-[20px] leading-[1.3] text-[#DBDBDB] md:text-[26px] lg:text-[32px]'>
+            The team understood our vision from day one. The final product was
+            clean, fast, and exactly what we needed to scale.
+            <span className='text-[#838383] italic'>
+              {' '}
+              The team understood our vision from day one. The final product was
+              clean, fast, and exactly what we needed to scale.
+            </span>
+          </p>
+        </div>
+      </div>
+
+      <div className='relative min-h-0 flex-1'>
+        <OrbitGallery
+          slides={slides}
+          gallery={GALLERY}
+          intro={INTRO}
+          caption={CAPTION}
+          autoplay={38}
+          holdOnHover
+          ariaLabel='Our services. Drag horizontally or use left and right arrow keys.'
+        />
+      </div>
     </section>
   )
 }

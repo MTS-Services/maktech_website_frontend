@@ -857,19 +857,28 @@ const createEngine = (canvas, region, markEl, cardsLayer, cfg) => {
   }
 
   const onMove = (e) => {
-    const { inside } = within(e)
-    hovering = inside
+    const spot = within(e)
+    // Auto-scroll pauses only while the pointer is over a card, not anywhere
+    // in the section, so empty space keeps scrolling.
+    const overCard =
+      spot.inside &&
+      !onInteractive(e) &&
+      poses.some((p) => {
+        if (p.opacity <= 0.9) return false
+        const mx = ((e.clientX - spot.rect.left) * metrics.w) / Math.max(1, spot.rect.width)
+        const my = ((e.clientY - spot.rect.top) * metrics.h) / Math.max(1, spot.rect.height)
+        return pointInPoly(mx, my, perimeter(p, metrics, !!renderer?.ready()))
+      })
+    hovering = overCard
     if (caption) {
-      if (inside) keyFocus = false
+      if (spot.inside) keyFocus = false
       hoverPt =
-        e.pointerType !== 'touch' &&
-        window.matchMedia('(hover: hover)').matches &&
-        inside &&
-        !onInteractive(e)
+        e.pointerType !== 'touch' && window.matchMedia('(hover: hover)').matches && overCard
           ? { x: e.clientX, y: e.clientY }
           : null
       paintCaption()
     }
+    if (!dragging && !hovering) schedule() // resume auto-scroll off the cards
     if (!dragging || e.pointerId !== pointerId) return
     const dx = e.clientX - grabX
     const dy = e.clientY - grabY
