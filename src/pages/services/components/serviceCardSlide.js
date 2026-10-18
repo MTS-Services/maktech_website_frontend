@@ -1,9 +1,11 @@
-// Draws a service case-study card onto a canvas so CurveFlowCarousel can use
+// Draws a service case-study card onto a canvas so OrbitGallery can use
 // it as a WebGL texture (the ribbon bends every pixel column differently,
 // which DOM/CSS cannot do). Two layouts, picked by the requested aspect ratio:
 // the desktop card mirrors the original two-column card, the portrait card is
 // a stacked version for phones. All sizes are in design pixels.
-const LANDSCAPE = { w: 1000, h: 640 };
+// Landscape ratio ≈ 1.28 so it matches the Orbit card rect (cardH = cardW * 0.78),
+// which keeps the card from being cropped when drawn as a cover-fit texture.
+const LANDSCAPE = { w: 1000, h: 780 };
 const PORTRAIT = { w: 360, h: 600 };
 
 export const LANDSCAPE_RATIO = LANDSCAPE.w / LANDSCAPE.h;
@@ -183,46 +185,46 @@ const drawButton = (ctx, label, x, y, h, size) => {
 
 const drawLandscape = (ctx, service, img) => {
   const { w, h } = LANDSCAPE;
-  const pad = 48;
+  const pad = 56;
   const col = (w - pad * 3) / 2;
   const left = pad;
   const right = pad * 2 + col;
 
   // Left column: badge, title, image
-  drawBadge(ctx, service.badge, left, pad, 30, 13);
-  let y = pad + 30 + 20;
-  setFont(ctx, 700, 32);
+  drawBadge(ctx, service.badge, left, pad, 36, 15);
+  let y = pad + 36 + 22;
+  setFont(ctx, 700, 40);
   ctx.fillStyle = COLORS.title;
-  y += drawLines(ctx, wrapLines(ctx, service.title, col, 2), left, y, 36);
-  y += 28;
-  drawCover(ctx, img, left, y, col, (col * 9) / 16, 8);
+  y += drawLines(ctx, wrapLines(ctx, service.title, col, 2), left, y, 46);
+  y += 30;
+  drawCover(ctx, img, left, y, col, (col * 9) / 16, 10);
 
   // Right column: results, description, lists, button
   let ry = pad;
-  setFont(ctx, 600, 21);
+  setFont(ctx, 600, 26);
   ctx.fillStyle = COLORS.body;
-  ry += drawLines(ctx, ["Results."], right, ry, 28);
+  ry += drawLines(ctx, ["Results."], right, ry, 34);
   ry += 6;
-  setFont(ctx, 400, 15.5);
-  ry += drawLines(ctx, wrapLines(ctx, service.results, col, 2), right, ry, 23);
-  ry += 18;
-  ry += drawLines(ctx, wrapLines(ctx, service.description, col, 3), right, ry, 25);
-  ry += 24;
-  setFont(ctx, 600, 21);
+  setFont(ctx, 400, 19);
+  ry += drawLines(ctx, wrapLines(ctx, service.results, col, 2), right, ry, 28);
+  ry += 20;
+  ry += drawLines(ctx, wrapLines(ctx, service.description, col, 3), right, ry, 28);
+  ry += 26;
+  setFont(ctx, 600, 26);
   ctx.fillStyle = COLORS.heading;
-  ry += drawLines(ctx, ["What We Build"], right, ry, 28);
+  ry += drawLines(ctx, ["What We Build"], right, ry, 34);
   ry += 10;
-  ry += drawBullets(ctx, service.build.slice(0, 4), right, ry, col, 13.5, 24);
-  ry += 22;
-  setFont(ctx, 600, 21);
+  ry += drawBullets(ctx, service.build.slice(0, 4), right, ry, col, 18, 32);
+  ry += 24;
+  setFont(ctx, 600, 26);
   ctx.fillStyle = COLORS.heading;
-  ry += drawLines(ctx, ["Our Operations"], right, ry, 28);
-  ry += 8;
-  setFont(ctx, 400, 13.5);
+  ry += drawLines(ctx, ["Our Operations"], right, ry, 34);
+  ry += 10;
+  setFont(ctx, 400, 18);
   ctx.fillStyle = COLORS.body;
-  drawLines(ctx, OPERATIONS, right, ry, 20);
+  drawLines(ctx, OPERATIONS, right, ry, 26);
 
-  drawButton(ctx, "See Our Work", right, h - pad - 48, 48, 16);
+  drawButton(ctx, "See Our Work", right, h - pad - 56, 56, 20);
 };
 
 const drawPortrait = (ctx, service, img) => {
@@ -256,7 +258,7 @@ const drawPortrait = (ctx, service, img) => {
 };
 
 /**
- * Turns a service into a CurveFlowCarousel slide whose face is drawn on a
+ * Turns a service into an OrbitGallery slide whose face is drawn on a
  * canvas. `prepare` loads the image and fonts once; `draw` renders the card at
  * the exact pixel size the carousel shows it, so text stays sharp.
  */
@@ -270,16 +272,21 @@ export const createServiceCardSlide = (service) => {
         img = loaded;
       }),
     draw: (width, height) => {
-      const portrait = width / height < 1;
+      const portrait = width / height < 0.85;
       const design = portrait ? PORTRAIT : LANDSCAPE;
       const canvas = document.createElement("canvas");
       canvas.width = width;
       canvas.height = height;
       const ctx = canvas.getContext("2d");
       if (!ctx) return null;
-      ctx.scale(width / design.w, height / design.h);
+      // Card background fills the whole rect, then the design is drawn centred
+      // with a uniform (contain) scale — never stretched, never cropped. Any
+      // leftover space is the same card colour, so it reads as a clean card.
       ctx.fillStyle = COLORS.card;
-      ctx.fillRect(0, 0, design.w, design.h);
+      ctx.fillRect(0, 0, width, height);
+      const s = Math.min(width / design.w, height / design.h);
+      ctx.translate((width - design.w * s) / 2, (height - design.h * s) / 2);
+      ctx.scale(s, s);
       if (portrait) drawPortrait(ctx, service, img);
       else drawLandscape(ctx, service, img);
       return canvas;

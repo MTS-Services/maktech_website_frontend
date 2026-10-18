@@ -1,10 +1,5 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
-import CurveFlowCarousel from './CurveFlowCarousel'
-import {
-  LANDSCAPE_RATIO,
-  PORTRAIT_RATIO,
-  createServiceCardSlide,
-} from './serviceCardSlide'
+import OrbitGallery from './OrbitGallery'
+import { createServiceCardSlide } from './serviceCardSlide'
 
 const services = [
   {
@@ -151,92 +146,25 @@ const services = [
 
 const slides = services.map(createServiceCardSlide)
 
-// Cards drift slowly and stop while hovered so they can be read and clicked
-const DRIVE = { holdOnHover: true }
+// Based on the Framer "CMS Gallery" settings; the card is widened and made
+// taller so the full service card reads clearly at rest.
+const GALLERY = { width: 44, height: 60, gap: 22, curve: 0.72, bend: 0.85, momentum: 0.65 }
+// Intro orbit plays inside this section against the page's dark background
+const INTRO = { mark: 'MAKTECH', background: '#1c1c1c', color: '#FF6533' }
+const CAPTION = { color: '#FFFFFF' }
 
 const ServiceCaseStudyCard = () => {
-  const linePositions = [12, 30, 50, 68, 88]
-  const stageRef = useRef(null)
-  const [stageWidth, setStageWidth] = useState(1440)
-
-  useEffect(() => {
-    const observer = new ResizeObserver(([entry]) => {
-      if (entry.contentRect.width > 0) setStageWidth(entry.contentRect.width)
-    })
-    observer.observe(stageRef.current)
-    return () => observer.disconnect()
-  }, [])
-
-  // Stacked portrait cards on phones/tablets, the original two-column card
-  // above. `share` is the fraction of the width the centred card takes; the
-  // flat zone matches it so the centred card is never bent, only neighbours.
-  const portrait = stageWidth < 900
-  const share = portrait ? 0.8 : stageWidth < 1280 ? 0.8 : 0.64
-  const ratio = portrait ? PORTRAIT_RATIO : LANDSCAPE_RATIO
-  const designHeight = portrait ? 600 : 640
-
-  const frame = useMemo(
-    () => ({
-      ratio,
-      heightPct: portrait ? 86 : 66,
-      heightCap: Math.round(Math.min(designHeight, (stageWidth * share) / ratio)),
-      spacing: portrait ? 14 : 24,
-      corner: 8,
-      anchor: 50,
-      offset: 0, // centred: equal gap above and below
-    }),
-    [ratio, portrait, designHeight, stageWidth, share],
-  )
-  const curve = useMemo(
-    () => ({ flatPct: Math.round(share * 100), edgeScale: 1.5 }),
-    [share],
-  )
-
   return (
-    <section className='relative overflow-hidden'>
-      <div className='pointer-events-none absolute inset-0 z-0'>
-        {linePositions.map((position, index) => (
-          <div
-            key={index}
-            className='absolute top-0 bottom-0 w-px bg-linear-to-b from-transparent via-black/20 to-transparent'
-            style={{ left: `${position}%` }}
-          >
-            <div
-              className='absolute w-0.5 h-12 rounded-full opacity-60 animate-dropFall'
-              style={{
-                left: '50%',
-                transform: 'translateX(-50%)',
-                background:
-                  'linear-gradient(to bottom, rgba(255,255,255,0.1), #FF6533)',
-                animationDelay: `${index * 2}s`,
-              }}
-            />
-            <div
-              className='absolute w-0.5 h-10 rounded-full opacity-45 animate-dropFall'
-              style={{
-                left: '50%',
-                transform: 'translateX(-50%)',
-                background:
-                  'linear-gradient(to bottom, rgba(255,255,255,0.1), #FF6533)',
-                animationDelay: `${index * 2 + 4}s`,
-              }}
-            />
-          </div>
-        ))}
-      </div>
-
-      <div
-        ref={stageRef}
-        className='relative z-10 h-[clamp(620px,100svh,880px)] w-full'
-      >
-        <CurveFlowCarousel
-          slides={slides}
-          frame={frame}
-          curve={curve}
-          drive={DRIVE}
-          ariaLabel='Our services'
-        />
-      </div>
+    <section className='relative h-[clamp(680px,100svh,960px)] w-full overflow-hidden'>
+      <OrbitGallery
+        slides={slides}
+        gallery={GALLERY}
+        intro={INTRO}
+        caption={CAPTION}
+        autoplay={38}
+        holdOnHover
+        ariaLabel='Our services. Drag horizontally or use left and right arrow keys.'
+      />
     </section>
   )
 }
