@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
+import { FaFacebook, FaInstagram, FaLinkedinIn, FaXTwitter } from "react-icons/fa6";
 
 const navLinks = [
   { label: "Home", to: "/" },
@@ -33,19 +34,25 @@ const companyMegaItems = [
   { title: "contact us", slug: "contact-us", path: "/contact" },
 ];
 
+const socials = [
+  { label: "Instagram", href: "https://www.instagram.com/maktechgroup/", Icon: FaInstagram },
+  { label: "LinkedIn", href: "https://www.linkedin.com/company/maktechgroup", Icon: FaLinkedinIn },
+  { label: "Facebook", href: "https://www.facebook.com/maktechgroup", Icon: FaFacebook },
+  { label: "X (Twitter)", href: "https://x.com/MakTechSolution", Icon: FaXTwitter },
+];
+
 const navItemBaseClass =
   "inline-flex items-center gap-1 rounded-[8px] px-4 py-2 text-[15px] 2xl:text-[16px] font-medium text-white/70 transition-colors duration-200 hover:bg-white/8 hover:text-white lg:px-[14px] 2xl:px-4";
 
 const navItemActiveClass = "text-white border border-[#ff6533]";
 
-const NavItem = ({ link, onNavigate, delay }) => (
+const NavItem = ({ link, onNavigate }) => (
   <NavLink
     to={link.to}
     className={({ isActive }) =>
       `${navItemBaseClass} ${isActive ? navItemActiveClass : ""}`
     }
     onClick={onNavigate}
-    style={{ transitionDelay: `${delay}ms` }}
   >
     {link.label}
     {link.hasDropdown && (
@@ -102,12 +109,102 @@ const MegaMenuCard = ({ item, onNavigate }) => (
   </NavLink>
 );
 
+// One row of the fullscreen mobile menu: number + large label, with an
+// optional expandable sub-list (Services / Company).
+const MobileNavRow = ({ link, index, menuOpen, items, expanded, onToggle, onNavigate }) => {
+  const number = String(index + 1).padStart(2, "0");
+  // Staggered reveal: each row slides up, fades and unblurs in order
+  const revealStyle = {
+    transitionDelay: menuOpen ? `${140 + index * 65}ms` : "0ms",
+  };
+  const revealClass = `transition-all duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${
+    menuOpen ? "translate-y-0 opacity-100 blur-0" : "translate-y-6 opacity-0 blur-[6px]"
+  }`;
+
+  const rowInner = (
+    <>
+      <span className="text-[13px] font-medium text-orange-bg-cta tabular-nums">{number}</span>
+      <span className="flex-1 text-[34px] leading-[1.15] font-semibold tracking-[-0.01em] text-white transition-colors duration-200 group-hover:text-orange-bg-cta sm:text-[40px]">
+        {link.label}
+      </span>
+      {items && (
+        <svg
+          className={`mt-2 shrink-0 text-white/60 transition-transform duration-300 ${expanded ? "rotate-180" : ""}`}
+          width="18"
+          height="18"
+          viewBox="0 0 10 10"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.3"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M2 3.5L5 6.5L8 3.5" />
+        </svg>
+      )}
+    </>
+  );
+
+  return (
+    <div className={`border-b border-white/10 ${revealClass}`} style={revealStyle}>
+      {items ? (
+        <button
+          type="button"
+          onClick={onToggle}
+          className="group flex w-full items-start gap-4 py-4 text-left"
+          aria-expanded={expanded}
+        >
+          {rowInner}
+        </button>
+      ) : (
+        <NavLink
+          to={link.to}
+          onClick={onNavigate}
+          className="group flex w-full items-start gap-4 py-4"
+        >
+          {rowInner}
+        </NavLink>
+      )}
+
+      {items && (
+        <div
+          className={`overflow-hidden transition-all duration-400 ease-[cubic-bezier(0.4,0,0.2,1)] ${
+            expanded ? "max-h-[520px] opacity-100" : "max-h-0 opacity-0"
+          }`}
+        >
+          <div className="grid grid-cols-1 gap-1 pb-4 pl-9 sm:grid-cols-2">
+            <NavLink
+              to={link.to}
+              onClick={onNavigate}
+              className="col-span-full rounded-md bg-white/10 px-3 py-2 text-[14px] font-semibold text-white no-underline transition-colors duration-200 hover:bg-orange-bg-cta"
+            >
+              View all {link.label.toLowerCase()}
+            </NavLink>
+            {items.map((item) => (
+              <NavLink
+                key={item.slug}
+                to={item.path}
+                onClick={onNavigate}
+                className="rounded-md bg-white/5 px-3 py-2 text-[14px] text-white/80 no-underline transition-colors duration-200 hover:bg-orange-bg-cta hover:text-white"
+              >
+                {item.title}
+              </NavLink>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
 const Navbar = () => {
   const [visible, setVisible] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isServicesMegaOpen, setIsServicesMegaOpen] = useState(false);
   const [isCompanyMegaOpen, setIsCompanyMegaOpen] = useState(false);
+  // Which row is expanded inside the fullscreen mobile menu
+  const [mobileExpanded, setMobileExpanded] = useState(null);
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 1024);
@@ -120,366 +217,346 @@ const Navbar = () => {
     };
   }, []);
 
+  // Lock page scroll while the fullscreen menu is open
+  useEffect(() => {
+    const locked = menuOpen && isMobile;
+    document.body.style.overflow = locked ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [menuOpen, isMobile]);
+
+  // Close the menu when the viewport grows into the desktop pill
+  useEffect(() => {
+    if (!isMobile && menuOpen) setMenuOpen(false);
+  }, [isMobile, menuOpen]);
+
   const openServicesMegaMenu = () => {
-    if (!isMobile) {
-      setIsServicesMegaOpen(true);
-    }
+    if (!isMobile) setIsServicesMegaOpen(true);
   };
-
-  const closeServicesMegaMenu = () => {
-    setIsServicesMegaOpen(false);
-  };
-
+  const closeServicesMegaMenu = () => setIsServicesMegaOpen(false);
   const openCompanyMegaMenu = () => {
-    if (!isMobile) {
-      setIsCompanyMegaOpen(true);
-    }
+    if (!isMobile) setIsCompanyMegaOpen(true);
   };
-
-  const closeCompanyMegaMenu = () => {
-    setIsCompanyMegaOpen(false);
-  };
+  const closeCompanyMegaMenu = () => setIsCompanyMegaOpen(false);
 
   const handleServicesItemBlur = (event) => {
-    if (!event.currentTarget.contains(event.relatedTarget)) {
-      closeServicesMegaMenu();
-    }
+    if (!event.currentTarget.contains(event.relatedTarget)) closeServicesMegaMenu();
   };
-
   const handleCompanyItemBlur = (event) => {
-    if (!event.currentTarget.contains(event.relatedTarget)) {
-      closeCompanyMegaMenu();
-    }
+    if (!event.currentTarget.contains(event.relatedTarget)) closeCompanyMegaMenu();
   };
 
   const handleNavigate = () => {
     setMenuOpen(false);
+    setMobileExpanded(null);
     closeServicesMegaMenu();
     closeCompanyMegaMenu();
   };
 
-  const handleServicesLinkClick = (event) => {
-    if (isMobile) {
-      event.preventDefault();
-      setIsServicesMegaOpen((prev) => !prev);
-      setIsCompanyMegaOpen(false);
-      return;
-    }
-    handleNavigate();
-  };
-
-  const handleCompanyLinkClick = (event) => {
-    if (isMobile) {
-      event.preventDefault();
-      setIsCompanyMegaOpen((prev) => !prev);
-      setIsServicesMegaOpen(false);
-      return;
-    }
-  };
+  const toggleMobileRow = (label) =>
+    setMobileExpanded((prev) => (prev === label ? null : label));
 
   return (
-    <nav
-      className="fixed z-[1000] flex w-full items-center justify-between gap-0 bg-[rgba(28,28,28,0.95)] px-5 py-4 shadow-[0_2px_8px_rgba(0,0,0,0.3)] transition-all duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] [backdrop-filter:blur(18px)] lg:w-[90%] xl:w-[60%] lg:max-w-[1200px] lg:rounded-full lg:border lg:border-white/8 lg:bg-[rgba(28,28,28,0.82)] lg:px-5 lg:py-2.5 lg:shadow-[0_8px_32px_rgba(0,0,0,0.45),inset_0_0_0_1px_rgba(255,255,255,0.04)] 2xl:gap-2.5 2xl:px-[22px]"
-      style={{
-        opacity: visible ? 1 : 0,
-        left: isMobile ? 0 : "50%",
-        top: isMobile ? 0 : "auto",
-        bottom: isMobile ? "auto" : "35px",
-        transform: isMobile
-          ? visible
-            ? "translateY(0)"
-            : "translateY(-20px)"
-          : visible
-            ? "translateX(-50%) translateY(0)"
-            : "translateX(-50%) translateY(20px)",
-      }}
-    >
-      {/* Logo */}
-      <NavLink to="/" className="mr-1 flex items-center no-underline">
-        <img
-          src="/maktech_logo_white.webp"
-          alt="maktech logo"
-          className="h-6 w-auto lg:h-5.5 2xl:h-6"
-        />
-      </NavLink>
-
-      {/* Navigation Links */}
-      <div
-        className={`absolute left-0 right-0 top-full flex flex-col gap-0 overflow-hidden border-t border-white/6 bg-[rgba(28,28,28,0.98)] px-5 transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] [backdrop-filter:blur(18px)] lg:static lg:flex-row lg:items-center lg:justify-between lg:gap-0 lg:overflow-visible lg:border-none lg:bg-transparent lg:p-0 lg:opacity-100 lg:[backdrop-filter:none] ${
-          menuOpen && isMobile
-            ? "max-h-[800px] py-4 opacity-100 pointer-events-auto"
-            : isMobile
-            ? "max-h-0 py-0 opacity-0 pointer-events-none"
-            : "opacity-100 pointer-events-auto"
-        }`}
+    <>
+      <nav
+        className="fixed z-[1000] flex w-full items-center justify-between gap-0 bg-[rgba(28,28,28,0.95)] px-5 py-4 shadow-[0_2px_8px_rgba(0,0,0,0.3)] transition-all duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] [backdrop-filter:blur(18px)] lg:w-[90%] xl:w-[60%] lg:max-w-[1200px] lg:rounded-full lg:border lg:border-white/8 lg:bg-[rgba(28,28,28,0.82)] lg:px-5 lg:py-2.5 lg:shadow-[0_8px_32px_rgba(0,0,0,0.45),inset_0_0_0_1px_rgba(255,255,255,0.04)] 2xl:gap-2.5 2xl:px-[22px]"
+        style={{
+          opacity: visible ? 1 : 0,
+          left: isMobile ? 0 : "50%",
+          top: isMobile ? 0 : "auto",
+          bottom: isMobile ? "auto" : "35px",
+          transform: isMobile
+            ? visible
+              ? "translateY(0)"
+              : "translateY(-20px)"
+            : visible
+              ? "translateX(-50%) translateY(0)"
+              : "translateX(-50%) translateY(20px)",
+        }}
       >
-        {navLinks.map((link) => (
-          link.to === "/services" ? (
-            <div
-              key={link.label}
-              className="relative"
-              onMouseEnter={openServicesMegaMenu}
-              onMouseLeave={closeServicesMegaMenu}
-              onFocusCapture={openServicesMegaMenu}
-              onBlurCapture={handleServicesItemBlur}
-            >
-              <NavLink
-                to={link.to}
-                className={({ isActive }) =>
-                  `${navItemBaseClass} w-full justify-between lg:w-auto ${isActive ? navItemActiveClass : ""}`
-                }
-                onClick={handleServicesLinkClick}
-                style={{ transitionDelay: isMobile && menuOpen ? "150ms" : "0ms" }}
-              >
-                {link.label}
-                <svg
-                  className={`shrink-0 opacity-60 transition-all duration-300 ease-out ${isServicesMegaOpen ? "rotate-180 opacity-100" : "rotate-0"}`}
-                  width="10"
-                  height="10"
-                  viewBox="0 0 10 10"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M2 3.5L5 6.5L8 3.5" />
-                </svg>
-              </NavLink>
+        {/* Logo */}
+        <NavLink to="/" className="mr-1 flex items-center no-underline" onClick={handleNavigate}>
+          <img
+            src="/maktech_logo_white.webp"
+            alt="maktech logo"
+            className="h-6 w-auto lg:h-5.5 2xl:h-6"
+          />
+        </NavLink>
 
-              {/* Desktop mega menu: outer wrapper bridges the visual gap for hover continuity */}
+        {/* Desktop / laptop navigation (pill) */}
+        <div className="hidden items-center justify-between gap-0 lg:flex lg:flex-row">
+          {navLinks.map((link) =>
+            link.to === "/services" ? (
               <div
-                className={`absolute left-1/2 bottom-full hidden w-[min(560px,88vw)] -translate-x-1/2 lg:block xl:w-[min(860px,76vw)] ${isServicesMegaOpen ? "pointer-events-auto" : "pointer-events-none"
-                  }`}
+                key={link.label}
+                className="relative"
+                onMouseEnter={openServicesMegaMenu}
+                onMouseLeave={closeServicesMegaMenu}
+                onFocusCapture={openServicesMegaMenu}
+                onBlurCapture={handleServicesItemBlur}
               >
-                <div
-                  className={`rounded-md border border-black/6 bg-[#d7d7d7] p-5.5 shadow-[0_18px_44px_rgba(0,0,0,0.24)] transition-all duration-200 ${isServicesMegaOpen
-                      ? "visible translate-y-0 opacity-100"
-                      : "invisible translate-y-2.5 opacity-0"
-                    }`}
+                <NavLink
+                  to={link.to}
+                  className={({ isActive }) =>
+                    `${navItemBaseClass} ${isActive ? navItemActiveClass : ""}`
+                  }
+                  onClick={handleNavigate}
                 >
-                  <div className="mb-4 flex items-start justify-between gap-3">
-                    <div>
-                      <h3 className="m-0 text-[44px] font-bold leading-[1.08] tracking-[-0.02em] text-black-bg">
-                        Want to grow with us?
-                      </h3>
-                      <p className="mt-2 text-[20px] leading-[1.22] text-black-bg">
-                        Let&apos;s implement your skills toward to grow MAKTECH.
-                      </p>
-                    </div>
-
-                    <NavLink
-                      to="/contact"
-                      className="group inline-flex items-center gap-2.5 whitespace-nowrap rounded-md bg-orange-bg-cta px-4 py-2.75 text-sm font-semibold text-white no-underline shadow-[0_12px_24px_rgba(0,0,0,0.2)] transition duration-200 hover:-translate-y-px hover:bg-white hover:text-black"
-                      onClick={handleNavigate}
-                    >
-                      <span
-                        className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-white/24 transition-colors duration-200 group-hover:bg-black/10"
-                        aria-hidden="true"
-                      >
-                        <svg
-                          width="14"
-                          height="14"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="1.8"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
-                          <path d="M7 17L17 7" />
-                          <path d="M9 7h8v8" />
-                        </svg>
-                      </span>
-                      Contact With Us
-                    </NavLink>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4 xl:grid-cols-3">
-                    {servicesMegaItems.map((item) => (
-                      <MegaMenuCard
-                        key={item.slug}
-                        item={item}
-                        onNavigate={handleNavigate}
-                      />
-                    ))}
-                  </div>
-                </div>
-                {/* 16px transparent bridge keeps hover continuous while preserving visible gap */}
-                <div className="h-4 w-full" />
-              </div>
-
-              <div
-                className={`lg:hidden overflow-y-auto custom-scrollbar transition-all duration-400 ease-[cubic-bezier(0.4,0,0.2,1)] ${isServicesMegaOpen
-                    ? "mt-2 max-h-[400px] opacity-100"
-                    : "mt-0 max-h-0 opacity-0"
-                  }`}
-                onWheel={(e) => e.stopPropagation()}
-                onTouchMove={(e) => e.stopPropagation()}
-                style={{ overscrollBehavior: "contain" }}
-              >
-                <div className="space-y-1 rounded-md border border-white/10 bg-white/5 p-2">
-                  <NavLink
-                    to="/services"
-                    className="block rounded-sm bg-white/10 px-3 py-2 text-[14px] font-semibold text-white no-underline transition-colors duration-200 hover:bg-orange-bg-cta"
-                    onClick={handleNavigate}
+                  {link.label}
+                  <svg
+                    className={`shrink-0 opacity-60 transition-all duration-300 ease-out ${isServicesMegaOpen ? "rotate-180 opacity-100" : "rotate-0"}`}
+                    width="10"
+                    height="10"
+                    viewBox="0 0 10 10"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   >
-                    View all services
-                  </NavLink>
-                  {servicesMegaItems.map((item) => (
-                    <NavLink
-                      key={item.slug}
-                      to={item.path}
-                      className="block rounded-sm bg-white/5 px-3 py-2 text-[14px] text-white/90 no-underline transition-colors duration-200 hover:bg-orange-bg-cta hover:text-white"
-                      onClick={handleNavigate}
-                    >
-                      {item.title}
-                    </NavLink>
-                  ))}
-                </div>
-              </div>
-            </div>
-          ) : link.to === "/company" ? (
-            <div
-              key={link.label}
-              className="relative"
-              onMouseEnter={openCompanyMegaMenu}
-              onMouseLeave={closeCompanyMegaMenu}
-              onFocusCapture={openCompanyMegaMenu}
-              onBlurCapture={handleCompanyItemBlur}
-            >
-              <button
-                type="button"
-                className={`${navItemBaseClass} w-full justify-between lg:w-auto border-none bg-transparent text-left`}
-                onClick={handleCompanyLinkClick}
-                style={{ transitionDelay: isMobile && menuOpen ? "150ms" : "0ms" }}
-              >
-                {link.label}
-                <svg
-                  className={`shrink-0 opacity-60 transition-all duration-300 ease-out ${isCompanyMegaOpen ? "rotate-180 opacity-100" : "rotate-0"}`}
-                  width="10"
-                  height="10"
-                  viewBox="0 0 10 10"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M2 3.5L5 6.5L8 3.5" />
-                </svg>
-              </button>
+                    <path d="M2 3.5L5 6.5L8 3.5" />
+                  </svg>
+                </NavLink>
 
-              <div
-                className={`absolute left-1/2 bottom-full hidden w-[220px] -translate-x-1/2 lg:block ${isCompanyMegaOpen ? "pointer-events-auto" : "pointer-events-none"
-                  }`}
-              >
+                {/* Desktop mega menu */}
                 <div
-                  className={`rounded-md border border-black/6 bg-[#d7d7d7] p-2 shadow-[0_18px_44px_rgba(0,0,0,0.24)] transition-all duration-200 ${isCompanyMegaOpen
-                      ? "visible translate-y-0 opacity-100"
-                      : "invisible translate-y-2.5 opacity-0"
+                  className={`absolute left-1/2 bottom-full hidden w-[min(560px,88vw)] -translate-x-1/2 lg:block xl:w-[min(860px,76vw)] ${isServicesMegaOpen ? "pointer-events-auto" : "pointer-events-none"
                     }`}
                 >
-                  <div className="flex flex-col gap-1">
-                    {companyMegaItems.map((item) => (
+                  <div
+                    className={`rounded-md border border-black/6 bg-[#d7d7d7] p-5.5 shadow-[0_18px_44px_rgba(0,0,0,0.24)] transition-all duration-200 ${isServicesMegaOpen
+                        ? "visible translate-y-0 opacity-100"
+                        : "invisible translate-y-2.5 opacity-0"
+                      }`}
+                  >
+                    <div className="mb-4 flex items-start justify-between gap-3">
+                      <div>
+                        <h3 className="m-0 text-[44px] font-bold leading-[1.08] tracking-[-0.02em] text-black-bg">
+                          Want to grow with us?
+                        </h3>
+                        <p className="mt-2 text-[20px] leading-[1.22] text-black-bg">
+                          Let&apos;s implement your skills toward to grow MAKTECH.
+                        </p>
+                      </div>
+
                       <NavLink
-                        key={item.slug}
-                        to={item.path || `/company?section=${item.slug}`}
-                        className="rounded-sm bg-[#c7c7c7] px-4 py-2.5 text-[16px] font-medium leading-none text-black-bg no-underline transition-colors duration-200 hover:bg-orange-bg-cta hover:text-white"
+                        to="/contact"
+                        className="group inline-flex items-center gap-2.5 whitespace-nowrap rounded-md bg-orange-bg-cta px-4 py-2.75 text-sm font-semibold text-white no-underline shadow-[0_12px_24px_rgba(0,0,0,0.2)] transition duration-200 hover:-translate-y-px hover:bg-white hover:text-black"
                         onClick={handleNavigate}
                       >
-                        {item.title}
+                        <span
+                          className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-white/24 transition-colors duration-200 group-hover:bg-black/10"
+                          aria-hidden="true"
+                        >
+                          <svg
+                            width="14"
+                            height="14"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="1.8"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <path d="M7 17L17 7" />
+                            <path d="M9 7h8v8" />
+                          </svg>
+                        </span>
+                        Contact With Us
                       </NavLink>
-                    ))}
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4 xl:grid-cols-3">
+                      {servicesMegaItems.map((item) => (
+                        <MegaMenuCard key={item.slug} item={item} onNavigate={handleNavigate} />
+                      ))}
+                    </div>
                   </div>
+                  {/* transparent bridge keeps hover continuous */}
+                  <div className="h-4 w-full" />
                 </div>
-                <div className="h-4 w-full" />
               </div>
-
+            ) : link.to === "/company" ? (
               <div
-                className={`lg:hidden overflow-y-auto custom-scrollbar transition-all duration-400 ease-[cubic-bezier(0.4,0,0.2,1)] ${isCompanyMegaOpen
-                    ? "mt-2 max-h-[300px] opacity-100"
-                    : "mt-0 max-h-0 opacity-0"
-                  }`}
-                onWheel={(e) => e.stopPropagation()}
-                onTouchMove={(e) => e.stopPropagation()}
-                style={{ overscrollBehavior: "contain" }}
+                key={link.label}
+                className="relative"
+                onMouseEnter={openCompanyMegaMenu}
+                onMouseLeave={closeCompanyMegaMenu}
+                onFocusCapture={openCompanyMegaMenu}
+                onBlurCapture={handleCompanyItemBlur}
               >
-                <div className="space-y-1 rounded-md border border-white/10 bg-white/5 p-2">
-                  {companyMegaItems.map((item) => (
-                    <NavLink
-                      key={item.slug}
-                      to={item.path || `/company?section=${item.slug}`}
-                      className="block rounded-sm bg-white/5 px-3 py-2 text-[14px] text-white/90 no-underline transition-colors duration-200 hover:bg-orange-bg-cta hover:text-white"
-                      onClick={handleNavigate}
-                    >
-                      {item.title}
-                    </NavLink>
-                  ))}
+                <button
+                  type="button"
+                  className={`${navItemBaseClass} border-none bg-transparent text-left`}
+                >
+                  {link.label}
+                  <svg
+                    className={`shrink-0 opacity-60 transition-all duration-300 ease-out ${isCompanyMegaOpen ? "rotate-180 opacity-100" : "rotate-0"}`}
+                    width="10"
+                    height="10"
+                    viewBox="0 0 10 10"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M2 3.5L5 6.5L8 3.5" />
+                  </svg>
+                </button>
+
+                <div
+                  className={`absolute left-1/2 bottom-full hidden w-[220px] -translate-x-1/2 lg:block ${isCompanyMegaOpen ? "pointer-events-auto" : "pointer-events-none"
+                    }`}
+                >
+                  <div
+                    className={`rounded-md border border-black/6 bg-[#d7d7d7] p-2 shadow-[0_18px_44px_rgba(0,0,0,0.24)] transition-all duration-200 ${isCompanyMegaOpen
+                        ? "visible translate-y-0 opacity-100"
+                        : "invisible translate-y-2.5 opacity-0"
+                      }`}
+                  >
+                    <div className="flex flex-col gap-1">
+                      {companyMegaItems.map((item) => (
+                        <NavLink
+                          key={item.slug}
+                          to={item.path || `/company?section=${item.slug}`}
+                          className="rounded-sm bg-[#c7c7c7] px-4 py-2.5 text-[16px] font-medium leading-none text-black-bg no-underline transition-colors duration-200 hover:bg-orange-bg-cta hover:text-white"
+                          onClick={handleNavigate}
+                        >
+                          {item.title}
+                        </NavLink>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="h-4 w-full" />
                 </div>
               </div>
-            </div>
-          ) : (
-            <NavItem
-              key={link.label}
-              link={link}
-              onNavigate={handleNavigate}
-              delay={isMobile && menuOpen ? 50 + navLinks.indexOf(link) * 50 : 0}
-            />
-          )
-        ))}
+            ) : (
+              <NavItem key={link.label} link={link} onNavigate={handleNavigate} />
+            )
+          )}
+        </div>
 
-        {/* CTA inside dropdown for mobile/tablet */}
+        {/* Desktop CTA */}
         <NavLink
           to="/contact"
-          className="mt-3 inline-flex w-full items-center justify-center rounded-full border border-white/10 bg-orange-bg-cta px-4 py-3 text-[15px] font-semibold text-white no-underline transition-all duration-200 hover:bg-[#d14608] active:scale-[0.97] lg:hidden"
-          onClick={() => setMenuOpen(false)}
-          style={{ 
-            transitionDelay: isMobile && menuOpen ? "200ms" : "0ms",
-            opacity: menuOpen ? 1 : 0,
-            transform: menuOpen ? "translateY(0)" : "translateY(-10px)"
-          }}
+          className="hidden items-center rounded-full border border-white/10 bg-orange-bg-cta px-6 py-2.5 text-sm font-semibold text-white no-underline transition duration-200 hover:-translate-y-px hover:bg-[#d14608] active:scale-[0.97] lg:inline-flex"
         >
           Let&apos;s Talk
         </NavLink>
-      </div>
 
-      {/* CTA Button */}
-      <NavLink
-        to="/contact"
-        className="hidden items-center rounded-full border border-white/10 bg-orange-bg-cta px-6 py-2.5 text-sm font-semibold text-white no-underline transition duration-200 hover:-translate-y-px hover:bg-[#d14608] active:scale-[0.97] lg:inline-flex"
-      >
-        Let&apos;s Talk
-      </NavLink>
-
-      {/* Mobile Hamburger Menu */}
-      <button
-        className="inline-flex h-9 w-9 items-center justify-center border-none bg-transparent p-0 text-white/80 hover:text-white lg:hidden"
-        onClick={() => setMenuOpen(!menuOpen)}
-        aria-label="Toggle menu"
-      >
-        <svg
-          width="22"
-          height="22"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
+        {/* Mobile / tablet toggle: Menu <-> Close with an animated icon */}
+        <button
+          type="button"
+          onClick={() => setMenuOpen((prev) => !prev)}
+          className="inline-flex items-center gap-2.5 rounded-full border border-white/20 bg-white/5 px-4 py-2 text-white transition-colors duration-200 hover:border-white/40 lg:hidden"
+          aria-label={menuOpen ? "Close menu" : "Open menu"}
+          aria-expanded={menuOpen}
         >
-          {menuOpen ? (
-            <path d="M18 6L6 18M6 6l12 12" />
-          ) : (
-            <>
-              <path d="M4 6h16" />
-              <path d="M4 12h16" />
-              <path d="M4 18h16" />
-            </>
-          )}
-        </svg>
-      </button>
-    </nav>
+          <span className="relative block h-4 overflow-hidden text-[13px] font-semibold tracking-[0.08em]">
+            <span
+              className={`block h-4 leading-4 transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${menuOpen ? "-translate-y-4" : "translate-y-0"}`}
+            >
+              MENU
+            </span>
+            <span
+              className={`block h-4 leading-4 transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${menuOpen ? "-translate-y-4" : "translate-y-0"}`}
+            >
+              CLOSE
+            </span>
+          </span>
+          <span className="relative h-4 w-5" aria-hidden="true">
+            <span
+              className={`absolute left-0 h-0.5 w-5 rounded-full bg-white transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${menuOpen ? "top-1/2 -translate-y-1/2 rotate-45" : "top-1"}`}
+            />
+            <span
+              className={`absolute left-0 h-0.5 w-5 rounded-full bg-white transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${menuOpen ? "top-1/2 -translate-y-1/2 -rotate-45" : "top-3"}`}
+            />
+          </span>
+        </button>
+      </nav>
+
+      {/* Fullscreen mobile / tablet menu */}
+      <div
+        className={`fixed inset-0 z-[990] bg-[#141414] transition-[opacity,visibility] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] lg:hidden ${
+          menuOpen ? "visible opacity-100" : "invisible opacity-0"
+        }`}
+        aria-hidden={!menuOpen}
+      >
+        {/* faint brand glow */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full bg-orange-bg-cta/20 blur-[120px]"
+        />
+        <div className="flex h-full flex-col overflow-y-auto px-6 pt-24 pb-10 sm:px-8">
+          <nav aria-label="Mobile" className="flex flex-col">
+            {navLinks.map((link, index) => (
+              <MobileNavRow
+                key={link.label}
+                link={link}
+                index={index}
+                menuOpen={menuOpen}
+                items={
+                  link.to === "/services"
+                    ? servicesMegaItems
+                    : link.to === "/company"
+                      ? companyMegaItems
+                      : null
+                }
+                expanded={mobileExpanded === link.label}
+                onToggle={() => toggleMobileRow(link.label)}
+                onNavigate={handleNavigate}
+              />
+            ))}
+          </nav>
+
+          {/* Bottom: CTA, contact and socials */}
+          <div
+            className={`mt-auto pt-8 transition-all duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${
+              menuOpen ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
+            }`}
+            style={{ transitionDelay: menuOpen ? "560ms" : "0ms" }}
+          >
+            <NavLink
+              to="/contact"
+              onClick={handleNavigate}
+              className="group flex w-full items-center justify-center gap-3 rounded-full bg-orange-bg-cta px-6 py-4 text-[16px] font-semibold text-white no-underline transition-all duration-200 hover:bg-[#d14608] active:scale-[0.98]"
+            >
+              Let&apos;s Talk
+              <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white text-black transition-transform duration-300 group-hover:translate-x-1">
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M3 8h10M9 4l4 4-4 4" />
+                </svg>
+              </span>
+            </NavLink>
+
+            <div className="mt-6 flex flex-col gap-4 border-t border-white/10 pt-6 sm:flex-row sm:items-center sm:justify-between">
+              <a
+                href="mailto:info@maktechgroup.com"
+                className="text-[15px] text-white/70 transition-colors duration-200 hover:text-white"
+              >
+                info@maktechgroup.com
+              </a>
+              <div className="flex items-center gap-3">
+                {socials.map(({ label, href, Icon }) => (
+                  <a
+                    key={label}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={label}
+                    className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-white transition-colors duration-200 hover:bg-orange-bg-cta"
+                  >
+                    <Icon className="text-lg" />
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
   );
 };
 
