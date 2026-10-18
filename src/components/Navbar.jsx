@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 
 const navLinks = [
@@ -34,7 +34,7 @@ const companyMegaItems = [
 ];
 
 const navItemBaseClass =
-  "inline-flex items-center gap-1 rounded-[8px] px-4 py-2 text-[15px] 2xl:text-[16px] font-medium text-white/70 transition-colors duration-200 hover:bg-white/8 hover:text-white xl:px-[14px] 2xl:px-4";
+  "inline-flex items-center gap-1 rounded-[8px] px-4 py-2 text-[15px] 2xl:text-[16px] font-medium text-white/70 transition-colors duration-200 hover:bg-white/8 hover:text-white lg:px-[14px] 2xl:px-4";
 
 const navItemActiveClass = "text-white border border-[#ff6533]";
 
@@ -110,7 +110,7 @@ const Navbar = () => {
   const [isCompanyMegaOpen, setIsCompanyMegaOpen] = useState(false);
 
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 1280);
+    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
     checkMobile();
     window.addEventListener("resize", checkMobile);
     const timer = setTimeout(() => setVisible(true), 300);
@@ -179,7 +179,7 @@ const Navbar = () => {
 
   return (
     <nav
-      className="fixed z-[1000] flex w-full items-center justify-between gap-0 bg-[rgba(28,28,28,0.95)] px-5 py-4 shadow-[0_2px_8px_rgba(0,0,0,0.3)] transition-all duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] [backdrop-filter:blur(18px)] xl:w-[60%] xl:max-w-[1200px] xl:rounded-full xl:border xl:border-white/8 xl:bg-[rgba(28,28,28,0.82)] xl:px-5 xl:py-2.5 xl:shadow-[0_8px_32px_rgba(0,0,0,0.45),inset_0_0_0_1px_rgba(255,255,255,0.04)] 2xl:gap-2.5 2xl:px-[22px]"
+      className="fixed z-[1000] flex w-full items-center justify-between gap-0 bg-[rgba(28,28,28,0.95)] px-5 py-4 shadow-[0_2px_8px_rgba(0,0,0,0.3)] transition-all duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] [backdrop-filter:blur(18px)] lg:w-[90%] xl:w-[60%] lg:max-w-[1200px] lg:rounded-full lg:border lg:border-white/8 lg:bg-[rgba(28,28,28,0.82)] lg:px-5 lg:py-2.5 lg:shadow-[0_8px_32px_rgba(0,0,0,0.45),inset_0_0_0_1px_rgba(255,255,255,0.04)] 2xl:gap-2.5 2xl:px-[22px]"
       style={{
         opacity: visible ? 1 : 0,
         left: isMobile ? 0 : "50%",
@@ -199,13 +199,13 @@ const Navbar = () => {
         <img
           src="/maktech_logo_white.webp"
           alt="maktech logo"
-          className="h-6 w-auto xl:h-5.5 2xl:h-6"
+          className="h-6 w-auto lg:h-5.5 2xl:h-6"
         />
       </NavLink>
 
       {/* Navigation Links */}
       <div
-        className={`absolute left-0 right-0 top-full flex flex-col gap-0 overflow-hidden border-t border-white/6 bg-[rgba(28,28,28,0.98)] px-5 transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] [backdrop-filter:blur(18px)] xl:static xl:flex-row xl:items-center xl:justify-between xl:gap-0 xl:overflow-visible xl:border-none xl:bg-transparent xl:p-0 xl:opacity-100 xl:[backdrop-filter:none] ${
+        className={`absolute left-0 right-0 top-full flex flex-col gap-0 overflow-hidden border-t border-white/6 bg-[rgba(28,28,28,0.98)] px-5 transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] [backdrop-filter:blur(18px)] lg:static lg:flex-row lg:items-center lg:justify-between lg:gap-0 lg:overflow-visible lg:border-none lg:bg-transparent lg:p-0 lg:opacity-100 lg:[backdrop-filter:none] ${
           menuOpen && isMobile
             ? "max-h-[800px] py-4 opacity-100 pointer-events-auto"
             : isMobile
@@ -226,7 +226,7 @@ const Navbar = () => {
               <NavLink
                 to={link.to}
                 className={({ isActive }) =>
-                  `${navItemBaseClass} w-full justify-between xl:w-auto ${isActive ? navItemActiveClass : ""}`
+                  `${navItemBaseClass} w-full justify-between lg:w-auto ${isActive ? navItemActiveClass : ""}`
                 }
                 onClick={handleServicesLinkClick}
                 style={{ transitionDelay: isMobile && menuOpen ? "150ms" : "0ms" }}
@@ -249,7 +249,7 @@ const Navbar = () => {
 
               {/* Desktop mega menu: outer wrapper bridges the visual gap for hover continuity */}
               <div
-                className={`absolute left-1/2 bottom-full hidden w-[min(860px,76vw)] -translate-x-1/2 xl:block ${isServicesMegaOpen ? "pointer-events-auto" : "pointer-events-none"
+                className={`absolute left-1/2 bottom-full hidden w-[min(560px,88vw)] -translate-x-1/2 lg:block xl:w-[min(860px,76vw)] ${isServicesMegaOpen ? "pointer-events-auto" : "pointer-events-none"
                   }`}
               >
                 <div
@@ -295,7 +295,7 @@ const Navbar = () => {
                     </NavLink>
                   </div>
 
-                  <div className="grid grid-cols-3 gap-4">
+                  <div className="grid grid-cols-2 gap-4 xl:grid-cols-3">
                     {servicesMegaItems.map((item) => (
                       <MegaMenuCard
                         key={item.slug}
@@ -310,7 +310,7 @@ const Navbar = () => {
               </div>
 
               <div
-                className={`xl:hidden overflow-y-auto custom-scrollbar transition-all duration-400 ease-[cubic-bezier(0.4,0,0.2,1)] ${isServicesMegaOpen
+                className={`lg:hidden overflow-y-auto custom-scrollbar transition-all duration-400 ease-[cubic-bezier(0.4,0,0.2,1)] ${isServicesMegaOpen
                     ? "mt-2 max-h-[400px] opacity-100"
                     : "mt-0 max-h-0 opacity-0"
                   }`}
@@ -350,7 +350,7 @@ const Navbar = () => {
             >
               <button
                 type="button"
-                className={`${navItemBaseClass} w-full justify-between xl:w-auto border-none bg-transparent text-left`}
+                className={`${navItemBaseClass} w-full justify-between lg:w-auto border-none bg-transparent text-left`}
                 onClick={handleCompanyLinkClick}
                 style={{ transitionDelay: isMobile && menuOpen ? "150ms" : "0ms" }}
               >
@@ -371,7 +371,7 @@ const Navbar = () => {
               </button>
 
               <div
-                className={`absolute left-1/2 bottom-full hidden w-[220px] -translate-x-1/2 xl:block ${isCompanyMegaOpen ? "pointer-events-auto" : "pointer-events-none"
+                className={`absolute left-1/2 bottom-full hidden w-[220px] -translate-x-1/2 lg:block ${isCompanyMegaOpen ? "pointer-events-auto" : "pointer-events-none"
                   }`}
               >
                 <div
@@ -397,7 +397,7 @@ const Navbar = () => {
               </div>
 
               <div
-                className={`xl:hidden overflow-y-auto custom-scrollbar transition-all duration-400 ease-[cubic-bezier(0.4,0,0.2,1)] ${isCompanyMegaOpen
+                className={`lg:hidden overflow-y-auto custom-scrollbar transition-all duration-400 ease-[cubic-bezier(0.4,0,0.2,1)] ${isCompanyMegaOpen
                     ? "mt-2 max-h-[300px] opacity-100"
                     : "mt-0 max-h-0 opacity-0"
                   }`}
@@ -432,7 +432,7 @@ const Navbar = () => {
         {/* CTA inside dropdown for mobile/tablet */}
         <NavLink
           to="/contact"
-          className="mt-3 inline-flex w-full items-center justify-center rounded-full border border-white/10 bg-orange-bg-cta px-4 py-3 text-[15px] font-semibold text-white no-underline transition-all duration-200 hover:bg-[#d14608] active:scale-[0.97] xl:hidden"
+          className="mt-3 inline-flex w-full items-center justify-center rounded-full border border-white/10 bg-orange-bg-cta px-4 py-3 text-[15px] font-semibold text-white no-underline transition-all duration-200 hover:bg-[#d14608] active:scale-[0.97] lg:hidden"
           onClick={() => setMenuOpen(false)}
           style={{ 
             transitionDelay: isMobile && menuOpen ? "200ms" : "0ms",
@@ -447,14 +447,14 @@ const Navbar = () => {
       {/* CTA Button */}
       <NavLink
         to="/contact"
-        className="hidden items-center rounded-full border border-white/10 bg-orange-bg-cta px-6 py-2.5 text-sm font-semibold text-white no-underline transition duration-200 hover:-translate-y-px hover:bg-[#d14608] active:scale-[0.97] xl:inline-flex"
+        className="hidden items-center rounded-full border border-white/10 bg-orange-bg-cta px-6 py-2.5 text-sm font-semibold text-white no-underline transition duration-200 hover:-translate-y-px hover:bg-[#d14608] active:scale-[0.97] lg:inline-flex"
       >
         Let&apos;s Talk
       </NavLink>
 
       {/* Mobile Hamburger Menu */}
       <button
-        className="inline-flex h-9 w-9 items-center justify-center border-none bg-transparent p-0 text-white/80 hover:text-white xl:hidden"
+        className="inline-flex h-9 w-9 items-center justify-center border-none bg-transparent p-0 text-white/80 hover:text-white lg:hidden"
         onClick={() => setMenuOpen(!menuOpen)}
         aria-label="Toggle menu"
       >
