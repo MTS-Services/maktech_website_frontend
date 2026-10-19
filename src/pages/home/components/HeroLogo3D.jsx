@@ -237,8 +237,8 @@ const HeroLogo3D = () => {
           renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
           renderer.setSize(w, h, false);
           camera.aspect = w / h;
-          // Fit the whole mark (with room to rotate) inside the canvas height
-          const visibleH = BOX.h * 1.12;
+          // Fit the whole mark inside the canvas height (tight, so it renders large)
+          const visibleH = BOX.h * 1.0;
           const dist = visibleH / (2 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)));
           camera.position.set(0, 0, dist);
           camera.lookAt(0, 0, 0);
@@ -365,8 +365,15 @@ const HeroLogo3D = () => {
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none absolute top-[60%] right-[15%] z-5 -translate-y-1/2 select-none"
-      style={{ width: "clamp(230px, 26vw, 420px)" }}
+      className="pointer-events-none absolute right-[14%] z-5 -translate-y-1/2 select-none"
+      style={{
+        // as wide as the reference (31vw) but capped by screen height, so on
+        // short screens it still fits between the heading and the nav pill
+        width: "clamp(260px, min(31vw, 54vh), 620px)",
+        // centre at 66% of the hero, but never so low that the mark runs into
+        // the floating nav pill (mark half-height ≈ 0.3775 × width)
+        top: "min(66%, calc(100% - 105px - min(11.7vw, 20.4vh, 234px)))",
+      }}
     >
       <div
         ref={hostRef}
