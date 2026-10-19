@@ -23,6 +23,13 @@ const servicesMegaItems = [
   { title: "Digital Marketing", path: "/services/digital-marketing", slug: "digital-marketing" },
   { title: "AI/ML", path: "/services/ai-ml", slug: "ai-ml" },
   { title: "SaaS Product", path: "/services/sas-product", slug: "sas-product" },
+  {
+    title: "AI Video",
+    // No dedicated AI Video page yet — point at the contact form until one exists
+    path: "/contact",
+    slug: "ai-video",
+    description: "AI-powered video for ads & social.",
+  },
 ];
 
 const companyMegaItems = [
@@ -42,7 +49,7 @@ const socials = [
 ];
 
 const navItemBaseClass =
-  "inline-flex items-center gap-1 rounded-[8px] px-4 py-2 text-[15px] 2xl:text-[16px] font-medium text-white/70 transition-colors duration-200 hover:bg-white/8 hover:text-white lg:px-[14px] 2xl:px-4";
+  "inline-flex items-center gap-1 whitespace-nowrap rounded-[8px] px-4 py-2 text-[15px] 2xl:text-[16px] font-medium text-white/70 transition-colors duration-200 hover:bg-white/8 hover:text-white lg:px-[14px] 2xl:px-4";
 
 const navItemActiveClass = "text-white border border-[#ff6533]";
 
@@ -103,7 +110,7 @@ const MegaMenuCard = ({ item, onNavigate }) => (
         {item.title}
       </span>
       <span className="mt-1 truncate text-[12px] leading-tight text-black-bg group-hover:text-white/90 ">
-        Let&apos;s implement your skills toward to grow MAKTECH.
+        {item.description ?? "Let's implement your skills toward to grow MAKTECH."}
       </span>
     </span>
   </NavLink>
@@ -260,7 +267,7 @@ const Navbar = () => {
   return (
     <>
       <nav
-        className="fixed z-[1000] flex w-full items-center justify-between gap-0 bg-[rgba(28,28,28,0.95)] px-5 py-4 shadow-[0_2px_8px_rgba(0,0,0,0.3)] transition-all duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] [backdrop-filter:blur(18px)] lg:w-[90%] xl:w-[60%] lg:max-w-[1200px] lg:rounded-full lg:border lg:border-white/8 lg:bg-[rgba(28,28,28,0.82)] lg:px-5 lg:py-2.5 lg:shadow-[0_8px_32px_rgba(0,0,0,0.45),inset_0_0_0_1px_rgba(255,255,255,0.04)] 2xl:gap-2.5 2xl:px-[22px]"
+        className="fixed z-[1000] flex w-full items-center justify-between gap-0 bg-[rgba(28,28,28,0.95)] px-5 py-4 shadow-[0_2px_8px_rgba(0,0,0,0.3)] transition-all duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] [backdrop-filter:blur(18px)] lg:w-[90%] xl:w-[60%] xl:min-w-216 lg:max-w-[1200px] lg:rounded-full lg:border lg:border-white/8 lg:bg-[rgba(28,28,28,0.82)] lg:px-5 lg:py-2.5 lg:shadow-[0_8px_32px_rgba(0,0,0,0.45),inset_0_0_0_1px_rgba(255,255,255,0.04)] 2xl:gap-2.5 2xl:px-[22px]"
         style={{
           opacity: visible ? 1 : 0,
           left: isMobile ? 0 : "50%",
@@ -441,7 +448,7 @@ const Navbar = () => {
         {/* Desktop CTA */}
         <NavLink
           to="/contact"
-          className="hidden items-center rounded-full border border-white/10 bg-orange-bg-cta px-6 py-2.5 text-sm font-semibold text-white no-underline transition duration-200 hover:-translate-y-px hover:bg-[#d14608] active:scale-[0.97] lg:inline-flex"
+          className="hidden items-center whitespace-nowrap rounded-full border border-white/10 bg-orange-bg-cta px-6 py-2.5 text-sm font-semibold text-white no-underline transition duration-200 hover:-translate-y-px hover:bg-[#d14608] active:scale-[0.97] lg:inline-flex"
         >
           Let&apos;s Talk
         </NavLink>

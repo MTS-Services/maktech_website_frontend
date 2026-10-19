@@ -79,6 +79,14 @@ const services = [
       'Data analytics products and reporting pipelines that turn raw data into decisions.',
     link: '/services/sas-product',
   },
+  {
+    id: 12,
+    title: 'AI Video',
+    description:
+      'AI-powered video production for ads, product stories, and social content at scale.',
+    // No dedicated AI Video page yet — point at the contact form until one exists
+    link: '/contact',
+  },
 ]
 
 const ServiceGrid = () => {

@@ -92,12 +92,12 @@ const AnimatedServiceCard = ({ service, index, revealed }) => (
           {service.description}
         </p>
 
-        {/* Read More Link */}
+        {/* More Details link */}
         <Link
           to={service.link}
           className='inline-flex items-center gap-2 text-orange-bg-cta group-hover:text-white font-medium transition-all duration-200 hover:gap-3 group'
         >
-          Read More
+          More Details
           <svg
             width='16'
             height='16'
