@@ -35,12 +35,12 @@ const AnimatedServiceCard = ({ service, index, revealed }) => (
   <RevealItem index={index} revealed={revealed}>
     <div
       onPointerMove={trackPointer}
-      className='group relative h-full overflow-hidden rounded-lg border border-white/10 bg-[#101515] p-6 backdrop-blur-sm transition-[transform,border-color,background-color,box-shadow] duration-1100 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1.5 hover:border-orange-bg-cta hover:bg-orange-bg-cta hover:shadow-[0_26px_55px_-14px_rgba(255,255,255,0.28)] motion-reduce:transition-none motion-reduce:hover:translate-y-0 md:p-8'
+      className='group relative h-full cursor-pointer overflow-hidden rounded-lg border border-white/10 bg-[#101515] p-6 backdrop-blur-sm transition-[transform,border-color,background-color,box-shadow] duration-1100 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1.5 hover:border-orange-bg-cta hover:bg-orange-bg-cta hover:shadow-[0_26px_55px_-14px_rgba(255,255,255,0.28)] motion-reduce:transition-none motion-reduce:hover:translate-y-0 has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-white md:p-8'
     >
       {/* Pointer-follow glow (before the orange fill takes over) */}
       <span
         aria-hidden='true'
-        className='pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100 motion-reduce:hidden'
+        className='pointer-events-none absolute inset-0 -z-10 opacity-0 transition-opacity duration-500 group-hover:opacity-100 motion-reduce:hidden'
         style={{
           background:
             'radial-gradient(220px circle at var(--mx, 50%) var(--my, 0%), rgba(255,101,51,0.18), transparent 70%)',
@@ -49,11 +49,11 @@ const AnimatedServiceCard = ({ service, index, revealed }) => (
       {/* Light sweep on hover */}
       <span
         aria-hidden='true'
-        className='pointer-events-none absolute -inset-y-6 -left-full w-1/2 -skew-x-12 bg-linear-to-r from-transparent via-white/25 to-transparent transition-[left] duration-1200 ease-out group-hover:left-[140%] motion-reduce:hidden'
+        className='pointer-events-none absolute -inset-y-6 -left-full -z-10 w-1/2 -skew-x-12 bg-linear-to-r from-transparent via-white/25 to-transparent transition-[left] duration-1200 ease-out group-hover:left-[140%] motion-reduce:hidden'
       />
 
-      {/* Card content sits above the overlays */}
-      <div className='relative'>
+      {/* Card content sits above the overlays. Not positioned on purpose: the link below stretches over the whole card (after:inset-0) */}
+      <div>
         {/* Icon with hover effect */}
         <div className='mb-6 relative h-16 w-16'>
           {/* Default Icon - visible when not hovering */}
@@ -95,7 +95,7 @@ const AnimatedServiceCard = ({ service, index, revealed }) => (
         {/* More Details link */}
         <Link
           to={service.link}
-          className='inline-flex items-center gap-2 text-orange-bg-cta group-hover:text-white font-medium transition-all duration-200 hover:gap-3 group'
+          className='group inline-flex items-center gap-2 font-medium text-orange-bg-cta transition-all duration-200 after:absolute after:inset-0 after:content-[""] group-hover:text-white hover:gap-3 focus-visible:outline-none'
         >
           More Details
           <svg
