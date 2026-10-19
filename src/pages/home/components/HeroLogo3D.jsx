@@ -24,7 +24,7 @@ const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
  * momentum). Three.js is loaded lazily so it never weighs on first paint.
  * Falls back to the flat image if WebGL is unavailable.
  */
-const HeroLogo3D = () => {
+const HeroLogo3D = ({ inline = false }) => {
   const hostRef = useRef(null);
   const [fallback, setFallback] = useState(false);
 
@@ -234,7 +234,9 @@ const HeroLogo3D = () => {
         const resize = () => {
           const w = host.clientWidth || BOX.w;
           const h = host.clientHeight || BOX.h;
-          renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+          renderer.setPixelRatio(
+            Math.min(window.devicePixelRatio || 1, window.matchMedia("(pointer: coarse)").matches ? 1.75 : 2),
+          );
           renderer.setSize(w, h, false);
           camera.aspect = w / h;
           // Fit the whole mark inside the canvas height (tight, so it renders large)
@@ -284,8 +286,8 @@ const HeroLogo3D = () => {
           dragging = false;
           host.style.cursor = "grab";
         };
-        const onEnter = () => {
-          hovering = true;
+        const onEnter = (e) => {
+          if (e.pointerType === "mouse") hovering = true;
         };
         const onLeave = () => {
           hovering = false;
@@ -362,6 +364,35 @@ const HeroLogo3D = () => {
     };
   }, []);
 
+  const fallbackImg = fallback && (
+    <img
+      src="/hero_logo.webp"
+      alt=""
+      draggable={false}
+      className="absolute inset-0 h-full w-full"
+    />
+  );
+
+  // Phones / tablets / small laptops: sits in the normal flow where the flat
+  // Infinity.webp used to be. The layout box is identical (300px wide, same
+  // aspect), but the 3D canvas is larger and centred inside it, so the visible
+  // mark has the same size while it has room to turn without being cropped.
+  if (inline) {
+    return (
+      <div
+        aria-hidden="true"
+        className="pointer-events-none relative aspect-1996/2072 w-[300px] max-w-full select-none"
+      >
+        <div
+          ref={hostRef}
+          className="pointer-events-auto absolute top-1/2 left-1/2 aspect-500/555 w-[124.7%] -translate-x-1/2 -translate-y-1/2 cursor-grab drop-shadow-[0_24px_40px_rgba(0,0,0,0.4)]"
+        >
+          {fallbackImg}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div
       aria-hidden="true"
@@ -379,14 +410,7 @@ const HeroLogo3D = () => {
         ref={hostRef}
         className="pointer-events-auto relative aspect-500/555 w-full cursor-grab drop-shadow-[0_30px_60px_rgba(0,0,0,0.4)]"
       >
-        {fallback && (
-          <img
-            src="/hero_logo.webp"
-            alt=""
-            draggable={false}
-            className="absolute inset-0 h-full w-full"
-          />
-        )}
+        {fallbackImg}
       </div>
     </div>
   );

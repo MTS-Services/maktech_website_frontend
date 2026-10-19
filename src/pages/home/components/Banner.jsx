@@ -53,11 +53,7 @@ const Banner = () => {
             }`}
             style={{ transitionDelay: "100ms" }}
           >
-            <img
-              src="/Infinity.webp"
-              alt="Infinity"
-              className="w-[300px] h-auto"
-            />
+            <HeroLogo3D inline />
           </div>
         )}
 
