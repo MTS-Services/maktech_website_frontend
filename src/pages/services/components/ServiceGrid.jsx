@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
+import AnimatedServiceCard from '../../../components/AnimatedServiceCard'
+import useRevealOnce from '../../../hooks/useRevealOnce'
 
 const services = [
   {
@@ -82,36 +82,7 @@ const services = [
 ]
 
 const ServiceGrid = () => {
-  const gridRef = useRef(null)
-  const [revealed, setRevealed] = useState(false)
-
-  // Reveal the cards once, the first time the grid scrolls into view
-  useEffect(() => {
-    const node = gridRef.current
-    if (!node) return
-    if (typeof IntersectionObserver === 'undefined') {
-      setRevealed(true)
-      return
-    }
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((e) => e.isIntersecting)) {
-          setRevealed(true)
-          observer.disconnect()
-        }
-      },
-      { threshold: 0.15, rootMargin: '0px 0px -10% 0px' },
-    )
-    observer.observe(node)
-    return () => observer.disconnect()
-  }, [])
-
-  // Pointer-follow glow: feed the hovered position to CSS custom properties
-  const handlePointerMove = (event) => {
-    const rect = event.currentTarget.getBoundingClientRect()
-    event.currentTarget.style.setProperty('--mx', `${event.clientX - rect.left}px`)
-    event.currentTarget.style.setProperty('--my', `${event.clientY - rect.top}px`)
-  }
+  const [gridRef, revealed] = useRevealOnce()
 
   return (
     <section className='px-5 pb-16 sm:px-8 md:pb-24'>
@@ -141,99 +112,12 @@ const ServiceGrid = () => {
           {/* Service Grid */}
           <div ref={gridRef} className='grid gap-6 sm:grid-cols-2 lg:grid-cols-3'>
             {services.map((service, index) => (
-              // Entrance reveal: only this wrapper carries the staggered delay,
-              // so every card's hover reacts identically (no per-card hover lag).
-              <div
+              <AnimatedServiceCard
                 key={service.id}
-                style={{ transitionDelay: revealed ? `${index * 160}ms` : '0ms' }}
-                className={`transition-[transform,opacity] duration-1100 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none ${
-                  revealed
-                    ? 'translate-y-0 opacity-100'
-                    : 'translate-y-10 opacity-0 motion-reduce:translate-y-0 motion-reduce:opacity-100'
-                }`}
-              >
-              <div
-                onPointerMove={handlePointerMove}
-                className='group relative h-full overflow-hidden rounded-lg border border-white/10 bg-[#101515] p-6 backdrop-blur-sm transition-[transform,border-color,background-color,box-shadow] duration-1100 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1.5 hover:border-orange-bg-cta hover:bg-orange-bg-cta hover:shadow-[0_26px_55px_-14px_rgba(255,255,255,0.28)] motion-reduce:transition-none motion-reduce:hover:translate-y-0 md:p-8'
-              >
-                {/* Pointer-follow glow (before the orange fill takes over) */}
-                <span
-                  aria-hidden='true'
-                  className='pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100 motion-reduce:hidden'
-                  style={{
-                    background:
-                      'radial-gradient(220px circle at var(--mx, 50%) var(--my, 0%), rgba(255,101,51,0.18), transparent 70%)',
-                  }}
-                />
-                {/* Light sweep on hover */}
-                <span
-                  aria-hidden='true'
-                  className='pointer-events-none absolute -inset-y-6 -left-full w-1/2 -skew-x-12 bg-linear-to-r from-transparent via-white/25 to-transparent transition-[left] duration-1200 ease-out group-hover:left-[140%] motion-reduce:hidden'
-                />
-
-                {/* Card content sits above the overlays */}
-                <div className='relative'>
-                {/* Icon with hover effect */}
-                <div className='mb-6 relative h-16 w-16'>
-                  {/* Default Icon - visible when not hovering */}
-                  <div className='absolute inset-0 text-white/60 opacity-80 transition-all duration-700 ease-out group-hover:opacity-0 group-hover:scale-75 group-hover:rotate-12'>
-                    <svg
-                      width='64'
-                      height='64'
-                      viewBox='0 0 32 32'
-                      fill='none'
-                      stroke='currentColor'
-                      strokeWidth='1.5'
-                    >
-                      <rect x='4' y='4' width='10' height='10' />
-                      <rect x='18' y='4' width='10' height='10' />
-                      <rect x='4' y='18' width='10' height='10' />
-                      <rect x='18' y='18' width='10' height='10' />
-                    </svg>
-                  </div>
-                  {/* Hover Icon - visible when hovering */}
-                  <div className='absolute inset-0 opacity-0 scale-75 -rotate-12 transition-all duration-700 ease-out group-hover:opacity-100 group-hover:scale-80 group-hover:rotate-0'>
-                    <img 
-                      src='/services_image/service/Frame 2147225682.svg' 
-                      alt='' 
-                      className='w-16 h-16 drop-shadow-lg'
-                    />
-                  </div>
-                </div>
-
-                {/* Title */}
-                <h3 className='mb-3 text-lg font-semibold text-white group-hover:text-white transition-colors duration-500 md:text-xl'>
-                  {service.title}
-                </h3>
-
-                {/* Description */}
-                <p className='mb-6 text-sm text-white/60 group-hover:text-white/90 leading-relaxed transition-colors duration-500 md:text-base'>
-                  {service.description}
-                </p>
-
-                {/* Read More Link */}
-                <Link
-                  to={service.link}
-                  className='inline-flex items-center gap-2 text-orange-bg-cta group-hover:text-white font-medium transition-all duration-200 hover:gap-3 group'
-                >
-                  Read More
-                  <svg
-                    width='16'
-                    height='16'
-                    viewBox='0 0 16 16'
-                    fill='none'
-                    stroke='currentColor'
-                    strokeWidth='2'
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    className='transition-transform group-hover:translate-x-1'
-                  >
-                    <path d='M3 8h10M9 4l4 4-4 4' />
-                  </svg>
-                </Link>
-                </div>
-              </div>
-              </div>
+                service={service}
+                index={index}
+                revealed={revealed}
+              />
             ))}
           </div>
         </div>
