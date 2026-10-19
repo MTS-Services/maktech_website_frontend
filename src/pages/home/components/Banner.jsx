@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import HeroLogo3D from "./HeroLogo3D";
 // Background without the logo baked in — the logo now floats on top (HeroLogo3D)
-const bgImage = "/home_banner_bg_clean.webp";
+const bgImage = "/home_banner_nologo.webp";
 
 const Banner = () => {
   const [visible, setVisible] = useState(false);
