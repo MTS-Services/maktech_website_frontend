@@ -1,5 +1,4 @@
 import ServiceBanner from './components/ServiceBanner'
-import ServiceQuoteSection from './components/ServiceQuoteSection'
 import ServiceCaseStudyCard from './components/ServiceCaseStudyCard'
 import ServiceGrid from './components/ServiceGrid'
 import WhoWeAre from './components/WhoWeAre'
@@ -9,7 +8,6 @@ const Services = () => {
   return (
     <>
       <ServiceBanner />
-      <ServiceQuoteSection />
       <ServiceCaseStudyCard />
       <ServiceGrid />
       <WhoWeAre />

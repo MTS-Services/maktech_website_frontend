@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom'
+import AnimatedServiceCard from '../../../components/AnimatedServiceCard'
+import useRevealOnce from '../../../hooks/useRevealOnce'
 
 const services = [
   {
@@ -78,9 +79,19 @@ const services = [
       'Data analytics products and reporting pipelines that turn raw data into decisions.',
     link: '/services/sas-product',
   },
+  {
+    id: 12,
+    title: 'AI Video',
+    description:
+      'AI-powered video production for ads, product stories, and social content at scale.',
+    // No dedicated AI Video page yet — point at the contact form until one exists
+    link: '/contact',
+  },
 ]
 
 const ServiceGrid = () => {
+  const [gridRef, revealed] = useRevealOnce()
+
   return (
     <section className='px-5 pb-16 sm:px-8 md:pb-24'>
       <div className='flex justify-center'>
@@ -107,71 +118,14 @@ const ServiceGrid = () => {
           </div>
 
           {/* Service Grid */}
-          <div className='grid gap-6 sm:grid-cols-2 lg:grid-cols-3'>
-            {services.map((service) => (
-              <div
+          <div ref={gridRef} className='grid gap-6 sm:grid-cols-2 lg:grid-cols-3'>
+            {services.map((service, index) => (
+              <AnimatedServiceCard
                 key={service.id}
-                className='group rounded-lg border border-white/10 bg-[#101515] p-6 backdrop-blur-sm transition-all duration-300 hover:border-orange-bg-cta hover:bg-orange-bg-cta md:p-8'
-              >
-                {/* Icon with hover effect */}
-                <div className='mb-6 relative h-16 w-16'>
-                  {/* Default Icon - visible when not hovering */}
-                  <div className='absolute inset-0 text-white/60 opacity-80 transition-all duration-500 ease-out group-hover:opacity-0 group-hover:scale-75 group-hover:rotate-12'>
-                    <svg
-                      width='64'
-                      height='64'
-                      viewBox='0 0 32 32'
-                      fill='none'
-                      stroke='currentColor'
-                      strokeWidth='1.5'
-                    >
-                      <rect x='4' y='4' width='10' height='10' />
-                      <rect x='18' y='4' width='10' height='10' />
-                      <rect x='4' y='18' width='10' height='10' />
-                      <rect x='18' y='18' width='10' height='10' />
-                    </svg>
-                  </div>
-                  {/* Hover Icon - visible when hovering */}
-                  <div className='absolute inset-0 opacity-0 scale-75 -rotate-12 transition-all duration-500 ease-out group-hover:opacity-100 group-hover:scale-80 group-hover:rotate-0'>
-                    <img 
-                      src='/services_image/service/Frame 2147225682.svg' 
-                      alt='' 
-                      className='w-16 h-16 drop-shadow-lg'
-                    />
-                  </div>
-                </div>
-
-                {/* Title */}
-                <h3 className='mb-3 text-lg font-semibold text-white group-hover:text-white transition-colors md:text-xl'>
-                  {service.title}
-                </h3>
-
-                {/* Description */}
-                <p className='mb-6 text-sm text-white/60 group-hover:text-white/90 leading-relaxed transition-colors md:text-base'>
-                  {service.description}
-                </p>
-
-                {/* Read More Link */}
-                <Link
-                  to={service.link}
-                  className='inline-flex items-center gap-2 text-orange-bg-cta group-hover:text-white font-medium transition-all duration-200 hover:gap-3 group'
-                >
-                  Read More
-                  <svg
-                    width='16'
-                    height='16'
-                    viewBox='0 0 16 16'
-                    fill='none'
-                    stroke='currentColor'
-                    strokeWidth='2'
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    className='transition-transform group-hover:translate-x-1'
-                  >
-                    <path d='M3 8h10M9 4l4 4-4 4' />
-                  </svg>
-                </Link>
-              </div>
+                service={service}
+                index={index}
+                revealed={revealed}
+              />
             ))}
           </div>
         </div>
