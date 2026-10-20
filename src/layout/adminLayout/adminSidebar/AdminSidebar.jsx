@@ -1,4 +1,4 @@
-import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import {
   MdDashboard,
@@ -85,17 +85,24 @@ const Sidebar = ({
         {/* Brand */}
         <div className='flex items-start justify-between px-5 pt-5 pb-4 border-b border-gray-100 shrink-0'>
           <div>
-            <img
-              src='/maktech_logo.webp'
-              alt='Maktech'
-              width={120}
-              height={32}
-              fetchpriority='high'
-              className='h-8 w-auto object-contain'
-              onError={(e) => {
-                e.currentTarget.style.display = 'none';
-              }}
-            />
+            <Link
+              to='/'
+              onClick={onClose}
+              aria-label='Go to Maktech home'
+              className='inline-block'
+            >
+              <img
+                src='/maktech_logo.webp'
+                alt='Maktech'
+                width={120}
+                height={32}
+                fetchpriority='high'
+                className='h-8 w-auto object-contain'
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none';
+                }}
+              />
+            </Link>
             <p className='text-sm text-gray-400 mt-1.5'>Admin Dashboard</p>
           </div>
           <button
