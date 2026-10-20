@@ -1,4 +1,4 @@
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import {
   MdDashboard,
@@ -19,7 +19,12 @@ import { RxDoubleArrowRight } from 'react-icons/rx';
 
 const NAV_ITEMS = [
   { name: 'Dashboard', path: '/admin/dashboard', icon: MdDashboard },
-  { name: 'Emails', path: '/admin/emails', icon: MdEmail },
+  {
+    name: 'Emails',
+    path: '/admin/emails',
+    icon: MdEmail,
+    activePaths: ['/admin/compose'],
+  },
   { name: 'Leads', path: '/admin/leads', icon: MdPeople },
   { name: 'Orders', path: '/admin/orders', icon: MdShoppingCart },
   // {
@@ -45,6 +50,9 @@ const NAV_INACTIVE =
 const getNavClass = ({ isActive }) =>
   `${NAV_BASE} ${isActive ? NAV_ACTIVE : NAV_INACTIVE}`;
 
+const matchesActivePaths = (pathname, activePaths = []) =>
+  activePaths.some((p) => pathname === p || pathname.startsWith(`${p}/`));
+
 const Sidebar = ({
   onClose,
   onDesktopClose,
@@ -53,6 +61,7 @@ const Sidebar = ({
   onExpand,
 }) => {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   const handleLogout = () => {
     localStorage.removeItem('authToken');
@@ -108,7 +117,9 @@ const Sidebar = ({
             Main Menu
           </p>
           <ul className='space-y-1.5' role='list'>
-            {NAV_ITEMS.map(({ name, path, icon: Icon, autoCollapse }) => (
+            {NAV_ITEMS.map(({ name, path, icon: Icon, autoCollapse, activePaths }) => {
+              const extraActive = matchesActivePaths(pathname, activePaths);
+              return (
               <li key={path}>
                 <NavLink
                   to={path}
@@ -122,9 +133,13 @@ const Sidebar = ({
                     )
                       onAutoCollapse();
                   }}
-                  className={getNavClass}
+                  className={({ isActive }) =>
+                    getNavClass({ isActive: isActive || extraActive })
+                  }
                 >
-                  {({ isActive }) => (
+                  {({ isActive: linkActive }) => {
+                    const isActive = linkActive || extraActive;
+                    return (
                     <>
                       <Icon
                         className={`shrink-0 text-xl transition-colors ${
@@ -140,10 +155,12 @@ const Sidebar = ({
                         }`}
                       />
                     </>
-                  )}
+                    );
+                  }}
                 </NavLink>
               </li>
-            ))}
+              );
+            })}
           </ul>
         </nav>
 
@@ -196,7 +213,7 @@ const Sidebar = ({
           className='flex-1 flex flex-col items-center gap-1 w-full px-2 overflow-y-auto'
           aria-label='Main navigation'
         >
-          {NAV_ITEMS.map(({ name, path, icon: Icon, autoCollapse }) => (
+          {NAV_ITEMS.map(({ name, path, icon: Icon, autoCollapse, activePaths }) => (
             <NavLink
               key={path}
               to={path}
@@ -210,7 +227,7 @@ const Sidebar = ({
               }}
               className={({ isActive }) =>
                 `w-10 h-10 flex items-center justify-center rounded-lg transition-colors duration-200 ${
-                  isActive
+                  isActive || matchesActivePaths(pathname, activePaths)
                     ? 'bg-orange-100 text-orange-600'
                     : 'text-gray-400 hover:text-gray-900 hover:bg-orange-50/40'
                 }`
