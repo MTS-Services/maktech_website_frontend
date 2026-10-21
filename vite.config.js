@@ -9,7 +9,9 @@ export default defineConfig({
     tailwindcss(),
   ],
   preview: {
-    allowedHosts: ['maktechgroup.com','www.maktechgroup.com'],
+    allowedHosts: ['maktechgroup.com', 'www.maktechgroup.com', 'dev.maktechgroup.com'],
+    port: 4173,
+    strictPort: true,
   },
   server: {
     proxy: {
