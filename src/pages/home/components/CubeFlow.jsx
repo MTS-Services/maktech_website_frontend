@@ -377,7 +377,7 @@ const CubeFlow = ({ slides }) => {
         (cube * 1.45) / Math.max(3, title.length),
       ),
     );
-    const descriptionSize = clamp(15 * Math.min(1, cube / 360), 11, 24);
+    const descriptionSize = 16;
 
     return (
       <div
@@ -395,7 +395,7 @@ const CubeFlow = ({ slides }) => {
           style={description ? { gap: clamp(cube * 0.04, 6, 14) } : undefined}
         >
           <span
-            className={`font-inter text-center font-light leading-[1.05] tracking-[-0.055em] whitespace-normal wrap-anywhere ${
+            className={`font-poppins text-center font-bold leading-[1.1] tracking-[-0.03em] whitespace-normal wrap-anywhere ${
               description ? "line-clamp-3 shrink-0" : "block"
             }`}
             style={{ fontSize: titleSize }}
@@ -405,7 +405,7 @@ const CubeFlow = ({ slides }) => {
           {description && (
             <span
               title={description}
-              className={`font-inter shrink-0 text-center font-normal leading-[1.35em] tracking-normal whitespace-normal wrap-anywhere ${
+              className={`font-dm-sans shrink-0 text-center font-normal leading-[1.35em] tracking-normal whitespace-normal wrap-anywhere ${
                 isPhone ? "line-clamp-3" : "line-clamp-4"
               }`}
               style={{ fontSize: descriptionSize }}
