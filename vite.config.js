@@ -10,7 +10,7 @@ export default defineConfig({
   ],
   preview: {
     allowedHosts: ['maktechgroup.com', 'www.maktechgroup.com', 'dev.maktechgroup.com'],
-    port: 4173,
+    port: 3000,
     strictPort: true,
   },
   server: {
