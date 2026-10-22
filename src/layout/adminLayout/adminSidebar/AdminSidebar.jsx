@@ -10,6 +10,7 @@ import {
   MdArticle,
   MdWorkOutline,
   MdAttachMoney,
+  MdCloudUpload,
   MdLogout,
   MdClose,
   MdChevronRight,
@@ -37,6 +38,7 @@ const NAV_ITEMS = [
   { name: 'Blog', path: '/admin/blog', icon: MdArticle },
   { name: 'Jobs', path: '/admin/jobs', icon: MdWorkOutline },
   { name: 'Pricing', path: '/admin/pricing', icon: MdAttachMoney },
+  { name: 'Uploads', path: '/admin/uploads', icon: MdCloudUpload },
 ];
 
 // border lives in NAV_BASE so layout never shifts; only the color changes between states (CLS fix)

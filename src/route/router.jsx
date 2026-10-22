@@ -30,6 +30,7 @@ const JobBuilder = lazy(() => import('../pages/admin/jobs/components/JobBuilder'
 const JobApplicants = lazy(() => import('../pages/admin/jobs/JobApplicants'));
 const ApplicantDetailPage = lazy(() => import('../pages/admin/jobs/ApplicantDetailPage'));
 const Pricing = lazy(() => import('../pages/admin/pricing/Pricing'));
+const Uploads = lazy(() => import('../pages/admin/uploads/Uploads'));
 const Services = lazy(() => import('../pages/services/Services'));
 const ServiceUIUX = lazy(() => import('../pages/services/UIUX'));
 const ServiceMERN = lazy(() => import('../pages/services/MERN'));
@@ -139,6 +140,7 @@ const AppRoutes = () => (
         <Route path='jobs/:jobId/applicants' element={<JobApplicants />} />
         <Route path='jobs/:jobId/applicants/:applicantId' element={<ApplicantDetailPage />} />
         <Route path='pricing' element={<Pricing />} />
+        <Route path='uploads' element={<Uploads />} />
       </Route>
 
       <Route path='*' element={<NotFound />} />
