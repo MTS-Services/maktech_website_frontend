@@ -108,7 +108,7 @@ const PolicySection = ({ section, index, active }) => (
       id={`${section.id}-title`}
       className='mb-3 flex items-center gap-2.5 font-[Poppins] text-xl font-semibold text-white md:text-[26px]'
     >
-      <span className='rounded bg-white/10 px-1.5 py-0.5 text-[11px] font-medium text-white/80'>
+      <span className='rounded-md bg-white/10 px-2 py-1 text-xs font-medium text-[#FFB59F]'>
         {pad(index + 1)}
       </span>
       {section.title}
