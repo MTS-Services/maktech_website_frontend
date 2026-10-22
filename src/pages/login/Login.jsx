@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import Cookies from 'js-cookie';
+import apiClient from '../../services/apiClient';
+import { toast } from 'react-toastify';
 import {
   MdOutlineEmail,
   MdOutlineLock,
@@ -13,23 +16,67 @@ const LINE_POSITIONS = [12, 30, 50, 68, 88];
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [email, setEmail] = useState('admin@test.com');
-  const [password, setPassword] = useState('123');
+  const [email, setEmail] = useState('admin123@MAKtechgroup.com');
+  const [password, setPassword] = useState('admin123@MAKtechgroup');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!email || !password) {
+      setErrorMsg('Please enter both email and password.');
+      toast.error('Please enter both email and password.');
+      return;
+    }
+
     setIsLoading(true);
-    // Simulated async auth — replace with a real API call to your auth endpoint.
-    // On success the server should set an httpOnly cookie; the localStorage token
-    // here is a placeholder until a real backend is integrated.
-    setTimeout(() => {
-      localStorage.setItem('authToken', `session-${Date.now()}`);
-      // Redirect back to the page the user originally tried to access, or dashboard
-      const destination = location.state?.from ?? '/admin/dashboard';
-      navigate(destination, { replace: true });
-    }, 700);
+    setErrorMsg('');
+
+    try {
+      const response = await apiClient.post('/api/v1/auth/login', {
+        email: email.trim(),
+        password: password,
+      });
+
+      const token = response.data?.data?.token;
+      const user = response.data?.data?.user;
+
+      if (token) {
+        // Store in localStorage so ProtectedRoute & apiClient immediately detect it
+        localStorage.setItem('authToken', token);
+        if (user) {
+          localStorage.setItem('authUser', JSON.stringify(user));
+        }
+
+        // Also safely try cookie if js-cookie is present
+        try {
+          if (typeof Cookies !== 'undefined' && Cookies.set) {
+            Cookies.set('authToken', token, { expires: 7 });
+          }
+        } catch {
+          // ignore cookie failure
+        }
+
+        toast.success(response.data?.message || 'Admin logged in successfully!');
+        const destination = location.state?.from ?? '/admin/dashboard';
+        navigate(destination, { replace: true });
+      } else {
+        const msg = 'Authentication failed: No token received from server.';
+        setErrorMsg(msg);
+        toast.error(msg);
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      const serverMessage =
+        error.response?.data?.message ||
+        error.response?.data?.errorMessages?.[0]?.message ||
+        'Invalid email or password.';
+      setErrorMsg(serverMessage);
+      toast.error(serverMessage);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -37,7 +84,7 @@ const Login = () => {
       className='min-h-screen relative overflow-hidden'
       style={{ backgroundColor: '#1c1c1c' }}
     >
-      {/* ── Full-page radial glow ── */}
+      {/* Ã¢â€â‚¬Ã¢â€â‚¬ Full-page radial glow Ã¢â€â‚¬Ã¢â€â‚¬ */}
       <div
         className='absolute inset-0 pointer-events-none z-0'
         style={{
@@ -47,7 +94,7 @@ const Login = () => {
         aria-hidden='true'
       />
 
-      {/* ── Full-page animated vertical lines ── */}
+      {/* Ã¢â€â‚¬Ã¢â€â‚¬ Full-page animated vertical lines Ã¢â€â‚¬Ã¢â€â‚¬ */}
       <div
         className='absolute inset-0 pointer-events-none z-0'
         aria-hidden='true'
@@ -88,9 +135,9 @@ const Login = () => {
         ))}
       </div>
 
-      {/* ── Container ── */}
+      {/* Ã¢â€â‚¬Ã¢â€â‚¬ Container Ã¢â€â‚¬Ã¢â€â‚¬ */}
       <div className='relative z-10 mx-auto w-full max-w-350 px-5 md:px-10 xl:px-16 2xl:px-20 min-h-screen flex xl:flex-row flex-col'>
-        {/* ── Left Branding Panel (desktop only) ── */}
+        {/* Ã¢â€â‚¬Ã¢â€â‚¬ Left Branding Panel (desktop only) Ã¢â€â‚¬Ã¢â€â‚¬ */}
         <div className='hidden xl:flex xl:w-1/2 flex-col justify-between py-12 pr-12 2xl:pr-16'>
           {/* Logo */}
           <div>
@@ -133,7 +180,7 @@ const Login = () => {
             </h2>
 
             <p className='text-[#AAAAAA] text-base 2xl:text-lg leading-relaxed'>
-              Manage projects, track leads, and oversee operations — all in one
+              Manage projects, track leads, and oversee operations Ã¢â‚¬â€ all in one
               powerful workspace.
             </p>
           </div>
@@ -144,7 +191,7 @@ const Login = () => {
           </div>
         </div>
 
-        {/* ── Right Form Panel ── */}
+        {/* Ã¢â€â‚¬Ã¢â€â‚¬ Right Form Panel Ã¢â€â‚¬Ã¢â€â‚¬ */}
         <div className='w-full xl:w-1/2 flex flex-col items-center justify-center min-h-screen xl:min-h-0 py-20 xl:py-12 xl:pl-12 2xl:pl-16'>
           {/* Mobile logo */}
           <div className='xl:hidden mb-10'>
@@ -180,6 +227,12 @@ const Login = () => {
 
               {/* Form */}
               <form onSubmit={handleSubmit} className='space-y-4' noValidate>
+                {errorMsg && (
+                  <div className='p-3 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-300 text-xs flex items-center gap-2'>
+                    <span className='w-1.5 h-1.5 rounded-full bg-rose-500 shrink-0' />
+                    <span>{errorMsg}</span>
+                  </div>
+                )}
                 {/* Email */}
                 <div>
                   <label
@@ -294,7 +347,7 @@ const Login = () => {
                           d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z'
                         />
                       </svg>
-                      Signing in…
+                      Signing in....
                     </>
                   ) : (
                     <>

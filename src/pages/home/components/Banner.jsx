@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-const bgImage = "/home_banner_bg.webp";
+import HeroLogo3D from "./HeroLogo3D";
+// Background without the logo baked in — the logo now floats on top (HeroLogo3D)
+const bgImage = "/home_banner_nologo.webp";
 
 const Banner = () => {
   const [visible, setVisible] = useState(false);
@@ -32,6 +34,9 @@ const Banner = () => {
           : undefined
       }
     >
+      {/* Interactive 3D hero logo (desktop) */}
+      {!isMobile && <HeroLogo3D />}
+
       {/* Content Container - Max Width */}
       <div
         className={
@@ -48,11 +53,7 @@ const Banner = () => {
             }`}
             style={{ transitionDelay: "100ms" }}
           >
-            <img
-              src="/Infinity.webp"
-              alt="Infinity"
-              className="w-[300px] h-auto"
-            />
+            <HeroLogo3D inline />
           </div>
         )}
 

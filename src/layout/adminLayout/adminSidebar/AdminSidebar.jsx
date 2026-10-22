@@ -1,4 +1,4 @@
-import { NavLink, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import {
   MdDashboard,
@@ -10,6 +10,7 @@ import {
   MdArticle,
   MdWorkOutline,
   MdAttachMoney,
+  MdCloudUpload,
   MdLogout,
   MdClose,
   MdChevronRight,
@@ -19,7 +20,12 @@ import { RxDoubleArrowRight } from 'react-icons/rx';
 
 const NAV_ITEMS = [
   { name: 'Dashboard', path: '/admin/dashboard', icon: MdDashboard },
-  { name: 'Emails', path: '/admin/emails', icon: MdEmail },
+  {
+    name: 'Emails',
+    path: '/admin/emails',
+    icon: MdEmail,
+    activePaths: ['/admin/compose'],
+  },
   { name: 'Leads', path: '/admin/leads', icon: MdPeople },
   { name: 'Orders', path: '/admin/orders', icon: MdShoppingCart },
   // {
@@ -32,6 +38,7 @@ const NAV_ITEMS = [
   { name: 'Blog', path: '/admin/blog', icon: MdArticle },
   { name: 'Jobs', path: '/admin/jobs', icon: MdWorkOutline },
   { name: 'Pricing', path: '/admin/pricing', icon: MdAttachMoney },
+  { name: 'Uploads', path: '/admin/uploads', icon: MdCloudUpload },
 ];
 
 // border lives in NAV_BASE so layout never shifts; only the color changes between states (CLS fix)
@@ -45,6 +52,9 @@ const NAV_INACTIVE =
 const getNavClass = ({ isActive }) =>
   `${NAV_BASE} ${isActive ? NAV_ACTIVE : NAV_INACTIVE}`;
 
+const matchesActivePaths = (pathname, activePaths = []) =>
+  activePaths.some((p) => pathname === p || pathname.startsWith(`${p}/`));
+
 const Sidebar = ({
   onClose,
   onDesktopClose,
@@ -53,10 +63,16 @@ const Sidebar = ({
   onExpand,
 }) => {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   const handleLogout = () => {
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('authUser');
+    if (typeof document !== 'undefined') {
+      document.cookie = 'authToken=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    }
     toast.success('Signed out successfully');
-    setTimeout(() => navigate('/login'), 900);
+    setTimeout(() => navigate('/login'), 500);
   };
 
   return (
@@ -71,17 +87,24 @@ const Sidebar = ({
         {/* Brand */}
         <div className='flex items-start justify-between px-5 pt-5 pb-4 border-b border-gray-100 shrink-0'>
           <div>
-            <img
-              src='/maktech_logo.webp'
-              alt='Maktech'
-              width={120}
-              height={32}
-              fetchpriority='high'
-              className='h-8 w-auto object-contain'
-              onError={(e) => {
-                e.currentTarget.style.display = 'none';
-              }}
-            />
+            <Link
+              to='/'
+              onClick={onClose}
+              aria-label='Go to Maktech home'
+              className='inline-block'
+            >
+              <img
+                src='/maktech_logo.webp'
+                alt='Maktech'
+                width={120}
+                height={32}
+                fetchpriority='high'
+                className='h-8 w-auto object-contain'
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none';
+                }}
+              />
+            </Link>
             <p className='text-sm text-gray-400 mt-1.5'>Admin Dashboard</p>
           </div>
           <button
@@ -103,7 +126,9 @@ const Sidebar = ({
             Main Menu
           </p>
           <ul className='space-y-1.5' role='list'>
-            {NAV_ITEMS.map(({ name, path, icon: Icon, autoCollapse }) => (
+            {NAV_ITEMS.map(({ name, path, icon: Icon, autoCollapse, activePaths }) => {
+              const extraActive = matchesActivePaths(pathname, activePaths);
+              return (
               <li key={path}>
                 <NavLink
                   to={path}
@@ -117,9 +142,13 @@ const Sidebar = ({
                     )
                       onAutoCollapse();
                   }}
-                  className={getNavClass}
+                  className={({ isActive }) =>
+                    getNavClass({ isActive: isActive || extraActive })
+                  }
                 >
-                  {({ isActive }) => (
+                  {({ isActive: linkActive }) => {
+                    const isActive = linkActive || extraActive;
+                    return (
                     <>
                       <Icon
                         className={`shrink-0 text-xl transition-colors ${
@@ -135,10 +164,12 @@ const Sidebar = ({
                         }`}
                       />
                     </>
-                  )}
+                    );
+                  }}
                 </NavLink>
               </li>
-            ))}
+              );
+            })}
           </ul>
         </nav>
 
@@ -191,7 +222,7 @@ const Sidebar = ({
           className='flex-1 flex flex-col items-center gap-1 w-full px-2 overflow-y-auto'
           aria-label='Main navigation'
         >
-          {NAV_ITEMS.map(({ name, path, icon: Icon, autoCollapse }) => (
+          {NAV_ITEMS.map(({ name, path, icon: Icon, autoCollapse, activePaths }) => (
             <NavLink
               key={path}
               to={path}
@@ -205,7 +236,7 @@ const Sidebar = ({
               }}
               className={({ isActive }) =>
                 `w-10 h-10 flex items-center justify-center rounded-lg transition-colors duration-200 ${
-                  isActive
+                  isActive || matchesActivePaths(pathname, activePaths)
                     ? 'bg-orange-100 text-orange-600'
                     : 'text-gray-400 hover:text-gray-900 hover:bg-orange-50/40'
                 }`

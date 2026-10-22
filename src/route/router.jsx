@@ -27,7 +27,10 @@ const ContentBuilder = lazy(() => import('../components/ContentBuilder/ContentBu
 const Blog = lazy(() => import('../pages/admin/blog/Blog'));
 const Jobs = lazy(() => import('../pages/admin/jobs/Jobs'));
 const JobBuilder = lazy(() => import('../pages/admin/jobs/components/JobBuilder').then(m => ({ default: m.JobBuilder })));
+const JobApplicants = lazy(() => import('../pages/admin/jobs/JobApplicants'));
+const ApplicantDetailPage = lazy(() => import('../pages/admin/jobs/ApplicantDetailPage'));
 const Pricing = lazy(() => import('../pages/admin/pricing/Pricing'));
+const Uploads = lazy(() => import('../pages/admin/uploads/Uploads'));
 const Services = lazy(() => import('../pages/services/Services'));
 const ServiceUIUX = lazy(() => import('../pages/services/UIUX'));
 const ServiceMERN = lazy(() => import('../pages/services/MERN'));
@@ -92,9 +95,15 @@ const AppRoutes = () => (
         ></Route>
         <Route path='/contact' element={<Contact />} />
         <Route path='/career' element={<Career />} />
+        <Route path='/careers' element={<Career />} />
+        <Route path='/career/:id' element={<ApplyJobs />} />
+        <Route path='/careers/:id' element={<ApplyJobs />} />
         <Route path='/apply-jobs' element={<ApplyJobs />} />
+        <Route path='/apply-jobs/:id' element={<ApplyJobs />} />
         <Route path='/blogs' element={<Blogs />} />
         <Route path='/blogs/details' element={<BlogDetails />} />
+        <Route path='/blogs/details/:slug' element={<BlogDetails />} />
+        <Route path='/blogs/:slug' element={<BlogDetails />} />
         <Route path='/pricing' element={<PublicPricing />} />
         <Route path='/case-study' element={<PublicCaseStudy />} />
         <Route path='/case-study/:slug' element={<CaseStudyDetailPage />} />
@@ -128,7 +137,10 @@ const AppRoutes = () => (
         <Route path='jobs' element={<Jobs />} />
         <Route path='jobs/create' element={<JobBuilder />} />
         <Route path='jobs/edit/:id' element={<JobBuilder />} />
+        <Route path='jobs/:jobId/applicants' element={<JobApplicants />} />
+        <Route path='jobs/:jobId/applicants/:applicantId' element={<ApplicantDetailPage />} />
         <Route path='pricing' element={<Pricing />} />
+        <Route path='uploads' element={<Uploads />} />
       </Route>
 
       <Route path='*' element={<NotFound />} />

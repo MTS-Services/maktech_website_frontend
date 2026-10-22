@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
 import { BubbleMenu } from '@tiptap/react/menus';
 import StarterKit from '@tiptap/starter-kit';
@@ -23,7 +23,9 @@ import {
   MdImage,
   MdVideoLibrary,
   MdGridView,
-  MdTextFields
+  MdTextFields,
+  MdBrokenImage,
+  MdCloudUpload
 } from 'react-icons/md';
 
 const FontSize = Extension.create({
@@ -148,6 +150,78 @@ const GridSelector = ({ id, onSelectLayout, onRemove }) => {
   );
 };
 
+const GridSlot = ({ index, src, className = '', onUpload, onRemove }) => {
+  const [hasError, setHasError] = useState(false);
+
+  useEffect(() => {
+    setHasError(false);
+  }, [src]);
+
+  if (src && !hasError) {
+    return (
+      <div key={index} className={`relative group rounded-xl overflow-hidden shadow-sm bg-gray-100 w-full h-full min-h-[140px] ${className}`}>
+        <div className="absolute top-2 right-2 bg-[#2a2a2a]/90 backdrop-blur-xs text-gray-200 rounded-md flex items-center p-1 opacity-0 group-hover:opacity-100 transition-opacity z-10 shadow-md">
+          <button type="button" onClick={() => onRemove(index)} className="p-1 text-red-400 hover:text-red-300 hover:bg-gray-700 rounded transition cursor-pointer" title="Remove">
+            <MdDelete size={14} />
+          </button>
+        </div>
+        <img
+          src={src}
+          alt={`Grid slot ${index}`}
+          onError={() => setHasError(true)}
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+      </div>
+    );
+  }
+
+  if (hasError) {
+    return (
+      <div key={index} className={`relative w-full h-full min-h-[140px] border-2 border-dashed border-red-300 rounded-xl bg-red-50/50 flex flex-col items-center justify-center p-3 text-center ${className}`}>
+        <div className="absolute top-2 right-2">
+          <button type="button" onClick={() => onRemove(index)} className="p-1 text-red-400 hover:text-red-600 rounded cursor-pointer" title="Remove">
+            <MdDelete size={14} />
+          </button>
+        </div>
+        <MdBrokenImage size={24} className="text-red-400 mb-1.5" />
+        <span className="text-[11px] font-semibold text-gray-700 mb-2">Image Broken</span>
+        <label className="inline-flex items-center gap-1 px-2.5 py-1 bg-[#ff6533] hover:bg-[#e5501a] text-white text-[11px] font-semibold rounded cursor-pointer transition">
+          <MdCloudUpload size={13} />
+          Reupload
+          <input
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={(e) => {
+              if (e.target.files && e.target.files[0]) {
+                onUpload(index, URL.createObjectURL(e.target.files[0]));
+                setHasError(false);
+              }
+            }}
+          />
+        </label>
+      </div>
+    );
+  }
+
+  return (
+    <div key={index} className={`relative w-full h-full min-h-[150px] border-2 border-dashed border-gray-300 rounded-xl bg-[#fafafa] flex flex-col items-center justify-center hover:bg-gray-50 transition cursor-pointer ${className}`}>
+      <MdImage size={24} className="text-gray-300 mb-2" />
+      <span className="text-[10px] font-bold text-gray-500 uppercase">Upload</span>
+      <input
+        type="file"
+        accept="image/*"
+        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+        onChange={(e) => {
+          if (e.target.files && e.target.files.length > 0) {
+            handleUpload(index, URL.createObjectURL(e.target.files[0]));
+          }
+        }}
+      />
+    </div>
+  );
+};
+
 const GridBlock = ({ block, onRemove, onUpdateBlock }) => {
   const images = block.images || Array(block.slots).fill('');
   
@@ -157,29 +231,20 @@ const GridBlock = ({ block, onRemove, onUpdateBlock }) => {
     onUpdateBlock(block.id, { images: newImages });
   };
 
-  const renderSlot = (index, className = '') => {
-    if (images[index]) {
-      return (
-        <div key={index} className={`relative group rounded-xl overflow-hidden shadow-sm bg-gray-100 w-full h-full ${className}`}>
-           <div className="absolute top-2 right-2 bg-[#2a2a2a] text-gray-300 rounded-md flex items-center opacity-0 group-hover:opacity-100 transition-opacity z-10 shadow-md">
-             <button type="button" onClick={() => handleUpload(index, '')} className="p-1.5 text-red-400 hover:text-red-300 hover:bg-gray-700 rounded-md transition-colors cursor-pointer"><MdDelete size={14} /></button>
-           </div>
-           <img src={images[index]} alt={`Grid slot ${index}`} className="absolute inset-0 w-full h-full object-cover" />
-        </div>
-      );
-    }
-    return (
-      <div key={index} className={`relative w-full h-full min-h-[150px] border-2 border-dashed border-gray-300 rounded-xl bg-[#fafafa] flex flex-col items-center justify-center hover:bg-gray-50 transition cursor-pointer ${className}`}>
-        <MdImage size={24} className="text-gray-300 mb-2" />
-        <span className="text-[10px] font-bold text-gray-500 uppercase">Upload</span>
-        <input type="file" accept="image/*" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" onChange={(e) => {
-          if (e.target.files && e.target.files.length > 0) {
-            handleUpload(index, URL.createObjectURL(e.target.files[0]));
-          }
-        }} />
-      </div>
-    );
+  const handleRemoveSlot = (index) => {
+    handleUpload(index, '');
   };
+
+  const renderSlot = (index, className = '') => (
+    <GridSlot
+      key={index}
+      index={index}
+      src={images[index]}
+      className={className}
+      onUpload={handleUpload}
+      onRemove={handleRemoveSlot}
+    />
+  );
 
   const renderLayout = () => {
     switch(block.layout) {
@@ -276,24 +341,88 @@ const MediaPlaceholder = ({ type, onUpload, onRemove, id }) => {
   );
 };
 
-const MediaBlock = ({ id, type, src, alt, mediaType, onRemove }) => (
-  <div className="relative group rounded-xl bg-[#1a1a1a] border border-gray-100 overflow-hidden mb-4 shadow-sm">
-    <div className="absolute top-4 right-4 bg-[#2a2a2a] text-gray-300 rounded-md flex items-center opacity-0 group-hover:opacity-100 transition-opacity z-10 border border-gray-600 shadow-md z-20">
-      <button type="button" onClick={() => onRemove(id)} className="p-1.5 text-red-400 hover:text-red-300 hover:bg-gray-700 rounded-md transition-colors cursor-pointer"><MdDelete size={16} /></button>
-    </div>
-    {type === 'video' ? (
-      mediaType === 'audio' ? (
-        <div className="w-full h-40 flex items-center justify-center bg-gray-900 px-6">
-          <audio src={src} controls className="w-full max-w-md" />
+const MediaBlock = ({ id, type, src, alt, mediaType, onRemove, onReplace }) => {
+  const [hasError, setHasError] = useState(false);
+
+  useEffect(() => {
+    setHasError(false);
+  }, [src]);
+
+  return (
+    <div className={`relative group rounded-xl bg-[#1a1a1a] border border-gray-200 overflow-hidden mb-4 shadow-sm ${hasError ? 'min-h-[160px]' : ''}`}>
+      {/* Top Action Bar: Delete only on hover for normal media */}
+      {!hasError && (
+        <div className="absolute top-3 right-3 bg-[#2a2a2a]/90 backdrop-blur-xs text-gray-300 rounded-md flex items-center z-20 border border-gray-600 shadow-md p-1 opacity-0 group-hover:opacity-100 transition-opacity">
+          <button
+            type="button"
+            onClick={() => onRemove(id)}
+            className="p-1.5 text-red-400 hover:text-red-300 hover:bg-gray-700 rounded transition-colors cursor-pointer"
+            title="Remove"
+          >
+            <MdDelete size={16} />
+          </button>
         </div>
+      )}
+
+      {hasError ? (
+        <div className="relative w-full py-10 px-6 bg-gray-50 border-2 border-dashed border-red-300 rounded-xl flex flex-col items-center justify-center text-center">
+          <div className="absolute top-3 right-3">
+            <button
+              type="button"
+              onClick={() => onRemove(id)}
+              className="p-1.5 text-red-400 hover:text-red-600 rounded transition-colors cursor-pointer"
+              title="Remove"
+            >
+              <MdDelete size={16} />
+            </button>
+          </div>
+          <div className="w-12 h-12 rounded-full bg-red-100 text-red-500 flex items-center justify-center mb-3">
+            <MdBrokenImage size={24} />
+          </div>
+          <p className="text-sm font-semibold text-gray-800 mb-1">
+            {type === 'video' ? 'Video/Audio' : 'Image'} failed to load or file is broken
+          </p>
+          <p className="text-xs text-gray-500 mb-4 max-w-sm">
+            The source file could not be loaded. Click below to reupload and replace it.
+          </p>
+          <label className="inline-flex items-center gap-2 px-4 py-2 bg-[#ff6533] hover:bg-[#e5501a] text-white text-xs font-semibold rounded-lg shadow-sm transition-colors cursor-pointer">
+            <MdCloudUpload size={16} />
+            Reupload {type === 'video' ? 'Media' : 'Image'}
+            <input
+              type="file"
+              accept={type === 'video' ? 'video/*,audio/*' : 'image/*'}
+              className="hidden"
+              onChange={(e) => {
+                if (e.target.files && e.target.files.length > 0) {
+                  const file = e.target.files[0];
+                  const url = URL.createObjectURL(file);
+                  const mType = file.type.startsWith('audio/') ? 'audio' : 'video';
+                  if (onReplace) onReplace(id, url, mType);
+                  setHasError(false);
+                }
+              }}
+            />
+          </label>
+        </div>
+      ) : type === 'video' ? (
+        mediaType === 'audio' ? (
+          <div className="w-full h-40 flex items-center justify-center bg-gray-900 px-6">
+            <audio src={src} controls onError={() => setHasError(true)} className="w-full max-w-md" />
+          </div>
+        ) : (
+          <video src={src} controls onError={() => setHasError(true)} className="w-full h-auto max-h-[700px] object-contain block bg-black" />
+        )
       ) : (
-        <video src={src} controls className="w-full h-auto max-h-[700px] object-contain block bg-black" />
-      )
-    ) : (
-      <img src={src} alt={alt} className="w-full h-auto object-cover block" />
-    )}
-  </div>
-);
+        <img
+          src={src}
+          alt={alt}
+          onError={() => setHasError(true)}
+          className="w-full h-auto object-cover block min-h-[140px]"
+        />
+      )}
+    </div>
+  );
+};
 
 const EditorMenu = ({ editor, onRemove, id }) => {
   const [activeMenu, setActiveMenu] = useState(null);
@@ -389,7 +518,14 @@ const EditorMenu = ({ editor, onRemove, id }) => {
   );
 };
 
-const TextBlock = ({ id, onRemove }) => {
+const TextBlock = ({ id, block, onRemove, onUpdateBlock }) => {
+  const initialHtml = block?.html || `
+    <h2 style="font-family: Poppins; font-size: 40px">About MakTech</h2>
+    <p>MakTech is a creative digital agency dedicated to helping businesses grow through innovative design and technology solutions. We specialize in Graphic Design, UI/UX Design, Web Development, App Development, Video Editing, and digital branding services that help companies build a strong and impactful online presence.</p>
+    <p>Our team combines creativity, strategy, and technical expertise to deliver solutions that are not only visually engaging but also focused on performance and business growth. From startups to established brands, we work closely with our clients to transform ideas into meaningful digital experiences.</p>
+    <p>At MakTech, our mission is to create high-quality digital products that drive results, strengthen brands, and help businesses succeed in an increasingly competitive digital landscape.</p>
+  `;
+
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -400,12 +536,12 @@ const TextBlock = ({ id, onRemove }) => {
       FontFamily,
       FontSize,
     ],
-    content: `
-      <h2 style="font-family: Poppins; font-size: 40px">About MakTech</h2>
-      <p>MakTech is a creative digital agency dedicated to helping businesses grow through innovative design and technology solutions. We specialize in Graphic Design, UI/UX Design, Web Development, App Development, Video Editing, and digital branding services that help companies build a strong and impactful online presence.</p>
-      <p>Our team combines creativity, strategy, and technical expertise to deliver solutions that are not only visually engaging but also focused on performance and business growth. From startups to established brands, we work closely with our clients to transform ideas into meaningful digital experiences.</p>
-      <p>At MakTech, our mission is to create high-quality digital products that drive results, strengthen brands, and help businesses succeed in an increasingly competitive digital landscape.</p>
-    `,
+    content: initialHtml,
+    onUpdate: ({ editor }) => {
+      if (onUpdateBlock) {
+        onUpdateBlock(id, { html: editor.getHTML() });
+      }
+    },
     editorProps: {
       attributes: {
         class: 'prose prose-sm lg:prose-base focus:outline-none min-h-[150px] py-4 bg-transparent text-gray-800',
@@ -470,10 +606,29 @@ export const AssetBuilder = ({ blocks, onRemove, onUpdateBlock, onAdd }) => {
              return <MediaPlaceholder key={block.id} id={block.id} type={block.type} onRemove={onRemove} onUpload={(id, url, mediaType) => onUpdateBlock(id, { src: url, mediaType })} />;
           }
           if (['image', 'video'].includes(block.type) && block.src) {
-            return <MediaBlock key={block.id} id={block.id} type={block.type} src={block.src} alt={block.type} mediaType={block.mediaType} onRemove={onRemove} />;
+            return (
+              <MediaBlock
+                key={block.id}
+                id={block.id}
+                type={block.type}
+                src={block.src}
+                alt={block.type}
+                mediaType={block.mediaType}
+                onRemove={onRemove}
+                onReplace={(id, url, mediaType) => onUpdateBlock(id, { src: url, mediaType })}
+              />
+            );
           }
           if (block.type === 'text') {
-            return <TextBlock key={block.id} id={block.id} onRemove={onRemove} />;
+            return (
+              <TextBlock
+                key={block.id}
+                id={block.id}
+                block={block}
+                onRemove={onRemove}
+                onUpdateBlock={onUpdateBlock}
+              />
+            );
           }
           if (block.type === 'thanks') {
             return (

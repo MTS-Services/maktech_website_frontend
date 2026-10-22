@@ -24,13 +24,17 @@ export const MetaForm = ({ formType = 'caseStudy' }) => {
         </div>
         <div>
           <label className={labelCls}>Date{star}</label>
-          <input type="text" {...register('date', { required: 'Date is required' })} className={inputCls} placeholder="DD-MM-YYYY" />
+          <input type="date" onClick={(e) => e.target.showPicker && e.target.showPicker()} {...register('date', { required: 'Date is required' })} className={inputCls} />
           {errors.date && <p className={errCls}>{errors.date.message}</p>}
         </div>
         <div>
           <label className={labelCls}>Posted By{star}</label>
           <input type="text" {...register('postedBy', { required: 'Posted By is required' })} className={inputCls} placeholder="e.g. Joni" />
           {errors.postedBy && <p className={errCls}>{errors.postedBy.message}</p>}
+        </div>
+        <div>
+          <label className={labelCls}>Read Time</label>
+          <input type="text" {...register('readTime')} className={inputCls} placeholder="e.g., 2 minute" />
         </div>
         <div>
           <label className={labelCls}>Key takeaways{star}</label>
@@ -56,11 +60,14 @@ export const MetaForm = ({ formType = 'caseStudy' }) => {
       
       <div>
         <label className={labelCls}>Category{star}</label>
-        <select {...register('category', { required: 'Category is required' })} className={`${inputCls} bg-white appearance-none`}>
-          <option value="Web Development">Web Development</option>
+        <select {...register('category', { required: 'Category is required' })} className={`${inputCls} bg-white`}>
+          <option value="UI/UX">UI/UX</option>
+          <option value="MERN">MERN</option>
+          <option value="Laravel">Laravel</option>
+          <option value="Flutter">Flutter</option>
+          <option value="CMS">CMS</option>
           <option value="Digital Marketing">Digital Marketing</option>
-          <option value="Mobile App">Mobile App</option>
-          <option value="Branding">Branding</option>
+          <option value="AI">AI</option>
         </select>
         {errors.category && <p className={errCls}>{errors.category.message}</p>}
       </div>

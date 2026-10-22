@@ -9,7 +9,7 @@ const Pagination = ({ page, totalPages, pageRange, onPage }) => {
         onClick={() => onPage(page - 1)}
         disabled={page === 1}
         aria-label='Previous page'
-        className='inline-flex items-center justify-center w-9 h-9 rounded-lg border border-gray-200 text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors duration-150'
+        className='inline-flex cursor-pointer items-center justify-center w-9 h-9 rounded-lg border border-gray-200 text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors duration-150'
       >
         <MdChevronLeft className='text-xl' aria-hidden='true' />
       </button>
@@ -29,7 +29,7 @@ const Pagination = ({ page, totalPages, pageRange, onPage }) => {
             onClick={() => onPage(p)}
             aria-label={`Page ${p}`}
             aria-current={p === page ? 'page' : undefined}
-            className={`w-9 h-9 rounded-lg text-sm font-semibold border transition-colors duration-150 ${
+            className={`cursor-pointer w-9 h-9 rounded-lg text-sm font-semibold border transition-colors duration-150 ${
               p === page
                 ? 'bg-orange-bg-cta text-white border-transparent shadow-sm'
                 : 'border-gray-200 text-gray-600 hover:bg-gray-50'
@@ -45,7 +45,7 @@ const Pagination = ({ page, totalPages, pageRange, onPage }) => {
         onClick={() => onPage(page + 1)}
         disabled={page === totalPages}
         aria-label='Next page'
-        className='inline-flex items-center justify-center w-9 h-9 rounded-lg border border-gray-200 text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors duration-150'
+        className='inline-flex cursor-pointer items-center justify-center w-9 h-9 rounded-lg border border-gray-200 text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors duration-150'
       >
         <MdChevronRight className='text-xl' aria-hidden='true' />
       </button>

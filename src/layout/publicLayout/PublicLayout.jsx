@@ -60,7 +60,8 @@ const PublicLayout = () => {
   }, [pathname, isHomePage]);
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-black-bg">
+    // overflow-clip (not hidden) so position: sticky keeps working in page sections
+    <div className="relative min-h-screen overflow-clip bg-black-bg">
       {/* Animated vertical lines background - shown on all public pages */}
       <AnimatedLines />
 

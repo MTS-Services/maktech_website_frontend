@@ -45,15 +45,53 @@ const ContentSection = ({ label, heading, points }) => (
 
 // --- Main component ---
 
+const renderHighlightedTitle = (title) => {
+  if (!title) return null;
+  const words = title.trim().split(' ');
+  if (words.length <= 2) {
+    return <span className='text-white'>{title}</span>;
+  }
+  const highlightCount = words.length >= 7 ? 2 : Math.min(2, Math.floor(words.length / 2));
+  const mainWords = words.slice(0, words.length - highlightCount).join(' ');
+  const highlightWords = words.slice(words.length - highlightCount).join(' ');
+
+  return (
+    <>
+      <span className='text-white'>{mainWords} </span>
+      <span className='text-[#ff6533] block sm:inline lg:block'>{highlightWords}</span>
+    </>
+  );
+};
+
 const CaseStudyDetail = ({ project }) => {
   const { state } = useLocation();
-  const category = state?.category ?? project.primaryCategory;
+  const category = project.category || state?.category || project.primaryCategory || 'IT Service · Web App';
+  const client = project.client || 'Md Alamgir Kabir';
+  const timeline = project.timeline || '14 weeks';
+  const services = project.services || (project.tags ? (Array.isArray(project.tags) ? project.tags.join(' · ') : project.tags) : 'International IT Product & Services');
+  const description = project.description || project.subtitle || '';
+
+  const tags = Array.isArray(project.tags)
+    ? project.tags
+    : typeof project.tags === 'string'
+    ? project.tags.split(',').map((t) => t.trim()).filter(Boolean)
+    : [];
 
   const breadcrumbCrumbs = [
     { label: 'Case Studies', href: '/case-study' },
     { label: category },
     { label: project.title },
   ];
+
+  const normalizeImageUrl = (url) => {
+    if (!url || typeof url !== 'string') return url;
+    if (url.startsWith('http://www.api.maktechgroup.com')) {
+      return url.replace('http://www.api.maktechgroup.com', 'https://www.api.maktechgroup.com');
+    }
+    return url;
+  };
+
+  const coverImg = normalizeImageUrl(project.coverImage || project.image);
 
   return (
     <section className='w-full pt-20 xl:pt-10 pb-20 xl:pb-28'>
@@ -62,65 +100,147 @@ const CaseStudyDetail = ({ project }) => {
         <Breadcrumb crumbs={breadcrumbCrumbs} />
 
         {/* Cover image */}
-        <div
-          className='w-full overflow-hidden rounded-2xl'
-          style={{ height: 'clamp(280px, 40vw, 560px)' }}
-        >
-          <img
-            src={project.coverImage}
-            alt={project.title}
-            className='w-full h-full object-cover'
-          />
-        </div>
-
-        {/* Title block */}
-        <div className='flex flex-col gap-3'>
-          <h1 className='text-4xl xl:text-5xl font-bold text-white leading-tight'>
-            {project.title}
-          </h1>
-          <p
-            className='text-lg xl:text-xl max-w-3xl'
-            style={{ color: '#aaaaaa' }}
+        {coverImg && (
+          <div
+            className='w-full overflow-hidden rounded-2xl bg-[#161616]'
+            style={{ height: 'clamp(280px, 40vw, 560px)' }}
           >
-            {project.subtitle}
-          </p>
-        </div>
+            <img
+              src={coverImg}
+              alt={project.title}
+              className='w-full h-full object-cover'
+            />
+          </div>
+        )}
 
-        {/* Tags */}
-        <div className='flex flex-wrap gap-3'>
-          {project.tags.map((tag) => (
-            <span
-              key={tag}
-              className='bg-white/10 text-[#bababa] text-sm px-4 py-1.5 rounded-full'
-            >
-              {tag}
-            </span>
-          ))}
+        {/* Overview & About Project Header Section */}
+        <div className='flex flex-col lg:flex-row items-start gap-8 lg:gap-14 my-4'>
+          {/* Left Column: OVERVIEW Card */}
+          <aside className='w-full lg:w-[280px] shrink-0 rounded-2xl border border-white/10 bg-[#161616]/80 p-6 md:p-7 backdrop-blur-md shadow-2xl'>
+            <h2 className='text-white font-bold text-base tracking-wider uppercase mb-5'>
+              OVERVIEW
+            </h2>
+            <div className='space-y-4'>
+              <div className='border-b border-white/10 pb-3.5'>
+                <p className='text-xs font-semibold text-[#ff6533] uppercase tracking-wider mb-1'>
+                  Client
+                </p>
+                <p className='text-white text-sm font-medium leading-snug'>
+                  {client}
+                </p>
+              </div>
+
+              <div className='border-b border-white/10 pb-3.5'>
+                <p className='text-xs font-semibold text-[#ff6533] uppercase tracking-wider mb-1'>
+                  Category
+                </p>
+                <p className='text-white text-sm font-medium leading-snug'>
+                  {category}
+                </p>
+              </div>
+
+              <div className='border-b border-white/10 pb-3.5'>
+                <p className='text-xs font-semibold text-[#ff6533] uppercase tracking-wider mb-1'>
+                  Timeline
+                </p>
+                <p className='text-white text-sm font-medium leading-snug'>
+                  {timeline}
+                </p>
+              </div>
+
+              <div>
+                <p className='text-xs font-semibold text-[#ff6533] uppercase tracking-wider mb-1'>
+                  Services
+                </p>
+                <p className='text-white text-sm font-medium leading-snug'>
+                  {services}
+                </p>
+              </div>
+            </div>
+          </aside>
+
+          {/* Right Column: Title & Description */}
+          <div className='flex-1 min-w-0'>
+            {/* Kicker */}
+            <div className='flex items-center gap-2.5 mb-5'>
+              <span className='w-2 h-2 rounded-full bg-[#ff6533] shrink-0' />
+              <span className='text-xs font-bold tracking-widest text-[#a0a0a0] uppercase'>
+                ABOUT THE PROJECT
+              </span>
+            </div>
+
+            {/* Title */}
+            <h1 className='text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold leading-[1.15] tracking-tight mb-6'>
+              {renderHighlightedTitle(project.title)}
+            </h1>
+
+            {/* Description */}
+            {description && (
+              <p className='text-sm sm:text-base lg:text-lg text-gray-400 leading-relaxed max-w-3xl font-normal'>
+                {description}
+              </p>
+            )}
+
+            {/* Tags (if any) */}
+            {tags.length > 0 && (
+              <div className='flex flex-wrap gap-2.5 mt-6'>
+                {tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className='bg-white/10 text-[#bababa] text-xs sm:text-sm px-3.5 py-1 rounded-full font-medium'
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Content sections */}
         <div className='relative flex flex-col'>
           {/* Vertical timeline line — desktop only */}
-          <div
-            aria-hidden='true'
-            className='pointer-events-none absolute hidden md:block w-px bg-white/20'
-            style={{ left: '5px', top: '52px', bottom: '52px' }}
-          />
-          <ContentSection
-            label='Problem'
-            heading={project.problem.heading}
-            points={project.problem.points}
-          />
-          <ContentSection
-            label='Solution'
-            heading={project.solution.heading}
-            points={project.solution.points}
-          />
-          <ContentSection
-            label='Why This Product is the Best'
-            heading={project.whyBest.heading}
-            points={project.whyBest.points}
-          />
+          {(project.problem || project.solution || project.whyBest) && (
+            <div
+              aria-hidden='true'
+              className='pointer-events-none absolute hidden md:block w-px bg-white/20'
+              style={{ left: '5px', top: '52px', bottom: '52px' }}
+            />
+          )}
+          {project.problem && (
+            <ContentSection
+              label='Problem'
+              heading={project.problem.heading}
+              points={project.problem.points || []}
+            />
+          )}
+          {project.solution && (
+            <ContentSection
+              label='Solution'
+              heading={project.solution.heading}
+              points={project.solution.points || []}
+            />
+          )}
+          {project.whyBest && (
+            <ContentSection
+              label='Why This Product is the Best'
+              heading={project.whyBest.heading}
+              points={project.whyBest.points || []}
+            />
+          )}
+
+          {/* Render Rich HTML Content if available */}
+          {typeof project.content === 'string' && project.content.trim() ? (
+            <div
+              className='py-8 text-white prose prose-invert max-w-none'
+              dangerouslySetInnerHTML={{ __html: project.content }}
+            />
+          ) : project.content?.html ? (
+            <div
+              className='py-8 text-white prose prose-invert max-w-none'
+              dangerouslySetInnerHTML={{ __html: project.content.html }}
+            />
+          ) : null}
         </div>
       </div>
     </section>

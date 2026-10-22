@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL ?? '';
+// Get base URL from environment, strip any accidental quotes, spaces, or trailing slashes
+const rawBase = (import.meta.env.VITE_API_BASE_URL || '').trim();
+const BASE_URL = rawBase.replace(/^["']+|["']+$/g, '').replace(/\/+$/, '');
 
 const apiClient = axios.create({
   baseURL: BASE_URL,
@@ -26,7 +28,10 @@ apiClient.interceptors.response.use(
   (error) => {
     if (error.response?.status === 401) {
       localStorage.removeItem('authToken');
-      window.location.href = '/login';
+      // Only redirect to /login if the user is currently accessing an admin route
+      if (window.location.pathname.startsWith('/admin')) {
+        window.location.href = '/login';
+      }
     }
     return Promise.reject(error);
   },

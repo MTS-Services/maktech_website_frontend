@@ -24,6 +24,7 @@
   --color-white-bg-font: #2f2f2f;
 
   --font-family-dm-sans: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-inter: 'Inter', sans-serif;
 }
 
 /* Smooth scroll fallback */
@@ -300,4 +301,23 @@ code {
   100% {
     transform: translateX(-50%);
   }
+}
+
+/* ===== Full Clickable Native Date Picker Input ===== */
+.meeting-date-picker-input {
+  position: relative;
+  cursor: pointer;
+}
+
+.meeting-date-picker-input::-webkit-calendar-picker-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 10;
 }

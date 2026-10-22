@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import apiClient from '../../../services/apiClient';
 import { ALL_PROJECTS } from '../data/projects';
 
 const TABS = [
@@ -12,47 +13,95 @@ const TABS = [
   'AI',
 ];
 
-const ProjectCard = ({ project, activeTab }) => (
-  <Link
-    to={`/case-study/${project.slug}`}
-    state={{ category: activeTab }}
-    aria-label={`View case study: ${project.title}`}
-    className='group bg-[#262626] block overflow-hidden relative rounded-2xl aspect-6/5'
-  >
-    <img
-      src={project.coverImage}
-      alt={project.title}
-      loading='lazy'
-      decoding='async'
-      className='absolute inset-0 w-full h-full object-cover pointer-events-none transition-transform duration-500 group-hover:scale-105'
-    />
+const ProjectCard = ({ project, activeTab }) => {
+  const tags = Array.isArray(project.tags)
+    ? project.tags
+    : typeof project.tags === 'string'
+    ? project.tags.split(',').map((t) => t.trim()).filter(Boolean)
+    : [];
 
-    {/* Gradient overlay */}
-    <div className='absolute inset-0 bg-linear-to-t from-black/90 via-black/30 to-transparent' />
+  return (
+    <Link
+      to={`/case-study/${project.slug || project.id}`}
+      state={{ category: activeTab, project }}
+      aria-label={`View case study: ${project.title}`}
+      className='group bg-[#262626] block overflow-hidden relative rounded-2xl aspect-6/5'
+    >
+      <img
+        src={project.coverImage}
+        alt={project.title}
+        loading='lazy'
+        decoding='async'
+        className='absolute inset-0 w-full h-full object-cover pointer-events-none transition-transform duration-500 group-hover:scale-105'
+      />
 
-    {/* Bottom info */}
-    <div className='absolute bottom-0 left-0 right-0 p-6 flex flex-col gap-3'>
-      <p className='text-white font-semibold text-xl leading-snug'>
-        {project.title}
-      </p>
-      <div className='flex flex-wrap gap-3'>
-        {project.tags.map((tag) => (
-          <span
-            key={tag}
-            className='bg-white/10 text-[#bababa] text-sm px-4 py-1 rounded'
-          >
-            {tag}
-          </span>
-        ))}
+      {/* Gradient overlay */}
+      <div className='absolute inset-0 bg-linear-to-t from-black/90 via-black/30 to-transparent' />
+
+      {/* Bottom info */}
+      <div className='absolute bottom-0 left-0 right-0 p-6 flex flex-col gap-3'>
+        <p className='text-white font-semibold text-xl leading-snug'>
+          {project.title}
+        </p>
+        <div className='flex flex-wrap gap-3'>
+          {tags.map((tag) => (
+            <span
+              key={tag}
+              className='bg-white/10 text-[#bababa] text-sm px-4 py-1 rounded'
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
       </div>
-    </div>
-  </Link>
-);
+    </Link>
+  );
+};
 
 const CaseStudyGrid = () => {
   const [activeTab, setActiveTab] = useState('UI/UX');
 
-  const filtered = ALL_PROJECTS.filter((p) => p.categories.includes(activeTab));
+  // Helper function to get fallback data for the given category
+  const getFallbackProjects = (tab) =>
+    ALL_PROJECTS.filter(
+      (p) => p.categories?.includes(tab) || p.category === tab
+    );
+
+  const [projects, setProjects] = useState(() => getFallbackProjects('UI/UX'));
+
+  useEffect(() => {
+    let isCancelled = false;
+
+    const fetchCategoryProjects = async () => {
+      try {
+        const response = await apiClient.get(
+          `/api/v1/case-studies?page=1&limit=10&category=${encodeURIComponent(activeTab)}`
+        );
+
+        if (isCancelled) return;
+
+        const apiData = response.data?.data;
+        if (Array.isArray(apiData) && apiData.length > 0) {
+          setProjects(apiData);
+        } else {
+          // If the API response length is 0, show the fallback data
+          setProjects(getFallbackProjects(activeTab));
+        }
+      } catch (err) {
+        console.error('Error fetching case studies:', err);
+        if (!isCancelled) {
+          // On network/API error, show the fallback data
+          setProjects(getFallbackProjects(activeTab));
+        }
+      }
+    };
+
+    fetchCategoryProjects();
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [activeTab]);
 
   const handleKeyDown = (e, tab) => {
     const idx = TABS.indexOf(activeTab);
@@ -105,10 +154,10 @@ const CaseStudyGrid = () => {
             willChange: 'opacity, transform',
           }}
         >
-          {filtered.length > 0 ? (
-            filtered.map((project) => (
+          {projects.length > 0 ? (
+            projects.map((project) => (
               <ProjectCard
-                key={project.id}
+                key={project.id || project.slug}
                 project={project}
                 activeTab={activeTab}
               />
