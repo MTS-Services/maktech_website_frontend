@@ -61,6 +61,10 @@ const TrainingProgramme = lazy(
   () => import('../pages/training-programme/TrainingProgramme'),
 );
 const Gallery = lazy(() => import('../pages/gallery/Gallery'));
+const PrivacyPolicy = lazy(() => import('../pages/policies/PrivacyPolicy'));
+const TermsAndConditions = lazy(() => import('../pages/policies/TermsAndConditions'));
+const CookiesPolicy = lazy(() => import('../pages/policies/CookiesPolicy'));
+const SecurityPolicy = lazy(() => import('../pages/policies/SecurityPolicy'));
 const AppRoutes = () => (
   <Suspense fallback={<PageLoader />}>
     <Routes>
@@ -109,6 +113,10 @@ const AppRoutes = () => (
         <Route path='/case-study/:slug' element={<CaseStudyDetailPage />} />
         <Route path='/training-programme' element={<TrainingProgramme />} />
         <Route path='/gallery' element={<Gallery />} />
+        <Route path='/privacy-policy' element={<PrivacyPolicy />} />
+        <Route path='/terms-and-conditions' element={<TermsAndConditions />} />
+        <Route path='/cookies-policy' element={<CookiesPolicy />} />
+        <Route path='/security-policy' element={<SecurityPolicy />} />
       </Route>
       <Route path='/login' element={<Login />} />
 
