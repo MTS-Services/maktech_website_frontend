@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import axios from 'axios';
 import { toast } from 'react-toastify';
 import {
   MdCloudUpload,
@@ -14,8 +15,7 @@ import {
 import apiClient from '../../../services/apiClient';
 import ConfirmDeleteModal from '../../../components/ConfirmDeleteModal';
 
-const PART_CONCURRENCY = 4;
-const SIGN_BATCH = 20;
+const PART_CONCURRENCY = 3;
 const PART_RETRIES = 3;
 
 const EXTENSION_TYPES = {
@@ -64,38 +64,21 @@ const copyToClipboard = async (text) => {
   document.body.removeChild(textarea);
 };
 
-const putPart = (url, blob, signal, onProgress) =>
-  new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest();
-    const abort = () => xhr.abort();
-    signal.addEventListener('abort', abort, { once: true });
-    xhr.onloadend = () => signal.removeEventListener('abort', abort);
-    xhr.open('PUT', url);
-    xhr.upload.onprogress = (e) => onProgress(e.loaded);
-    xhr.onload = () => {
-      if (xhr.status < 200 || xhr.status >= 300) {
-        reject(new Error(`Storage rejected the upload (HTTP ${xhr.status})`));
-        return;
-      }
-      const etag = xhr.getResponseHeader('ETag');
-      if (!etag) {
-        reject(
-          new Error('Storage did not return an ETag. Check the R2 bucket CORS settings.'),
-        );
-        return;
-      }
-      resolve(etag);
-    };
-    xhr.onerror = () =>
-      reject(new Error('Network error while uploading. Check the R2 bucket CORS settings.'));
-    xhr.onabort = () => reject(new DOMException('Upload cancelled', 'AbortError'));
-    if (signal.aborted) {
-      signal.removeEventListener('abort', abort);
-      reject(new DOMException('Upload cancelled', 'AbortError'));
-      return;
-    }
-    xhr.send(blob);
-  });
+const uploadPart = async ({ key, uploadId, partNumber, blob, signal, onProgress }) => {
+  try {
+    const { data } = await apiClient.post('/api/v1/media/multipart/part', blob, {
+      params: { key, uploadId, partNumber },
+      headers: { 'Content-Type': 'application/octet-stream' },
+      timeout: 0,
+      signal,
+      onUploadProgress: (e) => onProgress(e.loaded),
+    });
+    return data.data.etag;
+  } catch (err) {
+    if (axios.isCancel(err)) throw new DOMException('Upload cancelled', 'AbortError');
+    throw err;
+  }
+};
 
 const uploadFile = async (file, contentType, signal, onProgress) => {
   const { data: startRes } = await apiClient.post('/api/v1/media/multipart/start', {
@@ -113,42 +96,39 @@ const uploadFile = async (file, contentType, signal, onProgress) => {
   };
 
   const parts = [];
+  let nextPart = 1;
   try {
-    for (let first = 1; first <= partCount; first += SIGN_BATCH) {
-      if (signal.aborted) throw new DOMException('Upload cancelled', 'AbortError');
-      const partNumbers = [];
-      for (let n = first; n < first + SIGN_BATCH && n <= partCount; n++) partNumbers.push(n);
+    const worker = async () => {
+      while (nextPart <= partCount) {
+        if (signal.aborted) throw new DOMException('Upload cancelled', 'AbortError');
+        const partNumber = nextPart++;
+        const start = (partNumber - 1) * partSize;
+        const blob = file.slice(start, Math.min(start + partSize, file.size));
 
-      const { data: signRes } = await apiClient.post('/api/v1/media/multipart/sign', {
-        key,
-        uploadId,
-        partNumbers,
-      });
-      const queue = [...signRes.data];
-
-      const worker = async () => {
-        while (queue.length) {
-          const { partNumber, url } = queue.shift();
-          const start = (partNumber - 1) * partSize;
-          const blob = file.slice(start, Math.min(start + partSize, file.size));
-
-          for (let attempt = 1; ; attempt++) {
-            try {
-              const etag = await putPart(url, blob, signal, (loaded) => {
+        for (let attempt = 1; ; attempt++) {
+          try {
+            const etag = await uploadPart({
+              key,
+              uploadId,
+              partNumber,
+              blob,
+              signal,
+              onProgress: (loaded) => {
                 loadedByPart.set(partNumber, loaded);
                 reportProgress();
-              });
-              parts.push({ partNumber, etag });
-              break;
-            } catch (err) {
-              loadedByPart.set(partNumber, 0);
-              if (err.name === 'AbortError' || attempt >= PART_RETRIES) throw err;
-            }
+              },
+            });
+            parts.push({ partNumber, etag });
+            break;
+          } catch (err) {
+            loadedByPart.set(partNumber, 0);
+            const clientError = err.response?.status >= 400 && err.response?.status < 500;
+            if (err.name === 'AbortError' || clientError || attempt >= PART_RETRIES) throw err;
           }
         }
-      };
-      await Promise.all(Array.from({ length: PART_CONCURRENCY }, worker));
-    }
+      }
+    };
+    await Promise.all(Array.from({ length: PART_CONCURRENCY }, worker));
 
     const { data: completeRes } = await apiClient.post(
       '/api/v1/media/multipart/complete',
