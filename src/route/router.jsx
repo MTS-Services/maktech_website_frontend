@@ -61,6 +61,8 @@ const TrainingProgramme = lazy(
   () => import('../pages/training-programme/TrainingProgramme'),
 );
 const Gallery = lazy(() => import('../pages/gallery/Gallery'));
+const PrivacyPolicy = lazy(() => import('../pages/policies/PrivacyPolicy'));
+const TermsAndConditions = lazy(() => import('../pages/policies/TermsAndConditions'));
 const AppRoutes = () => (
   <Suspense fallback={<PageLoader />}>
     <Routes>
@@ -109,6 +111,8 @@ const AppRoutes = () => (
         <Route path='/case-study/:slug' element={<CaseStudyDetailPage />} />
         <Route path='/training-programme' element={<TrainingProgramme />} />
         <Route path='/gallery' element={<Gallery />} />
+        <Route path='/privacy-policy' element={<PrivacyPolicy />} />
+        <Route path='/terms-and-conditions' element={<TermsAndConditions />} />
       </Route>
       <Route path='/login' element={<Login />} />
 

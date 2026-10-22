@@ -427,18 +427,18 @@ const Footer = () => {
             <div className='flex flex-col md:flex-row items-center justify-between gap-4'>
               <p className='text-gray-400 text-sm'>©2026 maktech</p>
               <div className='flex items-center gap-6'>
-                {/* <a
-                  href='#'
+                <NavLink
+                  to='/privacy-policy'
                   className='text-gray-400 hover:text-white transition-colors duration-200 text-sm'
                 >
-                  Label here
-                </a>
-                <a
-                  href='#'
+                  Privacy Policy
+                </NavLink>
+                <NavLink
+                  to='/terms-and-conditions'
                   className='text-gray-400 hover:text-white transition-colors duration-200 text-sm'
                 >
-                  Label here
-                </a> */}
+                  Terms & Conditions
+                </NavLink>
               </div>
             </div>
           </div>
