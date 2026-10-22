@@ -9,6 +9,13 @@ import {
 } from 'react-icons/fa6';
 import { MdKeyboardArrowDown } from 'react-icons/md';
 
+const POLICY_LINKS = [
+  { to: '/privacy-policy', label: 'Privacy Policy' },
+  { to: '/terms-and-conditions', label: 'Terms & Conditions' },
+  { to: '/cookies-policy', label: 'Cookies Policy' },
+  { to: '/security-policy', label: 'Security Policy' },
+];
+
 const Footer = () => {
   const [openSection, setOpenSection] = useState(null);
   const desktopBrandRef = useRef(null);
@@ -130,61 +137,66 @@ const Footer = () => {
       <div className='relative'>
         {/* Desktop Footer Content */}
         <div className='hidden md:block relative z-10 max-w-7xl mx-auto px-4 py-12'>
-          <div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
+          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1.3fr_0.8fr_1.3fr_0.9fr] gap-8'>
             {/* Column 1 - Logo & Social Card */}
-            <div className='bg-[#2a2a2a] border border-white/10 rounded-2xl p-6'>
-              <div className='flex items-center gap-2 mb-6'>
-                <img
-                  src='/maktech_logo_white.webp'
-                  alt='maktech logo'
-                  className='h-6 w-auto'
-                />
-              </div>
+            <div>
+              <div className='bg-[#2a2a2a] border border-white/10 rounded-2xl p-6'>
+                <div className='flex items-center gap-2 mb-6'>
+                  <img
+                    src='/maktech_logo_white.webp'
+                    alt='maktech logo'
+                    className='h-6 w-auto'
+                  />
+                </div>
 
-              {/* Social Media Icons */}
-              <div className='flex items-center gap-3 mb-6'>
-                <a
-                  href='https://www.facebook.com/maktechgroup'
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  className='group w-10 h-10 rounded-lg bg-[#3a3a3a] hover:bg-orange-bg-cta border border-white/5 flex items-center justify-center transition-all duration-200'
-                  aria-label='Facebook'
-                >
-                  <FaFacebook className='text-white text-lg' />
-                </a>
-                <a
-                  href='https://www.instagram.com/maktechgroup/'
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  className='group w-10 h-10 rounded-lg bg-[#3a3a3a] hover:bg-orange-bg-cta border border-white/5 flex items-center justify-center transition-all duration-200'
-                  aria-label='Instagram'
-                >
-                  <FaInstagram className='text-white text-lg' />
-                </a>
-                <a
-                  href='https://www.linkedin.com/company/maktechgroup'
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  className='group w-10 h-10 rounded-lg bg-[#3a3a3a] hover:bg-orange-bg-cta border border-white/5 flex items-center justify-center transition-all duration-200'
-                  aria-label='LinkedIn'
-                >
-                  <FaLinkedinIn className='text-white text-lg' />
-                </a>
-                <a
-                  href='https://x.com/MakTechSolution'
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  className='group w-10 h-10 rounded-lg bg-[#3a3a3a] hover:bg-orange-bg-cta border border-white/5 flex items-center justify-center transition-all duration-200'
-                  aria-label='X (Twitter)'
-                >
-                  <FaXTwitter className='text-white text-lg' />
-                </a>
-              </div>
+                {/* Social Media Icons */}
+                <div className='flex items-center gap-3 mb-6'>
+                  <a
+                    href='https://www.facebook.com/maktechgroup'
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    className='group w-10 h-10 rounded-lg bg-[#3a3a3a] hover:bg-orange-bg-cta border border-white/5 flex items-center justify-center transition-all duration-200'
+                    aria-label='Facebook'
+                  >
+                    <FaFacebook className='text-white text-lg' />
+                  </a>
+                  <a
+                    href='https://www.instagram.com/maktechgroup/'
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    className='group w-10 h-10 rounded-lg bg-[#3a3a3a] hover:bg-orange-bg-cta border border-white/5 flex items-center justify-center transition-all duration-200'
+                    aria-label='Instagram'
+                  >
+                    <FaInstagram className='text-white text-lg' />
+                  </a>
+                  <a
+                    href='https://www.linkedin.com/company/maktechgroup'
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    className='group w-10 h-10 rounded-lg bg-[#3a3a3a] hover:bg-orange-bg-cta border border-white/5 flex items-center justify-center transition-all duration-200'
+                    aria-label='LinkedIn'
+                  >
+                    <FaLinkedinIn className='text-white text-lg' />
+                  </a>
+                  <a
+                    href='https://x.com/MakTechSolution'
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    className='group w-10 h-10 rounded-lg bg-[#3a3a3a] hover:bg-orange-bg-cta border border-white/5 flex items-center justify-center transition-all duration-200'
+                    aria-label='X (Twitter)'
+                  >
+                    <FaXTwitter className='text-white text-lg' />
+                  </a>
+                </div>
 
-              {/* Tagline */}
-              <p className='text-gray-400 text-sm leading-relaxed'>
-                Let&apos;s turn your idea into a powerful digital solution
-                starting today.
+                {/* Tagline */}
+                <p className='text-gray-400 text-sm leading-relaxed'>
+                  Let&apos;s turn your idea into a powerful digital solution
+                  starting today.
+                </p>
+              </div>
+              <p className='mt-4 text-gray-400 text-sm'>
+                © 2026, Maktech Group, All Rights Reserved
               </p>
             </div>
 
@@ -245,6 +257,25 @@ const Footer = () => {
                 <li className='text-gray-400 text-sm'>
                   8th Floor, A, Majid Tower, Ka-24 Progati Sarani Rd, Dhaka 1229
                 </li>
+              </ul>
+            </div>
+
+            {/* Column 4 - Policies */}
+            <div>
+              <h3 className='text-white text-base font-normal mb-4'>
+                Policies
+              </h3>
+              <ul className='space-y-3'>
+                {POLICY_LINKS.map(({ to, label }) => (
+                  <li key={to}>
+                    <NavLink
+                      to={to}
+                      className='text-gray-400 hover:text-orange-bg-cta transition-colors duration-200 text-sm'
+                    >
+                      {label}
+                    </NavLink>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
@@ -380,6 +411,34 @@ const Footer = () => {
               </div>
             )}
           </div>
+
+          {/* Policies Accordion */}
+          <div className='border-b border-white/10'>
+            <button
+              onClick={() => toggleSection('policies')}
+              className='w-full flex items-center justify-between py-3 text-white text-base font-normal'
+            >
+              Policies
+              <MdKeyboardArrowDown
+                className={`transition-transform duration-200 text-white text-xl ${
+                  openSection === 'policies' ? 'rotate-180' : ''
+                }`}
+              />
+            </button>
+            {openSection === 'policies' && (
+              <div className='pb-3 space-y-2'>
+                {POLICY_LINKS.map(({ to, label }) => (
+                  <NavLink
+                    key={to}
+                    to={to}
+                    className='block text-gray-400 hover:text-white transition-colors duration-200 text-sm'
+                  >
+                    {label}
+                  </NavLink>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Bottom Copyright Section with Orange Gradient */}
@@ -423,37 +482,11 @@ const Footer = () => {
             </div>
           </div> */}
 
-          <div className='absolute inset-x-0 bottom-0 z-10 max-w-7xl mx-auto px-4 py-2 md:py-3'>
-            <div className='flex flex-col md:flex-row items-center justify-between gap-4'>
-              <p className='text-gray-400 text-sm'>©2026 maktech</p>
-              <div className='flex flex-wrap items-center justify-center gap-x-6 gap-y-1'>
-                <NavLink
-                  to='/privacy-policy'
-                  className='text-gray-400 hover:text-white transition-colors duration-200 text-sm'
-                >
-                  Privacy Policy
-                </NavLink>
-                <NavLink
-                  to='/terms-and-conditions'
-                  className='text-gray-400 hover:text-white transition-colors duration-200 text-sm'
-                >
-                  Terms & Conditions
-                </NavLink>
-                <NavLink
-                  to='/cookies-policy'
-                  className='text-gray-400 hover:text-white transition-colors duration-200 text-sm'
-                >
-                  Cookies Policy
-                </NavLink>
-                <NavLink
-                  to='/security-policy'
-                  className='text-gray-400 hover:text-white transition-colors duration-200 text-sm'
-                >
-                  Security Policy
-                </NavLink>
-              </div>
-            </div>
-          </div>
+          {/* <div className='absolute inset-x-0 bottom-0 z-10 max-w-7xl mx-auto px-4 py-2 md:py-3'>
+            <p className='text-center text-gray-400 text-sm'>
+              © 2026, Maktech Group, All Rights Reserved
+            </p>
+          </div> */}
         </div>
       </div>
     </footer>
