@@ -16,8 +16,8 @@ const LINE_POSITIONS = [12, 30, 50, 68, 88];
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [email, setEmail] = useState('admin123@MAKtechgroup.com');
-  const [password, setPassword] = useState('admin123@MAKtechgroup');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
@@ -180,7 +180,7 @@ const Login = () => {
             </h2>
 
             <p className='text-[#AAAAAA] text-base 2xl:text-lg leading-relaxed'>
-              Manage projects, track leads, and oversee operations Ã¢â‚¬â€ all in one
+              Manage projects, track leads, and oversee operations — all in one
               powerful workspace.
             </p>
           </div>
