@@ -426,7 +426,7 @@ const Footer = () => {
           <div className='absolute inset-x-0 bottom-0 z-10 max-w-7xl mx-auto px-4 py-2 md:py-3'>
             <div className='flex flex-col md:flex-row items-center justify-between gap-4'>
               <p className='text-gray-400 text-sm'>©2026 maktech</p>
-              <div className='flex items-center gap-6'>
+              <div className='flex flex-wrap items-center justify-center gap-x-6 gap-y-1'>
                 <NavLink
                   to='/privacy-policy'
                   className='text-gray-400 hover:text-white transition-colors duration-200 text-sm'
@@ -438,6 +438,18 @@ const Footer = () => {
                   className='text-gray-400 hover:text-white transition-colors duration-200 text-sm'
                 >
                   Terms & Conditions
+                </NavLink>
+                <NavLink
+                  to='/cookies-policy'
+                  className='text-gray-400 hover:text-white transition-colors duration-200 text-sm'
+                >
+                  Cookies Policy
+                </NavLink>
+                <NavLink
+                  to='/security-policy'
+                  className='text-gray-400 hover:text-white transition-colors duration-200 text-sm'
+                >
+                  Security Policy
                 </NavLink>
               </div>
             </div>

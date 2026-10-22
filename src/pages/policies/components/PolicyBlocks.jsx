@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import {
   MdOutlineVpnKey,
   MdTune,
@@ -21,13 +22,22 @@ const NOTE_ICONS = {
   info: MdOutlineInfo,
 };
 
-const Paragraph = ({ text, strong }) => (
+const Paragraph = ({ text, strong, link }) => (
   <p
     className={`max-w-[640px] text-sm md:text-[15px] leading-relaxed ${
       strong ? 'font-semibold text-white' : 'text-white/75'
     }`}
   >
-    {text}
+    {link ? (
+      <Link
+        to={link}
+        className='underline decoration-orange-bg-cta/60 underline-offset-4 transition-colors hover:text-orange-bg-cta'
+      >
+        {text}
+      </Link>
+    ) : (
+      text
+    )}
   </p>
 );
 
@@ -35,15 +45,19 @@ const BulletGrid = ({ items }) => (
   <ul className='grid grid-cols-1 sm:grid-cols-2 gap-3'>
     {items.map((item, i) => {
       const isLastOdd = items.length % 2 === 1 && i === items.length - 1;
+      const { label, text } = typeof item === 'string' ? { text: item } : item;
       return (
         <li
-          key={item}
+          key={label || text}
           className={`flex items-start gap-3 rounded-lg bg-black/40 px-4 py-3 text-sm text-white/85 ${
             isLastOdd ? 'sm:col-span-2' : ''
           }`}
         >
           <span className='mt-1.5 h-2 w-2 shrink-0 rounded-full bg-orange-bg-cta' />
-          {item}
+          <span>
+            {label && <strong className='font-semibold text-white'>{label}</strong>}{' '}
+            {text}
+          </span>
         </li>
       );
     })}

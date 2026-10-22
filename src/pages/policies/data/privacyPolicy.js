@@ -199,6 +199,7 @@ export const privacyPolicy = {
         {
           type: 'p',
           strong: true,
+          link: '/cookies-policy',
           text: 'Please read our Cookies Policy for further information about cookies and how to manage them.',
         },
       ],
