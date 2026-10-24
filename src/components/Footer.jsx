@@ -1,13 +1,55 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import gsap from 'gsap';
 import {
   FaFacebook,
   FaInstagram,
   FaLinkedinIn,
+  FaPinterest,
+  FaThreads,
+  FaTiktok,
   FaXTwitter,
+  FaYoutube,
 } from 'react-icons/fa6';
 import { MdKeyboardArrowDown } from 'react-icons/md';
+
+const SOCIAL_LINKS = [
+  { href: 'https://www.facebook.com/maktechgroup', label: 'Facebook', Icon: FaFacebook },
+  { href: 'https://www.instagram.com/maktechgroup/', label: 'Instagram', Icon: FaInstagram },
+  { href: 'https://www.youtube.com/@maktech_group', label: 'YouTube', Icon: FaYoutube },
+  { href: 'https://www.tiktok.com/@maktechgroup', label: 'TikTok', Icon: FaTiktok },
+  { href: 'https://www.linkedin.com/company/maktechgroup/', label: 'LinkedIn', Icon: FaLinkedinIn },
+  { href: 'https://x.com/MakTechSolution', label: 'X (Twitter)', Icon: FaXTwitter },
+  { href: 'https://www.pinterest.com/maktech_group/', label: 'Pinterest', Icon: FaPinterest },
+  { href: 'https://www.threads.com/@maktechgroup', label: 'Threads', Icon: FaThreads },
+];
+
+const SocialIcons = ({ className = '' }) => (
+  <div className={`grid w-fit grid-cols-4 gap-3 ${className}`}>
+    {SOCIAL_LINKS.map(({ href, label, Icon }) => (
+      <a
+        key={href}
+        href={href}
+        target='_blank'
+        rel='noopener noreferrer'
+        className='group w-10 h-10 rounded-lg bg-[#3a3a3a] hover:bg-orange-bg-cta border border-white/5 flex items-center justify-center transition-all duration-200'
+        aria-label={label}
+      >
+        <Icon className='text-white text-lg' />
+      </a>
+    ))}
+  </div>
+);
+
+const REVIEW_LINKS = [
+  { href: 'https://clutch.co/profile/maktech', label: 'Clutch' },
+  {
+    href: 'https://www.trustpilot.com/review/maktechgroup.com',
+    label: 'Trustpilot',
+  },
+  { href: 'https://www.behance.net/maktechgroup', label: 'Behance' },
+  { href: 'https://dribbble.com/growthf178', label: 'Dribbble' },
+];
 
 const POLICY_LINKS = [
   { to: '/privacy-policy', label: 'Privacy Policy' },
@@ -137,7 +179,7 @@ const Footer = () => {
       <div className='relative'>
         {/* Desktop Footer Content */}
         <div className='hidden md:block relative z-10 max-w-7xl mx-auto px-4 py-12'>
-          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1.3fr_0.8fr_1.3fr_0.9fr] gap-8'>
+          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1.3fr_0.8fr_1.3fr_0.9fr_0.7fr] gap-8'>
             {/* Column 1 - Logo & Social Card */}
             <div>
               <div className='bg-[#2a2a2a] border border-white/10 rounded-2xl p-6'>
@@ -150,44 +192,7 @@ const Footer = () => {
                 </div>
 
                 {/* Social Media Icons */}
-                <div className='flex items-center gap-3 mb-6'>
-                  <a
-                    href='https://www.facebook.com/maktechgroup'
-                    target='_blank'
-                    rel='noopener noreferrer'
-                    className='group w-10 h-10 rounded-lg bg-[#3a3a3a] hover:bg-orange-bg-cta border border-white/5 flex items-center justify-center transition-all duration-200'
-                    aria-label='Facebook'
-                  >
-                    <FaFacebook className='text-white text-lg' />
-                  </a>
-                  <a
-                    href='https://www.instagram.com/maktechgroup/'
-                    target='_blank'
-                    rel='noopener noreferrer'
-                    className='group w-10 h-10 rounded-lg bg-[#3a3a3a] hover:bg-orange-bg-cta border border-white/5 flex items-center justify-center transition-all duration-200'
-                    aria-label='Instagram'
-                  >
-                    <FaInstagram className='text-white text-lg' />
-                  </a>
-                  <a
-                    href='https://www.linkedin.com/company/maktechgroup'
-                    target='_blank'
-                    rel='noopener noreferrer'
-                    className='group w-10 h-10 rounded-lg bg-[#3a3a3a] hover:bg-orange-bg-cta border border-white/5 flex items-center justify-center transition-all duration-200'
-                    aria-label='LinkedIn'
-                  >
-                    <FaLinkedinIn className='text-white text-lg' />
-                  </a>
-                  <a
-                    href='https://x.com/MakTechSolution'
-                    target='_blank'
-                    rel='noopener noreferrer'
-                    className='group w-10 h-10 rounded-lg bg-[#3a3a3a] hover:bg-orange-bg-cta border border-white/5 flex items-center justify-center transition-all duration-200'
-                    aria-label='X (Twitter)'
-                  >
-                    <FaXTwitter className='text-white text-lg' />
-                  </a>
-                </div>
+                <SocialIcons className='mb-6' />
 
                 {/* Tagline */}
                 <p className='text-gray-400 text-sm leading-relaxed'>
@@ -253,7 +258,7 @@ const Footer = () => {
                 <li className='text-gray-400 text-sm italic'>
                   career@maktechgroup.com
                 </li>
-                <li className='text-gray-400 text-sm'>+88 01897-669233</li>
+                <li className='text-gray-400 text-sm'>+880 1897-669234</li>
                 <li className='text-gray-400 text-sm'>
                   8th Floor, A, Majid Tower, Ka-24 Progati Sarani Rd, Dhaka 1229
                 </li>
@@ -278,6 +283,25 @@ const Footer = () => {
                 ))}
               </ul>
             </div>
+
+            {/* Column 5 - Review */}
+            <div>
+              <h3 className='text-white text-base font-normal mb-4'>Review</h3>
+              <ul className='space-y-3'>
+                {REVIEW_LINKS.map(({ href, label }) => (
+                  <li key={href}>
+                    <a
+                      href={href}
+                      target='_blank'
+                      rel='noopener noreferrer'
+                      className='text-gray-400 hover:text-orange-bg-cta transition-colors duration-200 text-sm'
+                    >
+                      {label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
 
@@ -294,44 +318,7 @@ const Footer = () => {
             </div>
 
             {/* Social Media Icons */}
-            <div className='flex items-center gap-3 mb-4'>
-              <a
-                href='https://www.facebook.com/maktechgroup'
-                target='_blank'
-                rel='noopener noreferrer'
-                className='group w-10 h-10 rounded-lg bg-[#3a3a3a] hover:bg-orange-bg-cta border border-white/5 flex items-center justify-center transition-all duration-200'
-                aria-label='Facebook'
-              >
-                <FaFacebook className='text-white text-lg' />
-              </a>
-              <a
-                href='https://www.instagram.com/maktechgroup/'
-                target='_blank'
-                rel='noopener noreferrer'
-                className='group w-10 h-10 rounded-lg bg-[#3a3a3a] hover:bg-orange-bg-cta border border-white/5 flex items-center justify-center transition-all duration-200'
-                aria-label='Instagram'
-              >
-                <FaInstagram className='text-white text-lg' />
-              </a>
-              <a
-                href='https://www.linkedin.com/company/maktechgroup'
-                target='_blank'
-                rel='noopener noreferrer'
-                className='group w-10 h-10 rounded-lg bg-[#3a3a3a] hover:bg-orange-bg-cta border border-white/5 flex items-center justify-center transition-all duration-200'
-                aria-label='LinkedIn'
-              >
-                <FaLinkedinIn className='text-white text-lg' />
-              </a>
-              <a
-                href='https://x.com/MakTechSolution'
-                target='_blank'
-                rel='noopener noreferrer'
-                className='group w-10 h-10 rounded-lg bg-[#3a3a3a] hover:bg-orange-bg-cta border border-white/5 flex items-center justify-center transition-all duration-200'
-                aria-label='X (Twitter)'
-              >
-                <FaXTwitter className='text-white text-lg' />
-              </a>
-            </div>
+            <SocialIcons className='mb-4' />
 
             {/* Tagline */}
             <p className='text-gray-400 text-sm leading-relaxed'>
@@ -404,7 +391,7 @@ const Footer = () => {
                 <p className='text-gray-400 text-sm italic'>
                   career@maktechgroup.com
                 </p>
-                <p className='text-gray-400 text-sm'>+88 01897-669233</p>
+                <p className='text-gray-400 text-sm'>+880 1897-669234</p>
                 <p className='text-gray-400 text-sm'>
                   8th Floor, A, Majid Tower, Ka-24 Progati Sarani Rd, Dhaka 1229
                 </p>
@@ -435,6 +422,36 @@ const Footer = () => {
                   >
                     {label}
                   </NavLink>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Review Accordion */}
+          <div className='border-b border-white/10'>
+            <button
+              onClick={() => toggleSection('review')}
+              className='w-full flex items-center justify-between py-3 text-white text-base font-normal'
+            >
+              Review
+              <MdKeyboardArrowDown
+                className={`transition-transform duration-200 text-white text-xl ${
+                  openSection === 'review' ? 'rotate-180' : ''
+                }`}
+              />
+            </button>
+            {openSection === 'review' && (
+              <div className='pb-3 space-y-2'>
+                {REVIEW_LINKS.map(({ href, label }) => (
+                  <a
+                    key={href}
+                    href={href}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    className='block text-gray-400 hover:text-white transition-colors duration-200 text-sm'
+                  >
+                    {label}
+                  </a>
                 ))}
               </div>
             )}
