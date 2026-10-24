@@ -5,6 +5,7 @@ import gsap from "gsap";
 import Navbar from "../../components/Navbar";
 import AnimatedLines from "../../components/AnimatedLines";
 import Footer from "../../components/Footer";
+import FloatingWhatsApp from "../../components/FloatingWhatsApp";
 
 const PublicLayout = () => {
   const { pathname } = useLocation();
@@ -106,6 +107,8 @@ const PublicLayout = () => {
       
       {/* Floating navbar */}
       <Navbar />
+
+      <FloatingWhatsApp />
     </div>
   );
 };

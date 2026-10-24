@@ -1,5 +1,6 @@
-import axios from 'axios';
-import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
+// Old slot-picker flow (commented out — replaced by free date/time picker below)
+// import axios from 'axios';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import CustomSelect from './CustomSelect';
 import apiClient from '../services/apiClient';
 import { toast } from 'react-toastify';
@@ -10,16 +11,18 @@ import {
   MdCheckCircle,
   MdEventBusy,
   MdRefresh,
-  MdClose,
+  // MdClose, // used only by the old slot-picker flow
 } from 'react-icons/md';
-import MeetingBookingModal from './MeetingBookingModal';
+// Old slot-picker flow (commented out)
+// import MeetingBookingModal from './MeetingBookingModal';
 import {
-  POPULAR_TIMEZONES,
+  // POPULAR_TIMEZONES, // used only by the old slot-picker flow
   getUserTimezone,
   getTimezoneSummary,
-  generateMeetingSlots,
-  BST_TIMEZONE,
+  // generateMeetingSlots,
   getLocationFromTimezone,
+  zonedDateTimeToIso,
+  getNowInputValue,
 } from '../utils/timezoneHelper';
 
 const ContactUs = () => {
@@ -34,6 +37,7 @@ const ContactUs = () => {
     message: '',
   });
 
+  /* ── Old slot-picker flow (commented out) ──────────────────────────────
   // Calculate smart default date (if past 5 PM BST, default to tomorrow)
   const defaultDateStr = useMemo(() => {
     const now = new Date();
@@ -46,12 +50,40 @@ const ContactUs = () => {
   }, []);
 
   const [bookingDate, setBookingDate] = useState(defaultDateStr);
-  const [visitorTimezone, setVisitorTimezone] = useState(() => getUserTimezone());
   const [isMeetingModalOpen, setIsMeetingModalOpen] = useState(false);
-  const tzSummary = useMemo(() => getTimezoneSummary(visitorTimezone), [visitorTimezone]);
   const [bookedSlots, setBookedSlots] = useState([]);
   const [loadingSlots, setLoadingSlots] = useState(false);
   const [selectedSlot, setSelectedSlot] = useState(null);
+  ─────────────────────────────────────────────────────────────────────── */
+
+  const [visitorTimezone] = useState(() => getUserTimezone());
+  const tzSummary = useMemo(() => getTimezoneSummary(visitorTimezone), [visitorTimezone]);
+
+  // Meeting picked freely by the visitor, as wall-clock time in visitorTimezone
+  const [meetingLocal, setMeetingLocal] = useState('');
+  const minMeetingLocal = getNowInputValue(visitorTimezone);
+
+  const selectedSlot = useMemo(() => {
+    const iso = zonedDateTimeToIso(meetingLocal, visitorTimezone);
+    if (!iso) return null;
+    const date = new Date(iso);
+    return {
+      iso,
+      localDateLabel: new Intl.DateTimeFormat('en-US', {
+        timeZone: visitorTimezone,
+        weekday: 'short',
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+      }).format(date),
+      localTimeLabel: new Intl.DateTimeFormat('en-US', {
+        timeZone: visitorTimezone,
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true,
+      }).format(date),
+    };
+  }, [meetingLocal, visitorTimezone]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submittedBooking, setSubmittedBooking] = useState(null);
   const formBoxRef = useRef(null);
@@ -62,9 +94,12 @@ const ContactUs = () => {
     }
   }, [submittedBooking]);
 
+  /* Old slot-picker flow (commented out)
   // Minimum selectable date is today
   const minDateStr = useMemo(() => new Date().toISOString().split('T')[0], []);
+  */
 
+  /* Old slot-picker flow (commented out)
   // Timezone options (ensuring user's detected timezone is included)
   const timezoneOptions = useMemo(() => {
     const exists = POPULAR_TIMEZONES.some((tz) => tz.value === visitorTimezone);
@@ -73,7 +108,9 @@ const ContactUs = () => {
     }
     return POPULAR_TIMEZONES;
   }, [visitorTimezone]);
+  */
 
+  /* ── Old slot-picker flow (commented out) ──────────────────────────────
   // Fetch booked slots from backend
   const fetchBookedSlots = useCallback(async (date) => {
     setLoadingSlots(true);
@@ -115,6 +152,7 @@ const ContactUs = () => {
   const slots = useMemo(() => {
     return generateMeetingSlots(bookingDate, visitorTimezone, bookedSlots);
   }, [bookingDate, visitorTimezone, bookedSlots]);
+  ─────────────────────────────────────────────────────────────────────── */
 
   // Handle input changes
   const handleChange = (e) => {
@@ -125,6 +163,7 @@ const ContactUs = () => {
     }));
   };
 
+  /* Old slot-picker flow (commented out)
   // Handle slot selection/deselection
   const handleSlotClick = (slot) => {
     if (!slot.isAvailable) return;
@@ -134,6 +173,7 @@ const ContactUs = () => {
       setSelectedSlot(slot);
     }
   };
+  */
 
   // Form Submission
   const handleSubmit = async (e) => {
@@ -145,6 +185,14 @@ const ContactUs = () => {
     }
     if (!formData.email.trim()) {
       toast.error('Please enter your email address');
+      return;
+    }
+    if (meetingLocal && !selectedSlot) {
+      toast.error('Please choose a valid meeting date and time');
+      return;
+    }
+    if (selectedSlot && new Date(selectedSlot.iso).getTime() <= Date.now()) {
+      toast.error('Please choose a meeting time in the future');
       return;
     }
 
@@ -192,17 +240,17 @@ const ContactUs = () => {
           industry: '',
           message: '',
         });
-        setSelectedSlot(null);
-        // Refresh booked slots list to update taken slot
-        fetchBookedSlots(bookingDate);
+        setMeetingLocal('');
+        // Old slot-picker flow (commented out): refresh booked slots list
+        // fetchBookedSlots(bookingDate);
       }
     } catch (err) {
       const msg = err.response?.data?.message || 'Failed to submit inquiry. Please try again.';
       toast.error(msg);
       if (err.response?.status === 409) {
-        // Slot was taken in the meantime!
-        fetchBookedSlots(bookingDate);
-        setSelectedSlot(null);
+        // Exact same time was already taken by another booking
+        // fetchBookedSlots(bookingDate);
+        setMeetingLocal('');
       }
     } finally {
       setIsSubmitting(false);
@@ -613,7 +661,7 @@ const ContactUs = () => {
                       </div>
                     </div>
 
-                    {/* ─── MEETING & CONSULTATION BOOKING TRIGGER ─── */}
+                    {/* ─── Old slot-picker flow (commented out): MEETING & CONSULTATION BOOKING TRIGGER ───
                     <div>
                       <div className='flex items-center justify-between mb-2'>
                         <label className='text-white-bg-cta text-base md:text-lg block'>
@@ -683,6 +731,58 @@ const ContactUs = () => {
                         </div>
                       )}
                     </div>
+                    ─── end of old slot-picker flow ─── */}
+
+                    {/* Meeting & Consultation: any date/time in the visitor's own timezone */}
+                    <div>
+                      <div className='flex items-center justify-between mb-2'>
+                        <label
+                          htmlFor='meetingLocal'
+                          className='text-white-bg-cta text-base md:text-lg block'
+                        >
+                          Meeting &amp; Consultation <span className='text-xs text-gray-400 font-normal'>(Optional)</span>
+                        </label>
+                        {meetingLocal && (
+                          <button
+                            type='button'
+                            onClick={() => setMeetingLocal('')}
+                            className='text-xs text-rose-400 hover:text-rose-300 underline cursor-pointer'
+                          >
+                            Remove Meeting
+                          </button>
+                        )}
+                      </div>
+
+                      <div className='relative'>
+                        <MdCalendarToday className='pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-lg text-[#ff6533]' />
+                        <input
+                          id='meetingLocal'
+                          type='datetime-local'
+                          value={meetingLocal}
+                          min={minMeetingLocal}
+                          onChange={(e) => setMeetingLocal(e.target.value)}
+                          onClick={(e) => {
+                            try {
+                              e.currentTarget.showPicker?.();
+                            } catch {
+                              // showPicker can throw outside a user gesture; native behaviour still applies
+                            }
+                          }}
+                          className='w-full cursor-pointer pl-11 pr-4 py-3 bg-[#3F3F3F] border border-white/10 rounded-lg text-white [color-scheme:dark] focus:outline-none focus:border-orange-bg-cta transition-colors duration-200'
+                        />
+                      </div>
+
+                      <p className='mt-2 flex items-center gap-1.5 text-xs text-gray-400'>
+                        <MdPublic className='shrink-0 text-sm text-[#ff6533]' />
+                        {selectedSlot ? (
+                          <span>
+                            Your time: <span className='text-white'>{selectedSlot.localDateLabel}, {selectedSlot.localTimeLabel}</span> ({tzSummary.label})
+                          </span>
+                        ) : (
+                          <span>Pick any date &amp; time that suits you, in your own time ({tzSummary.label}).</span>
+                        )}
+                      </p>
+                    </div>
 
                     {/* Message */}
                     <div>
@@ -749,7 +849,7 @@ const ContactUs = () => {
         </div>
       </div>
 
-      {/* Meeting Booking Modal */}
+      {/* Old slot-picker flow (commented out): Meeting Booking Modal
       <MeetingBookingModal
         isOpen={isMeetingModalOpen}
         onClose={() => setIsMeetingModalOpen(false)}
@@ -765,6 +865,7 @@ const ContactUs = () => {
         slots={slots}
         loadingSlots={loadingSlots}
       />
+      */}
     </section>
   );
 };
