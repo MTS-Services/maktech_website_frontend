@@ -299,6 +299,65 @@ export function generateMeetingSlots(selectedDateStr, visitorTimezone, bookedIso
   return slots;
 }
 
+function getZoneParts(timestamp, tz) {
+  const parts = new Intl.DateTimeFormat('en-US', {
+    timeZone: tz,
+    hourCycle: 'h23',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+  }).formatToParts(new Date(timestamp));
+  const get = (type) => Number(parts.find((p) => p.type === type)?.value);
+  return {
+    year: get('year'),
+    month: get('month'),
+    day: get('day'),
+    hour: get('hour'),
+    minute: get('minute'),
+    second: get('second'),
+  };
+}
+
+function getZoneOffsetMs(timestamp, tz) {
+  const p = getZoneParts(timestamp, tz);
+  return Date.UTC(p.year, p.month - 1, p.day, p.hour, p.minute, p.second) - timestamp;
+}
+
+/**
+ * Convert a wall-clock "YYYY-MM-DDTHH:mm" value in the given timezone to a UTC ISO string
+ */
+export function zonedDateTimeToIso(localValue, tz) {
+  const match = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})$/.exec(localValue || '');
+  if (!match) return null;
+  const [, y, mo, d, h, mi] = match.map(Number);
+  const timezone = tz || getUserTimezone();
+  try {
+    const wallClockAsUtc = Date.UTC(y, mo - 1, d, h, mi);
+    let ts = wallClockAsUtc - getZoneOffsetMs(wallClockAsUtc, timezone);
+    // Second pass corrects the offset when the first guess crossed a DST boundary
+    ts = wallClockAsUtc - getZoneOffsetMs(ts, timezone);
+    return new Date(ts).toISOString();
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Current time in the given timezone as a "YYYY-MM-DDTHH:mm" value (for datetime-local min)
+ */
+export function getNowInputValue(tz) {
+  try {
+    const p = getZoneParts(Date.now(), tz || getUserTimezone());
+    const pad = (n) => String(n).padStart(2, '0');
+    return `${p.year}-${pad(p.month)}-${pad(p.day)}T${pad(p.hour)}:${pad(p.minute)}`;
+  } catch {
+    return '';
+  }
+}
+
 /**
  * Format a saved meeting ISO date for admin or user display
  */
@@ -316,7 +375,7 @@ export function formatMeetingDisplay(isoDateString, clientTimezone) {
 
   // Format in Client Time
   let clientDate = null;
-  if (clientTimezone && clientTimezone !== BST_TIMEZONE) {
+  if (clientTimezone) {
     try {
       clientDate = new Intl.DateTimeFormat('en-US', {
         timeZone: clientTimezone,

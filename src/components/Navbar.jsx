@@ -36,7 +36,7 @@ const companyMegaItems = [
   { title: "Blogs", slug: "blogs", path: "/blogs" },
   { title: "Career", slug: "career", path: "/career" },
   { title: "Our team", slug: "our-team", path: "/our-team" },
-  { title: "Training & Programme", slug: "training-programme", path: "/training-programme" },
+  { title: "Training & Programme", slug: "training-programme", href: "https://maktechinstitute.com/" },
   { title: "Gallery", slug: "gallery", path: "/gallery" },
   { title: "contact us", slug: "contact-us", path: "/contact" },
 ];
@@ -187,16 +187,31 @@ const MobileNavRow = ({ link, index, menuOpen, items, expanded, onToggle, onNavi
             >
               View all {link.label.toLowerCase()}
             </NavLink>
-            {items.map((item) => (
-              <NavLink
-                key={item.slug}
-                to={item.path}
-                onClick={onNavigate}
-                className="rounded-md bg-white/5 px-3 py-2 text-[14px] text-white/80 no-underline transition-colors duration-200 hover:bg-orange-bg-cta hover:text-white"
-              >
-                {item.title}
-              </NavLink>
-            ))}
+            {items.map((item) => {
+              const itemClass =
+                "rounded-md bg-white/5 px-3 py-2 text-[14px] text-white/80 no-underline transition-colors duration-200 hover:bg-orange-bg-cta hover:text-white";
+              return item.href ? (
+                <a
+                  key={item.slug}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={onNavigate}
+                  className={itemClass}
+                >
+                  {item.title}
+                </a>
+              ) : (
+                <NavLink
+                  key={item.slug}
+                  to={item.path}
+                  onClick={onNavigate}
+                  className={itemClass}
+                >
+                  {item.title}
+                </NavLink>
+              );
+            })}
           </div>
         </div>
       )}
@@ -430,16 +445,31 @@ const Navbar = () => {
                       }`}
                   >
                     <div className="flex flex-col gap-1">
-                      {companyMegaItems.map((item) => (
-                        <NavLink
-                          key={item.slug}
-                          to={item.path || `/company?section=${item.slug}`}
-                          className="rounded-md bg-white/[0.06] px-4 py-2.5 text-[16px] font-medium leading-none text-white no-underline transition-colors duration-200 hover:bg-orange-bg-cta hover:text-white"
-                          onClick={handleNavigate}
-                        >
-                          {item.title}
-                        </NavLink>
-                      ))}
+                      {companyMegaItems.map((item) => {
+                        const itemClass =
+                          "rounded-md bg-white/[0.06] px-4 py-2.5 text-[16px] font-medium leading-none text-white no-underline transition-colors duration-200 hover:bg-orange-bg-cta hover:text-white";
+                        return item.href ? (
+                          <a
+                            key={item.slug}
+                            href={item.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={handleNavigate}
+                            className={itemClass}
+                          >
+                            {item.title}
+                          </a>
+                        ) : (
+                          <NavLink
+                            key={item.slug}
+                            to={item.path || `/company?section=${item.slug}`}
+                            className={itemClass}
+                            onClick={handleNavigate}
+                          >
+                            {item.title}
+                          </NavLink>
+                        );
+                      })}
                     </div>
                   </div>
                   <div className="h-4 w-full" />
