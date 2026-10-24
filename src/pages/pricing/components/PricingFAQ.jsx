@@ -1,37 +1,9 @@
 import { useEffect, useState } from "react";
-
-const faqs = [
-  {
-    id: 1,
-    question: "How are your pricing plans structured?",
-    answer:
-      "Our pricing is structured into three tiers — Basic, Standard, and Business — across all service categories. Each tier is designed to match different project scopes, team sizes, and budget levels.",
-  },
-  {
-    id: 2,
-    question: "Can I upgrade or change my plan later?",
-    answer:
-      "Absolutely. You can upgrade, downgrade, or switch between plans at any time. Our team will seamlessly transition your project to the new scope without any disruption.",
-  },
-  {
-    id: 3,
-    question: "Are there any hidden fees?",
-    answer:
-      "None. Every plan is transparently priced. The only additions would be optional third-party services (like hosting, domains, or paid APIs) which are always communicated in advance.",
-  },
-  {
-    id: 4,
-    question: "Do you offer custom or enterprise pricing?",
-    answer:
-      "Yes — for large-scale or long-term projects that fall outside our standard plans, we create fully customised proposals tailored to your specific requirements and timeline.",
-  },
-  {
-    id: 5,
-    question: "What payment methods do you accept?",
-    answer:
-      "We accept bank transfers, major credit/debit cards, and popular digital wallets. Payment schedules (milestone-based or monthly) are agreed upon before the project begins.",
-  },
-];
+import {
+  FAQS as faqs,
+  FAQ_HEADING,
+  FAQ_SUBHEADING,
+} from "../../../components/faqData";
 
 const FAQItem = ({ faq, isOpen, onToggle }) => (
   <div className="bg-[#f4f4f4] rounded-lg overflow-hidden transition-all duration-300">
@@ -180,12 +152,12 @@ const PricingFAQ = () => {
 
           {/* Heading */}
           <h2 className="text-3xl xl:text-4xl 2xl:text-5xl font-semibold mb-4 leading-tight bg-linear-to-r from-[#7d7d7d] to-[#2f2f2f] bg-clip-text text-transparent">
-            Answers to Common Questions
+            {FAQ_HEADING}
           </h2>
 
           {/* Subheading */}
           <p className="text-white-bg-secondary text-base xl:text-lg max-w-2xl mx-auto">
-            Everything you need to know before starting your project with us.
+            {FAQ_SUBHEADING}
           </p>
         </div>
 

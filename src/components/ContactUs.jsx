@@ -1,5 +1,6 @@
-import axios from 'axios';
-import { useState, useEffect, useMemo, useCallback } from 'react';
+// Old slot-picker flow (commented out — replaced by free date/time picker below)
+// import axios from 'axios';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import CustomSelect from './CustomSelect';
 import apiClient from '../services/apiClient';
 import { toast } from 'react-toastify';
@@ -10,16 +11,18 @@ import {
   MdCheckCircle,
   MdEventBusy,
   MdRefresh,
-  MdClose,
+  // MdClose, // used only by the old slot-picker flow
 } from 'react-icons/md';
-import MeetingBookingModal from './MeetingBookingModal';
+// Old slot-picker flow (commented out)
+// import MeetingBookingModal from './MeetingBookingModal';
 import {
-  POPULAR_TIMEZONES,
+  // POPULAR_TIMEZONES, // used only by the old slot-picker flow
   getUserTimezone,
   getTimezoneSummary,
-  generateMeetingSlots,
-  BST_TIMEZONE,
+  // generateMeetingSlots,
   getLocationFromTimezone,
+  zonedDateTimeToIso,
+  getNowInputValue,
 } from '../utils/timezoneHelper';
 
 const ContactUs = () => {
@@ -34,6 +37,7 @@ const ContactUs = () => {
     message: '',
   });
 
+  /* ── Old slot-picker flow (commented out) ──────────────────────────────
   // Calculate smart default date (if past 5 PM BST, default to tomorrow)
   const defaultDateStr = useMemo(() => {
     const now = new Date();
@@ -46,18 +50,56 @@ const ContactUs = () => {
   }, []);
 
   const [bookingDate, setBookingDate] = useState(defaultDateStr);
-  const [visitorTimezone, setVisitorTimezone] = useState(() => getUserTimezone());
   const [isMeetingModalOpen, setIsMeetingModalOpen] = useState(false);
-  const tzSummary = useMemo(() => getTimezoneSummary(visitorTimezone), [visitorTimezone]);
   const [bookedSlots, setBookedSlots] = useState([]);
   const [loadingSlots, setLoadingSlots] = useState(false);
   const [selectedSlot, setSelectedSlot] = useState(null);
+  ─────────────────────────────────────────────────────────────────────── */
+
+  const [visitorTimezone] = useState(() => getUserTimezone());
+  const tzSummary = useMemo(() => getTimezoneSummary(visitorTimezone), [visitorTimezone]);
+
+  // Meeting picked freely by the visitor, as wall-clock time in visitorTimezone
+  const [meetingLocal, setMeetingLocal] = useState('');
+  const minMeetingLocal = getNowInputValue(visitorTimezone);
+
+  const selectedSlot = useMemo(() => {
+    const iso = zonedDateTimeToIso(meetingLocal, visitorTimezone);
+    if (!iso) return null;
+    const date = new Date(iso);
+    return {
+      iso,
+      localDateLabel: new Intl.DateTimeFormat('en-US', {
+        timeZone: visitorTimezone,
+        weekday: 'short',
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+      }).format(date),
+      localTimeLabel: new Intl.DateTimeFormat('en-US', {
+        timeZone: visitorTimezone,
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true,
+      }).format(date),
+    };
+  }, [meetingLocal, visitorTimezone]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submittedBooking, setSubmittedBooking] = useState(null);
+  const formBoxRef = useRef(null);
 
+  useEffect(() => {
+    if (submittedBooking) {
+      formBoxRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, [submittedBooking]);
+
+  /* Old slot-picker flow (commented out)
   // Minimum selectable date is today
   const minDateStr = useMemo(() => new Date().toISOString().split('T')[0], []);
+  */
 
+  /* Old slot-picker flow (commented out)
   // Timezone options (ensuring user's detected timezone is included)
   const timezoneOptions = useMemo(() => {
     const exists = POPULAR_TIMEZONES.some((tz) => tz.value === visitorTimezone);
@@ -66,7 +108,9 @@ const ContactUs = () => {
     }
     return POPULAR_TIMEZONES;
   }, [visitorTimezone]);
+  */
 
+  /* ── Old slot-picker flow (commented out) ──────────────────────────────
   // Fetch booked slots from backend
   const fetchBookedSlots = useCallback(async (date) => {
     setLoadingSlots(true);
@@ -108,6 +152,7 @@ const ContactUs = () => {
   const slots = useMemo(() => {
     return generateMeetingSlots(bookingDate, visitorTimezone, bookedSlots);
   }, [bookingDate, visitorTimezone, bookedSlots]);
+  ─────────────────────────────────────────────────────────────────────── */
 
   // Handle input changes
   const handleChange = (e) => {
@@ -118,6 +163,7 @@ const ContactUs = () => {
     }));
   };
 
+  /* Old slot-picker flow (commented out)
   // Handle slot selection/deselection
   const handleSlotClick = (slot) => {
     if (!slot.isAvailable) return;
@@ -127,6 +173,7 @@ const ContactUs = () => {
       setSelectedSlot(slot);
     }
   };
+  */
 
   // Form Submission
   const handleSubmit = async (e) => {
@@ -138,6 +185,14 @@ const ContactUs = () => {
     }
     if (!formData.email.trim()) {
       toast.error('Please enter your email address');
+      return;
+    }
+    if (meetingLocal && !selectedSlot) {
+      toast.error('Please choose a valid meeting date and time');
+      return;
+    }
+    if (selectedSlot && new Date(selectedSlot.iso).getTime() <= Date.now()) {
+      toast.error('Please choose a meeting time in the future');
       return;
     }
 
@@ -161,7 +216,7 @@ const ContactUs = () => {
       };
 
       const res = await apiClient.post('/api/v1/leads', payload);
-      if (res.data?.success) {
+      if (res.status >= 200 && res.status < 300 && res.data?.success !== false) {
         toast.success(
           selectedSlot
             ? 'Meeting booked & inquiry submitted successfully!'
@@ -169,7 +224,7 @@ const ContactUs = () => {
         );
 
         setSubmittedBooking({
-          lead: res.data.data,
+          lead: res.data?.data ?? payload,
           slot: selectedSlot,
           timezone: visitorTimezone,
         });
@@ -185,17 +240,17 @@ const ContactUs = () => {
           industry: '',
           message: '',
         });
-        setSelectedSlot(null);
-        // Refresh booked slots list to update taken slot
-        fetchBookedSlots(bookingDate);
+        setMeetingLocal('');
+        // Old slot-picker flow (commented out): refresh booked slots list
+        // fetchBookedSlots(bookingDate);
       }
     } catch (err) {
       const msg = err.response?.data?.message || 'Failed to submit inquiry. Please try again.';
       toast.error(msg);
       if (err.response?.status === 409) {
-        // Slot was taken in the meantime!
-        fetchBookedSlots(bookingDate);
-        setSelectedSlot(null);
+        // Exact same time was already taken by another booking
+        // fetchBookedSlots(bookingDate);
+        setMeetingLocal('');
       }
     } finally {
       setIsSubmitting(false);
@@ -307,7 +362,7 @@ const ContactUs = () => {
                 </div>
 
                 {/* Contact Details */}
-                <div className='space-y-4 mb-10'>
+                <div className='space-y-4'>
                   {/* Email */}
                   <div className='flex items-start gap-4 p-4 rounded-lg bg-[#3F3F3F] border border-white/10'>
                     <div className='shrink-0 mt-1'>
@@ -370,7 +425,7 @@ const ContactUs = () => {
                         Call on
                       </p>
                       <p className='text-[#AAAAAA] text-sm md:text-base'>
-                        +88 01897-669233
+                        +880 1897-669234
                       </p>
                     </div>
                   </div>
@@ -414,36 +469,11 @@ const ContactUs = () => {
                     </div>
                   </div>
                 </div>
-
-                {/* Instant Query via WhatsApp */}
-                <div>
-                  <p className='text-white text-sm md:text-base font-medium mb-4'>
-                    Instant Query
-                  </p>
-                  <div className='flex items-center gap-3'>
-                    <a
-                      href='https://wa.me/8801897669233'
-                      target='_blank'
-                      rel='noopener noreferrer'
-                      className='w-10 h-10 rounded-lg text-white bg-[#3a3a3a] hover:bg-orange-bg-cta border border-white/5 flex items-center justify-center transition-all duration-200'
-                      aria-label='WhatsApp'
-                    >
-                      <svg
-                        xmlns='http://www.w3.org/2000/svg'
-                        width='20'
-                        height='20'
-                        fill='currentColor'
-                        viewBox='0 0 16 16'
-                      >
-                        <path d='M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232' />
-                      </svg>
-                    </a>
-                  </div>
-                </div>
               </div>
 
               {/* Right Side - Form Box */}
               <div
+                ref={formBoxRef}
                 className='p-5 md:p-8 xl:p-10 rounded-xl'
                 style={{
                   backgroundColor: 'rgba(66, 66, 66, 0.2)',
@@ -460,7 +490,9 @@ const ContactUs = () => {
                     </div>
                     <div>
                       <h3 className='text-2xl font-bold text-white'>
-                        {submittedBooking.slot ? 'Meeting Booked Successfully!' : 'Inquiry Submitted!'}
+                        {submittedBooking.slot
+                          ? 'Meeting Booked Successfully!'
+                          : 'Thank You! Your Message Has Been Sent.'}
                       </h3>
                       <p className='text-sm text-gray-300 mt-2 max-w-md mx-auto'>
                         Thank you <span className='font-semibold text-white'>{submittedBooking.lead?.fullName}</span>. We have received your inquiry and will reach out to you shortly at <span className='text-[#ff8a5a] font-medium'>{submittedBooking.lead?.email}</span>.
@@ -629,7 +661,7 @@ const ContactUs = () => {
                       </div>
                     </div>
 
-                    {/* ─── MEETING & CONSULTATION BOOKING TRIGGER ─── */}
+                    {/* ─── Old slot-picker flow (commented out): MEETING & CONSULTATION BOOKING TRIGGER ───
                     <div>
                       <div className='flex items-center justify-between mb-2'>
                         <label className='text-white-bg-cta text-base md:text-lg block'>
@@ -699,6 +731,58 @@ const ContactUs = () => {
                         </div>
                       )}
                     </div>
+                    ─── end of old slot-picker flow ─── */}
+
+                    {/* Meeting & Consultation: any date/time in the visitor's own timezone */}
+                    <div>
+                      <div className='flex items-center justify-between mb-2'>
+                        <label
+                          htmlFor='meetingLocal'
+                          className='text-white-bg-cta text-base md:text-lg block'
+                        >
+                          Meeting &amp; Consultation <span className='text-xs text-gray-400 font-normal'>(Optional)</span>
+                        </label>
+                        {meetingLocal && (
+                          <button
+                            type='button'
+                            onClick={() => setMeetingLocal('')}
+                            className='text-xs text-rose-400 hover:text-rose-300 underline cursor-pointer'
+                          >
+                            Remove Meeting
+                          </button>
+                        )}
+                      </div>
+
+                      <div className='relative'>
+                        <MdCalendarToday className='pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-lg text-[#ff6533]' />
+                        <input
+                          id='meetingLocal'
+                          type='datetime-local'
+                          value={meetingLocal}
+                          min={minMeetingLocal}
+                          onChange={(e) => setMeetingLocal(e.target.value)}
+                          onClick={(e) => {
+                            try {
+                              e.currentTarget.showPicker?.();
+                            } catch {
+                              // showPicker can throw outside a user gesture; native behaviour still applies
+                            }
+                          }}
+                          className='w-full cursor-pointer pl-11 pr-4 py-3 bg-[#3F3F3F] border border-white/10 rounded-lg text-white [color-scheme:dark] focus:outline-none focus:border-orange-bg-cta transition-colors duration-200'
+                        />
+                      </div>
+
+                      <p className='mt-2 flex items-center gap-1.5 text-xs text-gray-400'>
+                        <MdPublic className='shrink-0 text-sm text-[#ff6533]' />
+                        {selectedSlot ? (
+                          <span>
+                            Your time: <span className='text-white'>{selectedSlot.localDateLabel}, {selectedSlot.localTimeLabel}</span> ({tzSummary.label})
+                          </span>
+                        ) : (
+                          <span>Pick any date &amp; time that suits you, in your own time ({tzSummary.label}).</span>
+                        )}
+                      </p>
+                    </div>
 
                     {/* Message */}
                     <div>
@@ -765,7 +849,7 @@ const ContactUs = () => {
         </div>
       </div>
 
-      {/* Meeting Booking Modal */}
+      {/* Old slot-picker flow (commented out): Meeting Booking Modal
       <MeetingBookingModal
         isOpen={isMeetingModalOpen}
         onClose={() => setIsMeetingModalOpen(false)}
@@ -781,6 +865,7 @@ const ContactUs = () => {
         slots={slots}
         loadingSlots={loadingSlots}
       />
+      */}
     </section>
   );
 };
