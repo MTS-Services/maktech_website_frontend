@@ -258,7 +258,7 @@ const Footer = () => {
                 <li className='text-gray-400 text-sm italic'>
                   career@maktechgroup.com
                 </li>
-                <li className='text-gray-400 text-sm'>+88 01897-669233</li>
+                <li className='text-gray-400 text-sm'>+880 1897-669234</li>
                 <li className='text-gray-400 text-sm'>
                   8th Floor, A, Majid Tower, Ka-24 Progati Sarani Rd, Dhaka 1229
                 </li>
@@ -391,7 +391,7 @@ const Footer = () => {
                 <p className='text-gray-400 text-sm italic'>
                   career@maktechgroup.com
                 </p>
-                <p className='text-gray-400 text-sm'>+88 01897-669233</p>
+                <p className='text-gray-400 text-sm'>+880 1897-669234</p>
                 <p className='text-gray-400 text-sm'>
                   8th Floor, A, Majid Tower, Ka-24 Progati Sarani Rd, Dhaka 1229
                 </p>
