@@ -1,37 +1,9 @@
 import { useState } from 'react';
-
-const faqs = [
-    {
-        id: 1,
-        question: "What services does MAKTECH offer?",
-        answer: "We provide UI/UX design, web and mobile development, custom software solutions, branding, digital marketing, and ongoing support for digital products. We tailor our services to meet your specific business needs."
-    },
-    {
-        id: 2,
-        question: "How do I get started with a project?",
-        answer: "Simply fill out our contact form with your project details, and our team will reach out within 24-48 hours to discuss your requirements, timeline, and budget. We offer a free initial consultation."
-    },
-    {
-        id: 3,
-        question: "What is your typical project timeline?",
-        answer: "Project timelines vary based on complexity and scope. A typical web development project takes 3-6 months, while design-focused projects might take 4-8 weeks. We'll provide a detailed timeline after understanding your requirements."
-    },
-    {
-        id: 4,
-        question: "Do you work with startups and small businesses?",
-        answer: "Yes! We work with organizations of all sizes - from startups to large enterprises. We understand the unique challenges each stage brings and tailor our approach accordingly."
-    },
-    {
-        id: 5,
-        question: "What is your support and maintenance process?",
-        answer: "We provide ongoing support packages including bug fixes, updates, feature enhancements, and technical maintenance. Support can be arranged on a retainer basis or project-by-project."
-    },
-    {
-        id: 6,
-        question: "Can you work with our existing tech stack?",
-        answer: "Absolutely! We're proficient with a wide range of technologies and can integrate with your existing systems. During the initial consultation, we'll discuss your current infrastructure and recommend the best approach."
-    }
-];
+import {
+    FAQS as faqs,
+    FAQ_HEADING,
+    FAQ_SUBHEADING,
+} from '../../../components/faqData';
 
 const FAQItem = ({ faq, isOpen, onToggle }) => {
     return (
@@ -162,12 +134,12 @@ const ContactFAQ = () => {
 
                     {/* Heading */}
                     <h2 className="text-3xl md:text-4xl  font-medium mb-3 leading-tight text-[#7D7D7D]">
-                        Answers to Common Questions
+                        {FAQ_HEADING}
                     </h2>
 
                     {/* Subheading */}
                     <p className="text-[#AAAAAA] text-base  max-w-3xl mx-auto leading-relaxed">
-                        Everything you need to know before starting your project with us.
+                        {FAQ_SUBHEADING}
                     </p>
                 </div>
 

@@ -9,6 +9,16 @@ import {
 } from 'react-icons/fa6';
 import { MdKeyboardArrowDown } from 'react-icons/md';
 
+const REVIEW_LINKS = [
+  { href: 'https://clutch.co/profile/maktech', label: 'Clutch' },
+  {
+    href: 'https://www.trustpilot.com/review/maktechgroup.com',
+    label: 'Trustpilot',
+  },
+  { href: 'https://www.behance.net/maktechgroup', label: 'Behance' },
+  { href: 'https://dribbble.com/growthf178', label: 'Dribbble' },
+];
+
 const POLICY_LINKS = [
   { to: '/privacy-policy', label: 'Privacy Policy' },
   { to: '/terms-and-conditions', label: 'Terms & Conditions' },
@@ -137,7 +147,7 @@ const Footer = () => {
       <div className='relative'>
         {/* Desktop Footer Content */}
         <div className='hidden md:block relative z-10 max-w-7xl mx-auto px-4 py-12'>
-          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1.3fr_0.8fr_1.3fr_0.9fr] gap-8'>
+          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1.3fr_0.8fr_1.3fr_0.9fr_0.7fr] gap-8'>
             {/* Column 1 - Logo & Social Card */}
             <div>
               <div className='bg-[#2a2a2a] border border-white/10 rounded-2xl p-6'>
@@ -274,6 +284,25 @@ const Footer = () => {
                     >
                       {label}
                     </NavLink>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Column 5 - Review */}
+            <div>
+              <h3 className='text-white text-base font-normal mb-4'>Review</h3>
+              <ul className='space-y-3'>
+                {REVIEW_LINKS.map(({ href, label }) => (
+                  <li key={href}>
+                    <a
+                      href={href}
+                      target='_blank'
+                      rel='noopener noreferrer'
+                      className='text-gray-400 hover:text-orange-bg-cta transition-colors duration-200 text-sm'
+                    >
+                      {label}
+                    </a>
                   </li>
                 ))}
               </ul>
@@ -435,6 +464,36 @@ const Footer = () => {
                   >
                     {label}
                   </NavLink>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Review Accordion */}
+          <div className='border-b border-white/10'>
+            <button
+              onClick={() => toggleSection('review')}
+              className='w-full flex items-center justify-between py-3 text-white text-base font-normal'
+            >
+              Review
+              <MdKeyboardArrowDown
+                className={`transition-transform duration-200 text-white text-xl ${
+                  openSection === 'review' ? 'rotate-180' : ''
+                }`}
+              />
+            </button>
+            {openSection === 'review' && (
+              <div className='pb-3 space-y-2'>
+                {REVIEW_LINKS.map(({ href, label }) => (
+                  <a
+                    key={href}
+                    href={href}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    className='block text-gray-400 hover:text-white transition-colors duration-200 text-sm'
+                  >
+                    {label}
+                  </a>
                 ))}
               </div>
             )}

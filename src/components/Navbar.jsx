@@ -84,7 +84,7 @@ const MegaMenuCard = ({ item, onNavigate }) => (
   <NavLink
     to={item.path}
     onClick={onNavigate}
-    className="group flex min-h-16 items-start gap-2.5 border border-black/10 bg-[#3B3B3B33] px-3.5 py-3 text-black-bg no-underline transition duration-200 hover:-translate-y-px hover:border-orange-bg-cta hover:bg-orange-bg-cta hover:text-white "
+    className="group flex min-h-16 items-start gap-2.5 rounded-md border border-white/10 bg-white/[0.06] px-3.5 py-3 text-white no-underline transition duration-200 hover:-translate-y-px hover:border-orange-bg-cta hover:bg-orange-bg-cta hover:text-white"
   >
     <span
       aria-hidden="true"
@@ -109,7 +109,7 @@ const MegaMenuCard = ({ item, onNavigate }) => (
       <span className="truncate text-[16px] font-bold leading-[1.2] text-current">
         {item.title}
       </span>
-      <span className="mt-1 truncate text-[12px] leading-tight text-black-bg group-hover:text-white/90 ">
+      <span className="mt-1 truncate text-[12px] leading-tight text-white/60 group-hover:text-white/90">
         {item.description ?? "Let's implement your skills toward to grow MAKTECH."}
       </span>
     </span>
@@ -267,7 +267,7 @@ const Navbar = () => {
   return (
     <>
       <nav
-        className="fixed z-[1000] flex w-full items-center justify-between gap-0 bg-[rgba(28,28,28,0.95)] px-5 py-4 shadow-[0_2px_8px_rgba(0,0,0,0.3)] transition-all duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] [backdrop-filter:blur(18px)] lg:w-[90%] xl:w-[60%] xl:min-w-216 lg:max-w-[1200px] lg:rounded-full lg:border lg:border-white/8 lg:bg-[rgba(28,28,28,0.82)] lg:px-5 lg:py-2.5 lg:shadow-[0_8px_32px_rgba(0,0,0,0.45),inset_0_0_0_1px_rgba(255,255,255,0.04)] 2xl:gap-2.5 2xl:px-[22px]"
+        className="fixed z-[1000] flex w-full items-center justify-between gap-0 px-5 py-4 transition-all duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] lg:w-[90%] xl:w-[60%] xl:min-w-216 lg:max-w-[1200px] lg:px-5 lg:py-2.5 2xl:gap-2.5 2xl:px-[22px]"
         style={{
           opacity: visible ? 1 : 0,
           left: isMobile ? 0 : "50%",
@@ -282,6 +282,12 @@ const Navbar = () => {
               : "translateX(-50%) translateY(20px)",
         }}
       >
+        {/* Backdrop lives on its own layer: a backdrop-filter on <nav> itself would stop the mega menus from blurring the page behind them */}
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 -z-10 bg-[rgba(28,28,28,0.95)] shadow-[0_2px_8px_rgba(0,0,0,0.3)] [backdrop-filter:blur(18px)] lg:rounded-full lg:border lg:border-white/8 lg:bg-[rgba(28,28,28,0.82)] lg:shadow-[0_8px_32px_rgba(0,0,0,0.45),inset_0_0_0_1px_rgba(255,255,255,0.04)]"
+        />
+
         {/* Logo */}
         <NavLink to="/" className="mr-1 flex items-center no-underline" onClick={handleNavigate}>
           <img
@@ -332,17 +338,17 @@ const Navbar = () => {
                     }`}
                 >
                   <div
-                    className={`rounded-md border border-black/6 bg-[#d7d7d7] p-5.5 shadow-[0_18px_44px_rgba(0,0,0,0.24)] transition-all duration-200 ${isServicesMegaOpen
+                    className={`rounded-xl border border-white/15 bg-[rgba(28,28,28,0.45)] p-5.5 shadow-[0_18px_44px_rgba(0,0,0,0.35),inset_0_1px_0_rgba(255,255,255,0.08)] [backdrop-filter:blur(24px)_saturate(160%)] transition-all duration-200 ${isServicesMegaOpen
                         ? "visible translate-y-0 opacity-100"
                         : "invisible translate-y-2.5 opacity-0"
                       }`}
                   >
                     <div className="mb-4 flex items-start justify-between gap-3">
                       <div>
-                        <h3 className="m-0 text-[44px] font-bold leading-[1.08] tracking-[-0.02em] text-black-bg">
+                        <h3 className="m-0 text-[44px] font-bold leading-[1.08] tracking-[-0.02em] text-white">
                           Want to grow with us?
                         </h3>
-                        <p className="mt-2 text-[20px] leading-[1.22] text-black-bg">
+                        <p className="mt-2 text-[20px] leading-[1.22] text-white/70">
                           Let&apos;s implement your skills toward to grow MAKTECH.
                         </p>
                       </div>
@@ -418,7 +424,7 @@ const Navbar = () => {
                     }`}
                 >
                   <div
-                    className={`rounded-md border border-black/6 bg-[#d7d7d7] p-2 shadow-[0_18px_44px_rgba(0,0,0,0.24)] transition-all duration-200 ${isCompanyMegaOpen
+                    className={`rounded-xl border border-white/15 bg-[rgba(28,28,28,0.45)] p-2 shadow-[0_18px_44px_rgba(0,0,0,0.35),inset_0_1px_0_rgba(255,255,255,0.08)] [backdrop-filter:blur(24px)_saturate(160%)] transition-all duration-200 ${isCompanyMegaOpen
                         ? "visible translate-y-0 opacity-100"
                         : "invisible translate-y-2.5 opacity-0"
                       }`}
@@ -428,7 +434,7 @@ const Navbar = () => {
                         <NavLink
                           key={item.slug}
                           to={item.path || `/company?section=${item.slug}`}
-                          className="rounded-sm bg-[#c7c7c7] px-4 py-2.5 text-[16px] font-medium leading-none text-black-bg no-underline transition-colors duration-200 hover:bg-orange-bg-cta hover:text-white"
+                          className="rounded-md bg-white/[0.06] px-4 py-2.5 text-[16px] font-medium leading-none text-white no-underline transition-colors duration-200 hover:bg-orange-bg-cta hover:text-white"
                           onClick={handleNavigate}
                         >
                           {item.title}
