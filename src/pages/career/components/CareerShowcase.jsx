@@ -71,13 +71,13 @@ const CareerShowcase = () => {
     );
 
     return (
-        <section className="relative w-full h-auto lg:h-screen px-4 sm:px-6 lg:px-10 xl:px-14 2xl:px-16 overflow-hidden flex items-center py-10 lg:py-16">
-            <div className="mx-auto flex h-full w-full max-w-360 flex-col gap-3 md:gap-4">
-                <div className="grid grid-cols-2 auto-rows-[160px] gap-3 sm:auto-rows-[200px] md:h-[460px] md:auto-rows-auto md:grid-cols-[2.35fr_2.2fr_1fr_2.4fr] md:grid-rows-[0.9fr_1fr] md:gap-4 lg:h-auto lg:min-h-0 lg:flex-[2.35]">
+        <section className="relative w-full h-auto px-4 sm:px-6 lg:px-10 xl:px-14 2xl:px-16 overflow-hidden flex items-center py-10 lg:py-16">
+            <div className="mx-auto flex w-full max-w-360 flex-col gap-3 md:gap-4">
+                <div className="grid grid-cols-2 auto-rows-[200px] gap-3 sm:auto-rows-[250px] md:h-[560px] md:auto-rows-auto md:grid-cols-[2.35fr_2.2fr_1fr_2.4fr] md:grid-rows-[0.9fr_1fr] md:gap-4 lg:h-[640px] xl:h-[720px]">
                     {topItems.map(renderTile)}
                 </div>
 
-                <div className="grid grid-cols-2 auto-rows-[160px] gap-3 sm:auto-rows-[200px] md:h-[200px] md:auto-rows-auto md:grid-cols-[1.8fr_1fr_1fr] md:gap-4 lg:h-auto lg:min-h-0 lg:flex-1">
+                <div className="grid grid-cols-2 auto-rows-[200px] gap-3 sm:auto-rows-[250px] md:h-[260px] md:auto-rows-auto md:grid-cols-[1.8fr_1fr_1fr] md:gap-4 lg:h-[300px] xl:h-[340px]">
                     {bottomItems.map(renderTile)}
                 </div>
             </div>
