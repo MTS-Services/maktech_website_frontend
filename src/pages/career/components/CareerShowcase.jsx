@@ -1,77 +1,84 @@
 const CareerShowcase = () => {
-    const showcaseItems = [
+    // Top block: one tall photo on the left, a 2-row mosaic on the right
+    const topItems = [
         {
             id: 1,
-            image: "https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&w=800&q=80",
+            image: "https://cdn.maktechgroup.com/media/1792647403087-f75930c4-a385-4a90-9bdd-05047ed73af8.png",
             title: "Team Collaboration",
-            colSpan: "md:col-span-1",
-            rowSpan: "md:row-span-2", 
+            className: "row-span-2 md:row-span-2",
         },
         {
             id: 2,
-            image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80",
+            image: "https://cdn.maktechgroup.com/media/1792647410992-80726356-03a5-4d96-9138-653eeeada0ba.jpg",
             title: "Product Development",
-            colSpan: "md:col-span-2", 
-            rowSpan: "md:row-span-1",
+            className: "md:col-span-2",
         },
         {
             id: 3,
-            image: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80",
+            image: "https://cdn.maktechgroup.com/media/1792647406503-42b0924f-0ec0-4fd3-853b-be42ed430f3c.jpg",
             title: "Office Culture",
-            colSpan: "md:col-span-1",
-            rowSpan: "md:row-span-1",
+            className: "",
         },
         {
             id: 4,
-            image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=800&q=80",
+            image: "https://cdn.maktechgroup.com/media/1792647404446-eee83e4f-b633-4f54-948c-b193f9bba86c.jpg",
             title: "Team Building",
-            colSpan: "md:col-span-1",
-            rowSpan: "md:row-span-1",
+            className: "",
         },
         {
             id: 5,
-            image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1200&q=80",
+            image: "https://cdn.maktechgroup.com/media/1792647409668-32d5939e-2fd4-4ab4-bbd9-ac50d4ba615c.jpg",
             title: "Innovation Lab",
-            colSpan: "md:col-span-2", 
-            rowSpan: "md:row-span-1",
-        },
-        {
-            id: 6,
-            image: "https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?auto=format&fit=crop&w=800&q=80",
-            title: "Workspace",
-            colSpan: "md:col-span-1",
-            rowSpan: "md:row-span-1",
+            className: "md:col-span-2",
         },
     ];
 
+    // Bottom row: one wide photo followed by two smaller ones
+    const bottomItems = [
+        {
+            id: 6,
+            image: "https://cdn.maktechgroup.com/media/1792647407371-6b06a204-b3ab-4857-948e-33f622de86f8.jpg",
+            title: "Workspace",
+            className: "col-span-2 md:col-span-1",
+        },
+        {
+            id: 7,
+            image: "https://cdn.maktechgroup.com/media/1792647412424-1885453e-827c-4b79-aa38-75433de45428.jpg",
+            title: "Team Meeting",
+            className: "",
+        },
+        {
+            id: 8,
+            image: "https://cdn.maktechgroup.com/media/1792647405556-9c80ae21-e8bb-4c9f-828a-4295bc2e09f8.jpg",
+            title: "Focused Work",
+            className: "",
+        },
+    ];
+
+    const renderTile = (item) => (
+        <div
+            key={item.id}
+            className={`${item.className} relative overflow-hidden rounded-xl bg-zinc-800`}
+        >
+            <img
+                src={item.image}
+                alt={item.title}
+                loading="lazy"
+                className="h-full w-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+        </div>
+    );
+
     return (
-        <section className="relative w-full  h-auto lg:h-screen px-4 sm:px-6 lg:px-10 xl:px-14 2xl:px-16 overflow-hidden flex items-center py-10 lg:py-16"> 
-            <div className=" mx-auto max-w-360  h-full">
+        <section className="relative w-full h-auto lg:h-screen px-4 sm:px-6 lg:px-10 xl:px-14 2xl:px-16 overflow-hidden flex items-center py-10 lg:py-16">
+            <div className="mx-auto flex h-full w-full max-w-360 flex-col gap-3 md:gap-4">
+                <div className="grid grid-cols-2 auto-rows-[160px] gap-3 sm:auto-rows-[200px] md:h-[460px] md:auto-rows-auto md:grid-cols-[2.35fr_2.2fr_1fr_2.4fr] md:grid-rows-[0.9fr_1fr] md:gap-4 lg:h-auto lg:min-h-0 lg:flex-[2.35]">
+                    {topItems.map(renderTile)}
+                </div>
 
-                {/* Masonry Grid - Forced to fit screen using grid-rows-3 */}
-                <div className="grid grid-cols-1 md:grid-cols-3 md:grid-rows-3 gap-4 h-full">
-                    {showcaseItems.map((item) => (
-                        <div
-                            key={item.id}
-                            className={`${item.colSpan} ${item.rowSpan} relative overflow-hidden rounded-xl bg-zinc-800`} 
-                        >
-                            <img
-                                src={item.image}
-                                alt={item.title}
-                                className="h-full w-full object-cover"
-                            />
-
-                            {/* Overlay - Now always visible */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
-                            
-                            {/* Title - Now always visible */}
-                            {/* <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6">
-                                <h3 className="text-lg md:text-xl font-semibold text-white">
-                                    {item.title}
-                                </h3>
-                            </div> */}
-                        </div>
-                    ))}
+                <div className="grid grid-cols-2 auto-rows-[160px] gap-3 sm:auto-rows-[200px] md:h-[200px] md:auto-rows-auto md:grid-cols-[1.8fr_1fr_1fr] md:gap-4 lg:h-auto lg:min-h-0 lg:flex-1">
+                    {bottomItems.map(renderTile)}
                 </div>
             </div>
         </section>
