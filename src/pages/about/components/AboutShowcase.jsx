@@ -27,7 +27,7 @@ const AboutShowcase = () => (
                 loading='lazy'
               />
             </div>
-            <div className='flex-1 flex items-center pt-0'>
+            <div className='flex-1 min-w-0 flex items-center pt-0'>
               {/* Overlapping avatars — wave arc layout */}
               <div className='w-full lg:w-[95%] lg:ml-4 flex items-center'>
                 {[
@@ -53,11 +53,11 @@ const AboutShowcase = () => (
                   return (
                     <div
                       key={i}
-                      className='relative group'
-                      style={{
-                        marginLeft: i === 0 ? 0 : '-22px',
-                        zIndex: i + 1,
-                      }}
+                      // Old fixed overlap (commented out): -22px on every screen pushed avatars off mobile
+                      // style={{ marginLeft: i === 0 ? 0 : '-22px', zIndex: i + 1 }}
+                      // Widths are % of the row so all 8 avatars always fit: 8 x 16.5% - 7 x 4.8% ≈ 98%
+                      className={`relative group shrink-0 w-[16.5%] ${i === 0 ? '' : '-ml-[4.8%]'}`}
+                      style={{ zIndex: i + 1 }}
                     >
                       {/* Tooltip */}
                       {person.name && (
@@ -72,8 +72,11 @@ const AboutShowcase = () => (
                         width={82}
                         height={96}
                         loading='lazy'
-                        className='h-22 xl:h-24 w-auto max-w-none object-contain group-hover:-translate-y-3 transition-transform duration-200'
+                        className='block w-full h-auto group-hover:-translate-y-3 transition-transform duration-200'
                       />
+                      {/* Old size (commented out): same 88px height on every screen
+                      className='h-22 xl:h-24 w-auto max-w-none object-contain group-hover:-translate-y-3 transition-transform duration-200'
+                      */}
                       {/* Old circular crop with border (commented out: new images have their own orange ring)
                       className='w-22 h-22 xl:w-24 xl:h-24 rounded-full object-cover border-[3px] border-black-bg group-hover:-translate-y-3 transition-transform duration-200'
                       */}
