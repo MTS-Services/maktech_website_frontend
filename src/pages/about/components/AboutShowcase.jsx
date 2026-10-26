@@ -91,7 +91,7 @@ const AboutShowcase = () => (
               src='https://cdn.maktechgroup.com/media/1792669599782-0a67c8ef-bb3f-42ed-aefb-f951fc970441.png'
               alt='Maktech team collaborating in a modern workspace'
               width={600}
-              height={800}
+              height={600}
               // Old sizing (commented out): h-full squashed the image to the container height
               // className='w-full h-full -mt-16 lg:-mt-50'
               className='w-full h-auto -mt-16 lg:-mt-50'
