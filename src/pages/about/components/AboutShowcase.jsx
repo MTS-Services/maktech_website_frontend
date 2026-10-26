@@ -18,7 +18,8 @@ const AboutShowcase = () => (
           <div className='flex gap-4 xl:gap-5 lg:h-[48%] items-start'>
             <div className='w-[34%] aspect-3/4 lg:aspect-auto lg:h-[102%] shrink-0 rounded-2xl overflow-hidden relative z-10 -mt-14 lg:-mt-23'>
               <img
-                src='/about1.webp'
+                // src='/about1.webp'
+                src='https://cdn.maktechgroup.com/media/1792646192877-2d6fa0a6-e581-4098-bb54-9bb938a2f483.png'
                 alt='Maktech team member'
                 width={280}
                 height={370}
@@ -30,38 +31,24 @@ const AboutShowcase = () => (
               {/* Overlapping avatars — wave arc layout */}
               <div className='w-full lg:w-[95%] lg:ml-4 flex items-center'>
                 {[
-                  {
-                    src: 'https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=120&q=80',
-                    name: 'Alex M.',
-                  },
-                  {
-                    src: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=120&q=80',
-                    name: 'Robert J.',
-                  },
-                  {
-                    src: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=120&q=80',
-                    name: 'Jane S.',
-                  },
-                  {
-                    src: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=120&q=80',
-                    name: 'Emily D.',
-                  },
-                  {
-                    src: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&q=80',
-                    name: 'Tyler D.',
-                  },
-                  {
-                    src: 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=120&q=80',
-                    name: 'Dora E.',
-                  },
-                  {
-                    src: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&q=80',
-                    name: 'Marcus L.',
-                  },
-                  {
-                    src: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=120&q=80',
-                    name: 'Sofia R.',
-                  },
+                  /* Old placeholder avatars (commented out)
+                  { src: 'https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=120&q=80', name: 'Alex M.' },
+                  { src: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=120&q=80', name: 'Robert J.' },
+                  { src: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=120&q=80', name: 'Jane S.' },
+                  { src: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=120&q=80', name: 'Emily D.' },
+                  { src: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&q=80', name: 'Tyler D.' },
+                  { src: 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=120&q=80', name: 'Dora E.' },
+                  { src: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&q=80', name: 'Marcus L.' },
+                  { src: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=120&q=80', name: 'Sofia R.' },
+                  */
+                  { src: 'https://cdn.maktechgroup.com/media/1792643769813-334441e5-48bc-4d65-9926-cc362ff6e935.png', name: '' },
+                  { src: 'https://cdn.maktechgroup.com/media/1792643769814-deecb267-c16b-4768-8187-29be6723c7cb.png', name: '' },
+                  { src: 'https://cdn.maktechgroup.com/media/1792643769814-c5a76c54-f550-4d53-9568-22e5132a9293.png', name: '' },
+                  { src: 'https://cdn.maktechgroup.com/media/1792643769814-56882d44-0138-4354-8420-fdb7efbc5d65.png', name: '' },
+                  { src: 'https://cdn.maktechgroup.com/media/1792643769815-6fd647e5-8d25-46c4-b1d4-53d33b23afd0.png', name: '' },
+                  { src: 'https://cdn.maktechgroup.com/media/1792643769815-2f2cd975-fa64-494f-b4bf-6737aa4828f1.png', name: '' },
+                  { src: 'https://cdn.maktechgroup.com/media/1792643769815-0e0bb152-9d6a-49c4-bf8f-9f87380f8612.png', name: '' },
+                  { src: 'https://cdn.maktechgroup.com/media/1792643769814-796a2775-200a-4180-8f6d-b5ee9b37cf14.png', name: '' },
                 ].map((person, i) => {
                   return (
                     <div
@@ -73,17 +60,23 @@ const AboutShowcase = () => (
                       }}
                     >
                       {/* Tooltip */}
-                      <div className='absolute -top-11 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-xs font-medium px-2.5 py-1 rounded-md whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-50'>
-                        {person.name}
-                        <div className='absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-900' />
-                      </div>
+                      {person.name && (
+                        <div className='absolute -top-11 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-xs font-medium px-2.5 py-1 rounded-md whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-50'>
+                          {person.name}
+                          <div className='absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-900' />
+                        </div>
+                      )}
                       <img
                         src={person.src}
-                        alt={person.name}
-                        width={96}
+                        alt={person.name || 'Maktech team member'}
+                        width={82}
                         height={96}
-                        className='w-22 h-22 xl:w-24 xl:h-24 rounded-full object-cover border-[3px] border-black-bg group-hover:-translate-y-3 transition-transform duration-200'
+                        loading='lazy'
+                        className='h-22 xl:h-24 w-auto max-w-none object-contain group-hover:-translate-y-3 transition-transform duration-200'
                       />
+                      {/* Old circular crop with border (commented out: new images have their own orange ring)
+                      className='w-22 h-22 xl:w-24 xl:h-24 rounded-full object-cover border-[3px] border-black-bg group-hover:-translate-y-3 transition-transform duration-200'
+                      */}
                     </div>
                   );
                 })}
@@ -94,7 +87,8 @@ const AboutShowcase = () => (
           {/* Office workspace photo */}
           <div className='w-full flex-1  rounded-[20px] overflow-visible relative'>
             <img
-              src='/about3.webp'
+              // src='/about3.webp'
+              src='https://cdn.maktechgroup.com/media/1792669599782-0a67c8ef-bb3f-42ed-aefb-f951fc970441.png'
               alt='Maktech team collaborating in a modern workspace'
               width={600}
               height={400}
@@ -143,7 +137,8 @@ const AboutShowcase = () => (
               {/* Reviewer */}
               <div className='flex items-center gap-3 mt-4'>
                 <img
-                  src='/about5.webp'
+                  // src='/about5.webp'
+                  src='https://cdn.maktechgroup.com/media/1792648363650-1e10a8e5-4284-4b89-86c0-7980d5904fe1.png'
                   alt='Product Manager at SaaS Startup'
                   width={40}
                   height={40}
