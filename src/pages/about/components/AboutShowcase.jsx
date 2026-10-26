@@ -5,7 +5,7 @@ import { FaStar } from 'react-icons/fa';
 const AboutShowcase = () => (
   <section
     aria-label='About Maktech'
-    className='relative w-full bg-black-bg h-auto 2xl:h-screen px-4 sm:px-6 lg:px-10 xl:px-14 2xl:px-16 overflow-hidden flex items-center py-10 lg:py-16'
+    className='relative w-full bg-black-bg h-auto 2xl:h-screen px-4 sm:px-6 lg:px-10 xl:px-14 2xl:px-16 overflow-hidden flex items-center py-10 lg:py-16 2xl:pt-24'
   >
     {/* Animated vertical lines — same as hero */}
     <AnimatedLines />
@@ -23,7 +23,7 @@ const AboutShowcase = () => (
                 alt='Maktech team member'
                 width={280}
                 height={370}
-                className='w-full h-full object-cover rounded-2xl rounded-bl-[60px] rounded-tr-[60px] '
+                className='w-full h-full object-cover object-top rounded-2xl rounded-bl-[60px] rounded-tr-[60px] '
                 loading='lazy'
               />
             </div>
