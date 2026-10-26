@@ -94,7 +94,7 @@ const AboutShowcase = () => (
               height={600}
               // Old sizing (commented out): h-full squashed the image to the container height
               // className='w-full h-full -mt-16 lg:-mt-50'
-              className='w-full -mt-16 lg:-mt-50 lg:h-[400px]'
+              className='w-full -mt-16 lg:-mt-50 lg:h-[600px]'
               loading='lazy'
             />
           </div>
