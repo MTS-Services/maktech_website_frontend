@@ -5,18 +5,18 @@ import { FaStar } from 'react-icons/fa';
 const AboutShowcase = () => (
   <section
     aria-label='About Maktech'
-    className='relative w-full bg-black-bg h-auto lg:h-screen px-4 sm:px-6 lg:px-10 xl:px-14 2xl:px-16 overflow-hidden flex items-center py-10 lg:py-16'
+    className='relative w-full bg-black-bg h-auto 2xl:h-screen px-4 sm:px-6 lg:px-10 xl:px-14 2xl:px-16 overflow-hidden flex items-center py-10 lg:py-16'
   >
     {/* Animated vertical lines — same as hero */}
     <AnimatedLines />
 
-    <div className='relative z-10 w-full h-auto lg:h-full max-w-360 mx-auto'>
-      <div className='h-auto lg:h-full flex flex-col lg:flex-row gap-4 xl:gap-5'>
+    <div className='relative z-10 w-full h-auto 2xl:h-full max-w-360 mx-auto'>
+      <div className='h-auto 2xl:h-full flex flex-col lg:flex-row gap-4 xl:gap-5'>
         {/* ─── Left Column ─── */}
         <div className='w-full lg:w-[57%] flex flex-col gap-4 xl:gap-5'>
           {/* Person photo + Happy clients badge */}
-          <div className='flex gap-4 xl:gap-5 lg:h-[48%] items-start'>
-            <div className='w-[34%] aspect-3/4 lg:aspect-auto lg:h-[102%] shrink-0 rounded-2xl overflow-hidden relative z-10 -mt-14 lg:-mt-23'>
+          <div className='flex gap-4 xl:gap-5 2xl:h-[48%] items-start'>
+            <div className='w-[34%] aspect-3/4 2xl:aspect-auto 2xl:h-[102%] shrink-0 rounded-2xl overflow-hidden relative z-10 -mt-14 lg:-mt-6 2xl:-mt-23'>
               <img
                 // src='/about1.webp'
                 src='https://cdn.maktechgroup.com/media/1792646192877-2d6fa0a6-e581-4098-bb54-9bb938a2f483.png'
@@ -97,7 +97,8 @@ const AboutShowcase = () => (
               height={600}
               // Old sizing (commented out): h-full squashed the image to the container height
               // className='w-full h-full -mt-16 lg:-mt-50'
-              className='w-full -mt-16 lg:-mt-55 lg:h-[520px]'
+              // lg/xl: the % margin is relative to the column width, so the photo's top-left notch lines up with the person photo at any laptop size
+              className='w-full -mt-16 lg:-mt-[calc(16.5%+1rem)] 2xl:-mt-55 2xl:h-[520px]'
               loading='lazy'
             />
           </div>
@@ -106,7 +107,7 @@ const AboutShowcase = () => (
         {/* ─── Right Column ─── */}
         <div className='w-full lg:w-[43%] flex flex-col gap-3'>
           {/* Geometric cubes + title */}
-          <div className='h-48 sm:h-56 lg:h-[30%] overflow-hidden rounded-2xl relative mt-4 lg:mt-0'>
+          <div className='h-48 sm:h-56 lg:h-auto lg:aspect-2/1 2xl:aspect-auto 2xl:h-[30%] overflow-hidden rounded-2xl relative mt-4 lg:mt-0'>
             <img
               src='/about4.webp'
               alt='Designing digital systems for sustainable growth'
@@ -118,8 +119,8 @@ const AboutShowcase = () => (
           </div>
 
           {/* Testimonial card */}
-          <div className='min-h-48 lg:flex-1 rounded-2xl overflow-hidden mt-4 lg:mt-6'>
-            <div className='w-full h-auto lg:h-[66%] bg-[#2a2a2a] ml-0 lg:ml-6 overflow-visible rounded-2xl px-6 py-6 flex flex-col'>
+          <div className='min-h-48 2xl:flex-1 rounded-2xl overflow-hidden mt-4 lg:mt-6'>
+            <div className='w-full h-auto 2xl:h-[66%] bg-[#2a2a2a] ml-0 lg:ml-6 overflow-visible rounded-2xl px-6 py-6 flex flex-col'>
               {/* Stars */}
               <div className='flex items-center gap-1 overflow-visible'>
                 {[...Array(5)].map((_, i) => (
@@ -161,8 +162,8 @@ const AboutShowcase = () => (
           </div>
 
           {/* Stats bar */}
-          <div className='mt-4 lg:mt-0 lg:h-[18%] min-h-20 rounded-2xl flex items-center justify-center'>
-            <div className='w-full lg:w-[114%] h-full flex items-center justify-center bg-[#2a2a2a] rounded-2xl px-6 sm:px-8 py-6 lg:-mt-48 lg:-ml-20'>
+          <div className='mt-4 lg:mt-0 2xl:h-[18%] min-h-20 rounded-2xl flex items-center justify-center'>
+            <div className='w-full lg:w-[114%] h-full flex items-center justify-center bg-[#2a2a2a] rounded-2xl px-6 sm:px-8 py-6 lg:-ml-20 2xl:-mt-48'>
               <div className='flex-1 flex flex-col items-start lg:items-center'>
                 <span className='text-white text-4xl sm:text-5xl xl:text-6xl font-bold tracking-tight'>
                   <AnimatedCounter target={300} suffix='+' />
