@@ -215,6 +215,148 @@ const testimonials = [
   }
 ];
 
+// Each video uses either a YouTube ID (`youtubeId`) or a direct video file URL (`src`)
+const videoTestimonials = [
+  {
+    id: 1,
+    youtubeId: "",
+    src: "https://cdn.maktechgroup.com/media/1792649090732-1e20dc63-a430-4dae-be4b-d1ff34919435.mp4",
+    poster: "",
+    name: "Client video 1",
+    company: "",
+  },
+  {
+    id: 2,
+    youtubeId: "",
+    src: "https://cdn.maktechgroup.com/media/1792649087561-04711e98-d22d-488a-949d-e92c8e8f7b56.mp4",
+    poster: "",
+    name: "Client video 2",
+    company: "",
+  },
+  {
+    id: 3,
+    youtubeId: "",
+    src: "https://cdn.maktechgroup.com/media/1792649080452-98f10e81-45ae-437b-9ac3-345f73bf415a.mp4",
+    poster: "",
+    name: "Client video 3",
+    company: "",
+  },
+];
+
+const VideoTestimonialCard = ({ video, onPlay, onStop, autoPlayWhenVisible = false }) => {
+  const [isPlaying, setIsPlaying] = useState(false);
+  // Browsers only allow autoplay without a user click when the video is muted
+  const [startMuted, setStartMuted] = useState(false);
+  const cardRef = useRef(null);
+  const videoRef = useRef(null);
+  const hasStartedRef = useRef(false);
+  const hasVideo = Boolean(video.youtubeId || video.src);
+
+  useEffect(() => {
+    const card = cardRef.current;
+    if (!autoPlayWhenVisible || !video.src || !card) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          if (!hasStartedRef.current) {
+            hasStartedRef.current = true;
+            setStartMuted(true);
+            setIsPlaying(true);
+          }
+          videoRef.current?.play().catch(() => {});
+        } else {
+          videoRef.current?.pause();
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    observer.observe(card);
+    return () => observer.disconnect();
+  }, [autoPlayWhenVisible, video.src]);
+
+  const startVideo = () => {
+    if (!hasVideo) return;
+    hasStartedRef.current = true;
+    setStartMuted(false);
+    setIsPlaying(true);
+    onPlay?.();
+  };
+
+  return (
+    <div ref={cardRef} className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg overflow-hidden flex flex-col h-full hover:border-[#3a3a3a] transition-colors duration-300">
+      <div className="relative flex-1 min-h-[240px] bg-black">
+        {isPlaying && video.youtubeId ? (
+          <iframe
+            className="absolute inset-0 h-full w-full"
+            src={`https://www.youtube.com/embed/${video.youtubeId}?autoplay=1&rel=0`}
+            title={`${video.name} testimonial`}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+        ) : isPlaying && video.src ? (
+          <video
+            ref={videoRef}
+            className="absolute inset-0 h-full w-full object-contain"
+            src={video.src}
+            muted={startMuted}
+            poster={video.poster || undefined}
+            controls
+            controlsList="nodownload noplaybackrate noremoteplayback"
+            disablePictureInPicture
+            onContextMenu={(e) => e.preventDefault()}
+            autoPlay
+            playsInline
+            onPlay={onPlay}
+            onPause={onStop}
+            onEnded={onStop}
+          />
+        ) : (
+          <button
+            type="button"
+            onClick={startVideo}
+            disabled={!hasVideo}
+            aria-label={`Play ${video.name} testimonial`}
+            className="group absolute inset-0 h-full w-full disabled:cursor-default"
+          >
+            {video.poster ? (
+              <img
+                src={video.poster}
+                alt={video.name}
+                loading="lazy"
+                className="h-full w-full object-cover transition-transform duration-500 group-enabled:group-hover:scale-105"
+              />
+            ) : (
+              // #t=0.1 makes browsers paint the first frame as a thumbnail
+              <video
+                src={video.src ? `${video.src}#t=0.1` : undefined}
+                preload="metadata"
+                muted
+                playsInline
+                className="pointer-events-none h-full w-full object-cover transition-transform duration-500 group-enabled:group-hover:scale-105"
+              />
+            )}
+            <span className="absolute inset-0 bg-black/40" />
+            <span className="absolute left-1/2 top-1/2 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-[#ff6533] shadow-[0_0_30px_rgba(255,101,51,0.5)] transition-transform duration-300 group-enabled:group-hover:scale-110">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="white" className="ml-1">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </span>
+          </button>
+        )}
+      </div>
+
+      {/* Client name/company under the video (commented out: video cards show only the video)
+      <div className="p-6 flex-1 flex flex-col justify-end">
+        <p className="text-white font-semibold text-base">{video.name}</p>
+        <p className="text-[#888] text-sm">{video.company}</p>
+      </div>
+      */}
+    </div>
+  );
+};
+
 const TestimonialCard = ({ testimonial }) => {
   return (
     <div className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg p-8 flex flex-col gap-6 h-full hover:border-[#3a3a3a] transition-colors duration-300">
@@ -248,8 +390,40 @@ const TestimonialCard = ({ testimonial }) => {
 };
 
 const Testimonials = ({ className = '' }) => {
-  const [isMobile, setIsMobile] = useState(false);
   const trackRef = useRef(null);
+  const [canScrollPrev, setCanScrollPrev] = useState(false);
+  const [canScrollNext, setCanScrollNext] = useState(true);
+
+  const updateArrows = () => {
+    const track = trackRef.current;
+    if (!track) return;
+    setCanScrollPrev(track.scrollLeft > 4);
+    setCanScrollNext(track.scrollLeft + track.clientWidth < track.scrollWidth - 4);
+  };
+
+  useEffect(() => {
+    updateArrows();
+    window.addEventListener('resize', updateArrows);
+    return () => window.removeEventListener('resize', updateArrows);
+  }, []);
+
+  const scrollByCard = (direction) => {
+    const track = trackRef.current;
+    if (!track) return;
+    const card = track.firstElementChild;
+    const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+    const step = card ? card.getBoundingClientRect().width + gap : track.clientWidth;
+    track.scrollBy({ left: direction * step, behavior: 'smooth' });
+  };
+
+  const sliderItems = [
+    ...videoTestimonials.map((video) => ({ ...video, type: 'video' })),
+    ...testimonials.map((testimonial) => ({ ...testimonial, type: 'quote' })),
+  ];
+
+  /*
+  // Old auto-slide (commented out): continuous scroll with a duplicated set of cards
+  const [isMobile, setIsMobile] = useState(false);
   const positionRef = useRef(0);
   const pausedRef = useRef(false);
   const rafRef = useRef(null);
@@ -292,12 +466,29 @@ const Testimonials = ({ className = '' }) => {
     };
   }, [isMobile]);
 
-  const duplicatedTestimonials = [...testimonials, ...testimonials];
+  const videoPlayingRef = useRef(false);
+
+  const handleVideoPlay = () => {
+    videoPlayingRef.current = true;
+    pausedRef.current = true;
+  };
+
+  const handleVideoStop = () => {
+    videoPlayingRef.current = false;
+    pausedRef.current = false;
+  };
+
+  const duplicatedTestimonials = [...sliderItems, ...sliderItems];
+  */
+
+  const arrowClass =
+    "flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-[#2a2a2a] bg-[#1a1a1a] text-white transition-colors duration-300 hover:border-[#ff6533] hover:bg-[#ff6533] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-[#2a2a2a] disabled:hover:bg-[#1a1a1a]";
 
   return (
     <section className={`w-full text-white relative overflow-hidden ${className}`}>
       <div className="container mx-auto px-5 xl:px-8 2xl:px-12">
-        <div className="mb-12 xl:mb-16">
+        <div className="mb-12 xl:mb-16 flex flex-wrap items-end justify-between gap-6">
+          <div>
           <div
             className="flex items-center gap-2 px-3 py-1.5 rounded-md w-fit mb-6"
             style={{
@@ -348,24 +539,51 @@ const Testimonials = ({ className = '' }) => {
               </svg>
             </span>
           </h2>
+          </div>
         </div>
+
       </div>
 
       <div className="container mx-auto px-5 xl:px-8 2xl:px-12">
-        <div className="relative overflow-hidden">
+        <div className="relative">
+          <button
+            type="button"
+            onClick={() => scrollByCard(-1)}
+            disabled={!canScrollPrev}
+            aria-label="Previous testimonial"
+            className={`${arrowClass} absolute left-0 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 max-md:left-2 max-md:translate-x-0`}
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M15 18l-6-6 6-6" />
+            </svg>
+          </button>
+          <button
+            type="button"
+            onClick={() => scrollByCard(1)}
+            disabled={!canScrollNext}
+            aria-label="Next testimonial"
+            className={`${arrowClass} absolute right-0 top-1/2 z-10 translate-x-1/2 -translate-y-1/2 max-md:right-2 max-md:translate-x-0`}
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M9 18l6-6-6-6" />
+            </svg>
+          </button>
+
           <div
             ref={trackRef}
-            className="flex gap-6"
-            style={{ willChange: 'transform' }}
-            onMouseEnter={() => { pausedRef.current = true; }}
-            onMouseLeave={() => { pausedRef.current = false; }}
+            onScroll={updateArrows}
+            className="flex gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           >
-            {duplicatedTestimonials.map((testimonial, index) => (
+            {sliderItems.map((item, index) => (
               <div
-                key={`${testimonial.id}-${index}`}
-                className="shrink-0 w-[90%] md:w-[45%] xl:w-[30%]"
+                key={`${item.type}-${item.id}`}
+                className="shrink-0 snap-start w-[90%] md:w-[45%] xl:w-[30%]"
               >
-                <TestimonialCard testimonial={testimonial} />
+                {item.type === 'video' ? (
+                  <VideoTestimonialCard video={item} autoPlayWhenVisible={index === 0} />
+                ) : (
+                  <TestimonialCard testimonial={item} />
+                )}
               </div>
             ))}
           </div>
