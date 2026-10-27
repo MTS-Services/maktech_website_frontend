@@ -2,7 +2,10 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import HeroLogo3D from "./HeroLogo3D";
 // Background without the logo baked in — the logo now floats on top (HeroLogo3D)
-const bgImage = "/home_banner_nologo.webp";
+// Old background (commented out): it had the sketch marks baked in, so they drifted away from the heading on wider screens
+// const bgImage = "/home_banner_nologo.webp";
+// Clean glow-only background; the sketch marks are drawn on the heading words instead
+const bgImage = "/home_banner_clean.webp";
 
 const Banner = () => {
   const [visible, setVisible] = useState(false);
@@ -78,7 +81,9 @@ const Banner = () => {
           className={`relative font-bold mb-9 max-w-[1080px] transition-all duration-500 ease-out ${
             isMobile
               ? "text-[22px] leading-[1.35] text-white text-center"
-              : "text-white 2xl:leading-[1.1] text-2xl md:text-[26px] lg:text-[33px] xl:text-[48px] 2xl:text-[64px] tracking-[0.5px] delay-250 xl:-ml-5 2xl:ml-0"
+              // Old desktop sizing (commented out): fixed px sizes wrapped the heading into 3 lines on some screens
+              // : "text-white 2xl:leading-[1.1] text-2xl md:text-[26px] lg:text-[33px] xl:text-[48px] 2xl:text-[64px] tracking-[0.5px] delay-250 xl:-ml-5 2xl:ml-0"
+              : "text-white leading-[1.15] text-2xl md:text-[26px] lg:text-[33px] xl:text-[3.33vw] xl:whitespace-nowrap tracking-[0.5px] delay-250 xl:-ml-5 2xl:ml-0"
           } ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"}`}
           style={{ transitionDelay: isMobile ? "250ms" : undefined }}
         >
@@ -97,10 +102,41 @@ const Banner = () => {
               }}
             />
           )} */}
+          {/* Old heading text (commented out): sketch marks came from the background image
           Full-Stack IT Solutions That Drive
           Business Growth at{" "}
           <span className="relative inline-block text-[#676767]">
             Every Stage
+          </span>
+          */}
+          Full-Stack IT Solutions That{" "}
+          <span className="relative inline-block">
+            Drive
+            {!isMobile && (
+              // The marks sit in the middle of the SVG canvas (x 35–68%, y 38–68%), so the canvas is offset to place them on the top-right of the word
+              <img
+                src="/Sketch-annotation.svg"
+                alt=""
+                aria-hidden="true"
+                className="pointer-events-none absolute select-none max-w-none"
+                style={{ width: "4em", left: "calc(100% - 1.7em)", top: "-1.2em" }}
+              />
+            )}
+          </span>
+          {!isMobile && <br />}
+          {isMobile && " "}
+          Business Growth at{" "}
+          <span className="relative inline-block text-[#676767]">
+            Every Stage
+            {!isMobile && (
+              <img
+                src="/Vector 510.png"
+                alt=""
+                aria-hidden="true"
+                className="pointer-events-none absolute select-none max-w-none h-auto"
+                style={{ width: "59%", left: "33%", top: "calc(100% - 0.15em)" }}
+              />
+            )}
           </span>
         </h1>
 
