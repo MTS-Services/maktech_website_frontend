@@ -46,37 +46,37 @@ const MERN = () => {
             title: "Discovery & Planning",
             description:
               "Analyzing requirements, defining system architecture, and mapping data models aligned to business goals and long-term growth.",
-            image: "/services_image/uiUx/image_1.webp",
+            image: "https://cdn.maktechgroup.com/media/1792651774049-0c0c7d69-1347-4911-9b3c-54c6d4d2d49e.png",
           },
           {
             title: "Database Design",
             description:
               "Designing efficient MongoDB schemas, indexes, and relationships for fast queries, reliable data integrity, and scalable throughput.",
-            image: "/services_image/uiUx/image_2.webp",
+            image: "https://cdn.maktechgroup.com/media/1792651776435-3f266ae5-aeb8-4a75-9838-1375edc3c117.png",
           },
           {
             title: "API Development",
             description:
               "Building secure, well-structured REST APIs with Express, handling business logic, middleware, authentication, and third-party integrations.",
-            image: "/services_image/uiUx/image_3.webp",
+            image: "https://cdn.maktechgroup.com/media/1792651777343-cd321e18-c192-4dfe-b326-03fc35522dbc.png",
           },
           {
             title: "Frontend Development",
             description:
               "Crafting dynamic, component-driven React interfaces with clean state management, reusable UI systems, and smooth user experiences.",
-            image: "/services_image/uiUx/image_4.webp",
+            image: "https://cdn.maktechgroup.com/media/1792651778467-47f4b5e3-8344-483c-b068-0886819ff1fc.png",
           },
           {
             title: "Backend Engineering",
             description:
               "Optimizing Node.js server logic, managing async operations, and ensuring performance and reliability under high traffic loads.",
-            image: "/services_image/uiUx/image_5.webp",
+            image: "https://cdn.maktechgroup.com/media/1792651779770-8cc55e16-b3d9-4f68-bd7f-4a2d0a8735a5.png",
           },
           {
             title: "Deployment & Support",
             description:
               "Configuring cloud infrastructure, CI/CD pipelines, monitoring, and ongoing maintenance to keep your product performant and secure.",
-            image: "/services_image/uiUx/image_6.webp",
+            image: "https://cdn.maktechgroup.com/media/1792651780757-640ff49d-0439-4f58-9e74-d1ff89855cd9.png",
           },
         ]}
         pricingCtaText="View Our Pricing"
