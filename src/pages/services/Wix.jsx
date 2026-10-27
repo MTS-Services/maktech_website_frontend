@@ -46,37 +46,37 @@ const Wix = () => {
             title: "Velo Advanced Coding",
             description:
               "We use Velo by Wix to write custom JavaScript, enabling complex web applications and dynamic interactions beyond standard templates.",
-            image: "/services_image/uiUx/image_1.webp",
+            image: "https://cdn.maktechgroup.com/media/1793095010330-0a8721d1-c0fa-43e7-b28e-53e0a79a91f6.png",
           },
           {
             title: "Custom Database Design",
             description:
               "Architect internal collections/databases for large content, enabling dynamic pages and sophisticated filtering systems.",
-            image: "/services_image/uiUx/image_2.webp",
+            image: "https://cdn.maktechgroup.com/media/1793095030696-250438be-1ab4-4874-a9cd-fec270426303.png",
           },
           {
             title: "E-commerce Solutions",
             description:
               "High-performance online stores with custom product builders, secure payments, and automated tax/shipping calculations.",
-            image: "/services_image/uiUx/image_3.webp",
+            image: "https://cdn.maktechgroup.com/media/1793095040205-f1f6290f-d80e-4b01-9587-7331e11ff120.png",
           },
           {
             title: "Booking & Reservations",
             description:
               "Advanced Wix Bookings systems with custom scheduling logic, staff management, and automated client notifications.",
-            image: "/services_image/uiUx/image_4.webp",
+            image: "https://cdn.maktechgroup.com/media/1793095055036-94c5ae3a-9c24-4a68-adb3-0943b6f330d7.png",
           },
           {
             title: "Third-Party API Sync",
             description:
               "Connect Wix sites to external tools like CRM, marketing automation, and accounting software via custom API integrations.",
-            image: "/services_image/uiUx/image_5.webp",
+            image: "https://cdn.maktechgroup.com/media/1793095074766-0c5c0c02-de1d-40cc-904e-6cc83280d35f.png",
           },
           {
             title: "Performance Tuning",
             description:
               "Optimize page speed by managing heavy assets, streamlining Wix code, and meeting Google Core Web Vitals standards.",
-            image: "/services_image/uiUx/image_6.webp",
+            image: "https://cdn.maktechgroup.com/media/1793095083145-e77e34ee-aa7d-4b23-bc0f-16bd50e85a8c.png",
           },
         ]}
         pricingCtaText="View Our Pricing"
