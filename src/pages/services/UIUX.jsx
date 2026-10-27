@@ -55,38 +55,39 @@ const UIUX = () => {
             title: "Research",
             description:
               "Conducting in-depth user and market research to uncover behavioral patterns, identify core pain points, and translate insights into actionable design opportunities.",
-            image: "/services_image/uiUx/image_1.webp",
+            image: "https://cdn.maktechgroup.com/media/1792651350641-3aa79ea4-f9c6-41d1-bafa-133ef89741cf.png",
           },
           {
             title: "Strategy",
             description:
               "Defining product vision, aligning business objectives with user needs, and building a clear experience roadmap that guides every design decision.",
-            image: "/services_image/uiUx/image_2.webp",
+            image: "https://cdn.maktechgroup.com/media/1792651351716-dc39f198-48b9-4fe1-a87f-a9a8493deed7.png",
+
           },
           {
             title: "Ideation",
             description:
               "Exploring creative concepts, mapping user journeys, and transforming complex problems into intuitive and engaging interaction solutions.",
-            image: "/services_image/uiUx/image_3.webp",
+            image: "https://cdn.maktechgroup.com/media/1792651352928-e32d2a86-6067-488f-9ff4-3f347f1d5cfe.png",
           },
           {
             title: "Wireframes",
             description:
               "Developing structured layouts and interaction flows that prioritize usability, clarity, and seamless navigation across all touchpoints.",
-            image: "/services_image/uiUx/image_4.webp",
+            image: "https://cdn.maktechgroup.com/media/1792651354037-eb0a6937-fc48-4f5d-97be-3c46cdf88b6f.png",
           },
-          {
-            title: "Visual Design",
-            description:
-              "Crafting cohesive visual systems through typography, color, spacing, and components to create a compelling and consistent brand experience.",
-            image: "/services_image/uiUx/image_5.webp",
-          },
-          {
-            title: "Testing",
-            description:
-              "Evaluating usability through real user feedback, analyzing interaction data, and iterating strategically to refine and optimize the overall experience.",
-            image: "/services_image/uiUx/image_6.webp",
-          },
+          // {
+          //   title: "Visual Design",
+          //   description:
+          //     "Crafting cohesive visual systems through typography, color, spacing, and components to create a compelling and consistent brand experience.",
+          //   image: "/services_image/uiUx/image_5.webp",
+          // },
+          // {
+          //   title: "Testing",
+          //   description:
+          //     "Evaluating usability through real user feedback, analyzing interaction data, and iterating strategically to refine and optimize the overall experience.",
+          //   image: "/services_image/uiUx/image_6.webp",
+          // },
         ]}
         pricingCtaText="View Our Pricing"
         pricingCtaLink="/pricing"
