@@ -60,7 +60,7 @@ const AboutSection = () => {
           {/* Image Side */}
           <div className="w-full xl:w-[45%] shrink-0">
             <img
-              src="/alvaro-reyes-LXx1hwmp67E-unsplash.webp"
+              src="https://cdn.maktechgroup.com/media/1792643533871-342af78d-5846-4d1b-94af-dc4ee69fd625.jpeg"
               alt="Team working in office"
               className="w-full h-auto object-cover rounded-sm"
             />
