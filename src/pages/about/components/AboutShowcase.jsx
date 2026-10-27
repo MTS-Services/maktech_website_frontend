@@ -144,7 +144,7 @@ const AboutShowcase = () => (
               <div className='flex items-center gap-3 mt-4'>
                 <img
                   // src='/about5.webp'
-                  src='https://cdn.maktechgroup.com/media/1792648363650-1e10a8e5-4284-4b89-86c0-7980d5904fe1.png'
+                  src='https://cdn.maktechgroup.com/media/1792647199126-2e7c9d44-d14c-4a71-bbae-73a9f6fa1843.png'
                   alt='Product Manager at SaaS Startup'
                   width={40}
                   height={40}
