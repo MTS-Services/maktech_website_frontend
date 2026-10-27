@@ -46,37 +46,37 @@ const Shopify = () => {
             title: "Custom Theme Dev",
             description:
               "High-converting, bespoke Shopify themes built from scratch using Liquid for fast, unique, lightweight stores.",
-            image: "/services_image/uiUx/image_1.webp",
+            image: "https://cdn.maktechgroup.com/media/1793092726498-1a28ea17-753b-4fbd-b637-2d01422fc7cf.png",
           },
           {
             title: "App Development",
             description:
               "Custom Shopify applications with specialized features and automated workflows beyond the public app store.",
-            image: "/services_image/uiUx/image_2.webp",
+            image: "https://cdn.maktechgroup.com/media/1793092837978-c8b49de6-f861-4094-b725-7d1d810e3695.png",
           },
           {
             title: "Store Migration",
             description:
               "Seamless migration from WooCommerce or Magento to Shopify with zero data loss and preserved SEO rankings.",
-            image: "/services_image/uiUx/image_3.webp",
+            image: "https://cdn.maktechgroup.com/media/1793094474706-da93dbb7-212e-4230-a8dc-98114d4a224a.png",
           },
           {
             title: "Liquid Optimization",
             description:
               "Deep code audits to clean up Liquid files, reduce response times, and boost site performance.",
-            image: "/services_image/uiUx/image_4.webp",
+            image: "https://cdn.maktechgroup.com/media/1793094492159-c0f613af-1ec0-44f2-b6ed-ce72c3ee40c4.png",
           },
           {
             title: "API & Integration",
             description:
               "Integration with ERP/CRM and inventory systems plus real-time synchronization across your business.",
-            image: "/services_image/uiUx/image_5.webp",
+            image: "https://cdn.maktechgroup.com/media/1793094497886-1710b7a3-578e-4eb0-a6bb-77bb68297add.png",
           },
           {
             title: "Checkout Customization",
             description:
               "Advanced checkout scripts and custom logic for Shopify Plus to enhance purchase experience and increase AOV.",
-            image: "/services_image/uiUx/image_6.webp",
+            image: "https://cdn.maktechgroup.com/media/1793094503753-5eedb43d-d00b-4b10-8416-5eee4d6c4517.png",
           },
         ]}
         pricingCtaText="View Our Pricing"

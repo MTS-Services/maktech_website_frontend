@@ -5,3 +5,4 @@ temp_interactive_push.bat
 branch_structure.json
 .getaibd/
 dist/
+.gitignore
