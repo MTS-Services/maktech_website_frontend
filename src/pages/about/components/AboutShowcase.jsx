@@ -45,8 +45,8 @@ const AboutShowcase = () => (
                   { src: 'https://cdn.maktechgroup.com/media/1792643769814-deecb267-c16b-4768-8187-29be6723c7cb.png', name: '' },
                   { src: 'https://cdn.maktechgroup.com/media/1792643769814-c5a76c54-f550-4d53-9568-22e5132a9293.png', name: '' },
                   { src: 'https://cdn.maktechgroup.com/media/1792643769814-56882d44-0138-4354-8420-fdb7efbc5d65.png', name: '' },
-                  { src: 'https://cdn.maktechgroup.com/media/1792643769815-6fd647e5-8d25-46c4-b1d4-53d33b23afd0.png', name: '' },
-                  { src: 'https://cdn.maktechgroup.com/media/1792643769815-2f2cd975-fa64-494f-b4bf-6737aa4828f1.png', name: '' },
+                  // { src: 'https://cdn.maktechgroup.com/media/1792643769815-6fd647e5-8d25-46c4-b1d4-53d33b23afd0.png', name: '' },
+                  // { src: 'https://cdn.maktechgroup.com/media/1792643769815-2f2cd975-fa64-494f-b4bf-6737aa4828f1.png', name: '' },
                   { src: 'https://cdn.maktechgroup.com/media/1792643769815-0e0bb152-9d6a-49c4-bf8f-9f87380f8612.png', name: '' },
                   { src: 'https://cdn.maktechgroup.com/media/1792643769814-796a2775-200a-4180-8f6d-b5ee9b37cf14.png', name: '' },
                 ].map((person, i) => {
