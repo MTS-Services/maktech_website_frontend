@@ -31,7 +31,8 @@ const UIUX = () => {
           "Usability Testing & Iterative Refinement",
           "Developer-Ready Design Documentation",
         ]}
-        imageSrc="/services_image/uiUx/studio-republic-fotKKqWNMQ4-unsplash.webp"
+        // imageSrc="/services_image/uiUx/studio-republic-fotKKqWNMQ4-unsplash.webp"
+        imageSrc="https://cdn.maktechgroup.com/media/1793361536735-bf3ff693-e361-43dc-b72e-337c0745c6e8.jpg"
         imageAlt="UI/UX design collaboration"
         ctaText="View Case Studies"
         ctaLink="/case-study"
@@ -61,7 +62,7 @@ const UIUX = () => {
             title: "Strategy",
             description:
               "Defining product vision, aligning business objectives with user needs, and building a clear experience roadmap that guides every design decision.",
-            image: "https://cdn.maktechgroup.com/media/1792651351716-dc39f198-48b9-4fe1-a87f-a9a8493deed7.png",
+            image: "https://cdn.maktechgroup.com/media/1793418731714-be95ecd8-e645-4c0e-a45e-4d31e8dcb0e0.jpg",
 
           },
           {

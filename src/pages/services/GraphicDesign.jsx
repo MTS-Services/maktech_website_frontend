@@ -47,37 +47,43 @@ const GraphicDesign = () => {
             title: "Memorable Logos",
             description:
               "We design a unique logo that stands out and stays clear on everything from business cards to billboards.",
-            image: "/services_image/uiUx/image_1.webp",
+            // image: "/services_image/uiUx/image_1.webp",
+            image: "https://cdn.maktechgroup.com/media/1793358383416-ec489843-8a4d-46aa-b80f-d4d0cf19a79d.jpg",
           },
           {
             title: "Professional Look",
             description:
               "We choose the right fonts and colors that make your business look established and trustworthy.",
-            image: "/services_image/uiUx/image_2.webp",
+            // image: "/services_image/uiUx/image_2.webp",
+            image: "https://cdn.maktechgroup.com/media/1793358382401-234eb68c-15d4-4a01-8795-c52cfb078e25.jpg",
           },
           {
             title: "Brand Rules",
             description:
               'We give you a simple "Cheat Sheet" so anyone on your team can keep your brand looking consistent.',
-            image: "/services_image/uiUx/image_3.webp",
+            // image: "/services_image/uiUx/image_3.webp",
+            image: "https://cdn.maktechgroup.com/media/1793358383416-ec489843-8a4d-46aa-b80f-d4d0cf19a79d.jpg",
           },
           {
             title: "Ready-to-Use Files",
             description:
               "You get every file format you need for print, web, and social media without the headache.",
-            image: "/services_image/uiUx/image_4.webp",
+            // image: "/services_image/uiUx/image_4.webp",
+            image: "https://cdn.maktechgroup.com/media/1793358384405-da7fce9a-0d1a-4d17-8ae4-759275c66f90.jpg",
           },
           {
             title: "Custom Graphics",
             description:
               "We create icons and patterns that belong only to you, making your brand instantly recognizable.",
-            image: "/services_image/uiUx/image_5.webp",
+            // image: "/services_image/uiUx/image_5.webp",
+            image: "https://cdn.maktechgroup.com/media/1793358385298-30568bb9-dd9e-469b-bbae-af45b681a17d.jpg",
           },
           {
             title: "Marketing Materials",
             description:
               "From flyers to digital decks, we make sure all your business materials look premium.",
-            image: "/services_image/uiUx/image_6.webp",
+            // image: "/services_image/uiUx/image_6.webp",
+            image: "https://cdn.maktechgroup.com/media/1793358386298-ffa869fc-d7a2-4147-8254-59187d4a0d34.jpg",
           },
         ]}
         pricingCtaText="View Our Pricing"

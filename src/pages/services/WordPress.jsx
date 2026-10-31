@@ -47,37 +47,43 @@ const WordPress = () => {
             title: "Discovery & Planning",
             description:
               "Understanding your goals, audience, and content needs to define a clear site structure, feature roadmap, and development strategy before any work begins.",
-            image: "/services_image/uiUx/image_1.webp",
+            // image: "/services_image/uiUx/image_1.webp",
+            image: "https://cdn.maktechgroup.com/media/1793359209622-90a3352e-d3ce-4f1f-8c51-4dcbe23d8fc0.jpg",
           },
           {
             title: "Custom Theme Development",
             description:
               "Building fully custom WordPress themes from scratch—pixel-perfect, mobile-responsive, and aligned with your brand identity without relying on bloated page builders.",
-            image: "/services_image/uiUx/image_2.webp",
+            // image: "/services_image/uiUx/image_2.webp",
+            image: "https://cdn.maktechgroup.com/media/1793359211000-b036a833-335b-4894-8a77-c9eb1a49d9bc.jpg",
           },
           {
             title: "Plugin Development & Integration",
             description:
               "Creating custom plugins or integrating third-party tools to extend your site's functionality, automate workflows, and connect seamlessly with your existing tech stack.",
-            image: "/services_image/uiUx/image_3.webp",
+            // image: "/services_image/uiUx/image_3.webp",
+            image: "https://cdn.maktechgroup.com/media/1793359212051-cfa9c3c5-0f70-4349-ac67-82ac8a8dea1a.jpg",
           },
           {
             title: "WooCommerce & E-commerce",
             description:
               "Setting up and customizing WooCommerce stores with optimized product pages, secure payment gateways, and conversion-focused checkout experiences.",
-            image: "/services_image/uiUx/image_4.webp",
+            // image: "/services_image/uiUx/image_4.webp",
+            image: "https://cdn.maktechgroup.com/media/1793359213031-709815bf-52e2-49ff-ba9c-acf064895bc6.jpg",
           },
           {
             title: "Performance & Security",
             description:
               "Optimizing site speed, implementing caching strategies, hardening security layers, and ensuring your WordPress site stays fast, safe, and fully protected at all times.",
-            image: "/services_image/uiUx/image_5.webp",
+            // image: "/services_image/uiUx/image_5.webp",
+            image: "https://cdn.maktechgroup.com/media/1793359214007-8398af08-646a-45ef-abd2-e6d17247e5d9.jpg",
           },
           {
             title: "Launch & Ongoing Support",
             description:
               "Handling deployment, DNS configuration, post-launch testing, and providing continuous maintenance so your site runs smoothly long after go-live.",
-            image: "/services_image/uiUx/image_6.webp",
+            // image: "/services_image/uiUx/image_6.webp",
+            image: "https://cdn.maktechgroup.com/media/1793359214971-b9917c0a-4f09-4055-9ea6-e6f4fbf0ae41.jpg",
           },
         ]}
         pricingCtaText="View Our Pricing"

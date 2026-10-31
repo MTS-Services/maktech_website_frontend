@@ -32,7 +32,8 @@ const Wix = () => {
           "SEO Setup, Speed Tuning & Mobile Optimization",
           "Launch Preparation, Training & Ongoing Maintenance",
         ]}
-        imageSrc="/services_image/wix/harshit-katiyar-5sLNGV2EFRM-unsplash.webp"
+        // imageSrc="/services_image/wix/harshit-katiyar-5sLNGV2EFRM-unsplash.webp"
+        imageSrc="https://cdn.maktechgroup.com/media/1793358498758-55b3d99a-3e3b-4b53-8a33-3859f57522eb.png"
         imageAlt="Wix development screen"
         ctaText="View Case Studies"
         ctaLink="/case-study"
