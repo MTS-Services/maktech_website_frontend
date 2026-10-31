@@ -23,10 +23,10 @@ const ReviewBadges = ({ className = '' }) => {
   return (
     <section
       aria-label='Reviews and ratings'
-      className={`w-full bg-transparent border-y border-white/10 ${className}`}
+      className={`w-full bg-transparent py-14 md:py-20 lg:py-24 ${className}`}
     >
       <div className='container mx-auto px-5 xl:px-8 2xl:px-12'>
-        <div className='grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-white/10 border-x border-white/10'>
+        <div className='flex flex-col sm:flex-row items-center justify-center gap-10 sm:gap-16 md:gap-24 lg:gap-32'>
           {platforms.map((platform) => (
             <a
               key={platform.name}
@@ -34,14 +34,14 @@ const ReviewBadges = ({ className = '' }) => {
               target='_blank'
               rel='noopener noreferrer'
               aria-label={`View Maktech reviews on ${platform.name}`}
-              className='flex items-center justify-center py-7 sm:py-9 lg:py-11 px-6 group hover:bg-white/[0.03] transition-all duration-300'
+              className='flex items-center justify-center group transition-transform duration-300 hover:scale-105'
             >
               <img
                 src={platform.image}
                 alt={`${platform.name} review badge`}
                 loading='lazy'
                 referrerPolicy='no-referrer'
-                className='h-10 sm:h-11 lg:h-12 w-auto max-w-[220px] object-contain transition-transform duration-300 group-hover:scale-105'
+                className='h-10 sm:h-12 lg:h-14 w-auto max-w-[220px] object-contain transition-all duration-300 group-hover:opacity-100 opacity-90'
               />
             </a>
           ))}
