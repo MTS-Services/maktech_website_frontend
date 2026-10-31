@@ -26,7 +26,7 @@ const servicesMegaItems = [
   {
     title: "AI Video",
     // No dedicated AI Video page yet — point at the contact form until one exists
-    path: "/contact",
+    path: "/services/ai-video",
     slug: "ai-video",
     description: "AI-powered video for ads & social.",
   },

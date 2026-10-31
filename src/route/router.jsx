@@ -46,6 +46,7 @@ const ServiceGraphicDesign = lazy(
 );
 const ServiceWordPress = lazy(() => import('../pages/services/WordPress'));
 const ServiceAIML = lazy(() => import('../pages/services/AIML'));
+const ServiceAIVideo = lazy(() => import('../pages/services/AIVideo'));
 const ServiceSASProduct = lazy(() => import('../pages/services/SASProduct'));
 const NotFound = lazy(() => import('../pages/NotFound'));
 const Blogs = lazy(() => import('../pages/blogs/Blogs'));
@@ -93,6 +94,7 @@ const AppRoutes = () => (
           element={<ServiceWordPress />}
         ></Route>
         <Route path='/services/ai-ml' element={<ServiceAIML />}></Route>
+        <Route path='/services/ai-video' element={<ServiceAIVideo />}></Route>
         <Route
           path='/services/sas-product'
           element={<ServiceSASProduct />}

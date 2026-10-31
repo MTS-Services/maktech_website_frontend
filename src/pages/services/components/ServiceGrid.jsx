@@ -84,8 +84,7 @@ const services = [
     title: 'AI Video',
     description:
       'AI-powered video production for ads, product stories, and social content at scale.',
-    // No dedicated AI Video page yet — point at the contact form until one exists
-    link: '/contact',
+    link: '/services/ai-video',
   },
 ]
 
