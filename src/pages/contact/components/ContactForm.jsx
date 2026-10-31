@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { IoIosArrowDown } from 'react-icons/io';
-import { FaBehance } from 'react-icons/fa6';
 const ContactForm = () => {
   const [formData, setFormData] = useState({
     fullName: '',
@@ -203,69 +202,60 @@ const ContactForm = () => {
                   </p>
                   <div className='flex items-center gap-3'>
                     <a
-                      href='#'
-                      className='w-12 h-12 rounded-lg bg-[#424242]/50 hover:bg-[#424242]/70 border border-white/5 flex items-center justify-center transition-all duration-200'
+                      href='https://www.facebook.com/maktechgroup'
+                      target='_blank'
+                      rel='noopener noreferrer'
+                      className='transition-transform duration-200 hover:scale-105 inline-block'
                       aria-label='Facebook'
                     >
-                      <svg
-                        width='20'
-                        height='20'
-                        viewBox='0 0 24 24'
-                        fill='none'
-                        stroke='white'
-                        strokeWidth='2'
-                        strokeLinecap='round'
-                        strokeLinejoin='round'
-                        xmlns='http://www.w3.org/2000/svg'
-                      >
-                        <path d='M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z' />
-                      </svg>
+                      <img
+                        src='https://cdn.maktechgroup.com/media/1793434859468-a20901ad-a8c5-4f16-b59d-b99b81e5b30f.png'
+                        alt='Facebook'
+                        className='w-12 h-12 object-contain'
+                        referrerPolicy='no-referrer'
+                      />
                     </a>
                     <a
-                      href='#'
-                      className='w-12 h-12 rounded-lg bg-[#424242]/50 hover:bg-[#424242]/70 border border-white/5 flex items-center justify-center transition-all duration-200'
+                      href='https://www.linkedin.com/company/maktechgroup/'
+                      target='_blank'
+                      rel='noopener noreferrer'
+                      className='transition-transform duration-200 hover:scale-105 inline-block'
                       aria-label='LinkedIn'
                     >
-                      <svg
-                        width='20'
-                        height='20'
-                        viewBox='0 0 24 24'
-                        fill='none'
-                        stroke='white'
-                        strokeWidth='2'
-                        strokeLinecap='round'
-                        strokeLinejoin='round'
-                        xmlns='http://www.w3.org/2000/svg'
-                      >
-                        <path d='M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z' />
-                        <circle cx='4' cy='4' r='2' fill='white' />
-                      </svg>
+                      <img
+                        src='https://cdn.maktechgroup.com/media/1793434870189-7e60729a-7d38-420c-995e-a1334fecaabd.png'
+                        alt='LinkedIn'
+                        className='w-12 h-12 object-contain'
+                        referrerPolicy='no-referrer'
+                      />
                     </a>
                     <a
-                      href='#'
-                      className='w-12 h-12 rounded-lg bg-[#424242]/50 hover:bg-[#424242]/70 border border-white/5 flex items-center justify-center transition-all duration-200'
+                      href='https://wa.me/8801897669234'
+                      target='_blank'
+                      rel='noopener noreferrer'
+                      className='transition-transform duration-200 hover:scale-105 inline-block'
                       aria-label='WhatsApp'
                     >
-                      <svg
-                        width='20'
-                        height='20'
-                        viewBox='0 0 24 24'
-                        fill='none'
-                        stroke='white'
-                        strokeWidth='2'
-                        strokeLinecap='round'
-                        strokeLinejoin='round'
-                        xmlns='http://www.w3.org/2000/svg'
-                      >
-                        <path d='M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z' />
-                      </svg>
+                      <img
+                        src='https://cdn.maktechgroup.com/media/1793434872328-c40fd5f0-cfc1-463f-a7d7-2f13b1d384d9.png'
+                        alt='WhatsApp'
+                        className='w-12 h-12 object-contain'
+                        referrerPolicy='no-referrer'
+                      />
                     </a>
                     <a
-                      href='#'
-                      className='w-12 h-12 rounded-lg bg-[#424242]/50 hover:bg-[#424242]/70 border border-white/5 flex items-center justify-center transition-all duration-200'
+                      href='https://www.behance.net/maktechgroup'
+                      target='_blank'
+                      rel='noopener noreferrer'
+                      className='transition-transform duration-200 hover:scale-105 inline-block'
                       aria-label='Behance'
                     >
-                      <FaBehance className='text-white h-5 w-5' />
+                      <img
+                        src='https://cdn.maktechgroup.com/media/1793434875861-504a47a1-b4ba-41e8-9737-d42ae8f40638.png'
+                        alt='Behance'
+                        className='w-12 h-12 object-contain'
+                        referrerPolicy='no-referrer'
+                      />
                     </a>
                   </div>
                 </div>

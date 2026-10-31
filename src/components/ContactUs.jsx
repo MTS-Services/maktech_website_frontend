@@ -469,6 +469,71 @@ const ContactUs = () => {
                     </div>
                   </div>
                 </div>
+
+                {/* Social Media */}
+                <div className='mt-8 md:mt-10'>
+                  <p className='text-white text-base font-medium mb-3'>
+                    Social media
+                  </p>
+                  <div className='flex items-center gap-3'>
+                    <a
+                      href='https://www.facebook.com/maktechgroup'
+                      target='_blank'
+                      rel='noopener noreferrer'
+                      className='transition-transform duration-200 hover:scale-105 inline-block'
+                      aria-label='Facebook'
+                    >
+                      <img
+                        src='https://cdn.maktechgroup.com/media/1793434859468-a20901ad-a8c5-4f16-b59d-b99b81e5b30f.png'
+                        alt='Facebook'
+                        className='w-12 h-12 object-contain'
+                        referrerPolicy='no-referrer'
+                      />
+                    </a>
+                    <a
+                      href='https://www.linkedin.com/company/maktechgroup/'
+                      target='_blank'
+                      rel='noopener noreferrer'
+                      className='transition-transform duration-200 hover:scale-105 inline-block'
+                      aria-label='LinkedIn'
+                    >
+                      <img
+                        src='https://cdn.maktechgroup.com/media/1793434870189-7e60729a-7d38-420c-995e-a1334fecaabd.png'
+                        alt='LinkedIn'
+                        className='w-12 h-12 object-contain'
+                        referrerPolicy='no-referrer'
+                      />
+                    </a>
+                    <a
+                      href='https://wa.me/8801897669234'
+                      target='_blank'
+                      rel='noopener noreferrer'
+                      className='transition-transform duration-200 hover:scale-105 inline-block'
+                      aria-label='WhatsApp'
+                    >
+                      <img
+                        src='https://cdn.maktechgroup.com/media/1793434872328-c40fd5f0-cfc1-463f-a7d7-2f13b1d384d9.png'
+                        alt='WhatsApp'
+                        className='w-12 h-12 object-contain'
+                        referrerPolicy='no-referrer'
+                      />
+                    </a>
+                    <a
+                      href='https://www.behance.net/maktechgroup'
+                      target='_blank'
+                      rel='noopener noreferrer'
+                      className='transition-transform duration-200 hover:scale-105 inline-block'
+                      aria-label='Behance'
+                    >
+                      <img
+                        src='https://cdn.maktechgroup.com/media/1793434875861-504a47a1-b4ba-41e8-9737-d42ae8f40638.png'
+                        alt='Behance'
+                        className='w-12 h-12 object-contain'
+                        referrerPolicy='no-referrer'
+                      />
+                    </a>
+                  </div>
+                </div>
               </div>
 
               {/* Right Side - Form Box */}
