@@ -130,15 +130,15 @@ const MobileNavRow = ({ link, index, menuOpen, items, expanded, onToggle, onNavi
 
   const rowInner = (
     <>
-      <span className="text-[13px] font-medium text-orange-bg-cta tabular-nums">{number}</span>
-      <span className="flex-1 text-[34px] leading-[1.15] font-semibold tracking-[-0.01em] text-white transition-colors duration-200 group-hover:text-orange-bg-cta sm:text-[40px]">
+      <span className="text-[12px] sm:text-[13px] font-medium text-orange-bg-cta tabular-nums pt-1">{number}</span>
+      <span className="flex-1 text-[20px] sm:text-[24px] leading-snug font-semibold tracking-[-0.01em] text-white transition-colors duration-200 group-hover:text-orange-bg-cta">
         {link.label}
       </span>
       {items && (
         <svg
-          className={`mt-2 shrink-0 text-white/60 transition-transform duration-300 ${expanded ? "rotate-180" : ""}`}
-          width="18"
-          height="18"
+          className={`shrink-0 text-white/60 transition-transform duration-300 self-center ${expanded ? "rotate-180" : ""}`}
+          width="16"
+          height="16"
           viewBox="0 0 10 10"
           fill="none"
           stroke="currentColor"
@@ -158,7 +158,7 @@ const MobileNavRow = ({ link, index, menuOpen, items, expanded, onToggle, onNavi
         <button
           type="button"
           onClick={onToggle}
-          className="group flex w-full items-start gap-4 py-4 text-left"
+          className="group flex w-full items-start gap-3.5 py-3 sm:py-3.5 text-left"
           aria-expanded={expanded}
         >
           {rowInner}
@@ -167,7 +167,7 @@ const MobileNavRow = ({ link, index, menuOpen, items, expanded, onToggle, onNavi
         <NavLink
           to={link.to}
           onClick={onNavigate}
-          className="group flex w-full items-start gap-4 py-4"
+          className="group flex w-full items-start gap-3.5 py-3 sm:py-3.5"
         >
           {rowInner}
         </NavLink>
