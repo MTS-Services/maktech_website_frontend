@@ -471,7 +471,7 @@ const ContactUs = () => {
                 </div>
 
                 {/* Social Media */}
-                <div className='mt-8 md:mt-10'>
+                {/* <div className='mt-8 md:mt-10'>
                   <p className='text-white text-base font-medium mb-3'>
                     Social media
                   </p>
@@ -533,7 +533,7 @@ const ContactUs = () => {
                       />
                     </a>
                   </div>
-                </div>
+                </div> */}
               </div>
 
               {/* Right Side - Form Box */}
