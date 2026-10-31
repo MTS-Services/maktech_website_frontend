@@ -56,7 +56,7 @@ const UIUX = () => {
             title: "Research",
             description:
               "Conducting in-depth user and market research to uncover behavioral patterns, identify core pain points, and translate insights into actionable design opportunities.",
-            image: "https://cdn.maktechgroup.com/media/1792651350641-3aa79ea4-f9c6-41d1-bafa-133ef89741cf.png",
+            image: "https://cdn.maktechgroup.com/media/1793420882912-a8a0edde-15d9-4e8f-beba-aa6854fd2e19.avif",
           },
           {
             title: "Strategy",
@@ -75,20 +75,20 @@ const UIUX = () => {
             title: "Wireframes",
             description:
               "Developing structured layouts and interaction flows that prioritize usability, clarity, and seamless navigation across all touchpoints.",
-            image: "https://cdn.maktechgroup.com/media/1792651354037-eb0a6937-fc48-4f5d-97be-3c46cdf88b6f.png",
+            image: "https://cdn.maktechgroup.com/media/1793421014603-4e496492-1d6f-4656-b25c-cfaf16c41a11.avif",
           },
-          // {
-          //   title: "Visual Design",
-          //   description:
-          //     "Crafting cohesive visual systems through typography, color, spacing, and components to create a compelling and consistent brand experience.",
-          //   image: "/services_image/uiUx/image_5.webp",
-          // },
-          // {
-          //   title: "Testing",
-          //   description:
-          //     "Evaluating usability through real user feedback, analyzing interaction data, and iterating strategically to refine and optimize the overall experience.",
-          //   image: "/services_image/uiUx/image_6.webp",
-          // },
+          {
+            title: "Visual Design",
+            description:
+              "Crafting cohesive visual systems through typography, color, spacing, and components to create a compelling and consistent brand experience.",
+            image: "https://cdn.maktechgroup.com/media/1792651350641-3aa79ea4-f9c6-41d1-bafa-133ef89741cf.png",
+          },
+          {
+            title: "Testing",
+            description:
+              "Evaluating usability through real user feedback, analyzing interaction data, and iterating strategically to refine and optimize the overall experience.",
+            image: "https://cdn.maktechgroup.com/media/1793421104228-70ce51bc-50ac-4166-9c46-1033bc723ac0.avif",
+          },
         ]}
         pricingCtaText="View Our Pricing"
         pricingCtaLink="/pricing"
