@@ -221,72 +221,47 @@ const videoTestimonials = [
     id: 1,
     youtubeId: "",
     src: "https://cdn.maktechgroup.com/media/1792649090732-1e20dc63-a430-4dae-be4b-d1ff34919435.mp4",
-    poster: "",
-    name: "Client video 1",
-    company: "",
+    poster: "https://cdn.maktechgroup.com/media/1793422446566-aa8d6e0f-1f4c-42a3-a98d-986c19234d98.png",
+    name: "Papon Kumar",
+    company: "SaaS Startup",
   },
   {
     id: 2,
     youtubeId: "",
     src: "https://cdn.maktechgroup.com/media/1792649087561-04711e98-d22d-488a-949d-e92c8e8f7b56.mp4",
-    poster: "",
-    name: "Client video 2",
-    company: "",
+    poster: "https://cdn.maktechgroup.com/media/1793422465588-5481fed4-7c1b-46ab-a251-de7d16a81d71.png",
+    name: "Jirayan Lucam",
+    company: "Business Entrepreneur",
   },
   {
     id: 3,
     youtubeId: "",
     src: "https://cdn.maktechgroup.com/media/1792649080452-98f10e81-45ae-437b-9ac3-345f73bf415a.mp4",
-    poster: "",
-    name: "Client video 3",
-    company: "",
+    poster: "https://cdn.maktechgroup.com/media/1793425599586-137a0e7b-93cd-4f3a-904a-c886248367c2.png",
+    name: "Dan",
+    company: "SaaS Startup",
   },
 ];
 
-const VideoTestimonialCard = ({ video, onPlay, onStop, autoPlayWhenVisible = false }) => {
+// Reels-style vertical video card: cover image on top, name/company below
+const VideoTestimonialCard = ({ video, onPlay, onStop }) => {
   const [isPlaying, setIsPlaying] = useState(false);
-  // Browsers only allow autoplay without a user click when the video is muted
-  const [startMuted, setStartMuted] = useState(false);
-  const cardRef = useRef(null);
   const videoRef = useRef(null);
-  const hasStartedRef = useRef(false);
   const hasVideo = Boolean(video.youtubeId || video.src);
-
-  useEffect(() => {
-    const card = cardRef.current;
-    if (!autoPlayWhenVisible || !video.src || !card) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          if (!hasStartedRef.current) {
-            hasStartedRef.current = true;
-            setStartMuted(true);
-            setIsPlaying(true);
-          }
-          videoRef.current?.play().catch(() => {});
-        } else {
-          videoRef.current?.pause();
-        }
-      },
-      { threshold: 0.5 }
-    );
-
-    observer.observe(card);
-    return () => observer.disconnect();
-  }, [autoPlayWhenVisible, video.src]);
 
   const startVideo = () => {
     if (!hasVideo) return;
-    hasStartedRef.current = true;
-    setStartMuted(false);
     setIsPlaying(true);
     onPlay?.();
   };
 
+  const quote =
+    'The team understood our vision from day one. The final product was clean, fast, and exactly what we needed to scale.';
+
   return (
-    <div ref={cardRef} className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg overflow-hidden flex flex-col h-full hover:border-[#3a3a3a] transition-colors duration-300">
-      <div className="relative flex-1 min-h-[240px] bg-black">
+    <div className="flex flex-col rounded-2xl overflow-hidden border border-[#2a2a2a] bg-[#111] hover:border-[#ff6533]/40 transition-colors duration-300 h-full">
+      {/* Cover / Video area — 9:16 Reels ratio */}
+      <div className="relative w-full aspect-[9/16] bg-black overflow-hidden rounded-2xl">
         {isPlaying && video.youtubeId ? (
           <iframe
             className="absolute inset-0 h-full w-full"
@@ -298,9 +273,8 @@ const VideoTestimonialCard = ({ video, onPlay, onStop, autoPlayWhenVisible = fal
         ) : isPlaying && video.src ? (
           <video
             ref={videoRef}
-            className="absolute inset-0 h-full w-full object-contain"
+            className="absolute inset-0 h-full w-full object-cover"
             src={video.src}
-            muted={startMuted}
             poster={video.poster || undefined}
             controls
             controlsList="nodownload noplaybackrate noremoteplayback"
@@ -328,18 +302,24 @@ const VideoTestimonialCard = ({ video, onPlay, onStop, autoPlayWhenVisible = fal
                 className="h-full w-full object-cover transition-transform duration-500 group-enabled:group-hover:scale-105"
               />
             ) : (
-              // #t=0.1 makes browsers paint the first frame as a thumbnail
               <video
                 src={video.src ? `${video.src}#t=0.1` : undefined}
                 preload="metadata"
                 muted
                 playsInline
-                className="pointer-events-none h-full w-full object-cover transition-transform duration-500 group-enabled:group-hover:scale-105"
+                className="pointer-events-none h-full w-full object-cover"
               />
             )}
-            <span className="absolute inset-0 bg-black/40" />
-            <span className="absolute left-1/2 top-1/2 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-[#ff6533] shadow-[0_0_30px_rgba(255,101,51,0.5)] transition-transform duration-300 group-enabled:group-hover:scale-110">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="white" className="ml-1">
+            {/* Dark gradient overlay at bottom of cover */}
+            <span className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-black/80 to-transparent rounded-b-2xl" />
+            {/* Name + company pinned to bottom-left of cover */}
+            <span className="absolute bottom-4 left-4 text-left pointer-events-none">
+              <span className="block text-white font-semibold text-sm leading-snug">{video.name}</span>
+              <span className="block text-white/60 text-xs">{video.company}</span>
+            </span>
+            {/* Play button */}
+            <span className="absolute left-1/2 top-1/2 flex h-14 w-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-[#ff6533] shadow-[0_0_30px_rgba(255,101,51,0.5)] transition-transform duration-300 group-enabled:group-hover:scale-110">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="white" className="ml-1">
                 <path d="M8 5v14l11-7z" />
               </svg>
             </span>
@@ -347,12 +327,25 @@ const VideoTestimonialCard = ({ video, onPlay, onStop, autoPlayWhenVisible = fal
         )}
       </div>
 
-      {/* Client name/company under the video (commented out: video cards show only the video)
-      <div className="p-6 flex-1 flex flex-col justify-end">
-        <p className="text-white font-semibold text-base">{video.name}</p>
-        <p className="text-[#888] text-sm">{video.company}</p>
+      {/* Quote section below the cover */}
+      <div className="p-5 flex flex-col gap-3 flex-1">
+        <svg width="28" height="28" viewBox="0 0 48 48" fill="#ff6533" aria-hidden="true">
+          <path d="M12 21h6v12H6V21c0-5.523 4.477-10 10-10v4c-3.313 0-6 2.687-6 6v2zm18 0h6v12h-12V21c0-5.523 4.477-10 10-10v4c-3.313 0-6 2.687-6 6v2z" />
+        </svg>
+        <p className="text-white/80 text-sm leading-relaxed flex-1">{quote}</p>
+        <div className="flex items-center gap-2 mt-1">
+          <img
+            src={video.poster}
+            alt={video.name}
+            className="w-8 h-8 rounded-full object-cover object-top shrink-0"
+            loading="lazy"
+          />
+          <div>
+            <p className="text-white font-semibold text-sm leading-snug">{video.name},</p>
+            <p className="text-white/50 text-xs">{video.company}</p>
+          </div>
+        </div>
       </div>
-      */}
     </div>
   );
 };
@@ -577,7 +570,7 @@ const Testimonials = ({ className = '' }) => {
             {sliderItems.map((item, index) => (
               <div
                 key={`${item.type}-${item.id}`}
-                className="shrink-0 snap-start w-[90%] md:w-[45%] xl:w-[30%]"
+                className="shrink-0 snap-start w-[70%] sm:w-[50%] md:w-[35%] xl:w-[22%]"
               >
                 {item.type === 'video' ? (
                   <VideoTestimonialCard video={item} autoPlayWhenVisible={index === 0} />
