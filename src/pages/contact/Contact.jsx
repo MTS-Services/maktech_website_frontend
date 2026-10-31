@@ -1,8 +1,7 @@
-
-import ContactForm from "./components/ContactForm";
-import ContactFAQ from "./components/ContactFAQ";
 import ContactHero from "./components/ContactHero";
 import ContactUs from "../../components/ContactUs";
+import ReviewBadges from "../../components/ReviewBadges";
+import ContactFAQ from "./components/ContactFAQ";
 
 const Contact = () => {
     return (
@@ -14,6 +13,7 @@ const Contact = () => {
             <ContactHero />
             {/* <ContactForm /> */}
             <ContactUs/>
+            <ReviewBadges />
             <ContactFAQ />
         </main>
     );

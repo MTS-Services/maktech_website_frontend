@@ -5,6 +5,7 @@ import OurWork from "./components/OurWork";
 import WhyChooseUs from "./components/WhyChooseUs";
 import Testimonials from "../../components/Testimonials";
 import ContactUs from "../../components/ContactUs";
+import ReviewBadges from "../../components/ReviewBadges";
 import DiagonalMarquee from "../../components/DiagonalMarquee";
 import PricingFAQ from "../pricing/components/PricingFAQ";
 
@@ -20,6 +21,7 @@ const Home = () => {
       <Testimonials className="py-16 xl:py-20 2xl:py-24" />
       <PricingFAQ/>
       <ContactUs />
+      <ReviewBadges />
     </div>
   );
 };
