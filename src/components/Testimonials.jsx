@@ -59,8 +59,6 @@ const videoTestimonials = [
     src: 'https://cdn.maktechgroup.com/media/1792649090732-1e20dc63-a430-4dae-be4b-d1ff34919435.mp4',
     poster:
       'https://cdn.maktechgroup.com/media/1793422446566-aa8d6e0f-1f4c-42a3-a98d-986c19234d98.png',
-    name: 'Papon Kumar',
-    company: 'SaaS Startup',
   },
   {
     id: 2,
@@ -68,8 +66,6 @@ const videoTestimonials = [
     src: 'https://cdn.maktechgroup.com/media/1792649087561-04711e98-d22d-488a-949d-e92c8e8f7b56.mp4',
     poster:
       'https://cdn.maktechgroup.com/media/1793422465588-5481fed4-7c1b-46ab-a251-de7d16a81d71.png',
-    name: 'Jirayan Lucam',
-    company: 'Business Entrepreneur',
   },
   {
     id: 3,
@@ -77,8 +73,6 @@ const videoTestimonials = [
     src: 'https://cdn.maktechgroup.com/media/1792649080452-98f10e81-45ae-437b-9ac3-345f73bf415a.mp4',
     poster:
       'https://cdn.maktechgroup.com/media/1793425599586-137a0e7b-93cd-4f3a-904a-c886248367c2.png',
-    name: 'Dan',
-    company: 'SaaS Startup',
   },
 ];
 
@@ -174,14 +168,20 @@ const VideoTestimonialCard = ({ video, isPlaying, onPlay, onStop }) => {
           </span>
 
           {/* Name & Company at bottom */}
-          <div className='absolute bottom-5 left-5 right-5 text-left pointer-events-none'>
-            <p className='text-white font-semibold text-lg sm:text-xl leading-snug drop-shadow-md'>
-              {video.name}
-            </p>
-            <p className='text-white/70 text-xs sm:text-sm font-medium mt-0.5 drop-shadow-sm'>
-              {video.company}
-            </p>
-          </div>
+          {(video.name || video.company) && (
+            <div className='absolute bottom-5 left-5 right-5 text-left pointer-events-none'>
+              {video.name && (
+                <p className='text-white font-semibold text-lg sm:text-xl leading-snug drop-shadow-md'>
+                  {video.name}
+                </p>
+              )}
+              {video.company && (
+                <p className='text-white/70 text-xs sm:text-sm font-medium mt-0.5 drop-shadow-sm'>
+                  {video.company}
+                </p>
+              )}
+            </div>
+          )}
         </button>
       )}
     </div>
@@ -238,7 +238,7 @@ const Testimonials = ({ className = '' }) => {
     <section className={`w-full text-white relative overflow-hidden ${className}`}>
       {/* Section Header */}
       <div className='container mx-auto px-5 xl:px-8 2xl:px-12'>
-        <div className='mb-10 xl:mb-14'>
+        <div className='max-w-6xl mx-auto mb-10 xl:mb-14'>
           {/* Badge */}
           <div
             className='flex items-center gap-2 px-3 py-1.5 rounded-md w-fit mb-6'
@@ -296,7 +296,7 @@ const Testimonials = ({ className = '' }) => {
 
       {/* ── 1. Top Section: Video Testimonials Only (Reels format) ── */}
       <div className='container mx-auto px-5 xl:px-8 2xl:px-12'>
-        <div className='flex overflow-x-auto snap-x snap-mandatory gap-5 pb-4 md:grid md:grid-cols-3 md:gap-6 md:pb-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden justify-start md:justify-center max-w-5xl mx-auto'>
+        <div className='flex overflow-x-auto snap-x snap-mandatory gap-5 pb-4 md:grid md:grid-cols-3 md:gap-6 md:pb-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden justify-start md:justify-center max-w-6xl mx-auto'>
           {videoTestimonials.map((video) => (
             <div
               key={video.id}
@@ -314,28 +314,30 @@ const Testimonials = ({ className = '' }) => {
       </div>
 
       {/* ── 2. Bottom Section: Text Testimonials Scrolling Right-to-Left ── */}
-      <div className='w-full overflow-hidden mt-14 lg:mt-18'>
-        <div
-          className='flex gap-6 w-max'
-          style={{
-            animation: 'scroll 35s linear infinite',
-            willChange: 'transform',
-          }}
-          onMouseEnter={(e) =>
-            (e.currentTarget.style.animationPlayState = 'paused')
-          }
-          onMouseLeave={(e) =>
-            (e.currentTarget.style.animationPlayState = 'running')
-          }
-        >
-          {scrollingTestimonials.map((testimonial, index) => (
-            <div
-              key={`${testimonial.id}-${index}`}
-              className='shrink-0 w-[300px] sm:w-[350px] md:w-[380px]'
-            >
-              <TestimonialCard testimonial={testimonial} />
-            </div>
-          ))}
+      <div className='container mx-auto px-5 xl:px-8 2xl:px-12 mt-14 lg:mt-18'>
+        <div className='max-w-6xl mx-auto overflow-hidden'>
+          <div
+            className='flex gap-6 w-max'
+            style={{
+              animation: 'scroll 35s linear infinite',
+              willChange: 'transform',
+            }}
+            onMouseEnter={(e) =>
+              (e.currentTarget.style.animationPlayState = 'paused')
+            }
+            onMouseLeave={(e) =>
+              (e.currentTarget.style.animationPlayState = 'running')
+            }
+          >
+            {scrollingTestimonials.map((testimonial, index) => (
+              <div
+                key={`${testimonial.id}-${index}`}
+                className='shrink-0 w-[300px] sm:w-[350px] md:w-[380px]'
+              >
+                <TestimonialCard testimonial={testimonial} />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
