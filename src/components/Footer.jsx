@@ -253,6 +253,14 @@ const Footer = () => {
                     Contact
                   </NavLink>
                 </li>
+                <li>
+                  <NavLink
+                    to='/contact'
+                    className='text-gray-400 hover:text-orange-bg-cta transition-colors duration-200 text-sm'
+                  >
+                    Company Deck
+                  </NavLink>
+                </li>
               </ul>
             </div>
 
