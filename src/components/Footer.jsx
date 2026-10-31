@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
+import Newsletter from './Newsletter';
 import gsap from 'gsap';
 import {
   FaFacebook,
@@ -59,6 +60,11 @@ const POLICY_LINKS = [
 ];
 
 const Footer = () => {
+  const location = useLocation();
+  const isHomeOrAbout =
+    location.pathname === '/' ||
+    location.pathname === '/about' ||
+    location.pathname.startsWith('/about/');
   const [openSection, setOpenSection] = useState(null);
   const desktopBrandRef = useRef(null);
   const mobileBrandRef = useRef(null);
@@ -111,69 +117,73 @@ const Footer = () => {
 
   return (
     <footer className='relative overflow-hidden'>
-      {/* ── Top CTA Section ── */}
-      <section
-        aria-label='Call to action'
-        className='relative overflow-hidden'
-        style={{
-          /* Orange glow centred in the section */
-          background:
-            'radial-gradient(ellipse 80% 120% at 50% 50%, rgba(255,101,51,0.09) 0%, rgba(255,101,51,0.03) 55%, transparent 72%), #1c1c1c',
-        }}
-      >
-        {/* Scoped animated vertical lines — absolute so they clip to this section */}
-        <div
-          className='absolute inset-0 pointer-events-none overflow-hidden z-0'
-          aria-hidden='true'
+      {/* ── Top CTA / Newsletter Section ── */}
+      {isHomeOrAbout ? (
+        <Newsletter />
+      ) : (
+        <section
+          aria-label='Call to action'
+          className='relative overflow-hidden'
+          style={{
+            /* Orange glow centred in the section */
+            background:
+              'radial-gradient(ellipse 80% 120% at 50% 50%, rgba(255,101,51,0.09) 0%, rgba(255,101,51,0.03) 55%, transparent 72%), #1c1c1c',
+          }}
         >
-          {[12, 30, 50, 68, 88].map((pos, i) => (
-            <div
-              key={pos}
-              className='absolute top-0 bottom-0 w-px bg-linear-to-b from-transparent via-white/5 to-transparent'
-              style={{ left: `${pos}%` }}
-            >
-              <div
-                className='absolute w-0.5 h-12 rounded-full opacity-40 animate-dropFall'
-                style={{
-                  left: '50%',
-                  transform: 'translateX(-50%)',
-                  background:
-                    'linear-gradient(to bottom, rgba(255,255,255,0.1), rgba(255,101,51,0.5))',
-                  animationDelay: `${i * 2}s`,
-                }}
-              />
-              <div
-                className='absolute w-0.5 h-10 rounded-full opacity-30 animate-dropFall'
-                style={{
-                  left: '50%',
-                  transform: 'translateX(-50%)',
-                  background:
-                    'linear-gradient(to bottom, rgba(255,255,255,0.1), rgba(255,101,51,0.5))',
-                  animationDelay: `${i * 2 + 4}s`,
-                }}
-              />
-            </div>
-          ))}
-        </div>
-
-        {/* Content */}
-        <div className='relative z-10 max-w-7xl mx-auto px-4 py-20 md:py-28 text-center'>
-          <h2 className='text-white text-2xl md:text-4xl font-bold mb-4'>
-            Want to grow with us?
-          </h2>
-          <p className='text-gray-400 text-sm md:text-base mb-8'>
-            Let&apos;s implement your skills toward
-            <br />
-            to grow MAKTECH.
-          </p>
-          <NavLink
-            to='/contact'
-            className='inline-block bg-orange-bg-cta hover:bg-[#d14608] text-white px-8 py-3 rounded-full text-base font-medium transition-colors duration-200'
+          {/* Scoped animated vertical lines — absolute so they clip to this section */}
+          <div
+            className='absolute inset-0 pointer-events-none overflow-hidden z-0'
+            aria-hidden='true'
           >
-            Contact Now
-          </NavLink>
-        </div>
-      </section>
+            {[12, 30, 50, 68, 88].map((pos, i) => (
+              <div
+                key={pos}
+                className='absolute top-0 bottom-0 w-px bg-linear-to-b from-transparent via-white/5 to-transparent'
+                style={{ left: `${pos}%` }}
+              >
+                <div
+                  className='absolute w-0.5 h-12 rounded-full opacity-40 animate-dropFall'
+                  style={{
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    background:
+                      'linear-gradient(to bottom, rgba(255,255,255,0.1), rgba(255,101,51,0.5))',
+                    animationDelay: `${i * 2}s`,
+                  }}
+                />
+                <div
+                  className='absolute w-0.5 h-10 rounded-full opacity-30 animate-dropFall'
+                  style={{
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    background:
+                      'linear-gradient(to bottom, rgba(255,255,255,0.1), rgba(255,101,51,0.5))',
+                    animationDelay: `${i * 2 + 4}s`,
+                  }}
+                />
+              </div>
+            ))}
+          </div>
+
+          {/* Content */}
+          <div className='relative z-10 max-w-7xl mx-auto px-4 py-20 md:py-28 text-center'>
+            <h2 className='text-white text-2xl md:text-4xl font-bold mb-4'>
+              Want to grow with us?
+            </h2>
+            <p className='text-gray-400 text-sm md:text-base mb-8'>
+              Let&apos;s implement your skills toward
+              <br />
+              to grow MAKTECH.
+            </p>
+            <NavLink
+              to='/contact'
+              className='inline-block bg-orange-bg-cta hover:bg-[#d14608] text-white px-8 py-3 rounded-full text-base font-medium transition-colors duration-200'
+            >
+              Contact Now
+            </NavLink>
+          </div>
+        </section>
+      )}
 
       {/* Footer Content */}
       <div className='relative'>

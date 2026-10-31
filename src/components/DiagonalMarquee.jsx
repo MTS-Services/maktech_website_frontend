@@ -16,10 +16,10 @@ const LogoItem = () => (
       display: "inline-flex",
       alignItems: "center",
       justifyContent: "center",
-      padding: "0 36px",
+      padding: "0 38px",
       whiteSpace: "nowrap",
       userSelect: "none",
-      height: "40px",
+      height: "100%",
       flexShrink: 0,
     }}
   >
@@ -27,7 +27,7 @@ const LogoItem = () => (
       src="/Diagonal/maktech_logo.webp"
       alt="maktech logo"
       style={{
-        width: "100px",
+        width: "130px",
         height: "auto",
         objectFit: "contain",
         display: "block",
@@ -99,13 +99,13 @@ const DiagonalMarquee = () => {
         <div
           style={{
             position: "absolute",
-            top: "50%",
+            top: "36%",
             left: "50%",
             /* Wider than container so rotation never leaves gaps at edges */
             width: "160%",
             height: "50px",
             /* The rotation creates the fixed diagonal — this div never moves */
-            transform: "translate(-50%, -50%) rotate(6deg)",
+            transform: "translate(-50%, -50%) rotate(4.5deg)",
             overflow: "hidden",
             display: "flex",
             alignItems: "center",
@@ -124,11 +124,11 @@ const DiagonalMarquee = () => {
         <div
           style={{
             position: "absolute",
-            top: "50%",
+            top: "36%",
             left: "50%",
             width: "160%",
             height: "50px",
-            transform: "translate(-50%, -70%) rotate(-6deg)",
+            transform: "translate(-50%, -50%) rotate(-4.5deg)",
             overflow: "hidden",
             display: "flex",
             alignItems: "center",
