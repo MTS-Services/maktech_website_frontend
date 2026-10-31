@@ -238,7 +238,7 @@ const Testimonials = ({ className = '' }) => {
     <section className={`w-full text-white relative overflow-hidden ${className}`}>
       {/* Section Header */}
       <div className='container mx-auto px-5 xl:px-8 2xl:px-12'>
-        <div className='max-w-6xl mx-auto mb-10 xl:mb-14'>
+        <div className='mb-10 xl:mb-14'>
           {/* Badge */}
           <div
             className='flex items-center gap-2 px-3 py-1.5 rounded-md w-fit mb-6'
@@ -296,7 +296,7 @@ const Testimonials = ({ className = '' }) => {
 
       {/* ── 1. Top Section: Video Testimonials Only (Reels format) ── */}
       <div className='container mx-auto px-5 xl:px-8 2xl:px-12'>
-        <div className='flex overflow-x-auto snap-x snap-mandatory gap-5 pb-4 md:grid md:grid-cols-3 md:gap-6 md:pb-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden justify-start md:justify-center max-w-6xl mx-auto'>
+        <div className='flex overflow-x-auto snap-x snap-mandatory gap-5 pb-4 md:grid md:grid-cols-3 md:gap-6 md:pb-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden justify-start md:justify-center'>
           {videoTestimonials.map((video) => (
             <div
               key={video.id}
@@ -315,7 +315,7 @@ const Testimonials = ({ className = '' }) => {
 
       {/* ── 2. Bottom Section: Text Testimonials Scrolling Right-to-Left ── */}
       <div className='container mx-auto px-5 xl:px-8 2xl:px-12 mt-14 lg:mt-18'>
-        <div className='max-w-6xl mx-auto overflow-hidden'>
+        <div className='w-full overflow-hidden'>
           <div
             className='flex gap-6 w-max'
             style={{
