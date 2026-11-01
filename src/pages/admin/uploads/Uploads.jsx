@@ -15,8 +15,8 @@ import {
 import apiClient from '../../../services/apiClient';
 import ConfirmDeleteModal from '../../../components/ConfirmDeleteModal';
 
-const PART_CONCURRENCY = 3;
-const PART_RETRIES = 3;
+const PART_CONCURRENCY = 2;
+const PART_RETRIES = 5;
 
 const EXTENSION_TYPES = {
   mkv: 'video/x-matroska',
@@ -122,18 +122,24 @@ const uploadFile = async (file, contentType, signal, onProgress) => {
             break;
           } catch (err) {
             loadedByPart.set(partNumber, 0);
-            const clientError = err.response?.status >= 400 && err.response?.status < 500;
+            const clientError =
+              err.response?.status >= 400 &&
+              err.response?.status < 500 &&
+              err.response?.status !== 408 &&
+              err.response?.status !== 429;
             if (err.name === 'AbortError' || clientError || attempt >= PART_RETRIES) throw err;
+            await new Promise((resolve) => setTimeout(resolve, attempt * 1000));
           }
         }
       }
     };
     await Promise.all(Array.from({ length: PART_CONCURRENCY }, worker));
 
+    const sortedParts = [...parts].sort((a, b) => a.partNumber - b.partNumber);
     const { data: completeRes } = await apiClient.post(
       '/api/v1/media/multipart/complete',
-      { key, uploadId, parts },
-      { timeout: 120000 },
+      { key, uploadId, parts: sortedParts },
+      { timeout: 180000 },
     );
     return completeRes.data;
   } catch (err) {
