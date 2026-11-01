@@ -17,7 +17,7 @@ const AboutSection = () => {
   const stats = [
     { target: 8500, label: "Clients Worldwide", suffix: "+" },
     { target: 17000, label: "Projects Delivered", suffix: "+" },
-    { target: 180, label: "In-House Professionals", suffix: "+" },
+    // { target: 180, label: "In-House Professionals", suffix: "+" },
     { target: 6, label: "Years in Operation", suffix: "+" },
   ];
 
