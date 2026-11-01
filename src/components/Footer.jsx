@@ -254,12 +254,15 @@ const Footer = () => {
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink
-                    to='/'
+                  <a
+                    href='https://cdn.maktechgroup.com/media/1793510509733-7a0f7dfc-8f31-4cf6-9328-bd20ed7175f2.pdf'
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    download='Maktech_Company_Deck.pdf'
                     className='text-gray-400 hover:text-orange-bg-cta transition-colors duration-200 text-sm'
                   >
                     Company Deck
-                  </NavLink>
+                  </a>
                 </li>
               </ul>
             </div>
