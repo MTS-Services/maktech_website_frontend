@@ -11,6 +11,7 @@ import {
   MdPermMedia,
   MdClose,
   MdPlayCircleOutline,
+  MdPictureAsPdf,
 } from 'react-icons/md';
 import apiClient from '../../../services/apiClient';
 import ConfirmDeleteModal from '../../../components/ConfirmDeleteModal';
@@ -19,6 +20,7 @@ const PART_CONCURRENCY = 2;
 const PART_RETRIES = 5;
 
 const EXTENSION_TYPES = {
+  pdf: 'application/pdf',
   mkv: 'video/x-matroska',
   mov: 'video/quicktime',
   avi: 'video/x-msvideo',
@@ -34,7 +36,7 @@ const contentTypeOf = (file) =>
 
 // SVG is rejected by the backend: it can carry inline scripts when opened from the public bucket URL
 const isAllowedType = (type) =>
-  (type.startsWith('image/') || type.startsWith('video/')) && type !== 'image/svg+xml';
+  (type.startsWith('image/') || type.startsWith('video/') || type === 'application/pdf') && type !== 'image/svg+xml';
 
 const formatSize = (bytes) => {
   if (bytes < 1024 * 1024) return `${Math.max(1, Math.round(bytes / 1024))} KB`;
@@ -197,7 +199,7 @@ export default function Uploads() {
 
     const valid = picked.filter((f) => f.size > 0 && isAllowedType(contentTypeOf(f)));
     const skipped = picked.length - valid.length;
-    if (skipped) toast.warn(`${skipped} file(s) skipped (only images and videos are allowed)`);
+    if (skipped) toast.warn(`${skipped} file(s) skipped (only images, videos, and PDFs are allowed)`);
     if (!valid.length) return;
 
     const jobs = valid.map((file) => ({
@@ -295,7 +297,7 @@ export default function Uploads() {
             Uploads
           </h1>
           <p className='text-sm sm:text-base text-gray-500 mt-1'>
-            Upload images and videos and copy their public links to use anywhere
+            Upload images, videos, and PDFs and copy their public links to use anywhere
           </p>
         </div>
         <button
@@ -340,13 +342,13 @@ export default function Uploads() {
           />
         </div>
         <p className='font-semibold text-gray-800'>
-          Click to choose or drag images and videos here
+          Click to choose or drag images, videos, or PDFs here
         </p>
-        <p className='text-xs text-gray-400'>Any image or video format · no size limit</p>
+        <p className='text-xs text-gray-400'>Any image, video, or PDF format · no size limit</p>
         <input
           ref={inputRef}
           type='file'
-          accept='image/*,video/*'
+          accept='image/*,video/*,application/pdf,.pdf'
           multiple
           hidden
           onChange={(e) => uploadFiles(e.target.files)}
@@ -434,6 +436,25 @@ export default function Uploads() {
                       <MdPlayCircleOutline /> Video
                     </span>
                   </div>
+                ) : item.kind === 'pdf' ? (
+                  <a
+                    href={item.url}
+                    target='_blank'
+                    rel='noreferrer'
+                    className='relative flex aspect-square flex-col items-center justify-center bg-red-50/50 p-4 hover:bg-red-50 transition-colors'
+                    title='Open PDF'
+                  >
+                    <span className='pointer-events-none absolute top-2 left-2 flex items-center gap-1 rounded-md bg-red-600 px-1.5 py-0.5 text-[11px] font-semibold text-white'>
+                      <MdPictureAsPdf /> PDF
+                    </span>
+                    <MdPictureAsPdf className='text-5xl text-red-500' />
+                    <span className='mt-2 text-xs font-semibold text-gray-700 truncate max-w-full px-2'>
+                      {item.key.replace(/^media\//, '')}
+                    </span>
+                    <span className='absolute top-2 right-2 p-1 rounded-md bg-white/90 text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity'>
+                      <MdOpenInNew />
+                    </span>
+                  </a>
                 ) : (
                   <a
                     href={item.url}
@@ -491,7 +512,7 @@ export default function Uploads() {
 
       {deletingFile && (
         <ConfirmDeleteModal
-          title={deletingFile.kind === 'video' ? 'Delete Video?' : 'Delete Image?'}
+          title={deletingFile.kind === 'video' ? 'Delete Video?' : deletingFile.kind === 'pdf' ? 'Delete PDF?' : 'Delete Image?'}
           description='Any page using this link will no longer be able to show it.'
           onConfirm={handleDeleteConfirm}
           onClose={() => setDeletingFile(null)}

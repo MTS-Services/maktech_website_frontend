@@ -56,21 +56,21 @@ const videoTestimonials = [
   {
     id: 1,
     youtubeId: '',
-    src: 'https://cdn.maktechgroup.com/media/1792649090732-1e20dc63-a430-4dae-be4b-d1ff34919435.mp4',
+    src: 'https://cdn.maktechgroup.com/media/1793508283702-1663c8fe-6a5b-4d9d-85f2-6b0e38185837.mp4',
     poster:
       'https://cdn.maktechgroup.com/media/1793441416913-33757676-f366-480b-8de8-47ef92bcf0ab.png',
   },
   {
     id: 2,
     youtubeId: '',
-    src: 'https://cdn.maktechgroup.com/media/1792649087561-04711e98-d22d-488a-949d-e92c8e8f7b56.mp4',
+    src: 'https://cdn.maktechgroup.com/media/1793509205381-a70cc31f-a75b-4cdc-a607-3f4f90a2146f.mp4',
     poster:
       'https://cdn.maktechgroup.com/media/1793441441653-a93d6378-622a-4143-a3d1-9c1b70bea829.png',
   },
   {
     id: 3,
     youtubeId: '',
-    src: 'https://cdn.maktechgroup.com/media/1792649080452-98f10e81-45ae-437b-9ac3-345f73bf415a.mp4',
+    src: 'https://cdn.maktechgroup.com/media/1793507352500-04adece0-b0f4-495e-be7b-af989b5b9bc7.mp4',
     poster:
       'https://cdn.maktechgroup.com/media/1793441459953-42a27fae-501d-455c-8fae-0922129a308c.png',
   },
