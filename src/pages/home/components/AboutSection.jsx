@@ -136,7 +136,7 @@ const AboutSection = () => {
         </div>
 
         {/* Bottom Stats */}
-        <div className="grid grid-cols-2 xl:grid-cols-4 gap-6 xl:gap-4">
+        <div className="grid grid-cols-2 xl:grid-cols-3 gap-6 xl:gap-4">
           {stats.map((stat, idx) => (
             <div key={idx} className="flex flex-col gap-1">
               <h3 className="text-3xl xl:text-5xl font-bold text-(--color-white-bg-font) tracking-tight">
