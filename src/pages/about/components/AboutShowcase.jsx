@@ -166,7 +166,7 @@ const AboutShowcase = () => (
             <div className='w-full lg:w-[114%] h-full flex items-center justify-center bg-[#2a2a2a] rounded-2xl px-6 sm:px-8 py-6 lg:-ml-20 2xl:-mt-48'>
               <div className='flex-1 flex flex-col items-start lg:items-center'>
                 <span className='text-white text-4xl sm:text-5xl xl:text-6xl font-bold tracking-tight'>
-                  <AnimatedCounter target={300} suffix='+' />
+                  <AnimatedCounter target={8500} suffix='+' />
                 </span>
                 <span className='text-white/50 text-base font-medium mt-2 text-start mr-10'>
                   Happy Client
@@ -175,7 +175,7 @@ const AboutShowcase = () => (
               <div className='w-px h-12 border-l border-dashed border-white/30' />
               <div className='flex-1 flex flex-col items-start lg:items-center'>
                 <span className='text-white text-4xl sm:text-5xl xl:text-6xl font-bold tracking-tight'>
-                  <AnimatedCounter target={2500} suffix='+' />
+                  <AnimatedCounter target={17000} suffix='+' />
                 </span>
                 <span className='text-white/50 text-base font-medium mt-2 text-start lg:mr-10 mr-0'>
                   Project Completed
