@@ -136,7 +136,7 @@ const VideoTestimonialCard = ({ video, isPlaying, onPlay, onStop }) => {
               alt={video.name}
               loading='lazy'
               referrerPolicy='no-referrer'
-              className='h-full w-full object-cover transition-transform duration-500 group-hover/btn:scale-105'
+              className='h-full w-full object-cover'
             />
           ) : (
             <video
