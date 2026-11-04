@@ -12,7 +12,7 @@ const galleryImageSources = [
   'https://i.ibb.co.com/wrNtLt7D/IMG-7317-JPG-2-K-202607271456.jpg',
   'https://i.ibb.co.com/67Gt8J8M/IMG-7404-JPG-2-K-202607271540.jpg',
   'https://i.ibb.co.com/gb4L6L7x/IMG-7696.jpg',
-  'https://i.ibb.co.com/LDXq8n2j/IMG-7711.jpg',
+  // 'https://i.ibb.co.com/LDXq8n2j/IMG-7711.jpg',
   'https://i.ibb.co.com/0RjzFQz1/IMG-7719.jpg',
   'https://i.ibb.co.com/MKJPdXx/IMG-7777-JPG-2-K-202607271756-1.jpg',
   'https://i.ibb.co.com/v91mGdp/IMG-7794-JPG-2-K-202607271750.jpg',
