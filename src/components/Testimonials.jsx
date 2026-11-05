@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 const testimonials = [
   {
@@ -86,25 +86,52 @@ const VideoTestimonialCard = ({ video, isPlaying, onPlay, onStop }) => {
     onPlay?.();
   };
 
+  useEffect(() => {
+    if (!isPlaying) return;
+    const videoEl = videoRef.current;
+    if (!videoEl) return;
+
+    const handleFullscreen = () => {
+      if (document.fullscreenElement) {
+        document.exitFullscreen?.().catch(() => {});
+      } else if (document.webkitFullscreenElement) {
+        document.webkitExitFullscreen?.().catch(() => {});
+      }
+    };
+
+    if (typeof videoEl.webkitEnterFullscreen === 'function') {
+      videoEl.webkitEnterFullscreen = () => {};
+    }
+
+    videoEl.addEventListener('fullscreenchange', handleFullscreen);
+    videoEl.addEventListener('webkitfullscreenchange', handleFullscreen);
+
+    return () => {
+      videoEl.removeEventListener('fullscreenchange', handleFullscreen);
+      videoEl.removeEventListener('webkitfullscreenchange', handleFullscreen);
+    };
+  }, [isPlaying]);
+
   return (
     <div className='relative w-full aspect-[9/16] rounded-2xl overflow-hidden border border-[#2a2a2a] bg-[#111] hover:border-[#ff6533]/60 transition-all duration-300 shadow-xl group'>
       {isPlaying && video.youtubeId ? (
         <iframe
           className='absolute inset-0 h-full w-full'
-          src={`https://www.youtube.com/embed/${video.youtubeId}?autoplay=1&rel=0`}
+          src={`https://www.youtube.com/embed/${video.youtubeId}?autoplay=1&rel=0&fs=0`}
           title={`${video.name} testimonial`}
           allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
-          allowFullScreen
         />
       ) : isPlaying && video.src ? (
         <div className='relative h-full w-full bg-black'>
           <video
             ref={videoRef}
-            className='h-full w-full object-cover'
+            className='h-full w-full object-cover no-fullscreen'
             src={video.src}
             poster={video.poster || undefined}
             controls
-            controlsList='nodownload noplaybackrate noremoteplayback'
+            controlsList='nofullscreen nodownload noplaybackrate noremoteplayback'
+            onDoubleClick={(e) => e.preventDefault()}
+            webkit-playsinline='true'
             disablePictureInPicture
             onContextMenu={(e) => e.preventDefault()}
             autoPlay
