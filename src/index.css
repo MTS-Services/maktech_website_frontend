@@ -321,3 +321,12 @@ code {
   cursor: pointer;
   z-index: 10;
 }
+
+/* Hide native video fullscreen buttons */
+.no-fullscreen::-webkit-media-controls-fullscreen-button {
+  display: none !important;
+}
+
+.no-fullscreen::-moz-full-screen-button {
+  display: none !important;
+}
